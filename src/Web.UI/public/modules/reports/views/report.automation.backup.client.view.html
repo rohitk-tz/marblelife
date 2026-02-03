@@ -1,0 +1,303 @@
+﻿<style type="text/css">
+    /*.spinner {
+        margin-top: 40% !important;
+    }*/
+
+    body {
+        overflow-x: hidden !important;
+    }
+
+    .nav-active > a {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    .nav-inactve > a {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+
+    #myFirstChart11 {
+        width: 100%;
+        height: 100%;
+    }
+
+    .path.amcharts-graph-stroke {
+        stroke-dasharray: 10, 5, 10;
+    }
+
+    .copyright {
+        position: relative;
+    }
+</style>
+<div class="row" ng-if="vm.isNoDataActive">
+    <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+        <label>
+            Show
+            <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                    ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                    ng-change="vm.pageChange()">
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select> records
+        </label>
+    </div>
+    
+</div>
+<div class="row clearfix">
+    <div class="pull-left" ng-if="vm.isNoDataActive">
+        <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.noCallMatch.length > 0">
+            Showing
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+            records
+        </div>
+    </div>
+    <div class="pull-right" ng-if="vm.noCallMatch.length < vm.count && vm.isNoDataActive">
+        <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+            <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                last-text="&raquo;"></ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="pull-right search-btn-wrap">
+    <div class="search-box">
+        <div ng-if="vm.isSuperAdmin" class="pull-left search-single">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                        ng-change="vm.pageChange();"
+                        ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="franchisee">Franchisee</label>
+            </div>
+
+        </div>
+        <div class="pull-left search-single">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <input type="text" class="form-control" id="date-range" date-range-picker change="vm.pageChange"
+                       start-date="vm.query.startDate" end-date="vm.query.endDate">
+                <label for="date-range">Date Range</label>
+            </div>
+        </div>
+        <div class="pull-left search-single m-t-5">
+            <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+        <div class="pull-left search-single m-t-5">
+            <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                <i class="fa fa-refresh"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row" style="padding-left:1% !important">
+    <ul class="nav nav-tabs">
+        <li class="active"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">Backup Calls</a></li>
+        <li><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab2">No Match Calls</a></li>
+    </ul>
+</div>
+<div class="tabbable">
+    <div class="row tab-pane active" id="tab1" ng-if="vm.isBasicDataActive" aria-expanded="true">
+        <div class="tab-contents">
+            <div class="col-md-12 col-xs-12">
+                <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="width:calc(100% - 20px);margin-bottom:0px">
+                    <thead>
+                        <tr>
+                            <th style="width:15%!important"></th>
+                            <th style="width:15%!important">Franchisee Name</th>
+                            <th style="width:15%!important">No of total IVR Calls</th>
+                            <th style="width:15%!important">No. of calls to 302-956-8217</th>
+                            <th style="width:15%!important">No. of calls to 248-474-0400</th>
+                           <!-- <th style="width:15%!important">No. of NO MATCH Calls</th>-->
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-12 col-xs-12 ">
+                <div class="customScroll-s">
+                    <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="overflow: hidden;">
+                        <tbody>
+                            <tr ng-repeat-start="item in vm.getAutomatedBackUpCalls">                            
+                                <td style="width:15% !important">
+                                    <span ng-if="item.isExpand" ng-click="item.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                                </td>
+                                <td style="width:15%!important">{{item.franchiseeName}}</td>
+                             
+                                <td style="width:15%!important">
+                                    <a href="javascript:void(0);" ng-if="item.automationBackUpCallModel.ivrCalls>0" ng-click="item.isExpand = !item.isExpand;item.isIVRCallClick=!item.isIVRCallClick;item.isKimCallClick=false;item.isTeresaCallClick=false;item.isNoCallClick=false;">{{item.automationBackUpCallModel.ivrCalls}}</a>
+                                    <span ng-if="item.automationBackUpCallModel.ivrCalls==0">0</span>
+                                </td>
+                              
+                                <td style="width:15%!important">
+                                    <a href="javascript:void(0);" ng-if="item.automationBackUpCallModel.callsToKim>0" ng-click="item.isExpand = !item.isExpand;item.isKimCallClick=!item.isKimCallClick;item.isIVRCallClick=false;item.isTeresaCallClick=false;item.isNoCallClick=false;">
+                                        {{item.automationBackUpCallModel.callsToKim}} 
+                                    </a>
+                                    <span ng-if="item.automationBackUpCallModel.callsToKim==0">0</span>
+                                </td>
+                                <td style="width:15%!important">
+                                    <a ng-if="item.automationBackUpCallModel.callsToTeresa>0" href="javascript:void(0);" ng-click="item.isExpand = !item.isExpand;item.isTeresaCallClick=!item.isTeresaCallClick;item.isIVRCallClick=false;item.isKimCallClick=false;item.isNoCallClick=false;">
+                                        {{item.automationBackUpCallModel.callsToTeresa}}
+                                    </a>
+                                    <span ng-if="item.automationBackUpCallModel.callsToTeresa==0">0</span>
+                                </td>
+                            </tr>
+                            <tr ng-if="item.isExpand">
+                                <td colspan="15" style="padding:0px">
+                                    <table class="table" id="sample_2" role="grid" aria-describedby="sample_2_info">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>DataFromNewAPI</th>
+                                                <th>DateOfCall</th>
+                                                <th>Ani</th>
+                                                <th>Caller ID</th>
+                                                <th>TransferToNumber</th>
+                                                <th>TransferType</th>
+                                                <th>PhoneLabel</th>
+                                                <th>CallType</th>
+                                                <th>CallDuration</th>
+                                                <th>Tag</th>
+                                                <th>Call Flow State</th>
+                                                <th>Route</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="item.isExpand && item.isIVRCallClick" ng-repeat="items in item.automationBackUpCallModel.listOfNumberOfIVRCalls">
+                                                <td>{{items.id}}</td>
+                                                <td><span ng-if="items.dataFromNewAPI">Yes</span><span ng-if="!items.dataFromNewAPI">Yes</span></td>
+                                                <td>{{items.dateOfCall |date:'M/d/yyyy HH:mm:ss'}}</td>
+                                                <td>{{items.ani}}</td>
+                                                <td>{{items.callerId|  phonemask}}</td>
+                                                <td>{{items.transferToNumber|  phonemask}}</td>
+                                                <td>{{items.transferType}}</td>
+                                                <td>{{items.phoneLabel}}</td>
+                                                <td>{{items.callType}}</td>
+                                                <td>{{items.callDuration}}</td>
+                                                <td>{{items.tag}}</td>
+                                                <td>{{items.callFlowState}}</td>
+                                                <td>{{items.route}}</td>
+                                            </tr>
+                                            <tr ng-if="item.isExpand && item.isKimCallClick" ng-repeat="items in item.automationBackUpCallModel.listOfCallToKim">
+                                                <td>{{items.id}}</td>
+                                                <td><span ng-if="items.dataFromNewAPI">Yes</span><span ng-if="!items.dataFromNewAPI">Yes</span></td>
+                                                <td>{{items.dateOfCall |date:'M/d/yyyy HH:mm:ss'}}</td>
+                                                <td>{{items.ani}}</td>
+                                                <td>{{items.dnis}}</td>
+                                                <td>{{items.transferToNumber}}</td>
+                                                <td>{{items.transferType}}</td>
+                                                <td>{{items.phoneLabel}}</td>
+                                                <td>{{items.callType}}</td>
+                                                <td>{{items.callDuration}}</td>
+                                                <td>{{items.tag}}</td>
+                                                <td>{{items.invoiceId}}</td>
+                                                <td>{{items.route}}</td>
+                                            </tr>
+                                            <tr ng-if="item.isExpand && item.isTeresaCallClick" ng-repeat="items in item.automationBackUpCallModel.listOfCallToTeresa">
+                                                <td>{{items.id}}</td>
+                                                <td><span ng-if="items.dataFromNewAPI">Yes</span><span ng-if="!items.dataFromNewAPI">Yes</span></td>
+                                                <td>{{items.dateOfCall |date:'M/d/yyyy HH:mm:ss'}}</td>
+                                                <td>{{items.ani}}</td>
+                                                <td>{{items.dnis}}</td>
+                                                <td>{{items.transferToNumber}}</td>
+                                                <td>{{items.transferType}}</td>
+                                                <td>{{items.phoneLabel}}</td>
+                                                <td>{{items.callType}}</td>
+                                                <td>{{items.callDuration}}</td>
+                                                <td>{{items.tag}}</td>
+                                                <td>{{items.invoiceId}}</td>
+                                                <td>{{items.route}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row tab-pane fade in" id="tab2" ng-if="vm.isNoDataActive">
+        <div class="tab-contents">
+            <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="width:calc(100% - 20px);margin-bottom:0px">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Date Of Call</th>
+                        <th>Ani</th>
+                        <th>Dnis</th>
+                        <th>Transfer To Number</th>
+                        <th>Transfer Type</th>
+                        <th>Phone Label</th>
+                        <th>Call Id</th>
+                        <th>Call Duration</th>
+                        <th>Call Type Id</th>
+                        <th>Route</th>
+                        <th>Destination</th>
+                        <th>ZipCode</th>
+                        <th>Call Flow State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in vm.noCallMatch">
+                        <td> {{item.id}}</td>
+                        <td> {{item.dateOfCall| dateTimeFilter : 'dt'}}</td>
+                        <td> {{item.ani}}</td>
+                        <td> {{item.dnis}}</td>
+                        <td> {{item.transferToNumber|  phonemask}}</td>
+                        <td> {{item.transferType}}</td>
+                        <td> {{item.phoneLabel}}</td>
+                        <td> {{item.callerId|  phonemask}}</td>
+                        <td> {{item.callDuration}}</td>
+                        <td> {{item.callType}}</td>
+                        <td> {{item.route}}</td>
+                        <td> {{item.destination}}</td>
+                        <td> {{item.zipCode}}</td>
+                        <td> {{item.callFlowState}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="pull-left">
+        <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.webLeadList.length > 0">
+            Showing
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+            records
+        </div>
+    </div>
+    <div class="pull-right" ng-if="vm.noCallMatch.length < vm.count">
+        <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+            <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                last-text="&raquo;"></ul>
+        </div>
+    </div>
+</div>

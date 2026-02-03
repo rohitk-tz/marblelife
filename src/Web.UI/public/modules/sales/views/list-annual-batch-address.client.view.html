@@ -1,0 +1,385 @@
+﻿<style>
+    th {
+        background-color: lightblue;
+        color: white;
+    }
+
+    .changed {
+        background-color: yellow;
+        word-break: break-all;
+    }
+    select#franchisee
+    {
+        width:109% !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getRecords();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.statusId"
+                                    ng-change="vm.getRecords();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.statusOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label>Status</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '1'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getRecords();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '3'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.marketingClassId"
+                                    ng-change="vm.getRecords();"
+                                    ng-options="marketingClass.value as marketingClass.display for marketingClass in vm.marketingClass">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">MarketingClass</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.qbInvoiceNumber" key-stroke-action change="vm.getRecords">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" style="margin-left: 14px !important;">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.getRecords"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <!--<div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadAnnualData()" class="btn btn-primary" ng-disabled="vm.salesDataCustomerList.length == 0">
+                            Download
+                        </button>
+                    </div>-->
+                </div>
+            </div>
+            
+        </div>
+        <div class="clearfix">
+            <div class="pull-right" ng-if="vm.salesDataCustomerList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.salesDataCustomerList.length > 0">
+                    Showing
+                    <span ng-if="(vm.salesDataCustomerList.length > 0)"><span ng-if="vm.pagingModel.currentPage * vm.pagingModel.pageSize<=vm.count">{{(vm.pagingModel.currentPage-1) * (vm.pagingModel.pageSize) +1}} to {{vm.pagingModel.currentPage * vm.pagingModel.pageSize}}</span> </span>
+                    <span ng-if="(vm.salesDataCustomerList.length > 0)"><span ng-if="vm.pagingModel.currentPage * vm.pagingModel.pageSize>vm.count">1 to {{vm.count}}</span> </span>
+                    of
+                    {{vm.count}}
+                    records
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-repeat="item in vm.salesDataCustomerList" style="margin-top:2% !important">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="portlet light" style="padding-top: 0%;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption pull-left">
+                            <span class="caption-subject font-blue-steel bold uppercase" ng-if="vm.query.statusId=='2'">System Invoice(Before Update)</span>
+                        </div>
+                        <div class="caption">
+                            <span class="caption-subject font-blue-steel bold uppercase" ng-if="vm.query.statusId=='1'">System Invoice</span>
+                        </div>
+                        <div class="caption pull-right" ng-if="item.canAddressEditable && vm.query.statusId=='1'">
+                            <button id="sample_editable_1_new" class="btn btn-primary" ng-click="vm.updateInvoiceAddress(item);">
+                                Update Address
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portlet-body slider" ng-if="vm.salesDataCustomerList.length > 0">
+                        <div class="tab-content">
+                            <div class="invoice">
+                                <div class="row invoice-logo">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <b> Customer-Name:</b>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{item.customerName}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <b>  Franchisee-Name</b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{item.franchiseeName}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b> InvoiceDate</b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{item.invoiceDate | dateTimeFilter}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <b>  Invoice#</b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{item.invoiceId}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>  QB Invoice</b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{item.qbInvoiceId}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <b> EmailId</b>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{item.oldemailId}}
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <b> Marketing Class</b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{item.oldMarketingClass}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>
+                                                        <b> Address Line1</b>
+                                                    </th>
+                                                    <th>
+                                                        <b>  Address Line2</b>
+                                                    </th>
+                                                    <th>
+                                                        <b> Country</b>
+                                                    </th>
+                                                    <th>
+                                                        <b>  State</b>
+                                                    </th>
+                                                    <th>
+                                                        City
+                                                    </th>
+                                                    <th>
+                                                        ZipCode
+                                                    </th>
+                                                    <th>
+                                                        Phone Number
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td>
+                                                        {{item.oldAddressLine1}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.oldAddressLine2}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.oldCountry}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.oldState}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.oldCity}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.oldZip}}
+                                                    </td>
+
+                                                    <td>   {{item.oldphoneNumber}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="invoice text-danger text-center" ng-if="vm.salesDataCustomerList.length == 0">
+                            <h3>No System invoice Found For the QB Invoice Number!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-6 col-sm-12 col-xs-12">
+                <div class="portlet light" style="padding-top: 0%;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption pull-left">
+                            <span class="caption-subject font-blue-steel bold uppercase" ng-if="vm.query.statusId=='2'">System Invoice(After Update)</span>
+                        </div>
+                        <div class="caption pull-left">
+                            <span class="caption-subject font-blue-steel bold uppercase" ng-if="vm.query.statusId=='1'">Audit Invoice</span>
+                        </div>
+                        <div class="caption pull-right" ng-if="item.canAddressEditable && vm.query.statusId=='2'">
+                            <button id="sample_editable_1_new" class="btn btn-primary" ng-click="vm.updateInvoiceAddress(item);">
+                                Update Address
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="portlet-body slider" ng-if="vm.salesDataCustomerList.length > 0">
+                        <div class="tab-content">
+                            <div class="invoice">
+                                <div class="row invoice-logo">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                                            <thead>
+                                                <tr>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <b> Customer-Name:</b>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{item.customerName}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-md-3">
+                                                            <b> Franchisee-Name</b>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            {{item.franchiseeName}}
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b> InvoiceDate</b>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            {{item.invoiceDate | dateTimeFilter}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <b> Invoice#</b>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            {{item.invoiceId}}
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b> QB Invoice</b>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            {{item.qbInvoiceId}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <b> EmailId</b>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <span ng-class="{changed:item.newemailId.toLowerCase()!=item.oldemailId.toLowerCase()}">{{item.newemailId}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <b> Marketing Class</b>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            {{item.newMarketingClass}}
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <th>Address Line1</th>
+                                                    <th>Address Line2</th>
+                                                    <th>Country</th>
+                                                    <th>State</th>
+                                                    <th>City</th>
+                                                    <th>Zip</th>
+                                                    <th>Phone Number</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td ng-class="{changed:item.newAddressLine1.toLowerCase()!=item.oldAddressLine1.toLowerCase()}">{{item.newAddressLine1}}</td>
+                                                    <td ng-class="{changed:item.newAddressLine2.toLowerCase()!=item.oldAddressLine2.toLowerCase()}">{{item.newAddressLine2}}</td>
+                                                    <td ng-class="{changed:item.newCountry.toLowerCase()!=item.oldCountry.toLowerCase()}">{{item.newCountry}}</td>
+                                                    <td ng-class="{changed:item.newState.toLowerCase()!=item.oldState.toLowerCase()}">{{item.newState}}</td>
+                                                    <td ng-class="{changed:item.newCity.toLowerCase()!=item.oldCity.toLowerCase()}">{{item.newCity}}</td>
+                                                    <td ng-class="{changed:item.newZip.toLowerCase()!=item.oldZip.toLowerCase()}">{{item.newZip}}</td>
+                                                    <td ng-class="{changed:item.newphoneNumber.toLowerCase()!=item.oldphoneNumber.toLowerCase()}">{{item.newphoneNumber}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                   
+                </div>
+            </div>
+        </div>
+        <div class="invoice text-danger text-center" ng-if="vm.salesDataCustomerList.length == 0">
+            <h3 ng-if="vm.query.statusId == '1'" {">No Records Found!</h3>
+            <h3 ng-if="vm.query.statusId == '2'" {">No Records Found!</h3>
+        </div>
+    </div>
+</div>
+<!-- END EXAMPLE TABLE PORTLET-->

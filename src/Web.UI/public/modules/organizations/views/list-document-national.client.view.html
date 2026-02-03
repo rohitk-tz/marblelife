@@ -1,0 +1,228 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getDocumentList();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getDocumentList();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.isImportant"
+                                    ng-change="vm.getDocumentList();"
+                                    ng-options="option.value as option.display for option in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Important Doc.</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getDocumentList"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Expiry Date</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" style="margin-top: -13px !important;">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: 6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getDocumentList">
+                            <label>Search doc. Name</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.documentTypeId"
+                                    ng-change="vm.getDocumentList();"
+                                    ng-options="doc.value as doc.display for doc in vm.documentType">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label>Document Type</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5" ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin||vm.isFrontOffice">
+                        <button id="sample_editable_1_new" ng-click="vm.upload()" class="btn btn-primary">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.list.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.list.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-scrollable table-mbl">
+            <div style="height: 700px; overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.Id);">
+                                ID#
+                            </th>
+                            <th ng-if="vm.isSuperAdmin" ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                'sorting': vm.query.sort.propName != vm.SortColumns.Franchisee }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Franchisee"
+                                style="width: 100px; min-width: 100px; max-width: 100px;" ng-click="vm.sorting(vm.SortColumns.Franchisee);">
+                                Franchisee
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                style="width: 100px; min-width: 100px; max-width: 100px;" ng-click="vm.sorting(vm.SortColumns.Name);">
+                                Document Name
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Type,
+                                'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Type,
+                                'sorting': vm.query.sort.propName != vm.SortColumns.Type }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Status"
+                                style="width: 100px; min-width: 100px; max-width: 100px;" ng-click="vm.sorting(vm.SortColumns.Type);">
+                                Document Type
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ExpiryDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ExpiryDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ExpiryDate }"
+                                rowspan="1" colspan="1" aria-label="ExpiryDate" style="width: 100px; min-width: 100px; max-width: 100px;" ng-click="vm.sorting(vm.SortColumns.ExpiryDate);">
+                                Expiry Date
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadDate }"
+                                rowspan="1" colspan="1" aria-label="Upload Date" style="width: 100px; min-width: 100px; max-width: 100px;" ng-click="vm.sorting(vm.SortColumns.UploadDate);">
+                                Upload Date
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadedBy,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadedBy,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadedBy }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Uploaded By" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                ng-click="vm.sorting(vm.SortColumns.UploadedBy);">
+                                Uploaded By
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="width: 100px; min-width: 100px; max-width: 100px;">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{true: 'gradeX odd', false: 'gradeX even'}[$index % 2 == 1]" role="row" ng-repeat="doc in vm.list">
+                            <td style="width: 50px; min-width: 50px; max-width: 50px;" class="sorting_1">
+                                {{doc.id}} &nbsp;
+                                <i ng-if="doc.isImportant" class="fa fa-exclamation fa-2x icon_feedback_send"
+                                   title="This document has been marked as Important."></i>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="vm.isSuperAdmin">
+                                <a ng-click="vm.editFranchisee(doc.franchiseeId)">{{doc.franchiseeName}}</a>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" class="break_word">{{doc.caption}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" class="break_word">{{doc.documentType}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="!doc.isDateDefault">
+                                    {{doc.expiryDate | dateTimeFilter}} &nbsp;
+                                    <i ng-if="doc.isExpired" class="fa fa-exclamation-triangle icon-red"
+                                       title="This document has been Expired!"></i>
+                                </span>
+                                <span ng-if="doc.isDateDefault">-</span>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{doc.uploadedOn | dateTimeFilter}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" class="break_word">{{doc.uploadedBy}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <div class="btn-group pull-right">
+                                    <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                        Action <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li ng-if="(vm.isSuperAdmin) || vm.userId==doc.uploadedByUserId ">
+                                            <a ng-click="vm.editDoc(doc.id)">Edit</a>
+                                        </li>
+                                        <li vm.isSuperAdmin || vm.isFranchiseeAdmin>
+                                            <a ng-click="vm.download(doc.fileId, doc.fileName)">Download</a>
+                                        </li>
+                                        <!--<li ng-if="(vm.isSuperAdmin || vm.isFranchiseeAdmin) ">
+                                            <a ng-click="vm.deleteDoc(doc.id)">Delete</a>
+                                        </li>-->
+                                        <li ng-if="(vm.isSuperAdmin) ">
+                                            <a ng-click="vm.deleteDoc(doc.id)">Delete</a>
+                                        </li>
+
+                                        <li ng-if="(vm.isFranchiseeAdmin && !(doc.isUploadedBySuperAdmin))">
+                                            <a ng-click="vm.deleteDoc(doc.id)">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.list.length == 0">
+                        <td colspan="11" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.list.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.list.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

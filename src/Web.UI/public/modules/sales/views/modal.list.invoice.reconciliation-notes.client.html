@@ -1,0 +1,27 @@
+﻿<style type="text/css">
+    span.required {
+        display: none !important;
+    }
+
+    .has-zero {
+        border: 2px solid #26327e !important;
+    }
+
+    thead {
+        visibility: visible !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 ng-if="vm.isSuperAdmin" class="modal-title pull-left">Add/View Reconciliation Notes</h4>
+    <h4 ng-if="vm.isFranchiseeAdmin" class="modal-title pull-left">Add/View Reconciliation Notes</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div>
+        <textarea style="font-size:15px;" ng-if="vm.isSuperAdmin" ng-model="vm.reconciliationNotes" class="form-control" rows="5" id="notes" maxlength="2000" placeholder="Reconciliation Notes" required></textarea>
+    </div>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button ng-if="vm.isSuperAdmin" type="button" class="btn btn-primary" ng-click="vm.save();">Save</button>
+</div>

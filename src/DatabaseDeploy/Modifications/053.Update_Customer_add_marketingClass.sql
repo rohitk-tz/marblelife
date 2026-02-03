@@ -1,0 +1,2 @@
+﻿ALTER TABLE `Customer` 
+ADD COLUMN `ClassTypeId` BIGINT(20) NOT NULL ;

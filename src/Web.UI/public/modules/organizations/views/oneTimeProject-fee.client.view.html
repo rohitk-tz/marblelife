@@ -1,0 +1,169 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">OneTime Project Fee(s) : {{vm.franchiseeName}} </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="invoice">
+        <div class="row invoice-logo">
+
+            <div class="col-xs-11" ng-if="vm.isSuperAdmin">
+                <p class="pull-right">
+                    <button type="button" class="btn default" ng-click="vm.openModel();" ng-disabled="vm.disableOption">Add</button>
+            </div>
+            <div class="col-xs-1">
+                <p class="pull-right">
+                    <button class="btn btn-primary" ng-print-calendar print-element-id="printSection"><i class="fa fa-print"></i></button>
+                </p>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    
+    <div class="row" ng-if="vm.createOtp && vm.isSuperAdmin">
+        
+        <ng-form name="oneTimeProject_form">
+            <div class="row margin-top-10">
+                <div class="col-md-12 pull-left">
+                    <div class="pull-left">
+                        <div class="col-md-6">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="isLoanRoyality" name="isLoanRoyality" ng-value="true" class="md-check"
+                                       ng-click="vm.changeAdFundRoyality(true);" ng-model="vm.isinRoyality">
+                                <label for="isLoanRoyality">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    Royalty
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="isLoanAdfund" name="isLoanAdfund" ng-value="false" class="md-check"
+                                       ng-click="vm.changeAdFundRoyality(false)" ng-model="vm.isinAdFund">
+                                <label for="isLoanAdfund">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    Adfund
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : oneTimeProject_form.amount.$error.required}">
+                        <input type="text" class="form-control" id="amount" name="amount" only-decimal ng-model="vm.oneTimeProjectFee.Amount" min="0" maxlength="10" required>
+                        <label for="amount">Amount ($)<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="oneTimeProject_form.amount.$dirty && oneTimeProject_form.amount.$error.required">
+                        <span class="text-danger" ng-if="oneTimeProject_form.amount.$error.required">
+                            Amount is required.
+                        </span>
+                        <span class="text-danger" ng-if="oneTimeProject_form.amount.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="description" name="description" ng-model="vm.oneTimeProjectFee.Description"
+                           maxlength="250" />
+                    <label for="description">Description</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.closeModel();" ng-if="vm.createOtp">Cancel</button>
+                <button type="button" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing || oneTimeProject_form.$invalid">Save</button>
+            </div>
+        </ng-form>
+        <hr>
+    </div>
+
+    <div class="row">
+        <!--<div class="modal-header">
+            <h4 class="modal-title pull-left">OneTime Project Fee(s) : {{vm.franchiseeName}} </h4>
+        </div>-->
+        <span class="col-xs-12 caption" ng-if="vm.list.length <= 0">
+            Franchisee Does't have any OneTime Project Fee Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">InvoiceItem#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Amount</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Created-On</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Description</th>
+                        <th ng-if="vm.isSuperAdmin" style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in vm.list">
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">{{item.id}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.invoiceItemId}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">
+                            <span ng-if="item.amount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.amount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.createdOn | dateTimeFilter}}</td>
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;" class="break_word">{{item.description}}</td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;" title="Delete fee!" ng-if="vm.isSuperAdmin">
+                            <i ng-if="item.invoiceItemId==null || item.invoiceItemId <= 0" class="fa fa-trash icon-red" ng-click="vm.deleteOTPFee(item.id);"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" id="printSection" style="display:none">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">OneTime Project Fee(s) : {{vm.franchiseeName}} </h4>
+        </div>
+        <span class="col-xs-12 caption" ng-if="vm.list.length <= 0">
+            Franchisee Does't have any OneTime Project Fee Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">InvoiceItem#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Amount</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Created-On</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in vm.list">
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">{{item.id}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.invoiceItemId}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">
+                            <span ng-if="item.amount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.amount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.createdOn | dateTimeFilter}}</td>
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;" class="break_word">{{item.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

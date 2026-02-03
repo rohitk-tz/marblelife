@@ -1,0 +1,59 @@
+﻿<style>
+    .table-header1{
+        font-weight:bolder;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Call Notes: {{vm.callerId | phonemask}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body" style="padding-top: 0px;">
+    <div class="row" ng-if="!vm.isCallerNoteHistory">
+        <div class="col-md-12">
+            <span style="word-break:break-all;">
+                {{vm.callerNote}}
+            </span>
+
+        </div>
+    </div>
+    <div class="row" ng-if="vm.isCallerNoteHistory">
+        <div class="col-md-12">
+            <table class="table table-hover table-striped table-bordered dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                <thead>
+                    <tr>
+                        <td class="table-header1">
+                            Note
+                        </td>
+                        <td class="table-header1">
+                            Added By
+                        </td>
+                        <td class="table-header1">
+                            Added On
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.notesList.length>0" ng-repeat="item in vm.notesList">
+                        <td>
+                            {{item.callNote}}
+                        </td>
+                        <td>
+                            {{item.createdBy}}
+                        </td>
+                        <td>
+                            {{item.createdOn | date:'MM/dd/yyyy h:mm:ssa'}}
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.notesList.length==0">
+                        <td colspan="4">
+                            <b>No Records Found</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

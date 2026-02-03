@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Repeat Estimate : {{vm.jobInfo.franchisee}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="repeatJob_form">
+        <estimate-occurence list="vm.occurenceInfo.collection" tech-list="vm.techList"></estimate-occurence>
+        <div class="modal-footer clear-both">
+            <div class="col-md-12 col-lg-12 col-xs-5">
+                <button type="button" class="btn default" ng-if="vm.jobInfo.id > 0" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn btn-primary" ng-if="vm.jobInfo.id > 0" ng-click="vm.validateModel(repeatJob_form);" ng-disabled="repeatJob_form.$invalid || vm.isProcessing == true">Save</button>
+                <button type="button" class="btn btn-primary" ng-if="vm.jobInfo.id <= 0" ng-click="vm.update();">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

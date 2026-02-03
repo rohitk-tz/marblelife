@@ -1,0 +1,27 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">{{vm.title}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12" ng-if="!vm.isFromNotes">
+            <div ng-repeat="note in vm.notes">
+                <span class="bold">{{note.createdOn | dateTimeFilter : 'dt'}}</span><br />
+                <span class="bold">Created By - </span>{{note.createdBy}}<br />
+                <span>{{note.text}}</span>
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="vm.isFromNotes">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <textarea class="form-control" rows="3" id="notes" ng-model="vm.description" maxlength="2056" placeholder="Notes" disabled></textarea>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

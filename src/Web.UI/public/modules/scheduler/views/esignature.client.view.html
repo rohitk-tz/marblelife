@@ -1,0 +1,159 @@
+﻿<html lang="en" data-ng-app="app" ng-controller="AppCtrl">
+<head>
+    <meta charset="utf-8" />
+    <title>Angular Signature demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>-->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>-->
+    <!--<script src="../directives/signature.js"></script>-->
+    <script src="../directives/signature_pad.js"></script>
+    <!--<script src="../directives/signature_pad.js"></script>-->
+    <!--<script src="app.js"></script>-->
+
+    <style>
+        .page-header.ng-scope {
+            background-color: #26327e !important;
+        }
+
+        #header2 {
+            display: none !important;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            border: 1px solid transparent;
+            padding: 10px 10px 40px 10px;
+            position: relative;
+            margin: 0 auto 0 auto;
+            height: 100%;
+            margin-left: 0px !important;
+        }
+
+            .container .signature {
+                border: 1px solid orange;
+                /*margin: 0 auto;*/
+                cursor: pointer;
+            }
+
+                .container .signature canvas {
+                    border: 1px solid #999;
+                    /*margin: 0 auto;*/
+                    cursor: pointer;
+                }
+
+            .container .buttons {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+            }
+
+            .container .sizes {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+            }
+
+                .container .sizes input {
+                    width: 4em;
+                    text-align: center;
+                }
+
+        .result {
+            border: 1px solid blue;
+            margin: 30px auto 0 auto;
+            height: 220px;
+            width: 568px;
+        }
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="row" style="height:60px !important;margin-top:10px">
+        <nav id="visible" class="navbar navbar-default navbar-fixed-top ng-scope" style="margin-top:10px !important;display:block !important;background-color:#26327e">
+            <img src="/content/images/logo.png" alt="Marble Life" class="logo-small">
+        </nav>
+
+    </div>
+    <div class="col-md-12" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div style="font-size:15px; margin-bottom:5px;" ng-if="!vm.alreadyUsedSign">
+            Please check the checkboxes for the invoices which you want to sign.
+            <br />
+        </div>
+        <div style="font-size:15px; margin-bottom:5px;" ng-if="vm.alreadyUsedSign">
+            Checkboxes are checked for the invoices which are signed.
+            <br />
+        </div>
+        <div ng-if="!vm.alreadyUsedSign">
+            <label>
+                <input type="checkbox" ng-model="vm.allCheck" ng-click="vm.selectAllCheckboxes()" /> &nbsp;&nbsp;All
+            </label>
+            <div ng-repeat="item in vm.invoiceNumberList track by $index">
+                <label>
+                    <input type="checkbox" name="{{item.label}}" ng-click="vm.allCheckUncheck()" ng-model="item.selected" /> &nbsp;&nbsp;{{item.label}} &nbsp;&nbsp;&nbsp;
+                </label>
+                <i class="fa fa-download pointer" aria-hidden="true" ng-click="vm.downloadInvoice(item.invoiceNumber)"></i>
+            </div>
+        </div>
+        <div ng-if="vm.alreadyUsedSign">
+            <!--<label>
+            <input type="checkbox" ng-model="vm.allCheckedSignature" disabled/> &nbsp;&nbsp;All
+        </label>-->
+            <div ng-repeat="item in vm.invoiceNumberList track by $index">
+                <label>
+                    <input type="checkbox" name="{{item.label}}" ng-model="item.isSignedCheckBox" disabled /> &nbsp;&nbsp;{{item.label}} &nbsp;&nbsp;&nbsp;
+                </label>
+                <i class="fa fa-download pointer" aria-hidden="true" ng-click="vm.downloadInvoice(item.invoiceNumber)"></i>&nbsp;&nbsp;&nbsp;
+                <a ng-if="item.isSigned" ng-click="vm.getAlreadySigned(item.invoiceNumber)">(Already signed)</a>
+            </div>
+        </div>
+        <!--<label>
+            <input type="checkbox" ng-model="vm.allCheck" ng-click="vm.selectAllCheckboxes()" /> &nbsp;&nbsp;All
+        </label>
+        <div ng-repeat="item in vm.invoiceNumberList track by $index">
+            <label>
+                <input type="checkbox" name="{{item.label}}" ng-click="vm.allCheckUncheck()" ng-model="item.selected" /> &nbsp;&nbsp;{{item.label}} &nbsp;&nbsp;&nbsp;
+
+            </label>
+            <i class="fa fa-download" aria-hidden="true" ng-click="vm.downloadInvoice(item.invoiceNumber)"></i>
+        </div>-->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : jobForm.email.$error.required}">
+                    <input type="text" class="form-control" id="name" name="name" maxlength="512" ng-model="vm.data.name">
+                    <label for="email">Name</label>
+                </div>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+        <div class="buttons row" style="margin-bottom: 10px;">
+            <div style="width: 800px; max-width: 800px;">
+                <div style="float: right; margin-right: -11px;">
+                    <button class="btn btn-primary" ng-click="vm.clear()" ng-if="!vm.alreadyUsedSign">Clear</button>
+                    <button class="btn btn-primary" ng-click="vm.getAlreadySigned()" ng-if="vm.isSigned && !vm.alreadyUsedSign">Already Signed</button>
+                    <button class="btn btn-primary" ng-click="vm.alreadyUsedSign=false;" ng-if="vm.alreadyUsedSign">Add New Sign</button>
+                    <!--<button class="btn btn-primary" ng-click="vm.downloadInvoice()">Download Invoice(s)</button>-->
+                    <button class="btn btn-primary" ng-click="vm.saveSignature()" ng-if="!vm.alreadyUsedSign">Save</button>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!vm.alreadyUsedSign" ng-click="vm.signauturePad()">
+            <signature-pad id="colors_sketch" accept="accept" clear="clear" height="300" width="800" dataurl="dataurl"></signature-pad>
+        </div>
+        <div ng-if="vm.alreadyUsedSign">
+            <img src="{{vm.signature}}" style="width:800px;height:400px;">
+        </div>
+
+    </div>
+
+</body>
+
+</html>

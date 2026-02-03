@@ -1,0 +1,27 @@
+﻿
+<div class="row" ng-show="vm.responseData.confirmationEnum == vm.ConfirmationEnum.confirmed">
+    <p>Hi {{vm.responseData.customerName}}</p>
+    <p> Your {{vm.responseData.schedulerType}} for {{vm.responseData.startDateTime}} is confirmed <b>Successfully .</b></p>
+</div>
+
+<div class="row" ng-show="vm.responseData.confirmationEnum == vm.ConfirmationEnum.alreadyConfirmed">
+    <p>Hi {{vm.responseData.customerName}}</p>
+    <p> Your {{vm.responseData.schedulerType}} for {{vm.responseData.startDateTime}} is <b> already confirmed .</b></p>
+</div>
+<div class="row" ng-show="vm.responseData.confirmationEnum == vm.ConfirmationEnum.invalidId">
+    <p>Invalid Request</p>
+</div>
+<div class="row" ng-show="vm.responseData.confirmationEnum == vm.ConfirmationEnum.pastScheduler">
+    <p>Hi {{vm.responseData.customerName}}</p>
+    <p> Cannot  Confirm Past Date {{vm.responseData.schedulerType}} .</p>
+</div>
+<div class="row" ng-show="vm.responseData.confirmationEnum == vm.ConfirmationEnum.notConfirmed">
+    <p>Hi {{vm.responseData.customerName}}</p>
+    <p> Your {{vm.responseData.schedulerType}} for {{vm.responseData.startDateTime}} <b> is cancelled successfully .</b></p>
+</div>
+<div class="row">
+    <p> Regards,</p>
+    <p>
+        MARBLELIFE®<br />
+    </p>
+</div>

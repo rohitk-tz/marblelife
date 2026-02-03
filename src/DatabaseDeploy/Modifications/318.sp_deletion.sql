@@ -1,0 +1,7 @@
+SET SQL_SAFE_UPDATES = 0;
+CALL new_procedure();
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+CALL new_procedure_Estimate();
+SET SQL_SAFE_UPDATES = 1;

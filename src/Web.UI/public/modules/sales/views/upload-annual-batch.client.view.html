@@ -1,0 +1,67 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Annual Sales Data</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+
+    <form name="annualUploadForm">
+        <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isSuperAdmin == true">
+            <select class="form-control" id="franchisee" name="franchisee" ng-model="vm.batch.franchiseeId"
+                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeForAudit" required
+                    ng-change="vm.getAnnualUploadResponse()">
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select>
+            <label for="franchisee">Franchisee<span class="required" aria-required="true"> * </span></label>
+            <div ng-show="annualUploadForm.franchisee.$dirty && annualUploadForm.franchisee.$invalid">
+                <span class="text-danger" ng-if="annualUploadForm.franchisee.$error.required">
+                    Franchisee is required.
+                </span>
+            </div>
+
+        </div>
+        <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isSuperAdmin == true || vm.isFranchiseeAdmin==true">
+            <select class="form-control" id="year" name="year" ng-model="vm.batch.year"
+                    ng-options="year.value as year.display for year in vm.yearCollection" required>
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select>
+            <label for="year">Year<span class="required" aria-required="true"> * </span></label>
+            <div ng-show="annualUploadForm.year.$dirty && annualUploadForm.year.$invalid">
+                <span class="text-danger" ng-if="annualUploadForm.year.$error.required">
+                    Year is required.
+                </span>
+            </div>
+
+        </div>
+        <div class="margin-bottom-40 margin-top-20">
+            <label>File Uploader</label>
+
+            <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                 ngf-pattern="'.xlsx'">
+                Drop sales file to upload
+                <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'">Select File</a>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.batch.annualFile != null">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{vm.batch.annualFile.caption}}
+                    </td>
+                    <td>
+                        {{vm.batch.annualFile.size}} Bytes
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue" ng-disabled="annualUploadForm.$invalid" ng-click="vm.save();">Submit</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

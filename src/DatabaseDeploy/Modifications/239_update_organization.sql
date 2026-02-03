@@ -1,0 +1,4 @@
+ALTER TABLE `franchisee` 
+ADD COLUMN `ContactFirstName` VARCHAR(512) NULL ,
+ADD COLUMN `ContactLastName` VARCHAR(512) NULL ,
+ADD COLUMN `ContactEmail` VARCHAR(256) NULL;

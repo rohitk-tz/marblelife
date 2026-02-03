@@ -1,0 +1,75 @@
+INSERT INTO `makalu`.`country` (`Id`, `Name`, `ShortName`, `IsDeleted`, `CurrencyCode`, `IsDefault`) VALUES ('8', 'Mexico', 'MX', b'0', 'MXN', b'0');
+
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('63', '8', 'Aguascalientes', 'AGU', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('64', '8', 'Baja California', 'BC', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('65', '8', 'Baja California Sur', 'BS', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('66', '8', 'Campeche', 'CPE', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('67', '8', 'Coahuila', 'CH', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('68', '8', 'Colima', 'CL', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('69', '8', 'Chiapas', 'CHP', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('70', '8', 'Chihuahua', 'CHI', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('71', '8', 'Durango', 'DR', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('72', '8', 'Mexico City', 'CDMX', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('73', '8', 'Guanajuato', 'GJ', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('74', '8', 'Guerrero', 'GU', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('75', '8', 'Hidalgo', 'HI', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('76', '8', 'Jalisco', 'JL', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('77', '8', 'Mexico', 'MX', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('78', '8', 'Michoacan', 'MC', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('79', '8', 'Morelos', 'MR', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('80', '8', 'Nayarit', 'NA', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('81', '8', 'Nuevo León', 'NL', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('82', '8', 'Oaxaca', 'OA', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('83', '8', 'Puebla', 'PU', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('84', '8', 'Queretaro', 'QE', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('85', '8', 'Quintana Roo', 'QI', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('86', '8', 'San Luis Potosi', 'SL', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('87', '8', 'Sinaloa', 'SI', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('88', '8', 'Sonora', 'SO', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('89', '8', 'Tabasco', 'Tab', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('90', '8', 'Tamaulipas', 'TA', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('91', '8', 'Tlaxcala', 'TL', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('92', '8', 'Veracruz', 'VC', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('93', '8', 'Yucatán', 'Yuc', b'0');
+INSERT INTO `makalu`.`state` (`Id`, `CountryId`, `Name`, `ShortName`, `IsDeleted`) VALUES ('94', '8', 'Zacatecas', 'ZA', b'0');
+
+
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32289', '72', 'Mexico City', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32290', '64', 'Tijuana', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32291', '83', 'Puebla', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32292', '70', 'Ciudad Juárez', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32293', '76', 'Guadalajara', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32294', '76', 'Zapopan', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32295', '81', 'Monterrey', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32296', '70', 'Chihuahua', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32297', '93', 'Mérida', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32298', '93', 'Mérida', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32299', '85', 'Cancún', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32300', '67', 'Saltillo', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32301', '63', 'Aguascalientes', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32302', '88', 'Sonora', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32303', '64', 'Baja California', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32304', '86', 'San Luis Potosí', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32305', '84', 'Querétaro', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32306', '78', 'Michoacán', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32307', '90', 'Tamaulipas', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32308', '76', 'Jalisco', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32309', '81', 'Guadalupe', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32310', '71', 'Durango', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32311', '69', 'Tuxtla Gutiérrez', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32312', '92', 'Veracruz', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32313', '81', 'Ciudad Apodaca', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32314', '90', 'Matamoros', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32315', '81', 'General Escobedo', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32316', '92', 'Xalapa', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32317', '76', 'Tonalá', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32318', '87', 'Mazatlán', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32319', '90', 'Nuevo Laredo', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32320', '81', 'San Nicolás de los Garza', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32321', '80', 'Tepic', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32322', '79', 'Cuernavaca', b'0');
+INSERT INTO `makalu`.`city` (`Id`, `StateId`, `Name`, `IsDeleted`) VALUES ('32323', '89', 'Villahermosa', b'0');
+
+
+ALTER TABLE `makalu`.`jobestimateimage` 
+DROP COLUMN `Base64ImageUrl`;

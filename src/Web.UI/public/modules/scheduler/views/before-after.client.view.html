@@ -1,0 +1,415 @@
+﻿<style>
+    /*.daterangepicker.dropdown-menu.ltr.show-calendar.opensright {
+        left: 36% !important;
+    }*/
+
+    .reviewed {
+        background-color: green;
+        color: white;
+    }
+
+    .notReviewed {
+        background-color: red;
+        color: white;
+    }
+
+    .enabled {
+        background: lightblue !important;
+    }
+
+    .disabled {
+        background: #fff;
+    }
+
+    .flex-1 {
+        flex: 1;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+        .d-flex:hover {
+            cursor: pointer;
+        }
+
+    .search-single {
+        margin-right: 15px;
+        display: inline-block;
+        text-align: left;
+    }
+
+    .text-align {
+        text-align: right;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .select-width {
+            width: 99% !important;
+        }
+
+        .search-single {
+            display: block !important;
+        }
+
+        .sub-heading {
+            font-size: 12px !important;
+        }
+    }
+    .div-style {
+        background: #e6e6e6;
+        border: 2px solid #333;
+    }
+    .is-best-image-pair {
+        border: 5px solid lightblue;
+        width: 598px;
+    }
+
+    .is-add-to-local-site-gallery {
+        border: 5px solid #26327e !important;
+        width: 608px;
+    }
+    .numberCircle {
+        border-radius: 50%;
+        width: 60px;
+        height: 41px;
+        padding: 8px;
+        background: #fff;
+        border: 2px solid #666;
+        color: #666;
+        text-align: center;
+        font: 14px Arial, sans-serif;
+    }
+</style>
+
+<div class="row" style="margin-bottom: 13px;">
+    <!--<div class="col-xs-12">
+        <div class="row">
+            <div class="col-md-5 col-sm-5">
+
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="slides.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="col-md-7 col-sm-7" ng-if="slides.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.refresh()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="col-md-6" style="margin: 0px;padding: 0;">
+        <h1 style="margin:0;margin-left:10px" class="page-title" ng-if="vm.franchiseeName!=null">REVIEW MARKETING IMAGES FOR {{vm.franchiseeName}}</h1>
+        <h1 style="margin:0;margin-left:10px" class="page-title" ng-if="vm.franchiseeName==null">REVIEW MARKETING IMAGES</h1>
+    </div>
+    <div class="col-md-6">
+        <div class="search-single m-t-15" style="float:right; padding:0px !important; margin:0px !important;">
+            <a class="btn btn-default" ng-click="vm.resetSearch();">
+                <i class="fa fa-remove"></i>
+            </a>
+            <a class="btn btn-default" ng-click="vm.refresh();">
+                <i class="fa fa-refresh"></i>
+            </a>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '1'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.surfaceType"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.surfaceType | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Surface Type</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '2'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.surfaceMaterial"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.surfaceMaterial  | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Surface Material</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '3'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.serviceTypeId"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.serviceType | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Service Type</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '4'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.surfaceColor"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.surfaceColor | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Surface Color</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '5'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.buildingLocation"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.buildingLocation | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Building Location</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '6'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.buildingType"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.buildingType | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Building Type</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '7'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important; width:106%">
+                <input class="form-control input-small select-width" id="search-option" ng-model="vm.query.managementCompany" />
+                <label for="search-option">Management Company</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '8'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <input class="form-control input-small select-width" id="search-option" ng-model="vm.query.maidService" />
+                <label for="search-option">Maid Service</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '9'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.finishMaterial"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.finishMaterial | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Finish Material</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '10'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.marketingClassId"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display for item in vm.marketingClass | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Marketing Class</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '11'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px; margin: -14px !important; margin-right: 10px !important; width: 240px !important">
+                <input class="form-control input-small select-width" id="search-option" style="pointer-events: none; width: 240px !important" type="hidden" ng-model="vm.query.pendingToAddInLocalSiteGallery" />
+                <label for="search-option"></label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right" ng-if="vm.searchOption == '12'">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="search-option" ng-model="vm.query.userId"
+                        ng-change="vm.getReviewMarketingImagesList();"
+                        ng-options="item.value as item.display group by item.role for item in vm.techList | orderBy:'display'">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">User List</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important; width:240px !important">
+                <select style="width:240px !important;" class="form-control input-small select-width" id="search-option" ng-model="vm.searchOption"
+                        ng-change="vm.resetSeachOption()"
+                        ng-options="item.value as item.display for item in vm.searchOptions">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="search-option">Search Options</label>
+            </div>
+        </div>
+        <div ng-if="!vm.isFranchiseeAdmin" class="search-single" style="float:right">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <select class="form-control input-small select-width" id="franchisee" ng-model="vm.query.franchiseeId"
+                        ng-change="vm.refresh();"
+                        ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                    <option disabled value=''></option>
+                </select>
+                <label for="franchisee">Franchisee</label>
+            </div>
+        </div>
+        <div class="search-single" style="float:right">
+            <div class="form-group form-md-line-input form-md-floating-label" style="padding: 0px;margin: -14px !important;margin-right: 10px !important;">
+                <input type="text" class="form-control  input-small" id="date-range" date-range-picker change="vm.getDateFilterReviewReview"
+                       start-date="vm.query.startDate" end-date="vm.query.endDate">
+                <label for="date-range">Date Range</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <!--<div class="col-md-6">
+                <h4 class="sub-heading" ng-if="slides.length > 0"> <b>Note: Please select any image pair to be included in Local Site Gallery.</b> </h4>
+            </div>-->
+            <div class="col-md-4">
+                <div class="fc-button-group">
+                    <button type="button" ng-click="vm.prev()" ng-disabled="vm.buttomDisabled"><span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span></button>
+                    <b style="font-size:17px">  {{vm.marketingReviewStartDate | date:'MM/dd/yyyy'}}  to {{vm.marketingReviewEndtDate | date:'MM/dd/yyyy'}}</b>
+                    <button type="button" ng-click="vm.next()" ng-disabled="vm.buttomDisabled"><span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle"></span></button>
+                </div>
+            </div>
+            <!--<div class="col-md-2" ng-if="slides.length > 0">
+                <button class="btn btn-primary" type="button" ng-click="isReviewed=!isReviewed;vm.changeClass()" ng-model="vm.reviewMarkedQuery.isReview" ng-class="(isReviewed) ? 'reviewed' : 'notReviewed'" ng-disabled="vm.reviewMarkedQuery.isReview">
+                    <span ng-if="isReviewed">REVIEW COMPLETED</span>
+                    <span ng-if="!isReviewed">REVIEW NOT COMPLETED</span>
+                </button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 26px !important; border: 1px solid black; margin-bottom: 25px !important; min-height: 670px; max-height: 670px; overflow-y: scroll;">
+    <!--<div ng-if="slides.length > 0">
+        <div class="col-md-4" ng-repeat="slide in slides track by slide.id" ng-click="vm.saveImagesBestPair(slide)" style="margin-top:2%" ng-if="slide.relactiveLocationBeforeImageUrl!=null && slide.relactiveLocationAfterImageUrl!=null">
+            <div style="background:#fff;padding:10px;box-shadow:0 0 10px #ccc;margin-bottom:15px;height:300px !important" ng-class="(slide.isSelected) ? 'enabled' : 'disabled'">
+                <div style="padding:5px;">
+                    <input type="checkbox" ng-model="slide.isSelected" ng-click="slide.isSelected=!slide.isSelected" />
+                </div>
+                <div class="d-flex" ng-click="vm.openPopUp(slide);">
+                    <div class="flex-1" style="margin-right:10px">
+                        {{slide.beforeCss}}
+                        <img class="w-100" ng-src="{{slide.relactiveLocationBeforeImageUrl}}" style="margin:0px;max-width:100%;max-height:210px;transform:{{slide.beforeCss}}" />
+                    </div>
+                    <div class="flex-1">
+                        {{slide.afterCss}}
+                        <img class="w-100" ng-src="{{slide.relactiveLocationAfterImageUrl}}" style="margin:0px;max-width:100%;max-height:210px;transform:{{slide.afterCss}}" />
+                    </div>
+                </div>
+                <div style="position: absolute;top: 82%;">
+                    <div style="background-color:transparent;color:black;width:100% !important">
+                        <span><b>Franchisee Name :</b></span><span> {{slide.franchiseeName}}</span>
+                    </div>
+                    <div style="background-color:transparent;color:black;width:100% !important">
+                        <span><b>Selected By :</b></span><span> {{slide.selectedBy}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div ng-repeat="reviewMarketing in vm.reviewMarketingImageList track by $index">
+        <div style="background-color: #418dcf; color: white; margin-bottom: 5px;">
+            <b style="font-size: 25px;">
+                {{reviewMarketing.franchiseeName}}
+            </b>
+        </div>
+        <div ng-if="reviewMarketing.personCount == 0" style="margin-left: 50px;">
+            {{reviewMarketing.message}}
+        </div>
+        <div ng-if="reviewMarketing.personCount > 0 && reviewMarketing.reviewMarketingPersonViewModel.length <= 0" style="margin-left: 50px;">
+            No Data Available In This Franchisee
+        </div>
+        <div style="margin-left: 50px; margin-bottom: 10px;" ng-repeat="person in reviewMarketing.reviewMarketingPersonViewModel track by $index">
+            <div style="margin:5px !important">
+                <b ng-if="person.isActiveUser == false" style="font-size: 20px; color: #4e779b;">
+                    {{person.personName}}({{person.personRole}})
+                </b>
+                <b ng-if="person.isActiveUser == true" style="font-size: 20px; color: red;">
+                    {{person.personName}}({{person.personRole}})
+                </b>
+            </div>
+        <div ng-if="person.schedulerCount == 0" style="margin-left: 80px;">
+            {{person.message}}
+        </div>
+        <div ng-repeat="scheduler in person.reviewMarketingSchedulerViewModel track by $index" style="display: flex; flex-wrap: wrap;">
+            <span style="width:100%; font-size:large;" ng-if="scheduler.marketingClass && scheduler.marketingClass != 'RESIDENTIAL' "><b>Marketing Class : Non-Residential - {{scheduler.marketingClass}}</b></span><br />
+            <span style="width:100%; font-size:large;" ng-if="scheduler.marketingClass && scheduler.marketingClass == 'RESIDENTIAL' "><b>Marketing Class : {{scheduler.marketingClass}}</b></span><br />
+            <div class="row" ng-repeat="beforeAfterImage in scheduler.reviewMarketingBeforeAfterImageViewModel track by $index">
+        <!--<hr class="rounded" ng-if="$index>0" />-->
+        <div class="col-md-4" ng-if="beforeAfterImage.imageTypeId != 206">
+                    <div ng-class="{'is-add-to-local-site-gallery': beforeAfterImage.isAddToLocalGallery}">
+                        <div ng-class="{'is-best-image-pair': beforeAfterImage.isBestPicture}">
+
+                            <div style="box-shadow: 0 0 3px #ccc;background-color: #fff;padding: 10px;border: 0;height:377px; width:587px;">
+                                <div>
+                                    <input type="checkbox" ng-model="beforeAfterImage.isBestPicture" ng-click="vm.bestPictureSelected(beforeAfterImage)" /><span style="margin-left:1px !important;margin-right:1px !important;">Mark Best Pair</span>
+                                    <input type="checkbox" ng-model="beforeAfterImage.isAddToLocalGallery" ng-click="vm.addToLocalSiteGallery(beforeAfterImage)" /><span style="margin-left:1px !important;">Add to Local Site Gallery</span>
+                                    <!--<input type="checkbox" ng-model="beforeAfterImage.isImagePairReviewed" ng-click="vm.markImageAsReviwed(beforeAfterImage)" />--><!--<span style="margin-left:1px !important;">Reviewed</span>-->
+                                    <div style="float:right !important;margin-right: -5px;" class="numberCircle"><b style="margin:-3px !important">{{scheduler.schedulerName}}</b></div>
+                                </div>
+                                <div style="font-size: 18px; color: #2d69d5;">
+                                    <p style="margin:0">
+                                        <span><b>Customer Name:</b></span><span>{{scheduler.customerName}}</span>
+                                    </p>
+                                </div>
+                                <div class="d-flex" style="flex-wrap:wrap">
+                                    <div class="flex-1" style="min-width:50%;">
+                                        <p style="margin:0"><b>Before Image</b></p>
+                                        <div class="text-center div-style" style="overflow:hidden">
+                                            <img style="height: 150px; width: 100%; width: 100%; margin: 0px; max-width: 100%; max-height: 200px; object-fit: cover; object-position: center center; transform:{{beforeAfterImage.beforeCss }}; max-width: 200px;" class="w-100 img-class" src="{{beforeAfterImage.s3BucketBeforeImageUrlThumb}}" ng-click="vm.openPopUp(beforeAfterImage);" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-1" style="min-width:50%">
+                                        <p style="margin:0"><b>After Image</b></p>
+                                        <div class="text-center div-style" style="overflow:hidden">
+                                            <img style="height: 150px; width: 100%; width: 100%; margin: 0px; max-width: 100%; max-height: 200px; object-fit: cover; object-position: center center; transform:{{beforeAfterImage.afterCss }};max-width: 200px;" class="w-100 img-class" src="{{beforeAfterImage.s3BucketAfterImageUrlThumb}}" ng-click="vm.openPopUp(beforeAfterImage);" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex" style="flex-wrap:wrap">
+                                    <div class="flex-1" style="min-width:50%;">
+                                        <p style="margin:0">
+                                            <span><b>Surface Material : </b></span><span> {{beforeAfterImage.surfaceMaterial}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Service Type :</b></span><span> {{beforeAfterImage.servicesType}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Surface Type : </b></span><span> {{beforeAfterImage.surfaceType}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Estimate Value : </b></span><span> {{scheduler.estimateValue}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Best Pair Marked By : </b></span><span> {{beforeAfterImage.bestPairMarkedBy}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex-1" style="min-width:50%;">
+                                        <p style="margin:0">
+                                            <span><b>Surface Color :</b></span><span> {{beforeAfterImage.surfaceColor}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Surface Finish :</b></span><span> {{beforeAfterImage.finishMaterial}}</span>
+                                        </p>
+                                        <p style="margin:0">
+                                            <span><b>Building Location :</b></span><span> {{beforeAfterImage.buildingLocation}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <p style="margin:0">
+                                    <span><a ng-click="vm.naviage(scheduler.schedulerUrl)">Click Here </a> To Change Images for Job/Estimate : {{scheduler.title}}</span>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row" style="margin-left:2px">
+        <div ng-if="slides.length ==0 && vm.isLoaded">
+            <p style="font-size: 19px!important;margin-left: 45%;"><b>No Records Found</b></p>
+        </div>
+    </div>
+</div>
+

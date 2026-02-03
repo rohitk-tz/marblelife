@@ -1,0 +1,1 @@
+﻿INSERT INTO `Lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) values(4, 1, 'Toll Free', 'tollfree', 4);

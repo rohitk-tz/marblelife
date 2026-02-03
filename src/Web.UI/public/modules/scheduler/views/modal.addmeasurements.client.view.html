@@ -1,0 +1,1645 @@
+﻿<div class="modal-header" id="measurement">
+    <h4 class="modal-title pull-left" ng-if="!vm.isHoning && !vm.isHardening"> Add/View Measurements </h4>
+    <h4 class="modal-title pull-left" ng-if="vm.isHoning || vm.isHardening"> Add/View Time Measurements </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<style>
+    .modal.fade.ng-scope.ng-isolate-scope.in {
+        z-index: 9999;
+    }
+
+    .blink {
+        /*animation: blink 10s linear 20;*/
+        animation: blink 1s infinite !important;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .mbl-switch + label {
+        margin-top: -15px !important
+    }
+
+    .custom-tooltip {
+        position: relative;
+        display: inline-block;
+        opacity: unset !important;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 0 !important;
+        opacity: unset !important;
+    }
+
+        .custom-tooltip .tooltiptext, .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 99;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+        /*.tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-right: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }*/
+
+        .custom-tooltip:hover .tooltiptext, .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .time_estimate td {
+        vertical-align: middle !important;
+        border-bottom-width: 0px !important;
+    }
+
+    .time_estimate tbody td {
+        border-bottom: 1px solid #ddd !important;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+    }
+
+    .dataTable tr td {
+        background-color: #f5f7ff !important;
+    }
+
+    .time_estimate tr td:first-child {
+        position: sticky !important;
+        left: -14px;
+        border: 1px solid #ddd !important;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+    .time_estimate tr:nth-child(4) td:first-child {
+        background-color: #f0f0f0;
+        z-index: 9;
+    }
+
+    .time_estimate thead tr td:nth-child(2) {
+        position: sticky !important;
+        left: 80px;
+        border: 1px solid #ddd !important;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+    .time_estimate tbody tr:first-child td:nth-child(2) {
+        position: sticky !important;
+        left: 80px;
+        border: 1px solid #ddd !important;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+    .time_estimate tbody tr:first-child td:nth-child(3) {
+        position: sticky;
+        left: 139px;
+        border: 1px solid #ddd !important;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+
+    .time_estimate thead tr td:nth-child(3) {
+        position: sticky;
+        left: 139px;
+        border: 1px solid #ddd !important;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+
+    .modal-body.ng-scope {
+        max-height: unset;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .container {
+        border: 1px solid transparent;
+        padding: 10px 10px 40px 10px;
+        position: relative;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        margin-left: 0px !important;
+    }
+
+        .container .signature {
+            border: 1px solid white;
+            /*margin: 0 auto;*/
+            cursor: pointer;
+        }
+
+            .container .signature canvas {
+                border: 1px solid #999;
+                /*margin: 0 auto;*/
+                cursor: pointer;
+            }
+
+        .container .buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .container .sizes {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+            .container .sizes input {
+                width: 4em;
+                text-align: center;
+            }
+
+    .result {
+        border: 1px solid blue;
+        margin: 30px auto 0 auto;
+        height: 220px;
+        width: 568px;
+    }
+
+    .table .form-group.form-md-line-input {
+        margin-bottom: 0px !important;
+        margin: 0 0 0px 0 !important;
+        padding-top: 0px !important;
+    }
+
+    .cycle_restorat.table-bordered thead th {
+        text-align: center;
+        vertical-align: top;
+    }
+
+    .modal-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-body {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        overflow: visible !important;
+    }
+
+    table.table-bordered thead th, table.table-bordered thead td {
+        border-left-width: 0;
+        border-top-width: 0;
+        font-size: 13px;
+    }
+
+    .delete-button {
+        background-color: #cc0026;
+        bottom: 0;
+        color: #fff !important;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        /*right: 0px;*/
+        text-align: center;
+        width: 24px;
+        cursor: pointer;
+        text-shadow: none;
+    }
+
+    .surface, .color, .finish, .material, .action {
+        border: 1.5px solid #ddd !important;
+        position: sticky !important;
+        left: 206px;
+        background-color: #f0f0f0;
+        z-index: 9999;
+    }
+
+    .color {
+        left: 285px !important;
+    }
+
+    .finish {
+        left: 146px !important;
+    }
+
+    .material {
+        left: 65px !important;
+    }
+
+    .action {
+        left: -14.2px !important;
+    }
+
+    .scroll-table {
+        border-color: black !important;
+        max-height: 110vh;
+        overflow-y: auto;
+    }
+
+    .cycleRestorationTable {
+        z-index: -1 !important;
+        margin-top: 55px;
+    }
+
+
+    .hardening_time_estimate td {
+        vertical-align: middle !important;
+        border-bottom-width: 0px !important;
+    }
+
+    .hardening_time_estimate tbody td {
+        border-bottom: 1px solid #ddd !important;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+    }
+</style>
+<div class="modal-body" ng-class="{'honing' : vm.isHoning }" style="overflow:hidden;">
+    <div ng-if="!vm.isHoning && !vm.isHardening && !vm.clearanceCheck" class="col-md-12 p-0" style="border-color:black !important;" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div>
+            <div class="row" ng-repeat="ms in vm.service.measurements track by $index">
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.AREA">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="length" name="length" ng-blur="vm.totalArea($index)" ng-model="ms.length" \>
+                        <label for="length">Length</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.AREA">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="width" name="width" ng-blur="vm.totalArea($index)" ng-model="ms.width" min="0" \>
+                        <label for="width">Width</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.AREA ">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.setPrice" ng-blur="vm.calculateSumTotalArea()" min="0" \>
+                        <label for="area">Area*</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.AREA && vm.isMachineSize" style="width: 8% !important; margin-top: -15px !important;">
+                    <div class="form-group form-md-line-input">
+                        <div class="form-group form-md-line-input">
+                            <span>
+                                <select class="form-control" id="surface_{{$index}}" ng-model="ms.dimension" name="class"
+                                        ng-options="class.value as class.display for class in vm.dimensionForColorseal" data-ng-required ng-change="vm.calculateTimeCalcuationChangingShiftPrice()">
+                                    <option selected disabled hidden style='display: none' value=''>Select</option>
+                                </select>
+                                <label for="tile-size">Tile Size</label>
+                                <div class="pull-right custom-tooltip" style="margin-top: -50px;">
+                                    <i class="fa fa-info-circle col-sm-pull-9" aria-hidden="true" style="color: black !important; font-size: 15px; margin-right: -13px !important;"></i>
+                                    <div class="tooltiptext" style="color:black !important;background-color:#26327e !important;width:100%;right:0px !important;font-size:10px !important;">
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer" style="width:600px !important">
+                                            <tbody>
+                                                <tr>
+                                                    <th colspan="5" style="text-align: left; background-color: #d8cef5 !important; font-size: 10px !important; font-weight: unset; }">Note: If tile size is not exact estimator can select tile size above or below. For rectangular shapes we would recommend using a square tile size that has a similar area so a 12 x 24 would use a either 16" or 18" as they bracket the tile size if a square of comparable area.<br />Pricing is based on the price selected for 12"x12" tile(most common) and price of a pint-of-Colorseal. </th>
+                                                </tr>
+                                                <tr style="background-color: #e4e4e4">
+                                                    <th style="font-size:10px;padding-top: 0px;position: relative;">inch</th>
+                                                    <th style="font-size:10px;padding-top: 0px;position: relative;">If/sqft</th>
+                                                    <th style="font-size:10px;padding-top: 0px;position: relative;">value based on 12" tile price</th>
+                                                    <th style="font-size:10px;padding-top: 0px;position: relative;">MIN PRICE- 12" tile plus cost of additional COLORSEAL COST</th>
+                                                    <th style="font-size:10px;padding-top: 0px;position: relative;">recommended price with 50% margin on additional costs - assumes machine applying</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>24.0</td>
+                                                    <td>$ 24.00</td>
+                                                    <td>$ 3.10</td>
+                                                    <td>$ 4.20</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>12.0</td>
+                                                    <td>$ 12.00</td>
+                                                    <td>$ 2.50</td>
+                                                    <td>$ 3.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>6.0</td>
+                                                    <td>$ 6.00</td>
+                                                    <td>$ 2.20</td>
+                                                    <td>$ 2.40</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>4.0</td>
+                                                    <td>$ 4.00</td>
+                                                    <td>$ 2.10</td>
+                                                    <td>$ 2.20</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>8</td>
+                                                    <td>3.0</td>
+                                                    <td>$ 3.00</td>
+                                                    <td>$ 2.05</td>
+                                                    <td>$ 2.10</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10</td>
+                                                    <td>2.4</td>
+                                                    <td>$ 2.40</td>
+                                                    <td>$ 2.02</td>
+                                                    <td>$ 2.04</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12</td>
+                                                    <td>2.0</td>
+                                                    <td>$ 2.00</td>
+                                                    <td>$ 2.00</td>
+                                                    <td>$ 2.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>14</td>
+                                                    <td>1.7</td>
+                                                    <td>$ 1.71</td>
+                                                    <td>$ 1.99</td>
+                                                    <td>$ 1.97</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>16</td>
+                                                    <td>1.5</td>
+                                                    <td>$ 1.50</td>
+                                                    <td>$ 1.98</td>
+                                                    <td>$ 1.95</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>18</td>
+                                                    <td>1.3</td>
+                                                    <td>$ 1.33</td>
+                                                    <td>$ 1.97</td>
+                                                    <td>$ 1.93</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20</td>
+                                                    <td>1.2</td>
+                                                    <td>$ 1.20</td>
+                                                    <td>$ 1.96</td>
+                                                    <td>$ 1.92</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>22</td>
+                                                    <td>1.1</td>
+                                                    <td>$ 1.09</td>
+                                                    <td>$ 1.95</td>
+                                                    <td>$ 1.91</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>24</td>
+                                                    <td>1.0</td>
+                                                    <td>$ 1.00</td>
+                                                    <td>$ 1.95</td>
+                                                    <td>$ 1.90</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">Cost per Pint</td>
+                                                    <td>25</td>
+                                                    <td colspan="2" style="text-align:left">Enter Cost of Pint of Colorseal</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">Area per Pint</td>
+                                                    <td>500</td>
+                                                    <td colspan="2" style="text-align:left">Expected Area</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">Cost per linear foot</td>
+                                                    <td>0.05</td>
+                                                    <td colspan="2" style="text-align:left">Expected material cost per sqft of 12x12 tile.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5" style="text-align: left; background-color: #d8cef5 !important;">
+                                                        Here is how this was derived:
+                                                        <ol>
+                                                            <li>Set the price for standard 1 sqft 12x12” tile = $2.00</li>
+                                                            <li>Value – assumes that one is putting down with a “toothbrush” and therefore labor ratios with linear foot as does applied material.  This allows us to define the maximum value.  So a $2/sqft price becomes $24/sqft for a 1” tile that would have 12x the grout linear foot.</li>
+                                                            <li>Cost of additional material – To just cover the additional expected COLORSEAL costs.   In this case we are assuming a pint of Colorseal to cost $25/pint and coverage of 500 12x12 tile.</li>
+                                                            <li>Cost of additional material WITH 50% gross margin (so doubling the material cost).  If applying with machine the cost of labor does not change (only if using a toothbrush).  As such, the cost of Colorsealing small tiles becomes very profitable.</li>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.TIME || vm.serviceTypeId==vm.serviceType.MAINTAINANCE">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.areaTime" ng-blur="vm.calculateSumTotalArea()" min="0" \>
+                        <label for="area">Area*</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.LINEARFT">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.area" ng-blur="vm.calculateSumTotalArea()" maxlength="5" min="0" \>
+                        <label for="area">Total Linear ft*</label>
+                    </div>
+                </div>
+                <!--<div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.MAINTAINANCE">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.setPrice" ng-blur="vm.calculateSumTotalArea()" maxlength="5" min="0" \>
+                        <label for="area">Number of Shifts*</label>
+                    </div>
+                </div>-->
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.EVENT">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.setPrice" ng-blur="vm.calculateSumTotalArea()" maxlength="5" min="0" \>
+                        <label for="area">Number of Unit*</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.TIME">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.setPrice" ng-blur="vm.calculateSumTotalArea()" maxlength="5" min="0" \>
+                        <label for="area">Time Required*</label>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-if="vm.serviceTypeId==vm.serviceType.PRODUCTPRICE">
+                    <div class="form-group form-md-line-input">
+                        <input type="number" class="form-control" id="area" name="area" ng-model="ms.setPrice" ng-blur="vm.calculateSumTotalArea()" min="0" \>
+                        <label for="area">Number of Unit*</label>
+                    </div>
+                </div>
+                <div style="font-size: 20px;" ng-if="vm.serviceTypeId == vm.serviceType.TAXRATE">
+                    <p>In 2027 we are going to add a plugin which can automate the salestax process, please enter the amount manually in Add Title column to include in Invoice.</p>
+                </div>
+                <div class="col-md-4 remove-parent" ng-if="vm.serviceTypeId != vm.serviceType.TAXRATE">
+                    <div class="form-group form-md-line-input multi-add">
+                        <input type="text" class="form-control" id="description_{{$index}}" name="description" ng-model="ms.description">
+                        <label for="description">Description</label>
+                        <a href="javascript:void(0);" class="add-more" ng-click="vm.addMore()" ng-if="$last">
+                            <i class="fa fa-plus"></i>
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="delete-more" ng-click="vm.remove($index)" ng-if="!$first"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row col-md-12" ng-if="vm.service.sumTotalArea!=0 && vm.service.sumTotalArea != undefined">
+            <strong ng-if="vm.serviceTypeId != vm.serviceType.LINEARFT">
+                Total Area <span ng-if="vm.unitTypeId != ''">(in {{vm.unitTypeId}})</span> :
+            </strong>
+            <strong ng-if="vm.serviceTypeId == vm.serviceType.LINEARFT">
+                Total Feet :
+            </strong>
+            {{vm.service.sumTotalArea}}
+        </div>
+    </div>
+    <div ng-if="vm.isHoning && !vm.clearanceCheck" style="background-color: #fff; margin-bottom:20px; margin-top:20px; position:sticky; top:94px; left:0px; z-index:999999">
+        <div class="col-xs-12 row" style="background-color: #fff; margin-top:-73px;">
+            <ul class="nav nav-tabs" id="sideTablable">
+                <li id="timeEstimate" class="active"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">Time Estimate</a></li>
+                <li id="cycleRestoration">
+                    <a style="cursor:no-drop" title="Please Fill In the Area." ng-if="vm.isCycleRestorationTabDisabled">Cycle Restoration</a>
+                    <a ng-if="!vm.isCycleRestorationTabDisabled" ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab2">Cycle Restoration</a>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="vm.timeEstimateDisable" class="row" style="margin-top:91px;margin-left:7px;">
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label" style="margin-top: -27px !important;">
+                    <select class="form-control ng-touched edited" id="search-option" ng-model="vm.classTypeValue"
+                            ng-options="type.value as type.display for type in vm.marketingClass"
+                            ng-change="vm.marketingClassChanged()">
+                        <option selected disabled hidden style='display: none' value=''>Select Option</option>
+                    </select>
+                    <label for="search-option">Marketing Class<span class="required" aria-required="true"> * </span></label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-md-line-input form-md-floating-label" style="margin-top: -27px !important;">
+                    <select class="form-control ng-touched edited" id="search-option" ng-model="vm.honingMeasurement.shiftName"
+                            ng-change="vm.changeShift()"
+                            ng-options="status.value as status.display for status in vm.franchiseeShiftPrice.shiftChargesViewValues" ng-disabled="vm.franchiseeShiftPrice.disabled">
+                        <option selected disabled hidden style='display: none' value=''>Select Option</option>
+                    </select>
+                    <label for="search-option">Select Shift Option</label>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group form-md-line-input" style="width: 103px; margin-top: -27px !important;">
+                    <input type="number" class="form-control" id="area" name="area" ng-model="vm.honingMeasurement.shiftPrice" ng-blur="vm.calculateTimeCalcuationChangingShiftPrice()" maxlength="5" min="0" \>
+                    <label for="area">Shift Price (in $)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.isHoning && !vm.clearanceCheck" class="col-md-12 p-0 scroll-table" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div class="tabbable" style="z-index: -1 !important;">
+            <div class="tab-contents">
+                <div class="tab-pane fade in " id="tab1" ng-if="vm.isTimeEstimateTab">
+                    <div class="row" ng-repeat="ms in vm.service.measurements track by $index">
+                        <div style="width:100%">
+                            <table class="table table-hover table-striped table-bordered time_estimate" style="border-collapse: separate !important; z-index: 0 !important;" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td class="action"></td>
+                                        <td class="material"></td>
+                                        <td class="finish"></td>
+                                        <td class="surface"></td>
+                                        <td class="color"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="4" style="font-size: 17px; position: relative; text-align: center; background-color: lightblue; vertical-align: top !important; line-height:0.3;"><b style="position: relative;top: 27px;">GRINDING</b></td>
+                                        <td colspan="3" style="font-size: 17px; position: relative; text-align: center; background-color: cornflowerblue"><b style="position: relative; line-height: 3.5; ">HONING</b></td>
+                                        <td ng-if="vm.service.typeOfStoneType2 =='Concrete'" colspan="3" style="font-size: 17px; position: relative; text-align: center;background-color: rosybrown"><b style="position: relative; line-height: 3.5; ">POLISHING</b></td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'" colspan="4" style="font-size: 17px; position: relative; text-align: center;background-color: rosybrown"><b style="position: relative; line-height: 3.5; ">POLISHING</b></td>
+                                        <td colspan="1" style="font-size: 17px; margin-bottom: 16px; position: relative; background-color: lightblue"><b style="position: relative; line-height: 3.5; ">HARDENING</b></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="border-right: 1px solid #ddd;"></td>
+                                        <!--<td></td>
+                                        <td></td>-->
+                                    </tr>
+                                    <tr>
+                                        <td class="action"> ACTION </td>
+                                        <td class="material">MATERIAL</td>
+                                        <td class="finish">FINISH</td>
+                                        <td class="surface">SURFACE</td>
+                                        <td class="color">COLOR</td>
+                                        <td style="border-top: 1px solid #ddd;">AREA</td>
+                                        <td style="border-top: 1px solid #ddd;">DESCRIPTION</td>
+                                        <td style="border-top: 1px solid #ddd;">SECTIONS</td>
+                                        <td style="border-top: 1px solid #ddd;">UGP/UGC</td>
+                                        <td style="border-top: 1px solid #ddd;">30</td>
+                                        <td style="border-top: 1px solid #ddd;">50</td>
+                                        <td style="border-top: 1px solid #ddd;">100</td>
+                                        <td style="border-top: 1px solid #ddd;">200</td>
+                                        <td style="border-top: 1px solid #ddd;">400</td>
+                                        <td style="border-top: 1px solid #ddd;">800</td>
+                                        <td style="border-top: 1px solid #ddd;">1500</td>
+                                        <td style="border-top: 1px solid #ddd;">3000</td>
+                                        <td style="border-top: 1px solid #ddd;">8000</td>
+                                        <td style="border-top: 1px solid #ddd;">11000</td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'" style="border-top: 1px solid #ddd;">
+                                            <span ng-if="vm.service.typeOfStoneType2=='Marble'">CACO (Marble)</span>
+                                            <span ng-if="vm.service.typeOfStoneType2=='Terrazzo'">CACO (Terrazzo)</span>
+                                            <span ng-if="vm.service.typeOfStoneType2=='Granite'">PT+ (Granite)</span>
+                                        </td>
+                                        <td style="border-top: 1px solid #ddd;">IHG</td>
+                                        <td style="border-top: 1px solid #ddd;">Total Min/ section</td>
+                                        <td style="min-width: 148px; border-top: 1px solid #ddd;">PRODUCTIVITY ADJUSTED TOTAL (MIN)</td>
+                                        <td style="border-top: 1px solid #ddd;">Productivity adjust time/ section (min)</td>
+                                        <td style="border-top: 1px solid #ddd; min-width:115px !important">EQUIPMENT DIAMETER ADJUSTMENT</td>
+                                        <td style="border-top: 1px solid #ddd;">TOTAL TIME (MIN)</td>
+                                        <td style="border-top: 1px solid #ddd;">TOTAL TIME (HR)</td>
+                                        <td style="border-top: 1px solid #ddd;">TOTAL TIME (SHIFTS)</td>
+                                        <td style="border-top: 1px solid #ddd;">Projected Value</td>
+                                        <td style="border-top: 1px solid #ddd;">Projected Value/SQFT</td>
+                                        <td style="border-top: 1px solid #ddd; border-right: 1px solid #ddd;">MIN RESTORATION</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="service in vm.honingMeasurementList track by $index">
+                                        <td class="action">
+                                            <div style="width: 100%; min-width: 63px; position:relative;">
+                                                <div class="form-group form-md-line-input multi-add">
+                                                    <a href="javascript:void(0);" class="add-more" style="top: -1px;" ng-click="vm.addNewHoningMeasurement()" ng-show="vm.honingMeasurementList.length<10 && service.isDiameterVisible" ng-if="$last">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="add-more" style="top: -1px;" ng-click="vm.addNewHoningMeasurement()" ng-show="vm.honingMeasurementList.length<10 && !service.isDiameterVisible" ng-if="$last">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                                <span ng-if="$index>0">
+                                                    <a href="javascript:void(0);" class="delete-button" style="margin: 11px; bottom: -34px !important;" ng-click="vm.removeRows($index)" ng-if="!$first">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="material"><b ng-if="$index == 0">{{vm.service.typeOfStoneType2}}</b></td>
+                                        <td class="finish"><b ng-if="$index == 0">{{vm.service.typeOfStoneType}}</b></td>
+                                        <td class="surface"><b ng-if="$index == 0">{{vm.service.typeOfSurface}}</b></td>
+                                        <td class="color"><b ng-if="$index == 0 && vm.service.typeOfStoneColor != null">{{vm.service.typeOfStoneColor}}</b></td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:55px">
+                                                <input title="Maximum length 6" type="number" class="form-control" id="area" name="area" ng-model="service.area" ng-blur="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:55px">
+                                                <textarea maxlength="512" title="Maximum character length: 512 " style="width: 85px !important; height: 34px; max-width: 87px !important; max-height: 270px !important; min-height: 33px; min-width: 87px;" class="form-control" id="rowDescription" name="rowDescription" ng-model="service.rowDescription">
+                                                </textarea>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <span ng-if="service.sections!=0">
+                                                    {{service.sections | number:2}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:55px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.ugc" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.thirty" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.fifty" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.hundred" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.twoHundred" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.fourHundred" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.eightHundred" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.fifteenHundred" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.threeThousand" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.eightThousand" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.elevenThousand" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'">
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.caco" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <input type="number" class="form-control" id="area" name="area" ng-model="service.ihg" ng-change="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                <span ng-if="service.produtivityRate!=0">
+                                                    {{service.produtivityRate}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                {{service.totalMinute}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:75px">
+                                                <span ng-if="service.seventeenBase!=0">
+                                                    {{service.seventeenBase | number : 2}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:75px;">
+                                                <span>
+                                                    <select class="form-control" id="surface_{{$index}}" ng-model="service.dimension" name="class"
+                                                            ng-options="class.value as class.display for class in vm.dimension" data-ng-required ng-disabled="vm.honingMeasurement.isDiameterVisible" ng-change="vm.calculateTimeCalcuationChangingShiftPrice()">
+                                                        <option selected disabled hidden style='display: none' value=''>Select</option>
+                                                    </select>
+                                                    <span ng-if="service.dimension=='0.22'">8" Machine</span>
+                                                    <span ng-if="service.dimension=='1.00'">17" Machine</span>
+                                                    <span ng-if="service.dimension=='1.38'">20" Machine</span>
+                                                    <span ng-if="service.dimension=='1.67'">22" Machine</span>
+                                                    <span ng-if="service.dimension=='3.54'">32" Machine</span>
+                                                    <span ng-if="service.dimension=='10.63'">3 X 32" Machine</span>
+                                                    <div class="pull-right custom-tooltip">
+                                                        <i class="fa fa-info-circle col-sm-pull-9" aria-hidden="true" style="color: black !important; font-size: 15px; margin-right: -13px !important;"></i>
+                                                        <div class="tooltiptext" style="color:black !important;background-color:#26327e !important;width:100%;right:0px !important;font-size:10px !important;">
+                                                            <table class="table table-striped table-bordered table-hover dataTable no-footer" style="width:300px !important">
+                                                                <thead>
+                                                                    <tr style="background-color: #e4e4e4">
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Machine Diameter (D=2R)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Radius (in)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Radius^2</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Adjustment Factor</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>17</td>
+                                                                        <td>8.5</td>
+                                                                        <td>72.3</td>
+                                                                        <td>1.00</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>20</td>
+                                                                        <td>10</td>
+                                                                        <td>100.0</td>
+                                                                        <td>1.38</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>22</td>
+                                                                        <td>11</td>
+                                                                        <td>121.0</td>
+                                                                        <td>1.67</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>30</td>
+                                                                        <td>15</td>
+                                                                        <td>225.0</td>
+                                                                        <td>3.11</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>32</td>
+                                                                        <td>16</td>
+                                                                        <td>256.0</td>
+                                                                        <td>3.54</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>96</td>
+                                                                        <td>48</td>
+                                                                        <td>2304.0</td>
+                                                                        <td>31.9</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="4" style="text-align: left; background-color: #d8cef5 !important;">
+                                                                            Note:<br />D=Diameter(in)<br />R=Radius(in)=D/2<br />AREA=3.14xRadius^2<br />
+                                                                            <span>
+                                                                                RATIO OF AREA = &nbsp;<u>3.14xR1^2</u> &emsp; = &emsp; <u>R1^2</u><br />
+                                                                                &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; 3.14xR1^2 &emsp; &nbsp; &nbsp; &emsp; R1^2
+                                                                            </span><br />
+                                                                            The TIME estimate needs to be REDUCED by a factor derived in ADJUSTMENT FACTOR.<br />
+                                                                            The TIME estimate application = (TIME for 17")/Factor.<br />
+                                                                            This factor is about rationing the working AREA under the floor machine.<br />
+                                                                            This factor addresses area only. Downpressure based on weight of machine is separate impacting value.<br />
+                                                                            Downpressure increase will reduce time even further.<br />
+                                                                            As such, this factor is a CONSERVATIVE value.<br />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:75px;">
+                                                <span ng-if="service.totalArea!=0">
+                                                    {{service.totalArea | number : 0}} <i class="fa fa-info-circle" title="{{service.totalAreaHover}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:75px;">
+                                                <span ng-if="service.totalAreaInHour!=0">
+                                                    {{service.totalAreaInHour | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInHourHover}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:yellow">
+                                            <div class="form-group form-md-line-input" style="width:75px;">
+                                                <span ng-if="service.totalAreaInShift!=0">
+                                                    {{service.totalAreaInShift | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInShiftHover}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:lawngreen">
+                                            <div ng-if="service.totalCost!=undefined" class="form-group form-md-line-input" padding:0px !important">
+                                                <span ng-if="service.totalCost!=0">
+                                                    ${{service.totalCost | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostHover}}"></i>
+                                                </span><br />
+                                                <span ng-if="service.totalCostwithSealing>=0"><i>Total Cost With Sealing</i></span>
+                                                <span ng-if="service.totalCostwithSealing>=0">
+                                                    ${{service.totalCostwithSealing | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostHoverWithSealing}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:lawngreen">
+                                            <div ng-if="service.totalCostPerSquare!=undefined" class="form-group form-md-line-input" style="width:75px;">
+                                                <span ng-if="service.totalCostPerSquare!=0">
+                                                    ${{service.totalCostPerSquare | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostPerSquareHover}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.minRestorationValue!=undefined" class="form-group form-md-line-input" style="width:75px;">
+                                                <span ng-if="service.minRestorationValue!=0">
+                                                    ${{service.minRestorationValue | number : 2}}
+                                                    <div class="pull-right custom-tooltip">
+                                                        <i class="fa fa-info-circle" aria-hidden="true" style="color: black !important; font-size: 15px;"></i>
+                                                        <div class="tooltiptext" style="color:black !important;background-color:#26327e !important;width:100%;right:590px !important;font-size:10px !important;">
+                                                            <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                                                <thead>
+                                                                    <tr style="background-color: #e4e4e4">
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Material</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">High (in Sqft/Tech-Shift) </th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Low (in Sqft/Tech-Shift)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Area</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">High Value</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Low Value</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Average Night Required</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Maintenance Tech-Night Shift</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Maintaince Cost/MO(in $)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Annual Maintenance Cost(in $)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Min Restoration Project Value(in $)</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{{service.materialForFormula}}</td>
+                                                                        <td>{{service.highValue}}</td>
+                                                                        <td>{{service.lowValue}}</td>
+                                                                        <td>{{service.area}}</td>
+                                                                        <td>{{service.highDivision | number : 2}}</td>
+                                                                        <td>{{service.lowDivision | number : 2}}</td>
+                                                                        <td>{{service.averageNightRequired | number : 2}}</td>
+                                                                        <td>{{vm.franchiseeShiftPrice.maintainanceTechNightShiftPrice}}</td>
+                                                                        <td>{{service.averageNightPerMonth | number : 2}}</td>
+                                                                        <td>{{service.annualMaintainceCost | number : 2}}</td>
+                                                                        <td>{{service.minRestorationValue | number : 2}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="31" ng-if="vm.service.typeOfStoneType2 !='Concrete'" style="background-color:white;z-index:0;padding:0px !important">&nbsp;</td>
+                                        <td colspan="30" ng-if="vm.service.typeOfStoneType2 =='Concrete'" style="background-color:white;z-index:0;padding:0px !important">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <!--<td></td>-->
+                                        <td colspan="4" style="font-size: 10px; position: relative; text-align: center; background-color: cornflowerblue;padding:0px !important"><b style="position: relative;">CLEANCARE 2</b></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="4" style="font-size: 10px; position: relative; text-align: center; background-color: lightblue; vertical-align: top !important;padding:0px !important"><b style="position: relative;">CLEANCARE 1</b></td>
+                                        <td colspan="3" style="font-size: 10px; position: relative; text-align: center;"><b style="position: relative;"></b></td>
+                                        <td colspan="4" ng-if="vm.service.typeOfStoneType2 !='Concrete'" style="font-size: 10px; position: relative; text-align: center;background-color: rosybrown;padding:0px !important"><b style="position: relative; ">CLEANCARE 3</b></td>
+                                        <td colspan="3" ng-if="vm.service.typeOfStoneType2 =='Concrete'" style="font-size: 10px; position: relative; text-align: center;background-color: rosybrown;padding:0px !important"><b style="position: relative; ">CLEANCARE 3</b></td>
+                                        <td colspan="1" style="font-size: 17px; margin-bottom: 16px; position: relative;"><b style="position: relative;"></b></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+                                        <td colspan="1" style="font-size:17px"></td>
+
+                                    </tr>
+                                    <tr ng-repeat="service in vm.honingMeasurementList track by $index" style="height: 34px !important; min-height: 34px !important;">
+                                        <td colspan="3"><p ng-if="$index == 0">CLEANCARE Values*</p></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            {{service.area}}
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <span ng-if="service.sections!=0">
+                                                {{service.sectionsClearance | number:2}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{service.ugcClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.thirtyClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.fiftyClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.hundredClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.twoHundredClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.fourHundredClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.eightHundredClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.fifteenHundredClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.threeThousandClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.eightThousandClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.elevenThousandClearance}}
+                                        </td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'">
+                                            {{service.cacoClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.ihgClearance}}
+                                        </td>
+
+                                        <td>
+                                            {{service.produtivityRateClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.totalMinuteClearance}}
+                                        </td>
+                                        <td>
+                                            {{service.seventeenBaseClearance | number : 2}}
+                                        </td>
+                                        <td>
+                                            {{service.dimensionClearance}}
+                                        </td>
+                                        <td>
+                                            <span ng-if="service.totalAreaClearance!=0">
+                                                {{service.totalAreaClearance| number : 2}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="service.totalAreaInHourClearance!=0">
+                                                {{service.totalAreaInHourClearance | number : 1}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="service.totalAreaInShiftClearance!=0">
+                                                {{service.totalAreaInShiftClearance | number : 1}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="service.totalCostClearance!=0">
+                                                {{service.totalCostClearance | number : 1}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="service.totalCostPerSquareClearance!=0">
+                                                {{service.totalCostPerSquareClearance | number : 1}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.minRestorationValueClearance!=undefined" class="form-group form-md-line-input ng-scope">
+                                                <span ng-if="service.minRestorationValueClearance!=0">
+                                                    $ {{service.minRestorationValueClearance | number : 1}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right: none !important;">
+                                            <p>
+                                                <span style="font-size:12px;">
+                                                    <i>
+                                                        <span ng-if="vm.service.typeOfSurface=='Floor' && vm.service.typeOfStoneType2 == 'Marble'"><b>TIME WITH RESIN DIAMONDS:- </b> 67</span>
+                                                        <span ng-if="vm.service.typeOfSurface=='Floor' && vm.service.typeOfStoneType2 == 'Marble' "><br /><b>TIME SAVINGS:- </b> {{((67-vm.honingMeasurement.totalAreaInShiftClearance)/67) * 100| number : 2}}%</span>
+                                                        <span ng-if="vm.service.typeOfSurface=='Floor' && vm.service.typeOfStoneType2 == 'Granite'"><b>TIME WITH RESIN DIAMONDS:- </b> 167</span>
+                                                        <span ng-if="vm.service.typeOfSurface=='Floor' && vm.service.typeOfStoneType2 == 'Granite' "><br /><b>TIME SAVINGS:- </b> {{((167-vm.honingMeasurement.totalAreaInShiftClearance)/167) * 100| number : 2}}%</span>
+                                                    </i>
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="31" ng-if="vm.service.typeOfStoneType2 !='Concrete'" style="background-color:white;z-index:0;padding:0px !important">&nbsp;</td>
+                                        <td colspan="30" ng-if="vm.service.typeOfStoneType2 =='Concrete'" style="background-color:white;z-index:0;padding:0px !important">&nbsp;</td>
+                                    </tr>
+                                    <tr ng-repeat="service in vm.honingMeasurementList track by $index">
+                                        <td colspan="3"><p ng-if="$index == 0">Default Values**</p></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <span ng-if="service.sections!=0">
+                                                {{service.sections | number:2}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{service.ugcOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.thirtyOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.fiftyOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.hundredOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.twoHundredOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.fourHundredOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.eightHundredOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.fifteenHundredOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.threeThousandOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.eightThousandOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.elevenThousandOriginal}}
+                                        </td>
+                                        <td ng-if="vm.service.typeOfStoneType2 !='Concrete'">
+                                            {{service.cacoOriginal}}
+                                        </td>
+                                        <td>
+                                            {{service.ihgOriginal}}
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                {{service.produtivityRateOriginal}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:35px">
+                                                {{service.totalMinuteOriginal}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-md-line-input" style="width:75px">
+                                                {{service.seventeenBaseOriginal| number : 2}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{service.dimension}}
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.totalAreaOriginal!=undefined" class="form-group form-md-line-input" style="width:75px;z-index:0">
+                                                <span ng-if="service.totalAreaOriginal!=0">
+                                                    {{service.totalAreaOriginal | number : 0}} <i class="fa fa-info-circle" title="{{service.totalAreaHoverOriginal}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.totalAreaInHourOriginal!=undefined" class="form-group form-md-line-input" style="width:75px;z-index:0">
+                                                <span ng-if="service.totalAreaInHourOriginal!=0">
+                                                    {{service.totalAreaInHourOriginal | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInHourHoverOriginal}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.totalAreaInShiftOriginal!=undefined" class="form-group form-md-line-input" style="width:75px;z-index:0">
+                                                <span ng-if="service.totalAreaInShiftOriginal!=0">
+                                                    {{service.totalAreaInShiftOriginal | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInShiftHoverOriginal}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:yellow;padding:0px !important">
+                                            <div ng-if="service.totalCostOriginal!=undefined" class="form-group form-md-line-input" style="width:90px;z-index:0">
+                                                <span ng-if="service.totalCostOriginal!=0">
+                                                    ${{service.totalCostOriginal | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostHoverOriginal}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="(service.totalCostPerSquareOriginal)" class="form-group form-md-line-input" style="width:75px;z-index:0">
+                                                <span ng-if="service.totalCostPerSquareOriginal!=0">
+                                                    ${{service.totalCostPerSquareOriginal | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostPerSquareHoverOriginal}}"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="service.minRestorationValueOriginal!=undefined" class="form-group form-md-line-input" style="width:90px">
+                                                <span ng-if="service.minRestorationValueOriginal!=0">
+                                                    ${{service.minRestorationValueOriginal | number : 2}}
+                                                    <div class="pull-right custom-tooltip">
+                                                        <i class="fa fa-info-circle" aria-hidden="true" style="color:black !important;font-size: 15px;z-index:0"></i>
+                                                        <div class="tooltiptext" style="color:black !important;background-color:#26327e !important;width:100%;right:590px !important;font-size:10px !important;">
+                                                            <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                                                <thead>
+                                                                    <tr style="background-color: #e4e4e4">
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Material</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">High (in Sqft/Tech-Shift) </th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Low (in Sqft/Tech-Shift)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Area</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">High Value</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Low Value</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Average Night Required</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Maintenance Tech-Night Shift</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Maintaince Cost/MO(in $)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Annual Maintenance Cost(in $)</th>
+                                                                        <th style="font-size:10px;padding-top: 0px;position: relative;">Min Restoration Project Value(in $)</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>{{service.materialForFormula}}</td>
+                                                                        <td>{{service.highValue}}</td>
+                                                                        <td>{{service.lowValue}}</td>
+                                                                        <td>{{service.area}}</td>
+                                                                        <td>{{service.highDivision | number : 2}}</td>
+                                                                        <td>{{service.lowDivision | number : 2}}</td>
+                                                                        <td>{{service.averageNightRequired | number : 2}}</td>
+                                                                        <td>{{vm.franchiseeShiftPrice.maintainanceTechNightShiftPrice}}</td>
+                                                                        <td>{{service.averageNightPerMonth | number : 2}}</td>
+                                                                        <td>{{service.annualMaintainceCost | number : 2}}</td>
+                                                                        <td>{{service.minRestorationValue | number : 2}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="service in vm.honingMeasurementList track by $index" ng-if="vm.isSealing == true">
+                                        <td colspan="3"><p ng-if="$index == 0">Sealing</p></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{service.area}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>${{service.area | number : 2}}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="16" style="border-right: none !important; z-index: 0 !important; padding-bottom: 0;">
+                                            <p>
+                                                <span><b>Note**</b></span>
+                                                <span style="font-size:12px;">
+                                                    <i>
+                                                        You will see 3 different views of your HONING and POLISHING FLOOR estimate designed to enable you to establish the VALUE of the job based on what competition is doing with resin diamonds.
+                                                        As less than 10% of the market is familiar with CLEANCARE Technology we do not want to give away the productivity savings associated with using them when we can (low lippage floors).
+                                                        This second look allows you to see the time impact using CLEANCARE will have.
+                                                        The third look is based on resin diamonds but allows you to enter a non-standard time based on your experience to estimate the ACTUAL TIME YOUR EXPECT your tech to require.
+                                                        This also provides the LOWEST Price you would be able to charge and still make a good margin.
+                                                        As such you will have your TARGET VALUE, your recommended scheduling time suitable for the youngest team member coming out of training and used to running resins at 5min,
+                                                        and your expected achievable times.
+                                                        The system will default your HONE AND POLISH estimate prices to the first case using the standard per section times of 5 min for marble, and 10 min for granite.
+                                                    </i>
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in " id="tab2" ng-if="vm.isCycleRestorationTab" style="margin-top:55px">
+                    <div class="col-md-5">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>MAINTENANCE NIGHTS REQUIRED</b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        {{vm.cycleRestorationPlan.averageNightRequired}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>STARTING POINT CYCLE RESTORATION TECH-SHIFTS ESTIMATE</b>
+                                    </td>
+                                    <td>
+                                        <input style="text-align:right !important;" type="number" class="form-control" id="length" name="length" ng-blur="vm.getCycleRestorationPlan(true)" ng-model="vm.cycleRestorationPlan.startingPointTechShiftEstimates" \>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>RESTORATION COST</b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        $ {{vm.cycleRestorationPlan.restorationCost}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>MINIMUM RESTORATION COST</b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        $ {{vm.cycleRestorationPlan.minimumRestorationCost}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>MAINTENANCE TARGET / MO ({{vm.cycleRestorationPlan.averageNightRequired}} NIGHTS)</b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        $ {{vm.cycleRestorationPlan.maintenanceTargetPerMo}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>
+                                            CYCLE RESTORATION / MO YEAR 1 ({{vm.cycleRestorationPlan.startingPointTechShiftEstimates}} NIGHTS)
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        $ {{vm.cycleRestorationPlan.cycleRestorationPerMo}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>
+                                            ANNUAL CYCLE-RESTORATION COST/MO.
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        $ {{vm.cycleRestorationPlan.annualCycleRestorationPerMo}}
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>
+                                            AMOUNT OF TIME REQUIRED FOR 1 X 10 SQFT SECTION
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        {{vm.cycleRestorationPlan.timeFor1_10SqFtSection}}
+                                    </td>
+                                </tr>
+                                <tr ng-if="!vm.isCycleRestorationVisible">
+                                    <td>
+                                        <b>
+                                            AMOUNT WE CAN RESTORE IN A DAY (8 HR X 60 MIN = 480 MIN)
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right !important;">
+                                        {{vm.cycleRestorationPlan.timeFor1Day}}
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div ng-if="!vm.isCycleRestorationVisible" class="col-md-7" style="max-height:500px;overflow:auto;">
+                        <table class="table table-hover table-striped table-bordered cycle_restorat">
+                            <thead>
+                                <tr>
+                                    <th><b>MONTH</b></th>
+                                    <th>NIGHT RESTORATION</th>
+                                    <th>NIGHT MAINTENANCE</th>
+                                    <th>TOTAL NIGHTS</th>
+                                    <th>AMOUNT RESTORED IN THE MONTH</th>
+                                    <th>AMOUNT RESTORED TO THIS POINT</th>
+                                    <th>% COMPLETE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.cycleRestorationPlan.cycleRestorationPlanMonthlyList track by $index">
+                                    <td style="text-align:right !important;">{{item.month}}</td>
+                                    <td style="text-align:right !important;">{{item.nightRestoration | number:1}}</td>
+                                    <td style="text-align:right !important;">{{item.nightMaintenance | number:1}}</td>
+                                    <td style="text-align:right !important;">{{item.totalNights}}</td>
+                                    <td style="text-align:right !important;">{{item.amountRestoredInMonth}}</td>
+                                    <td style="text-align:right !important;">{{item.amountRestoredToThisPoint}}</td>
+                                    <td style="text-align:right !important;">
+                                        {{item.completionRate}}
+                                        <span ng-if="item.isCompleted">
+                                            ({{item.completed}})
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="vm.isCycleRestorationVisible" style="margin-left: 50% !important; font-size: 14px;">
+                        <p>
+                            <span><b>Note**</b></span>
+                            <span><i>Cycle restoration is not possible for Concrete Floor Prep-Grind</i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.isHardening" style="background-color: #fff; margin-bottom:20px; margin-top:20px; position:sticky; top:94px; left:0px; z-index:999999">
+        <div class="row" style="margin-top:91px;margin-left:7px">
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label" style="margin-top: -27px !important;">
+                    <select class="form-control ng-touched edited" id="search-option" ng-model="vm.classTypeValue"
+                            ng-options="type.value as type.display for type in vm.marketingClass"
+                            ng-change="vm.marketingClassChanged()">
+                        <option selected disabled hidden style='display: none' value=''>Select Option</option>
+                    </select>
+                    <label for="search-option">Marketing Class<span class="required" aria-required="true"> * </span></label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-md-line-input form-md-floating-label" style="margin-top: -27px !important;">
+                    <select class="form-control ng-touched edited" id="search-option" ng-model="vm.honingMeasurement.shiftName"
+                            ng-change="vm.changeShift()"
+                            ng-options="status.value as status.display for status in vm.franchiseeShiftPrice.shiftChargesViewValues" ng-disabled="vm.franchiseeShiftPrice.disabled">
+                        <option selected disabled hidden style='display: none' value=''>Select Option</option>
+                    </select>
+                    <label for="search-option">Select Shift Option</label>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group form-md-line-input" style="width: 103px; margin-top: -27px !important;">
+                    <input type="number" class="form-control" id="area" name="area" ng-model="vm.honingMeasurement.shiftPrice" ng-blur="vm.calculateTimeCalcuationChangingShiftPrice()" maxlength="5" min="0" \>
+                    <label for="area">Shift Price (in $)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.isHardening" class="col-md-12 p-0 scroll-table" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div class="row" ng-repeat="ms in vm.service.measurements track by $index">
+            <div style="width:100%">
+                <table class="table table-hover table-striped table-bordered hardening_time_estimate" style="z-index: 0 !important;" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <td class="action"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="1" style="font-size: 17px; margin-bottom: 16px; position: relative; background-color: lightblue"><b style="position: relative; line-height: 3.5; ">HARDENING</b></td>
+                            <td colspan="1" style="font-size:17px"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="action"> ACTION </td>
+                            <td style="border-top: 1px solid #ddd;">LENGTH</td>
+                            <td style="border-top: 1px solid #ddd;">WIDTH</td>
+                            <td style="border-top: 1px solid #ddd;">AREA</td>
+                            <td style="border-top: 1px solid #ddd;">DESCRIPTION</td>
+                            <td style="border-top: 1px solid #ddd;">SECTIONS</td>
+                            <td style="border-top: 1px solid #ddd;">IHG</td>
+                            <td style="border-top: 1px solid #ddd;">Total Min/ section</td>
+                            <td style="min-width: 148px; border-top: 1px solid #ddd;">PRODUCTIVITY ADJUSTED TOTAL (MIN)</td>
+                            <td style="border-top: 1px solid #ddd;">Productivity adjust time/ section (min)</td>
+                            <td style="border-top: 1px solid #ddd;">EQUIPMENT DIAMETER ADJUSTMENT</td>
+                            <td style="border-top: 1px solid #ddd;">TOTAL TIME (MIN)</td>
+                            <td style="border-top: 1px solid #ddd;">TOTAL TIME (HR)</td>
+                            <td style="border-top: 1px solid #ddd;">TOTAL TIME (SHIFTS)</td>
+                            <td style="border-top: 1px solid #ddd;">Projected Value</td>
+                            <td style="border-top: 1px solid #ddd;">Projected Value/SQFT</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="service in vm.honingMeasurementList track by $index">
+                            <td class="action">
+                                <div style="width:100%; min-width:63px;">
+                                    <div class="form-group form-md-line-input multi-add">
+                                        <a href="javascript:void(0);" class="add-more" style="top: -10px;" ng-click="vm.addNewHoningMeasurement()" ng-show="vm.honingMeasurementList.length<10 && service.isDiameterVisible" ng-if="$last">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="add-more" style="top: -1px;" ng-click="vm.addNewHoningMeasurement()" ng-show="vm.honingMeasurementList.length<10 && !service.isDiameterVisible" ng-if="$last">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <span ng-if="$index>0">
+                                        <a href="javascript:void(0);" class="delete-button" style="margin: 11px;" ng-click="vm.removeRows($index)" ng-if="!$first">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:55px">
+                                    <input type="number" class="form-control" id="length" name="length" ng-model="service.length" ng-blur="vm.calculateAreaofAService(service)" maxlength="7" min="0" \>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:55px">
+                                    <input type="number" class="form-control" id="width" name="width" ng-model="service.width" ng-blur="vm.calculateAreaofAService(service)" maxlength="7" min="0" \>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:55px">
+                                    <input type="number" class="form-control" id="area" name="area" ng-model="service.area" ng-blur="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:55px">
+                                    <textarea maxlength="512" title="Maximum character length: 512 " style="width: 85px !important; height: 34px; max-width: 87px !important; max-height: 270px !important; min-height: 33px; min-width: 87px;" class="form-control" id="rowDescription" name="rowDescription" ng-model="service.rowDescription">
+                                    </textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:35px">
+                                    <span ng-if="service.sections!=0">
+                                        {{service.sections | number:2}}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:35px">
+                                    <input type="number" class="form-control" id="area" name="area" ng-model="service.ihg" ng-blur="vm.calculateTimeCalcuation(service)" maxlength="7" min="0" \>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:35px">
+                                    {{service.produtivityRate}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:35px">
+                                    {{service.totalMinute}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:75px">
+                                    <span ng-if="service.seventeenBase!=0">{{service.seventeenBase | number : 2}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:75px">
+                                    <select class="form-control" id="surface_{{$index}}" ng-model="service.dimension" name="class"
+                                            ng-options="class.value as class.display for class in vm.dimension" data-ng-required ng-disabled="vm.honingMeasurement.isDiameterVisible" ng-change="vm.calculateTimeCalcuationChangingShiftPrice()">
+                                        <option selected disabled hidden style='display: none' value=''>Select</option>
+                                    </select>
+                                    <span ng-if="service.dimension=='0.22' && !service.isDiameterVisible">8" Machine</span>
+                                    <span ng-if="service.dimension=='1.00' && !service.isDiameterVisible">17" Machine</span>
+                                    <span ng-if="service.dimension=='1.38' && !service.isDiameterVisible">20" Machine</span>
+                                    <span ng-if="service.dimension=='1.67' && !service.isDiameterVisible">22" Machine</span>
+                                    <span ng-if="service.dimension=='3.54' && !service.isDiameterVisible">32" Machine</span>
+                                    <span ng-if="service.dimension=='10.63' && !service.isDiameterVisible">3 X 32" Machine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:75px;">
+                                    <span ng-if="service.totalArea!=0">
+                                        {{service.totalArea | number : 0}} <i class="fa fa-info-circle" title="{{service.totalAreaHover}}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group form-md-line-input" style="width:75px;">
+                                    <span ng-if="service.totalAreaInHour!=0">
+                                        {{service.totalAreaInHour | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInHourHover}}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="background-color:yellow">
+                                <div class="form-group form-md-line-input" style="width:75px;">
+                                    <span ng-if="service.totalAreaInShift!=0">
+                                        {{service.totalAreaInShift | number : 1}} <i class="fa fa-info-circle" title="{{service.totalAreaInShiftHover}}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="service.totalCost!=undefined" class="form-group form-md-line-input" style="width:75px;padding:0px !important">
+                                    <span ng-if="service.totalCost!=0">
+                                        ${{service.totalCost | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostHover}}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="service.totalCostPerSquare!=undefined" class="form-group form-md-line-input" style="width:75px;">
+                                    <span ng-if="service.totalCostPerSquare!=0">
+                                        ${{service.totalCostPerSquare | number : 2}} <i class="fa fa-info-circle" title="{{service.totalCostPerSquareHover}}"></i>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <button class="btn" ng-if="vm.serviceTypeId != vm.serviceType.TAXRATE" ng-click="vm.close()">Cancel</button>
+    <button class="btn" ng-if="vm.serviceTypeId == vm.serviceType.TAXRATE" ng-click="vm.close()">OK</button>
+    <button ng-if="vm.clearanceCheck" class="btn btn-primary" ng-click="vm.clearanceCheck=false">Back</button>
+    <button ng-if="!vm.clearanceCheck && vm.serviceTypeId != vm.serviceType.TAXRATE" class="btn btn-primary" ng-click="vm.saveMeasurements()">Add</button>
+</div>

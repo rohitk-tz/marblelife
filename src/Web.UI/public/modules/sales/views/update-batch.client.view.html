@@ -1,0 +1,65 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Update Sales Data</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+
+    <form name="batchUploadForm">
+        <div class="form-group form-md-line-input form-md-floating-label">
+
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <div>Franchisee</div>
+                <span>{{vm.batch.franchiseeName}}</span>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div>Start Date</div>
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <span>{{vm.batch.periodStartDate  | dateTimeFilter : 'd'}}</span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div>End Date</div>
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <span>{{vm.batch.periodEndDate | dateTimeFilter : 'd'}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="margin-bottom-40 margin-top-20">
+            <label>File Uploader</label>
+
+            <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                 ngf-pattern="'.xlsx'">
+                Drop sales file to upload
+                <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'">Select File</a>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.batch.file != null">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{vm.batch.file.caption}}
+                    </td>
+                    <td>
+                        {{vm.batch.file.size}} Bytes
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue" ng-disabled="batchUploadForm.$invalid" ng-click="vm.save();">Submit</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

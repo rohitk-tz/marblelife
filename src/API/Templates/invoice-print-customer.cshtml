@@ -1,0 +1,16 @@
+﻿@model Core.Scheduler.ViewModel.JobEstimateServiceViewModel
+
+<html>
+<head>
+    <title>Invoice Images of Job/Estimate</title>
+</head>
+<body>
+
+    <h1>Invoices List</h1>
+    @foreach (var slide in Model.ImagesInfo)
+    {
+        <img src=@slide.ImageUrl style="margin:auto;padding:10px">
+    }
+   
+</body>
+</html>

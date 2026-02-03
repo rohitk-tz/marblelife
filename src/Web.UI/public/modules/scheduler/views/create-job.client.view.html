@@ -1,0 +1,255 @@
+﻿<style type="text/css">
+    @media only screen and (max-width: 1719px) {
+        .portlet.light {
+            margin-top: 176px;
+        }
+    }
+
+    @media only screen and (min-width: 992px) {
+        .col-md-2.pull-left.clear-both.ng-scope {
+            width: 39%;
+        }
+
+        .form-group.form-md-line-input.form-md-floating-label.clear-both {
+            margin: 0 0 0 !important;
+            padding-top: 6px !important;
+        }
+    }
+    @media only screen and (max-width: 767px) {
+
+        .datetimepicker .datetimepicker-content.datetimepicker-absolute {
+            left: 7% !important;
+        }
+    }
+
+    .datetimepicker .datetimepicker-preview {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time:hover, .datetimepicker .time-circle-outer .time.selected {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-circle-hand {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-circle-center {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .active {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-meridian.selected {
+        color: #349 !important;
+    }
+
+    .datetimepicker .datetimepicker-content .datetimepicker-tabs .datetimepicker-tab {
+        color: #349 !important;
+    }
+
+        .datetimepicker .datetimepicker-content .datetimepicker-tabs .datetimepicker-tab.active {
+            color: white !important;
+        }
+
+    .datetimepicker .datetimepicker-content.datetimepicker-absolute {
+        color: #349 !important;
+    }
+
+    ul.dropdown-menu.dropdown-menu-form.ng-scope {
+        width: 225px !important;
+    }
+
+    .multiselect-parent.btn-group.dropdown-multiselect {
+        width: 100% !important;
+    }
+
+    button.dropdown-toggle.ng-binding.btn.btn-primary.leader_btn {
+        width: 179px !important;
+    }
+
+    .leader_btn + .dropdown-menu > li > a .checkbox input[type="checkbox"] {
+        top: 0px !important;
+    }
+
+    .form-control.input-medium.ng-isolate-scope {
+        border-bottom: none !important;
+    }
+
+    .yellow {
+        background-color: yellow !important;
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">
+        <span ng-if="vm.jobInfo.jobId <= 0 && !vm.isCopy">Create Job: {{vm.franchiseeName}}</span>
+        <span ng-if="vm.jobInfo.jobId > 0 && !vm.isCopy">Edit Job: {{vm.franchiseeName}}</span>
+        <span ng-if="vm.isCopy">Create/Duplicate Job: {{vm.franchiseeName}}</span>
+    </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="jobForm">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="geoCode" ng-blur="vm.changeZipCode()" name="geoCode" ng-model="vm.jobInfo.jobCustomer.address[0].zipCode" maxlength="128"
+                           style="text-transform:uppercase">
+                    <label for="geoCode">Validate Zip Code</label>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="jobTitle" name="jobTitle" ng-model="vm.jobInfo.title"
+                           maxlength="128">
+                    <label for="jobTitle">Job Title</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : jobForm.customerName.$error.required}">
+                        <input type="text" class="form-control" id="name" name="customerName" ng-model="vm.jobInfo.jobCustomer.customerName" required
+                               maxlength="128" ng-keyup="vm.getCustomerInfo(vm.jobInfo.jobCustomer.customerName)">
+                        <label for="firstname">Customer Name<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="jobForm.customerName.$dirty && jobForm.customerName.$invalid && jobForm.customerName.$error.required">
+                        <span class="text-danger" ng-if="userForm.customerName.$error.required">
+                            Customer Name is required.
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : jobForm.email.$error.required}">
+                        <input type="email" class="form-control" id="email" name="email" maxlength="512"
+                               ng-model="vm.jobInfo.jobCustomer.email">
+                        <label for="email">Email</label>
+                    </div>
+                    <div ng-show="jobForm.email.$dirty && jobForm.email.$invalid">
+                        <span class="text-danger" ng-if="jobForm.email.$error.email">
+                            Email not valid.
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.jobInfo.jobCustomer.phoneNumber" mask-format="phone" ng-if="!vm.isMexico">
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.jobInfo.jobCustomer.phoneNumber" mask-format="mexico-phone" ng-if="vm.isMexico">
+                    <label for="phoneNumber">Number <span class="required" aria-required="true"> * </span></label>
+                </div>
+
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="vm.jobInfo.geoCode" maxlength="128"
+                           style="text-transform:uppercase">
+                    <label for="geoCode">Geo Code</label>
+                </div>
+                <i>Please note that <b>Geo Code</b> can be required or not required as defined in Franchisee profile. </i>
+
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <address-edit model="vm.jobInfo.jobCustomer.address[0]"></address-edit>
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <span class="text-danger" ng-if="vm.isNotAvailable">{{vm.error}}</span>
+                    <button id="sample_editable_1_new" ng-if="(vm.techIds.length > 0 && (vm.jobInfo.jobId <= 0 || vm.isCopy || vm.isShowRepeatChangeTime))" ng-click="vm.repeatJob()" class="btn btn-primary m-t-5">
+                        {{vm.repeatButtonName}}
+                    </button>
+                    <p class="m-t-5" ng-if="(vm.techIds.length > 0 && (vm.jobInfo.jobId <= 0 || vm.isCopy || vm.isShowRepeatChangeTime))"><b>Note :</b> <i> {{vm.repeatNote}}</i></p>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : jobForm.jobType.$dirty && jobForm.jobType.$error.requiredSelect}" style="width:100% !important">
+                    <select class="form-control input-medium" name="jobType" id="jobType" ng-model="vm.jobInfo.jobTypeId"
+                            ng-options="type.value as type.display for type in vm.marketingClass | orderBy:'display'" required-select style="width:100% !important"></select>
+                    <label value="">Customer Class<span class="required" aria-required="true"> * </span></label>
+                    <div ng-show="jobForm.jobType.$dirty && jobForm.jobType.$invalid">
+                        <span class="text-danger" ng-if="jobForm.jobType.$error.requiredSelect">
+                            Customer Class is required.
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <div class="row">
+                        <div style="margin-top:-24px !important">
+                            <label style="margin-left: 17px !important;" ng-class="{'yellow' : vm.jobInfo.jobId < 0 || vm.isRepeated }"> Initial Start Date</label>
+                            <div class="col-md-12 col-lg-12 col-xs-4">
+                                <circulartimepicker model="vm.jobInfo.startDate" format="{momentFormat:'MM/DD/YYYY HH:mm'}" ng-click="vm.startDateClick()"></circulartimepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <div class="row">
+                        <div style="margin-top:-24px !important">
+                            <label style="margin-left: 17px !important;" ng-class="{'yellow' : vm.jobInfo.jobId < 0 || vm.isRepeated}"> Initial End Date</label>
+                            <div class="col-md-12 col-lg-12 col-xs-4">
+                                <circulartimepicker model="vm.jobInfo.endDate" format="{momentFormat:'MM/DD/YYYY HH:mm'}" ng-click="vm.endDateClick()"></circulartimepicker>
+                                <!--<date-picker-ts control-id="renewal-date" label="End Date" model="vm.jobInfo.endDate" />-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p ng-if="vm.jobInfo.jobId <= 0"><b>Note :</b> <br /> <i>Use above Start/End Time to Update/Expand time Of Job.</i></p>
+                            <p ng-if="!(vm.jobInfo.jobId <= 0)"><b>Note :</b><br /> <i><b>1).</b> Use above Start/End Time to Update/Expand time Of Job.</i><br /><i style="background-color:yellow !important" ng-if="(vm.jobInfo.jobId > 0 && vm.isRepeated )"><b>2).</b> By changing Date-Time the initial Job Date-Time will automatically change</i></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="padding: 0px !important">
+                    <label>Technician(s) *</label>
+                    <div ng-if="(vm.jobInfo.jobId > 0)"><br /></div>
+                    <div style="float:left;" ng-click="vm.openDropDOwn()">
+                        <div ng-dropdown-multiselect="" options="vm.techList" extra-settings="settings" translation-texts="translationTexts"
+                             selected-model="vm.techIds" checkboxes="true" events="selectEvents" style="margin-right:10px !important">
+                        </div>
+                    </div>
+                    <div style="float:left">
+
+                        <a class="btn btn-primary" ng-if="vm.croseVisible && vm.isMobile" href="javascript:void(0)" ng-click="vm.closePopUp()"><i class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+                <div style="margin-top:10px !important;width:100%;float:left">
+                    <label value="">Sales Representative</label>
+                    <select class="form-control input-medium" name="franchisee" id="franchisee" ng-model="vm.jobInfo.salesRepId"
+                           ng-disabled="vm.isSalesRep" ng-options="type.value as type.display for type in vm.salesRepList" title="Select Sales Representative" style="width:100% !important"></select>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <hr />
+            <div class="col-md-8">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <textarea maxlength="1024" class="form-control" rows="3" id="jobDescription" ng-model="vm.jobInfo.description" ng-keyup="vm.descriptionChange()"></textarea>
+                    <label for="jobDescription">Description</label>
+                </div>
+            </div>
+            <div class="col-md-4" ng-if="vm.jobInfo.jobId > 0 && vm.isDescriptionChanged">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="isUpdateForAllJobs" name="isRoyalityLateFeeApplicable" ng-value="true" class="md-check" ng-model="vm.jobInfo.isDataToBeUpdateForAllJobs">
+                    <label for="isUpdateForAllJobs">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        Update All Jobs
+                    </label>
+                </div>
+            </div>
+            <p ng-if="vm.jobInfo.jobId > 0 && vm.isDescriptionChanged" class="m-t-5"><b>Note :</b> <i> Update Description for all days of this customer project</i></p>
+        </div>
+        <div class="modal-footer clear-both">
+            <div class="col-md-12 col-lg-12 col-xs-5">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.validateModel(jobForm);" ng-disabled="jobForm.$invalid || vm.isProcessing == true || !vm.validTech">Save</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+

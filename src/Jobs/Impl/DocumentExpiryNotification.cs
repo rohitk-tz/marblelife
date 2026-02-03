@@ -1,0 +1,44 @@
+﻿using Core.Application;
+using Core.Notification;
+using Quartz;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jobs.Impl
+{
+    [DisallowConcurrentExecution]
+    public class DocumentExpiryNotification : BaseJob
+    {
+        private readonly ILogService _logService;
+        private readonly IClock _clock;
+
+        public DocumentExpiryNotification() 
+           : base(ApplicationManager.DependencyInjection.Resolve<ILogService>())
+        {
+            _logService = ApplicationManager.DependencyInjection.Resolve<ILogService>();
+            _clock = ApplicationManager.DependencyInjection.Resolve<IClock>();
+            _logService.Info("Document Expiry Notification parser Constructor- " + _clock.UtcNow);
+        }
+
+        public override void Execute()
+        {
+            _logService.Info("Document Expiry Notification parser started at " + _clock.UtcNow);
+
+            try
+            {
+                var pollingAgent = ApplicationManager.DependencyInjection.Resolve<IDocumentNotificationPollingAgent>();
+                pollingAgent.SendExpiryNotification();
+
+            }
+            catch (Exception e)
+            {
+                _logService.Error("Exception - Document Expiry Notification Data parser. ", e);
+            }
+
+            _logService.Info("Document Expiry Notification Data end at " + _clock.UtcNow);
+        }
+    }
+}

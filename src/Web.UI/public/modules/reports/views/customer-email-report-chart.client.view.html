@@ -1,0 +1,30 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left search-single">Trend Chart - {{vm.franchisee}}</h4>
+    <!--<a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>-->
+
+    <div class="pull-right">
+        <div class="pull-right search-single">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                        ng-change="vm.generateChartData();"
+                        ng-options="year.value as year.display for year in vm.yearCollection">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="year">Year</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+
+    <div class="tab-pane active" id="portlet_tab1">
+        <am-chart id="myFirstChart1" options="amChartOptions" height="400px" width="100%"></am-chart>
+        <div id="legenddiv1" class="legends-mul-col"></div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

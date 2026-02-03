@@ -1,0 +1,599 @@
+﻿<!--using this as we need to hide 12a from Calendar for Jobs or Personal Meeting as it is coming from fullcalendar.js from dis-->
+<style type="text/css">
+    .modal-dialog.modal-lg {
+        width: 1180px;
+    }
+    .mbl-switch:checked + label:after {
+    }
+
+    button.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right.fc-state-hover.fc-state-disabled {
+        visibility: hidden !important;
+    }
+
+    button.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right {
+        visibility: hidden !important;
+    }
+
+    span.round {
+        height: 17px;
+        width: 17px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: bolder;
+    }
+
+    span.fc-time {
+        display: none !important;
+    }
+
+    /*.fc-left {
+        visibility: hidden !important;vm.searchOption
+    }*/
+
+    .fc-center {
+        display: none !important
+    }
+
+    @media only screen and (min-width: 668px) and (max-width: 1695px) {
+
+
+        .portlet-body {
+            overflow: visible;
+        }
+
+        .portlet.light {
+            height: auto !important;
+        }
+
+        .fc-scroller.fc-day-grid-container {
+            overflow: hidden scroll !important;
+            height: 669px !important;
+        }
+        
+    }
+
+    @media only screen and (min-width: 668px) and (max-width: 992px) {
+        .btn.visible-sm {
+            display: inline-block !important
+        }
+    }
+
+    /*tr:first-child > td > .fc-day-grid-event{
+            position:relative;
+        }*/
+
+    button#btn_img {
+        /*position: absolute;*/
+        right: 0;
+        top: 0;
+        background: none;
+        border: none;
+        z-index: 999;
+        float: right;
+        padding: 0;
+    }
+
+    .fc-event-container {
+        position: relative;
+    }
+
+    .custom-height {
+        height: 900px;
+        overflow-y: scroll
+    }
+
+        .custom-height::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        .custom-height::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        .custom-height::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+            /* Handle on hover */
+            .custom-height::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+    .form-box-p {
+        float: right
+    }
+
+    .form-box {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .custom-btn {
+        margin-top: 10px;
+    }
+
+        .custom-btn .btn {
+            margin-top: 5px;
+        }
+
+    @media only screen and (min-width: 1250px) and (max-width: 1452px) {
+        .btn.btn-xs {
+            padding: 3px 4px 3px 4px;
+            margin: 0px;
+        }
+
+        .custom-btn .btn {
+            padding: 8px 10px 8px 10px;
+        }
+        .modal-dialog.modal-lg {
+            width: 1180px;
+        }
+    }
+
+    @media only screen and (max-width: 998px) {
+        .custom-height {
+            height: 200px;
+        }
+
+        .page-container {
+            padding-top: initial
+        }
+
+        .portlet {
+            margin-bottom: 5px;
+        }
+
+            .portlet.light > .portlet-title {
+                min-height: 30px;
+            }
+
+        .custom-btn {
+            text-align: initial
+        }
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+
+    @media only screen and (max-width: 390px) {
+        .form-box {
+            margin-right: 0px;
+        }
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+
+    
+
+    .sideBoxHeightAssignee {
+        min-height: 80vh;
+        overflow: auto;
+    }
+
+    .sideBoxHeightDescription {
+        min-height: 35.3vh;
+        overflow: auto;
+    }
+
+    @media only screen and (max-width: 1400px) {
+        .sideBoxHeightAssignee {
+            min-height: 50vh;
+            max-height: 69.4vh !important;
+            overflow: auto;
+        }
+
+        .sideBoxHeightDescription {
+            min-height: 30vh;
+            max-height: 30vh !important;
+            overflow: auto;
+        }
+    }
+
+        .custom-scroll-bar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+    /* Track */
+    .custom-scroll-bar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    .custom-scroll-bar::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+        /* Handle on hover */
+        .custom-scroll-bar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+    .dashboardHeight {
+        max-height: 23.6vh !important;
+        min-height: 23.6vh !important;
+    }
+    .calendarHeight {
+        max-height: 43vh !important;
+        min-height: 43vh !important;
+    }
+</style>
+<div class="clearfix page-controls">
+    <div class="row">
+        <div class="col-lg-3 col-md-4" ng-class='{hidden: isExpand}'>
+            <div class="portlet light ">
+                <div class="portlet-title" ng-if="!vm.isTech">
+                    <div class="caption">
+                        <i class="icon-share font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">Assignee(s) List</span>
+                    </div><button class="btn btn-danger pull-right visible-xs visible-sm" ng-click="toggleBox()" style="padding: 5px; line-height: 0px; margin-top: 8px;" href="#"><i class="fa" ng-class='{"fa-caret-up": !hideBox, "fa-caret-down": hideBox }'></i></button>
+                </div>
+                <div class="row" ng-class='{hidden: hideBox}' ng-if="!vm.isTech">
+                    <div class="col-xs-12 margin-top-10"><button class="btn" ng-click="vm.openZipCodeModal();"><i class="fa fa-map-pin"></i>Search Geo Code</button></div>
+                    <div class="col-xs-12 margin-bottom-10 margin-top-10">
+
+                        <input class="form-control" placeholder="Search Assignee..." ng-model="searchText">
+                    </div>
+                    <div ng-if="">
+                        <label>Note:<i>Please select any <b>option</b></i></label>
+                    </div>
+
+                    <div class="col-xs-12 m-t-5" ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin || vm.isExecutive">
+
+                        <button class="btn btn-primary btn-xs" ng-click="vm.getSchedulerSalesList();" style="background-color:{{vm.salesColorCode}}">Sales</button>
+                        <button class="btn btn-primary btn-xs" ng-click="vm.getSchedulerTechList(); " style="background-color:{{vm.techColorCode}}">Tech</button>
+                        <button class="btn btn-primary btn-xs" id="btn_active" ng-click="vm.getSchedulerInactiveList();" style="background-color:{{vm.InactivecolorCode}}">{{vm.StatusName}}</button>
+                        <button class="btn btn-primary btn-xs" ng-click="vm.getSchedulerLockList(); " style="background-color:{{vm.lockColorCode}}">{{vm.lockName}}</button>
+                        <hr style="margin: 10px 0;" />
+                    </div>
+
+                </div>
+                <div class="portlet-body sideBoxHeightAssignee custom-scroll-bar calendarHeight" ng-class='{hidden: hideBox}' ng-if="!vm.isTech">
+                    <div ng-repeat="tech in vm.techList | filter:searchText">
+                        <br />
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="user{{$index}}" class="md-check" ng-checked="tech.selected" ng-click="!tech.isLocked ?vm.addToList(tech):null">
+                            <label for="user{{$index}}">
+                                <span></span>
+                                <span class="check" ng-style="{'border-color': tech.colorCode}"></span>
+                                <span class="box" ng-style="{'border-color': tech.colorCode,'background':tech.colorCode}"></span>
+                                {{tech.label}} &nbsp;&nbsp;({{tech.role}}) &nbsp;
+                                <i ng-if="vm.loggedInUserId == tech.userId" class="fa fa-question-circle-o icon_feedback_received" title="Logged in User!"></i>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<div class="portlet-title" style="margin-top:15px !important" ng-if="vm.isVisible">
+                    <div class="caption"> <span class="caption-subject font-red-sunglo bold uppercase">Today's To-Do List</span></div>
+                </div>-->
+                <!--<div class="row" style="margin-left:27% !important" ng-if="vm.todoInfoListForToday.length>0">
+                    <button class="btn btn-primary btn-xs" ng-click="vm.openViewFollowUpModal(vm.todoInfoListForToday);">View All To-Do</button>
+                </div>-->
+                <!--<div class="portlet-body custom-height custom-scroll-bar" style="height:500px !important" ng-if="vm.todoInfoListForToday.length>0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td style="width:5% !important"><b>To-Do</b></td>
+                                <td style="width:5% !important"><b>Customer</b></td>
+                                <td style="width:5% !important"><b>Action</b></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="todo in vm.todoInfoListForToday track by $index">
+                                {{todo}}
+                                <td style="width:5% !important"><span class="break_word">{{toDo}}{{todo.toDo | limitTo: 10}}{{item.todo.length > 10 ? '...' : ''}}</span></td>
+                                <td style="width:5% !important">{{todo.customerName}}</td>
+                                <td style="width:5% !important"><a ng-click="vm.openViewFollowUpModal(vm.todoInfoListForToday[$index])">View More</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>-->
+                <!--<div style="max-height:130px;" class="portlet-body custom-height" custom-height ng-if="vm.todoInfoListForToday.length==0 && vm.isVisible">
+                    <span> <b>No To-Dos/FollowUp For Today</b></span>
+                </div>-->
+            </div>
+
+            <div class="portlet light" ng-if="vm.isVisible">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-share font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">TO-DO LIST</span>
+                    </div>
+                </div>
+                <div class="portlet-body sideBoxHeightDescription custom-scroll-bar dashboardHeight" ng-class='{hidden: hideBox}' ng-if="!vm.isTech">
+                    <div class="portlet-title" style="margin-top:15px !important" ng-if="vm.isVisible">
+                        <div class="caption"> <span class="caption-subject font-red-sunglo bold uppercase">Today's To-Do List</span></div>
+                    </div>
+                    <div class="row" style="margin-left:27% !important" ng-if="vm.todoInfoListForToday.length>0">
+                        <button class="btn btn-primary btn-xs" ng-click="vm.openViewFollowUpModal(vm.todoInfoListForToday);">View All To-Do</button>
+                    </div>
+                    <div ng-if="vm.todoInfoListForToday.length>0">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td style="width:5% !important"><b>To-Do</b></td>
+                                    <td style="width:5% !important"><b>Customer</b></td>
+                                    <td style="width:5% !important"><b>Action</b></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="todo in vm.todoInfoListForToday track by $index">
+                                    {{todo}}
+                                    <td style="width:5% !important"><span class="break_word">{{toDo}}{{todo.toDo | limitTo: 10}}{{item.todo.length > 10 ? '...' : ''}}</span></td>
+                                    <td style="width:5% !important">{{todo.customerName}}</td>
+                                    <td style="width:5% !important"><a ng-click="vm.openViewFollowUpModal(vm.todoInfoListForToday[$index])">View More</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="max-height:130px;" class="portlet-body sideBoxHeightDescription custom-scroll-bar" custom-height ng-if="vm.todoInfoListForToday.length==0 && vm.isVisible">
+                        <span> <b>No To-Dos/FollowUp For Today</b></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet light" ng-if="!vm.isVisible">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-share font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">Icon(s) Description</span>
+                    </div>
+                </div>
+                <div class="portlet-body sideBoxHeightDescription custom-scroll-bar dashboardHeight" ng-class='{hidden: hideBox}' ng-if="!vm.isTech">
+                    <div>
+                        <div>
+                            <h4><span style="font-size:15px; font-weight:bold;">C</span>&rArr; Commercial</h4>
+                            <h4><span style="font-size:15px; font-weight:bold;">R</span>&rArr; Residential</h4>
+                            <h4><span style="font-size:15px; font-weight:bold;">0</span>&rArr; Non-Project Data Sources</h4>
+                            <h4><span style="font-size:15px; font-weight:bold;">N</span>&rArr; National</h4>
+                            <h4><span style="font-size:15px; font-weight:bold;">F</span>&rArr; Front Office</h4>
+                            <h4>$?&rArr; Estimate Without Invoice</h4>
+                            <h4>$0.00&rArr; Blank Invoice uploaded</h4>
+                            <h4>$xxx.xx&rArr; Invoice With Price</h4>
+                            <h4><b><i class="fa fa-envelope" aria-hidden="true"></i></b> &rArr; Invoice Sent to Customer</h4>
+                            <!--<h4><b><img src="/Content/images/map.png" style="height: 29px; width: 40px; position: relative; left: -2px;" /></b> &rArr; Map</h4>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="" ng-class='{"col-lg-12": isExpand, "col-lg-9": !isExpand, "col-md-12": isExpand, "col-md-8": !isExpand }'>
+            <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 5px;" ng-class='{"hidden":isSearchExpand}'>
+                <div class="col-xs-12 col-md-6">
+                    <div class="pull-left search-btn-wrap">
+                        <div class="search-box ">
+                            <div class="pull-left search-single">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                            ng-options="item.value as item.display for item in vm.searchOptions"
+                                            ng-change="vm.resetSearchOption();">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="search-option">Search Options</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if=" vm.searchOption == '1'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <!--<p><a href="geo:?q=San+Francisco&z=15">Zoom 15, Search for San Francisco</a></p>-->
+                                    <select class="form-control input-small" id="franchisee" ng-model="vm.query.jobTypeId"
+                                            ng-change="vm.getEvents();"
+                                            ng-options="type.value as type.display for type in vm.marketingClass">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="jobType">Customer Class</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="!vm.isTech &&  vm.searchOption == '2'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control input-small" id="franchisee" ng-model="vm.query.option"
+                                            ng-change="vm.getEvents();"
+                                            ng-options="type.value as type.display for type in vm.options">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="type">Type</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if=" vm.searchOption == '3'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control input-small" id="franchisee" ng-model="vm.query.imported"
+                                            ng-change="vm.getEvents();"
+                                            ng-options="type.value as type.display for type in vm.importOptions">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="type">Source</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '4'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.customerName" />
+                                    <label>Customer Name</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '5'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input maxlength="10" type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.text">
+                                    <label>Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '7'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.email">
+                                    <label>Email</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="!vm.isTech &&  vm.searchOption == '8'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control input-small" id="franchisee" ng-model="vm.query.addressOptions"
+                                            ng-options="type.value as type.display for type in vm.addressOptions"
+                                            ng-change="vm.resetSearchOptionForAddress();">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="type">Address</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.query.addressOptions == '1'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.street">
+                                    <label>Street</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.query.addressOptions == '2'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.city">
+                                    <label>City</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.query.addressOptions == '3'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.state">
+                                    <label>State</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.query.addressOptions == '4'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.country">
+                                    <label>Country</label>
+                                </div>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.query.addressOptions == '5'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="search" class="form-control input-sm" style="margin-top: -8px;" placeholder="" aria-controls="sample_1"
+                                           ng-model="vm.query.zipCode">
+                                    <label>Zip Code</label>
+                                </div>
+                            </div>
+                            <div class="pull-left custom-btn" ng-if="vm.searchOption == '4' ||vm.searchOption == '5' || vm.searchOption == '7' || vm.searchOption == '8'">
+                                <a class="btn btn-primary" ng-click="vm.getSearch();">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                            <div class="pull-left custom-btn" style="margin-left: 5px !important" ng-if="vm.searchOption == '4' ||vm.searchOption == '5' || vm.searchOption == '7' || vm.searchOption == '8'">
+                                <a class="btn btn-primary" ng-click="vm.resetSearch();">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </div>
+                            <div class="pull-left search-single" ng-if="vm.searchOption == '6'">
+                                <!--<div class="form-group form-md-line-input">
+            <date-picker-year-ts control-id="registration-date" label="Select Month" format="MM/yyyy" model="" />
+        </div>-->
+                                <div style="display: inline-block; width: 80px !important" class="pull-left form-group input-small form-md-line-input form-md-floating-label">
+                                    <select style="width: 80px !important" class="form-control input-small" id="year" ng-model="vm.query.year"
+                                            ng-options="year.value as year.display for year in vm.yearCollection">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="year">Year</label>
+                                </div>
+                                <div style="display: inline-block; margin-left: 10px !important; width: 90px !important" class="pull-left form-group  input-small form-md-line-input form-md-floating-label">
+                                    <select style="width: 90px !important" class="form-control input-small" id="month" ng-model="vm.query.month"
+                                            ng-options="month.value as month.display for month in vm.monthCollection">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="month">Month</label>
+                                </div>
+                                <div style="margin-left: 10px !important" class="pull-left custom-btn">
+                                    <button ng-disabled="vm.query.year == null || vm.query.month == null" class="btn btn-primary" ng-click="vm.searchByMonth();">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                                <div style="display: inline-block; margin-left: 5px !important" class="pull-left custom-btn">
+                                    <a class="btn btn-primary" ng-click="vm.resetSelectedMonth();">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 text-right custom-btn text-center-m">
+                    <div style="font-size:16px;">
+                        <strong>
+                            Total Estimate Worth:
+                        </strong>${{vm.totalAmount | number: 2}}
+                    </div>
+                    <div style="font-size:16px;">
+                        <strong>
+                            Total Jobs Worth:
+                        </strong><span ng-if="vm.totalSum != null">${{vm.totalSum | number: 2}}</span>
+                        <span ng-if="vm.totalSum == null">$0.00</span>
+                    </div>
+                    <button ng-print-calendar print-element-id="printSection" id="printButton" style="visibility:hidden !important"></button>
+                    <button class="btn btn-primary" ng-click="vm.printScreen()"><i class="fa fa-print"></i></button>
+                    <a class="btn btn-primary" ng-click="vm.refresh();">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                    <span ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin || vm.isExecutive">
+                        <a class="btn btn-primary" ng-click="vm.openImportModal();" title="Import Calendar">
+                            <i class="fa fa-calendar"></i>
+                        </a>
+                    </span>
+                    <span ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin || vm.isExecutive">
+                        <!--<button class="btn btn-primary" ui-sref="core.layout.scheduler.list({ franchiseeId: vm.query.franchiseeId,startDate:vm.query.startDate,previousView: vm.previousView,endDate:vm.query.startDate })">List View</button>-->
+                        <button class="btn btn-primary text-center-mobile" ng-click="vm.manageSchedulerList();"><i class="fa fa-list"></i> List View</button>
+                    </span>
+                    <a class="btn btn-primary hidden-xs hidden-sm" ng-click="expandCalender()">
+                        <i class="fa" ng-class='{"fa-expand": !isExpand, "fa-compress": isExpand }'></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="row visible-xs" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 5px; position:sticky; z-index:99; top:85px;">
+                <div class="col-xs-12">
+                    <a class="btn btn-default btn-xs" ng-click="vm.onLockCalendar()" ng-class='{active:isCalendarLock}'>
+                        <i class="fa fa-calendar-minus-o"></i> <span ng-if="!isCalendarLock">Lock</span> <span ng-if="isCalendarLock">Unlock</span> Calendar
+                    </a>
+                    <a class="btn btn-primary btn-xs pull-right" ng-click="showSearch()" style="padding: 4px;">
+                        <!--<i class="fa fa-filter"></i>--> <i class="fa" ng-class='{"fa-th":isSearchExpand, "fa-minus":!isSearchExpand}' style="margin-top:2px;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 1px;">
+                <div class="col-xs-7">
+                    <button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-corner-right fc-state-active" ng-click="vm.month();" id="month" style="padding:4px !important">month</button>
+                    <button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-corner-right" ng-click="vm.week();" id="week" style="padding:4px !important">week</button>
+                    <button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-corner-right" ng-click="vm.day();" id="day" style="padding:4px !important">day</button>
+                </div>
+                <div class="col-xs-5">
+                    <div class="fc-button-group" style="float:right">
+                        <button ng-disabled="vm.isTodayDisable" type="button" ng-click="vm.today()">today</button>
+                        <button type="button" ng-click="vm.prev()" ng-disabled="vm.buttomDisabled"><span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span></button>
+                        <button type="button" ng-click="vm.next()" ng-disabled="vm.buttomDisabled"><span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="printSection" class="col-xs-12" ng-if="eventSources!=null && eventSources.length > 0  && !vm.isTech">
+                    <div class="portlet light" style="max-height: 83vh; min-height: 83vh; overflow-y: scroll;">
+                        <div class="calendar_default" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar_123"></div>
+                    </div>
+                </div>
+                <div id="printSection" class="col-xs-12" ng-if="eventSources!=null && eventSources.length > 0 && vm.isTech">
+                    <div class="portlet light">
+                        <div class="calendar_default" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar_123"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

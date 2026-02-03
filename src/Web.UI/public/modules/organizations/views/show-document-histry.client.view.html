@@ -1,0 +1,37 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Document Declined/Perpetuity History for {{vm.franchiseeName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="width:calc(100% - 20px);margin-bottom:0px">
+        <thead>
+            <tr role="row" style="background-color: #dddddd !important">
+                <th style="width:5%">
+                    Date
+                </th>
+                <th style="width:5%">
+                    User-Name
+                </th>
+                <th style="width:5%">
+                    Action
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="vm.list.length>0" ng-repeat="item in vm.list track by $index">
+                <td>{{item.date|date:'M/d/yyyy'}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.status}}</td>
+            </tr>
+            <tr ng-if="vm.list.length==0">
+                <td colspan="3"style="text-align:center">No Record Found</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

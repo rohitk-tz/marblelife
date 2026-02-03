@@ -1,0 +1,104 @@
+﻿<style type="text/css">
+    .modal-body body {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        margin: 20px !important;
+        border: solid 1px #B2C8D9;
+        -webkit-text-size-adjust: 100% !important;
+        -ms-text-size-adjust: 100% !important;
+        -webkit-font-smoothing: antialiased !important;
+        font-size: 16px;
+    }
+
+    .modal-body a {
+        color: #382F2E;
+    }
+
+    .modal-body p, .modal-body h1 {
+        margin: 0;
+    }
+
+    .model img {
+        width: 15%;
+        height: 15%;
+    }
+
+    .model .contentEditable img {
+        width: 15%;
+        height: 15%;
+    }
+
+    .contentEditable img {
+        width: 15%;
+        height: 15%;
+    }
+
+    .modal-body p {
+        text-align: left;
+        font-weight: normal;
+        line-height: 19px;
+    }
+
+    .modal-body a.link1 {
+        color: #382F2E;
+    }
+
+    .modal-body a.link2 {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    .modal-body h2 {
+        text-align: left;
+        color: #222222;
+        font-size: 19px;
+        font-weight: normal;
+    }
+
+    .modal-body div, p, ul, h1 {
+        margin: 0;
+    }
+
+    .modal-body .bgBody {
+        background: #ffffff;
+    }
+
+    .modal-body table thead tr th {
+        border: 1px solid black;
+        padding: 5px;
+        margin: 2px;
+        text-align: left;
+    }
+
+    .modal-body table tbody tr td {
+        border: 1px solid black;
+        padding: 5px;
+        margin: 2px;
+        text-align: left;
+    }
+
+    .block {
+        display: block;
+    }
+
+    .none {
+        display: none;
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{vm.emailTemplate.description}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div>
+        <div ng-bind-html="vm.emailTemplate.body"></div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

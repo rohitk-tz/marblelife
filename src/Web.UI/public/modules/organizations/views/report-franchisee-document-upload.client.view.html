@@ -1,0 +1,168 @@
+﻿<style type="text/css">
+    table.todo thead th {
+        position: sticky;
+        top: 0;
+        z-index: 9;
+        background: #ddd;
+    }
+
+    .customScroll-s {
+        width: 100%;
+        float: left;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+        .customScroll-s::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        .customScroll-s::-webkit-scrollbar-track {
+            /*  box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;*/
+            background: #f1f1f1;
+        }
+
+        .customScroll-s::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Handle */
+        .customScroll-s::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+</style>
+
+<div class="row">
+    <div class="clearfix page-controls">
+        <div class="pull-right search-btn-wrap">
+            <div class="search-box">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.query.uploadedOn"
+                                ng-change="vm.getFranchiseeDocumentList()"
+                                ng-options="item.value as item.display for item in vm.searchOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Search Options</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '4'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.query.status"
+                                ng-change="vm.getFranchiseeList();"
+                                ng-options="item.value as item.display for item in vm.activeInActiveOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Search Options</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                ng-change="vm.getFranchiseeDocumentList();"
+                                ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                            <option disabled value=''></option>
+                        </select>
+                        <label for="franchisee">Franchisee Name</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.documentTypeId"
+                                ng-change="vm.getFranchiseeDocumentList();"
+                                ng-options="franchisee.value as franchisee.display for franchisee in vm.documentType ">
+                            <option disabled value=''></option>
+                        </select>
+                        <label for="franchisee">Document Type</label>
+                    </div>
+                </div>
+                <div class="pull-left m-t-5" style="margin-right:10px">
+                    <button id="sample_editable_1_new" ng-click="vm.downloadFile()" class="btn btn-primary">
+                        Download
+                    </button>
+                </div>
+                <div class="pull-left search-single m-t-5">
+                    <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+                </div>
+                <div class="pull-left search-single m-t-5">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="customScroll-s table-responsive">
+    
+    <table class="table table-striped todo" id="sample_1" aria-describedby="sample_1_info">
+        <thead>
+            <tr role="row" style="background-color: #dddddd !important">
+                <th></th>
+                <th ng-repeat="document in vm.documentList" style="font-size:13px !important;width:500px !important;text-align:center !important">
+                    {{document}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="list in vm.list track by $index">
+                <td>{{list.franchiseeName}}</td>
+                <td ng-repeat="value in list.isPresent track by $index" style="text-align:center">
+                  
+                    <span ng-if="value">
+                        <b>
+                            <span ng-if="!list.isDeclined[$index] && !list.isPerpetuity[$index]">{{list.expiryDate[$index]|date:'M/d/yyyy'}}</span>
+                            <span ng-if="list.isDeclined[$index] && !list.isPerpetuity[$index] "><i class="fa fa-ban" aria-hidden="true" style="color:red"></i></span>
+                            <span ng-if="list.isPerpetuity[$index]"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></span>
+                            <span ng-if="$index==(list.isPresent.length-1)" ng-click="vm.showHistry(list.documentStatusViewModel,list.franchiseeName)"> <i class="fa fa-info-circle" aria-hidden="true" title="Click here to View History"></i></span>
+                        </b>
+                    </span>
+                    <span ng-if="!value">
+
+                        <i ng-if="!list.isPerpetuity[$index]" class="fa fa-times" aria-hidden="true" style="color:red"></i>
+                        <span ng-if="list.isPerpetuity[$index]"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></span>
+                        <!--  <span ng-if="$index==(list.isPresent.length-1)" ng-click="vm.showHistry(list.documentStatusViewModel,list.franchiseeName)"> <i class="fa fa-info-circle" aria-hidden="true" title="Click here to View Histry"></i></span>-->
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div id="printSection" class="print table-responsive" style="display:none !important;">
+    <p style="font-size:20px">TAX DOCUMENT REPORT is for {{vm.query.uploadedOn}}</p>
+    <table class="table table-striped todo" id="sample_1" aria-describedby="sample_1_info">
+        <thead>
+            <tr role="row" style="background-color: #dddddd !important">
+                <th></th>
+                <th ng-repeat="document in vm.documentList" style="font-size:13px !important;width:500px !important;text-align:center !important">
+                    {{document}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="list in vm.list track by $index">
+                <td>{{list.franchiseeName}}</td>
+                <td ng-repeat="value in list.isPresent track by $index" style="text-align:center">
+                    <span ng-if="value">
+                        <b>
+                            <span ng-if="!list.isDeclined[$index] && !list.isPerpetuity[$index]">{{list.expiryDate[$index]|date:'M/d/yyyy'}}</span>
+                            <span ng-if="list.isDeclined[$index] && !list.isPerpetuity[$index] "><i class="fa fa-ban" aria-hidden="true" style="color:red"></i></span>
+                            <span ng-if="list.isPerpetuity[$index]"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></span>
+                         <!--   <span ng-if="$index==(list.isPresent.length-1)" ng-click="vm.showHistry(list.documentStatusViewModel,list.franchiseeName)"> <i class="fa fa-info-circle" aria-hidden="true" title="Click here to View History"></i></span>-->
+                        </b>
+                    </span>
+                    <span ng-if="!value">
+                        <i ng-if="!list.isPerpetuity[$index]" class="fa fa-times" aria-hidden="true" style="color:red"></i>
+                        <span ng-if="list.isPerpetuity[$index]"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></span>
+                        <!--  <span ng-if="$index==(list.isPresent.length-1)" ng-click="vm.showHistry(list.documentStatusViewModel,list.franchiseeName)"> <i class="fa fa-info-circle" aria-hidden="true" title="Click here to View Histry"></i></span>-->
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

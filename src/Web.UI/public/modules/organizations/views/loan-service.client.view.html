@@ -1,0 +1,475 @@
+﻿<style>
+    @media (min-width: 768px) {
+        .modal-dialog.modal-lg {
+            width: 1010px !important;
+        }
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Loan : {{vm.franchiseeName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="invoice">
+        <div class="row invoice-logo">
+            <div class="col-xs-7">
+                <b>
+                    Loan Balance To Be Paid:
+                    <span ng-if="vm.balanceLeft.balance!=0" currency-Exchange conversion-Rate="vm.balanceLeft.currencyRate"
+                          input="vm.balanceLeft.balance" from-Currency="vm.balanceLeft.currencyCode">
+                    </span>
+                    <span ng-if="vm.balanceLeft.balance==0">$0</span>
+                </b>
+            </div>
+            <div class="col-xs-4" ng-if="vm.isSuperAdmin">
+                <p class="pull-right">
+                    <button type="button" class="btn default" ng-click="vm.openModel();" ng-disabled="vm.disableOption">Add</button>
+                </p>
+            </div>
+            <div class="col-xs-1">
+                <p class="pull-right">
+                    <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+                </p>
+            </div>
+            <div class="col-xs-7">
+                <b>
+                    Loan Balance Already Paid:
+                    <span ng-if="vm.balanceAlreadyPaid.balance!=0" currency-Exchange conversion-Rate="vm.balanceAlreadyPaid.currencyRate"
+                          input="vm.balanceAlreadyPaid.balance" from-Currency="vm.balanceAlreadyPaid.currencyCode">
+                    </span>
+                    <span ng-if="vm.balanceAlreadyPaid.balance==0">$0</span>
+                </b>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="row" ng-if="(vm.createLoan || vm.isOverPay) && vm.isSuperAdmin">
+        <a id="top"></a>
+        <div class="col-md-12">
+            <h3 class="section-header" ng-if="!vm.isOverPay">Add Loan Amount Adjustment</h3>
+            <h3 class="section-header" ng-if="vm.isOverPay">Edit Loan Amount Adjustment</h3>
+            <div class="row margin-top-10">
+                <div class="col-md-12 pull-left">
+                    <div class="pull-left">
+                        <div class="col-md-4">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="isLoanRoyality" name="isLoanRoyality" ng-value="true" class="md-check"
+                                       ng-click="vm.isRoyality(true);" ng-model="vm.loan.isRoyality" ng-disabled="vm.isOverPay">
+                                <label for="isLoanRoyality">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    Royalty
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="isLoanAdfund" name="isLoanAdfund" ng-value="false" class="md-check"
+                                       ng-click="vm.isRoyality(false)" ng-model="vm.loan.IsAdfund" ng-disabled="vm.isOverPay">
+                                <label for="isLoanAdfund">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    Adfund
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="margin-top: -25px;">
+                            <div class="form-group form-md-line-input">
+                                <select class="form-control input-small" id="search-option" ng-model="vm.loan.loanTypeId"
+                                        ng-change="vm.resetSeachOption()"
+                                        ng-options="item.value as item.display for item in vm.searchOptions">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label for="search-option">Loan Type</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-form name="loan_form">
+            <div id="top" class="row" style="padding-left:2% !important;padding-right:2% !important">
+                <div class="col-md-3">
+                    <div class="form-group form-md-line-input" ng-class="{'has-error' : loan_form.amount.$error.required}">
+                        <input type="text" class="form-control" id="amount" name="amount" only-decimal ng-model="vm.loan.Amount" min="0" maxlength="10" required ng-disabled="vm.isOverPay">
+                        <label for="amount">Amount ($)<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="loan_form.amount.$dirty && loan_form.amount.$error.required">
+                        <span class="text-danger" ng-if="loan_form.amount.$error.required">
+                            Amount is required.
+                        </span>
+                        <span class="text-danger" ng-if="loan_form.amount.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group form-md-line-input" ng-class="{'has-error' : loan_form.duration.$error.required}">
+                        <input type="text" class="form-control" id="duration"
+                               name="duration" ng-model="vm.loan.duration" only-digits dmin="0" dmax="200" required ng-disabled="vm.isOverPay">
+                        <label for="duration">Length (Months)<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="loan_form.duration.$dirty && loan_form.duration.$error.required">
+                        <span class="text-danger" ng-if="loan_form.duration.$error.required">
+                            Duration is required.
+                        </span>
+                        <span class="text-danger" ng-if="loan_form.duration.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group form-md-line-input" ng-class="{'has-error' : loan_form.ineterestratePerAnum.$error.required}">
+                        <input type="text" class="form-control" id="ineterestratePerAnum"
+                               name="ineterestratePerAnum" ng-model="vm.loan.percentage" only-decimal dmin="0" dmax="1000" required ng-disabled="vm.isOverPay">
+                        <label for="amount">InterestRate per Annum<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="loan_form.ineterestratePerAnum.$dirty && loan_form.ineterestratePerAnum.$error.required">
+                        <span class="text-danger" ng-if="loan_form.ineterestratePerAnum.$error.required">
+                            Interest Rate is required.
+                        </span>
+                        <span class="text-danger" ng-if="loan_form.ineterestratePerAnum.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group form-md-line-input">
+                        <input type="text" class="form-control" id="description" name="description" ng-model="vm.loan.Description"
+                               maxlength="250" ng-disabled="vm.isOverPay" />
+                        <label for="description">Description</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-md-line-input">
+                        <date-picker-ts control-id="start-date" label="Start Date*" model="vm.loan.startDate" change="vm.getReport" minDate="minDate" ng-if="!vm.isOverPay" />
+                        <input type="text" class="form-control" id="prePayAmount" name="prePayAmount" ng-model="vm.loan.startDate" ng-disabled="true" ng-if="vm.isOverPay" />
+                    </div>
+                </div>
+                <div class="col-md-3" ng-if="vm.isOverPay">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="prePayAmount" name="prePayAmount" ng-model="vm.loan.prePayAmount"
+                               maxlength="250" only-decimal dmin="0" />
+                        <label for="prePayAmount">PrePay Amount ($)<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="loan_form.prePayAmount.$dirty && loan_form.prePayAmount.$error.required">
+                        <span class="text-danger" ng-if="loan_form.prePayAmount.$error.required">
+                            Amount is required.
+                        </span>
+                        <span class="text-danger" ng-if="loan_form.prePayAmount.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.closeModel();">Cancel</button>
+                <button type="button" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing || loan_form.$invalid">Save</button>
+            </div>
+        </ng-form>
+        <hr>
+    </div>
+
+    <div class="row">
+        <span class="col-xs-12 caption" ng-if="vm.list.length <= 0">
+            Franchisee Does't have any Loan Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Amount</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Duration</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Interest Rate(p.a.)</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Created-On</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;text-align:center !important">Description</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Start Date</th>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;">Loan Status</th>
+                        <th style="width: 150px; min-width: 150px; max-width: 150px;">Loan Adjustment</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Loan Type</th>
+                        <th ng-if="vm.isSuperAdmin" style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="item in vm.list | orderBy: '-createdOn'">
+                        <td>
+                            <span style="width: 20px; min-width: 20px; max-width: 20px;" ng-if="item.expanded"
+                                  ng-click="item.expanded = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                            <span style="width: 20px; min-width: 20px; max-width: 20px;" ng-if="!item.expanded"
+                                  ng-click="item.expanded = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                        </td>
+                        <td style="width: 25px; min-width: 25px; max-width: 25px;">{{item.id}}</td>
+                        <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                            <span ng-if="item.amount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.amount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.duration}}</td>
+                        <td style="width: 80px; min-width: 80px; max-width: 80px;">{{item.percentage}}%</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.createdOn | dateTimeFilter}}</td>
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;text-align:center" class="break_word">{{item.description}}</td>
+
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;" class="break_word">{{item.startDate| dateTimeFilter}}</td>
+
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;" ng-if="item.isLoanPayed">
+                            Completed
+                        </th>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;" ng-if="!item.isLoanPayed">
+                            In-Progress
+                        </th>
+
+
+
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;" ng-if="!item.isEditable">
+                            {{item.loanAdjustment}}
+                            <i ng-if="(item.invoiceItemId == null || item.invoiceItemId <= 0) && vm.isSuperAdmin && !item.isEditing && item.isLoanCompletetd" class="fa fa-pencil icon-red" style="margin-left:9% !important;cursor: pointer;" ng-click="vm.changeLoanAdjustment(item);"></i>
+                        </th>
+
+
+                        <td style="width: 10px; min-width: 10px; max-width: 10px;cursor: pointer;" title="Change Loan Adjustment!" ng-if="vm.isSuperAdmin && item.isEditing">
+                            <div style="width:90% !important">
+                                <div style="display:inline-block;">
+                                    <select name="change_LoanAdjustment" class="form-control" ng-change="vm.changeLoanAdjustmentMethod(item,item.loanAdjustmentId)"
+                                            ng-model="item.loanAdjustmentId"
+                                            ng-options="option.value as option.name for option in loanAdjustmentOptions"></select>
+                                </div>
+                                <div style="display:inline-block;">
+                                    <span ng-if="vm.isSuperAdmin && item.isEditing">
+                                        <i ng-if="item.invoiceItemId == null || item.invoiceItemId <= 0" class="fa fa-save icon-red" ng-click="vm.saveChangeLoanAdjustment(item);" style="cursor: pointer;"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!--<td style="width: 20px; min-width: 20px; max-width: 20px;" title="Save Loan Adjustment!" ng-if="vm.isSuperAdmin && item.isEditing">
+                            <i ng-if="item.invoiceItemId == null || item.invoiceItemId <= 0" class="fa fa-save icon-red" ng-click="vm.saveChangeLoanAdjustment(item);" style="cursor: pointer;"></i>
+                        </td>-->
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">
+                            {{item.loanType}}
+                        </td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;" title="PrePay Loan!" ng-if="vm.isSuperAdmin && !item.isLoanPayed">
+                            <i ng-if="item.invoiceItemId == null || item.invoiceItemId <= 0" class="fa fa-money icon-red" ng-click="vm.isOverPay=true;vm.overPrePayAmount(item)" style="cursor: pointer;"></i>
+                        </td>
+
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;" title="PrePay Loan!" ng-if="vm.isSuperAdmin && item.isLoanPayed">
+                        </td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;" title="Delete Loan!" ng-if="vm.isSuperAdmin">
+                            <i ng-if="item.invoiceItemId == null || item.invoiceItemId <= 0" class="fa fa-trash icon-red" ng-click="vm.deleteLoan(item.id);" style="cursor: pointer;"></i>
+                        </td>
+
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;cursor: pointer;color:red" title="Export Loan!" ng-if="(vm.isSuperAdmin || vm.isFranchiseeAdmin) && !vm.isOverPay">
+                            <span class="glyphicon glyphicon-export" ng-click="vm.exportLoan(item.id)">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="item.expanded">
+                        <td colspan="8">
+                            <table class="table table-striped table-bordered" id="sample_2" role="grid" aria-describedby="sample_2_info" style="margin-left:7% !important">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="width: 45px; min-width: 57px; max-width: 50px;">Term#</th>
+                                        <th style="width: 70px; min-width: 90px; max-width: 70px;">DueDate</th>
+                                        <th style="width: 70px; min-width: 80px; max-width: 70px;">Balance</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Interest Amount</th>
+                                        <th style="width: 60px; min-width: 80px; max-width: 60px;">Principal Amount</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Payable Amount</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">OverPaid Amount</th>
+                                        <th style="width: 90px; min-width: 90px; max-width: 90px;">InvoiceItem #</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Total Principal</th>
+                                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Loan Adjustment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in item.loanSchedule">
+                                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{record.loanTerm}}</td>
+                                        <td style="width: 70px; min-width: 80px; max-width: 70px;">{{record.dueDate | dateTimeFilter}}</td>
+                                        <td style="width: 70px; min-width: 80px; max-width: 70px;">
+                                            <span ng-if="record.balance != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.balance" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.interest != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.interest" from-Currency="item.currencyCode">
+                                            </span>
+                                        <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                                            <span ng-if="record.principal != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.principal" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.payableAmount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.payableAmount" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.overPayment != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.overPayment" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 90px; min-width: 90px; max-width: 90px;">{{record.invoiceItemId}}</td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.totalPrincipal != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.totalPrincipal" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 90px; min-width: 90px; max-width: 90px;">{{record.loanAdjustment}}</td>
+                                    </tr>
+                                </tbody>
+                                <tr ng-if="item.loanSchedule.length == 0 || item.loanSchedule == null">
+                                    <td colspan="9" class="text-center"><span> No Schedule Found!</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="printSection" class="print" style="display:none !important">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Loan : {{vm.franchiseeName}}</h4>
+    </div>
+    <div class="row">
+        <span class="col-xs-12 caption" ng-if="vm.list.length <= 0">
+            Franchisee Does't have any Loan Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">&nbsp;</th>
+                        <th style="width: 20px; min-width: 20px; max-width: 20px;">#</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Amount</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Duration</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Interest Rate(p.a.)</th>
+                        <th style="width: 50px; min-width: 50px; max-width: 50px;">Created-On</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;text-align:center !important">Description</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Start Date</th>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;">Loan Type</th>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;">Loan Status</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Loan Adjustment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="item in vm.list">
+                        <td>
+                            <span style="width: 20px; min-width: 20px; max-width: 20px;"
+                                  ng-click="item.expanded = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                        </td>
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;">{{item.id}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">
+                            <span ng-if="item.amount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.amount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.duration}}</td>
+                        <td style="width: 80px; min-width: 80px; max-width: 80px;">{{item.percentage}}%</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.createdOn | dateTimeFilter}}</td>
+
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;text-align:center" class="break_word">{{item.description}}</td>
+
+                        <td style="width: 110px; min-width: 110px; max-width: 110px;" class="break_word">{{item.startDate| dateTimeFilter}}</td>
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.loanType}}</td>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;" ng-if="item.isLoanPayed">
+                            Completed
+                        </th>
+                        <th style="width: 70px; min-width: 70px; max-width: 70px;" ng-if="!item.isLoanPayed">
+                            In-Progress
+                        </th>
+
+
+
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;" ng-if="!item.isEditable">
+                            {{item.loanAdjustment}}
+                            <i ng-if="(item.invoiceItemId == null || item.invoiceItemId <= 0) && vm.isSuperAdmin && !item.isEditing && item.isLoanCompletetd" class="fa fa-pencil icon-red" style="margin-left:9% !important;cursor: pointer;" ng-click="vm.changeLoanAdjustment(item);"></i>
+
+                        <td style="width: 20px; min-width: 20px; max-width: 20px;cursor: pointer;" title="Change Loan Adjustment!" ng-if="vm.isSuperAdmin && item.isEditing">
+                            <select name="change_LoanAdjustment" class="form-control" ng-change="vm.changeLoanAdjustmentMethod(item,item.loanAdjustmentId)"
+                                    ng-model="item.loanAdjustmentId"
+                                    ng-options="option.value as option.name for option in loanAdjustmentOptions"></select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <table class="table table-striped table-bordered" id="sample_2" role="grid" aria-describedby="sample_2_info" style="margin-left:7% !important">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="width: 45px; min-width: 57px; max-width: 50px;">Term#</th>
+                                        <th style="width: 70px; min-width: 90px; max-width: 70px;">DueDate</th>
+                                        <th style="width: 70px; min-width: 80px; max-width: 70px;">Balance</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Interest Amount</th>
+                                        <th style="width: 60px; min-width: 80px; max-width: 60px;">Principal Amount</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Payable Amount</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">OverPaid Amount</th>
+                                        <th style="width: 90px; min-width: 90px; max-width: 90px;">InvoiceItem #</th>
+                                        <th style="width: 80px; min-width: 80px; max-width: 80px;">Total Principal</th>
+                                        <th style="width: 110px; min-width: 110px; max-width: 110px;">Loan Adjustment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in item.loanSchedule">
+                                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{record.loanTerm}}</td>
+                                        <td style="width: 70px; min-width: 80px; max-width: 70px;">{{record.dueDate | dateTimeFilter}}</td>
+                                        <td style="width: 70px; min-width: 80px; max-width: 70px;">
+                                            <span ng-if="record.balance != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.balance" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.interest != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.interest" from-Currency="item.currencyCode">
+                                            </span>
+                                        <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                                            <span ng-if="record.principal != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.principal" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.payableAmount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.payableAmount" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.overPayment != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.overPayment" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 90px; min-width: 90px; max-width: 90px;">{{record.invoiceItemId}}</td>
+                                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                            <span ng-if="record.totalPrincipal != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.totalPrincipal" from-Currency="item.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td style="width: 90px; min-width: 90px; max-width: 90px;">{{record.loanAdjustment}}</td>
+                                    </tr>
+                                </tbody>
+                                <tr ng-if="item.loanSchedule.length == 0 || item.loanSchedule == null">
+                                    <td colspan="9" class="text-center"><span> No Schedule Found!</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

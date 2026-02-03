@@ -1,0 +1,137 @@
+﻿<style>
+    body {
+        width: 100% !important;
+    }
+
+    .rcorners {
+        border-radius: 25px;
+        border: 2px solid #73AD21;
+        padding: 20px;
+        width: 200px;
+        height: 150px;
+    }
+
+    body {
+        width: 100% !important;
+    }
+
+    .tooltip {
+        position: relative;
+        display: none !important;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+        .tooltip .tooltiptext {
+            display: none !important;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 999999;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+    .mail_send_details {
+        display: grid;
+        grid-template-columns: 2% 98%;
+        align-items: baseline;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left"> {{vm.modalName}} {{vm.IsFromAvailability}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div ng-show="vm.invoiceNumberList.length>0" class="row" style="border-color:black !important;margin-left:0px" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div class="">
+            {{vm.message}}
+            <br />
+        </div>
+        <br />
+        <label><input type="checkbox" ng-model="vm.allCheck" ng-click="vm.selectAllCheckboxes()" ng-disabled="vm.isFromJob" /> &nbsp;&nbsp;All</label>
+        <div ng-repeat="item in vm.invoiceNumberList track by $index">
+            <label><input type="checkbox" name="{{item.label}}" ng-click="vm.allCheckUncheck()" ng-model="item.selected" ng-disabled="vm.isFromJob" /> &nbsp;&nbsp;{{item.label}}</label>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group form-md-line-input form-md-floating-label" ng-if="!vm.isDownloadInvoices && !vm.isDownloadCustomerInvoices">
+        <div style="margin-left:0px" class="mail_send_details">
+            <div>
+                To: &nbsp;
+            </div>
+            <div>
+                <input class="form-control" type="text" ng-pattern="regex" ng-model="vm.toEmail" />
+                <!--<span ng-if="vm.toEmail" style="border-radius: 25px; border-color: grey !important; border: 2px solid; padding-right: 10px; padding-left: 10px ">
+                    {{vm.toEmail}}
+                </span>-->
+            </div>
+        </div>
+        <div class="mail_send_details" style="border-color:black !important;margin-left:0px">
+            <div>
+                Cc: &nbsp;
+            </div>
+            <div>
+                <input class="form-control" type="text" ng-pattern="regex" ng-model="vm.ccEmail" />
+                <!--<span style="border-radius: 25px; border-color: grey !important; border: 2px solid; padding-right: 10px; padding-left: 10px ">
+                    {{vm.ccEmail}}
+                </span>-->
+            </div>
+        </div>
+    </div>
+    <div ng-if="!vm.isDownloadInvoices && !vm.isDownloadCustomerInvoices">
+        <hr />
+        <hr />
+    </div>
+    <div class="row" ng-if="!vm.isDownloadInvoices && !vm.isDownloadCustomerInvoices && !vm.isFromAvailability">
+
+        <wysiwyg textarea-id="question" textarea-class="form-control" textarea-height="180px" textarea-name="textareaQuestion" textarea-required ng-model="vm.data.body" enable-bootstrap-title="true"></wysiwyg>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-md-8 col-lg-12 col-xs-5" ng-if="!vm.isDownloadInvoices && !vm.isDownloadCustomerInvoices && !vm.isFromAvailability">
+        <div>
+            <div ngf-drop="vm.uploadFile($file)" style="margin-top: 1px;float: left;"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" ngf-pattern="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'"
+                 ngf-accept="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'">
+                <a class="btn btn-primary ng-pristine ng-valid ng-scope ng-empty ng-touched" href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'"
+                   ngf-accept="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'">Attach File(s)</a>.
+            </div>
+            <div ngf-no-file-drop>Media Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.info.fileModel.length>0" style="margin-top:50px !important">
+            <table class="table table-striped">
+                <tr style="border:1px solid black">
+                    <th style="border: 1px solid black;">Name</th>
+                    <th style="border: 1px solid black;">Size</th>
+                    <th style="border: 1px solid black;">Action</th>
+                </tr>
+                <tr ng-repeat="item in vm.info.fileModel track by $index">
+                    <td>
+                        {{item.caption}}
+                    </td>
+                    <td>
+                        {{item.size}} Bytes
+                    </td>
+                    <td>
+                        <a style="text-align:center" href="javascript:void(0);" ng-click="vm.removeFile($index)" class="pull-left"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-12 col-xs-5" style="float:right !important">
+        <button class="btn" ng-click="vm.sendMail()" ng-if="vm.isSendMail">{{vm.buttonName}}</button>
+        <button class="btn" ng-click="vm.downloadInvoices()" ng-if="vm.isDownloadInvoices">{{vm.buttonName}}</button>
+        <button class="btn" ng-click="vm.downloadCustomerInvoices()" ng-if="vm.isDownloadCustomerInvoices">{{vm.buttonName}}</button>
+        <!--<button class="btn" ng-click="vm.sendMail()" ng-if="vm.isSendMail">{{vm.buttonName}}</button>-->
+        <button class="btn" ng-click="vm.sendMailToCustomer()" ng-if="vm.isSendMailToCustomer">{{vm.buttonName}}</button>
+    </div>
+</div>

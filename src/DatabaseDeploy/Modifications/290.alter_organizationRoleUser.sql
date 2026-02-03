@@ -1,0 +1,1 @@
+update organizationroleuser set ColorCode  = null where  RoleId=2;

@@ -1,0 +1,151 @@
+﻿INSERT INTO `lookuptype` (`Id`, `Name`) VALUES ('23', 'RoutingNumberCategory');
+
+INSERT INTO `lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) VALUES ('191', '23', 'Print Media', 'PrintMedia', '1');
+INSERT INTO `lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) VALUES ('192', '23', 'PHONE-WEB-LOCAL', 'PHONE-WEB-LOCAL', '2');
+INSERT INTO `lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) VALUES ('193', '23', 'PHONE-WEB-NATIONAL', 'PHONE-WEB-NATIONAL', '3');
+INSERT INTO `lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) VALUES ('194', '23', 'BUSINESS DIRECTORY', 'BUSINESS DIRECTORY', '4');
+INSERT INTO `lookup` (`Id`, `LookupTypeId`, `Name`, `Alias`, `RelativeOrder`) VALUES ('195', '23', 'WRAP-VAN', 'WRAP-VAN', '5');
+UPDATE `lookup` SET `Name`='PHONE-PRINT MEDIA', `Alias`='PHONE-PRINT MEDIA' WHERE `Id`='191';
+
+ALTER TABLE `routingnumber` 
+ADD COLUMN `CategoryId` BIGINT(20) NULL DEFAULT NULL AFTER `TagId`,
+ADD INDEX `fk_routingNumber_Lookup_idx` (`CategoryId` ASC);
+ALTER TABLE `routingnumber` 
+ADD CONSTRAINT `fk_routingNumber_Lookup`
+  FOREIGN KEY (`CategoryId`)
+  REFERENCES `lookup` (`Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='2';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='3';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='4';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='8';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='12';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='13';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='14';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='17';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='23';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='37';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='41';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='44';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='47';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='48';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='50';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='54';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='55';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='57';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='58';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='62';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='63';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='67';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='68';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='71';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='74';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='75';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='77';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='81';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='82';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='83';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='85';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='89';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='90';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='91';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='93';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='114';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='168';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='177';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='178';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='180';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='181';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='182';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='184';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='215';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='232';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='233';
+UPDATE `routingnumber` SET `CategoryId`='194' WHERE `Id`='119';
+
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='24';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='31';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='39';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='51';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='53';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='61';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='64';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='69';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='70';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='78';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='95';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='96';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='97';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='120';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='123';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='135';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='140';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='146';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='153';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='172';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='179';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='183';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='216';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='217';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='218';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='219';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='220';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='221';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='222';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='223';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='224';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='225';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='226';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='227';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='228';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='229';
+UPDATE `routingnumber` SET `CategoryId`='192' WHERE `Id`='230';
+
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='99';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='127';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='130';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='132';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='145';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='149';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='158';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='159';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='162';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='171';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='189';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='190';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='191';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='192';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='193';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='194';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='195';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='198';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='199';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='200';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='201';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='202';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='203';
+UPDATE `routingnumber` SET `CategoryId`='193' WHERE `Id`='204';
+
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='94';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='98';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='113';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='118';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='133';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='156';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='163';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='169';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='173';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='72';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='105';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='124';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='125';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='131';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='151';
+UPDATE `routingnumber` SET `CategoryId`='191' WHERE `Id`='152';
+
+UPDATE `routingnumber` SET `CategoryId`='195' WHERE `Id`='79';
+UPDATE `routingnumber` SET `CategoryId`='195' WHERE `Id`='115';
+UPDATE `routingnumber` SET `CategoryId`='195' WHERE `Id`='148';
+UPDATE `routingnumber` SET `CategoryId`='195' WHERE `Id`='150';

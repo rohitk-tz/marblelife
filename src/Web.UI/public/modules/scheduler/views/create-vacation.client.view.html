@@ -1,0 +1,64 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Personal : {{vm.franchisee}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="vacationForm">
+        <div class="row">
+            <div class="col-md-4 l-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="vacationTitle" name="vacationTitle" ng-model="vm.vacationInfo.title"
+                           maxlength="128">
+                    <label for="vacationTitle">Title</label>
+                </div>
+            </div>
+            <div class="col-md-4 l-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <select class="form-control" id="tech" name="tech" ng-model="vm.vacationInfo.assigneeId"
+                            ng-options="user.value as user.display for user in vm.userList" required ng-disabled="vm.isTech || vm.vacationInfo.id > 0">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select>
+                    <label for="tech">Select<span class="required" aria-required="true"> * </span></label>
+                </div>
+                <div ng-show="vacationForm.tech.$dirty && vacationForm.tech.$invalid && !vm.isNotAvailable">
+                    <span class="text-danger" ng-if="vacationForm.tech.$error.required">
+                        Person is required.
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12 clear-both">
+                <label>Start Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.vacationInfo.startDate"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15"
+                                    datepicker-append-to-body="true">
+                    </datetimepicker>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>End Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.vacationInfo.endDate"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15"
+                                    datepicker-append-to-body="true">
+                    </datetimepicker>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer clear-both">
+            <div class="col-md-12 col-lg-12 col-xs-5">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.createVacation(vacationForm);" ng-disabled="vacationForm.$invalid || vm.isProcessing == true">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

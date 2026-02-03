@@ -1,0 +1,42 @@
+﻿<div>
+    <h3 class="section-header">Documents</h3>
+    <div class="clearfix service-offered">
+        
+        <div class="row">
+            <div class="col-sm-6" ng-repeat="type in services">
+                <div class="single-service clearfix">
+                    <div class="pull-left" style="width: calc(100% - 75px);">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="document{{$index}}" class="md-check" ng-model="type.isActive">
+                            <label for="document{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                {{type.name}}
+
+                            </label>
+                            <br />
+                            <input type="checkbox" id="perpetuity{{$index}}" class="md-check" ng-model="type.isPerpetuity" ng-if="type.documentId==11">
+                            <label for="perpetuity{{$index}}" ng-if="type.documentId==11 && type.isActive">
+                                <span style="margin-top:30px"></span>
+                                <!--<span style="margin-top:30px" class="check"></span>
+                                <span style="margin-top:30px" class="box"></span>-->
+                                <span style="margin-left:30px;margin-top:-1px">  Perpetuity <i class="fa fa-info-circle" title="Atleast one Resale certificate is needed to have the perpetuity applied on Resale certificate"></i></span>
+                            </label>
+                        </div>
+                    </div>
+                    <!--visible only if checked -->
+                    <div class="pull-right" style="width:75px;">
+                        <input type="checkbox" checked class="mbl-switch" id="document{{$index}}" ng-model="type.isActive">
+                        <label for="document{{$index}}">&nbsp;</label>
+                    </div>
+                    <div class="pull-right" style="width:75px;margin-top:10px" ng-if="type.documentId==11 && type.isActive">
+                        <input type="checkbox" checked class="mbl-switch" id="perpetuity{{$index}}" ng-model="type.isPerpetuity">
+                        <label for="perpetuity{{$index}}">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+</div>

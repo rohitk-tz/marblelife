@@ -1,0 +1,103 @@
+Test Site
+
+Server - 192.168.111.211
+Creds -  taazaa_user_1/aLBXU45x*0GAl@&iC&
+
+
+
+---- New Process -- Incomplete
+deploy.bat F:\Websites\MarbleLife\DatabaseDeploy https://v100.taazaa.com:8172 Administrator L3arnt0c0d3! taazaa_qa DatabaseDeploy 
+
+deploy.bat F:\Websites\MarbleLife\Jobs https://v100.taazaa.com:8172 Administrator L3arnt0c0d3! taazaa_qa Jobs 
+
+cd src/Web.UI
+gulp test
+msdeploy.exe -source:contentPath="D:\Projects\Makalu\makalu-web\src\Web.UI\test"  -dest:contentPath="F:\Websites\MarbleLife\qa-app.marblelife.com",wmsvc="https://v100.taazaa.com:8172/msdeploy.axd?site=qa-app.marblelife.com",username="Administrator",password="L3arnt0c0d3!",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+   
+--------------------------------------------------------------------------
+QA
+   
+   
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Web.UI\test"  -dest:contentPath="D:\Websites\MarbleLife\web",wmsvc="https://192.168.111.211:8172/msdeploy.axd?site=MarbleLife",username="taazaa_user_1",password="aLBXU45x*0GAl@&iC&",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\DatabaseDeploy\bin\taazaa_qa"  -dest:contentPath="D:\Websites\MarbleLife\DatabaseDeploy",wmsvc="https://192.168.111.211:8172/msdeploy.axd",username="taazaa_user_1",password="aLBXU45x*0GAl@&iC&",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Jobs\bin\taazaa_qa"  -dest:contentPath="D:\Jobs\MarbleLife_QA",wmsvc="https://192.168.111.211:8172/msdeploy.axd",username="taazaa_user_1",password="aLBXU45x*0GAl@&iC&",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+OLD PRODUCTION
+
+Server - 192.168.100.205
+Creds - taazaa_user_1/$$7hdkdsh444$$
+   
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Web.UI\prod"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\web",wmsvc="https://192.168.100.205:8172/msdeploy.axd?site=app.marbleliferoyalty.com",username="V205\taazaa_user_1",password="$$7hdkdsh444$$",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\DatabaseDeploy\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\dbdeploy",wmsvc="https://192.168.100.205:8172/msdeploy.axd",username="V205\taazaa_user_1",password="$$7hdkdsh444$$",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Jobs\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\Jobs",wmsvc="https://192.168.100.205:8172/msdeploy.axd",username="V205\taazaa_user_1",password="$$7hdkdsh444$$",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+
+NEW PRODUCTION
+
+Server - 10.10.0.114
+Creds - Taazaa_User1/WrB!43x8h5f1xisa
+   
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Web.UI\prod"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\web",wmsvc="https://10.10.0.114:8172/msdeploy.axd?site=app.marbleliferoyalty.com",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\DatabaseDeploy\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\dbdeploy",wmsvc="https://10.10.0.114:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Jobs\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\Jobs",wmsvc="https://10.10.0.114:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+
+New QA
+
+Server	=	app-qa.marbleliferoyalty.com
+Creds - 	Taazaa_User1/WrB!43x8h5f1xisa
+
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Web.UI\test"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\web",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd?site=app.marbleliferoyalty.com",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\DatabaseDeploy\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\dbdeploy",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\Projects\Makalu\makalu-web\src\Jobs\bin\new_qa"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\Jobs",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+
+
+____________________________________________________________________________________________________
+NEW PRODUCTION AWS Deployment
+Server - app.marbleliferoyalty.com
+Creds - \Taazaa_User1/WrB!43x8h5f1xisa
+
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\Web.UI\prod"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\web",wmsvc="https://app.marbleliferoyalty.com:8172/msdeploy.axd?site=app.marbleliferoyalty.com",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\DatabaseDeploy\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\dbdeploy",wmsvc="https://app.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\Jobs\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\Jobs",wmsvc="https://app.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+prod-db-external.marbleliferoyalty.com
+For Taazaa External Use.(Connect Prod DB with Local Application)
+ 
+prod-db-internal.marbleliferoyalty.com
+For Application Deployment
+
+____________________________________________________________________________________________________
+
+NEW QA AWS Deployment
+Server	=	app-qa.marbleliferoyalty.com
+Creds - 	Taazaa_User1/WrB!43x8h5f1xisa
+
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\Web.UI\test"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\web",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd?site=app.marbleliferoyalty.com",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+ 
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\DatabaseDeploy\bin\production"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\dbdeploy",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+msdeploy.exe  -source:contentPath="D:\MarbleLifeProjects\makalu\MARL-Marblelife-MakaluWeb\src\Jobs\bin\new_qa"  -dest:contentPath="E:\Websites\app.marbleliferoyalty.com\Jobs",wmsvc="https://app-qa.marbleliferoyalty.com:8172/msdeploy.axd",username="V450\Taazaa_User1",password="WrB!43x8h5f1xisa",authType=basic   -verb:sync  -disableLink:AppPoolExtension  -disableLink:ContentExtension  -disableLink:CertificateExtension  -allowUntrusted
+
+
+qa-db-external.marbleliferoyalty.com
+For Taazaa External Use.(Connect Prod DB with Local Application)
+ 
+qa-db-internal.marbleliferoyalty.com
+For Application Deployment

@@ -1,0 +1,1 @@
+﻿Alter Table InvoiceItem Modify Column Quantity decimal(8, 2);

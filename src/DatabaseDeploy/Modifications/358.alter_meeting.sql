@@ -1,0 +1,2 @@
+ALTER TABLE `meeting` 
+ADD COLUMN `IsEquipment` BIGINT(20) NULL DEFAULT False AFTER `Offset`;

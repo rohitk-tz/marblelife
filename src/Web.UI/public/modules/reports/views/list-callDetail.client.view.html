@@ -1,0 +1,1269 @@
+﻿<style>
+    .disableButton {
+        cursor: no-drop;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getCallDetails();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOptionForLeadFlow"
+                                    ng-options="item.value as item.display for item in vm.searchOptionsForLeadFlow">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '1' && vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOptionForLeadFlow == '1' && vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.queryLeadFlow.franchiseeId"
+                                    ng-change="vm.getLeadFlowDetails();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="status" ng-model="vm.query.callTypeId"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="type.value as type.display for type in vm.callTypeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label>Call Type</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '4'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.convertedLead"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="res.value as res.display for res in vm.leadOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Select</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '5'" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.mappedFranchisee"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="res.value as res.display for res in vm.mappingOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Select</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOptionForLeadFlow == '5' && vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.queryLeadFlow.mappedFranchisee"
+                                    ng-change="vm.getLeadFlowDetails();"
+                                    ng-options="res.value as res.display for res in vm.mappingOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Select</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '6'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.tagId"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="tag.value as tag.display for tag in vm.tagList">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Tag</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '3' && vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: -6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getCallDetails">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '7' && vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: -6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.callerId" key-stroke-action change="vm.getCallDetails" maxlength="14">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '8' && vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: -6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.transferToNumber" key-stroke-action change="vm.getCallDetails">
+                            <label>Transfer to number</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '9' && vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.office"
+                                    ng-change="vm.getCallDetails();"
+                                    ng-options="office.value as office.display for office in vm.officeCollection | orderBy : 'display'">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Office</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOptionForLeadFlow == '3' && vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: -6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.queryLeadFlow.text" key-stroke-action change="vm.getLeadFlowDetails">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getCallDetails"
+                                   start-date="vm.query.startDate" end-date="vm.query.endDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getLeadFlowDetails"
+                                   start-date="vm.queryLeadFlow.startDate" end-date="vm.queryLeadFlow.endDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input">
+                            <div ng-dropdown-multiselect="" options="vm.categoryList" extra-settings="settings" translation-texts="translationTexts"
+                                 selected-model="vm.query.idList" checkboxes="true" events="{ onSelectionChanged: vm.getCallDetails }">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input">
+                            <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input">
+                            <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input">
+                            <div ng-dropdown-multiselect="" options="vm.showColumns" extra-settings="settings" translation-texts="translationTextsForColumn"
+                                 selected-model="vm.query.columnList" checkboxes="true" events="selectEventsColumn">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input">
+                            <button id="sample_editable_1_new" ng-click="vm.managePhoneLabels()" class="btn btn-primary">
+                                Manage Phone Labels
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" style="margin-top:-3px;" ng-show="vm.isCallDetailsTab">
+                        <div class="form-group form-md-line-input">
+                            <button ng-class="{'disableButton' : vm.ids.length < 1 || vm.downloading == true}" title="Download File" id="sample_editable_1_new" class="btn-icon-only mbl" style="margin-right:2px; background: none; border: none;" ng-click="vm.downloadCallDetails()">
+                                <img src="/Content/images/downloadIcon.png" />
+                            </button>
+                            <button ng-class="{'disableButton' : vm.ids.length < 1 || vm.downloading == true}" title="Phone call notes" id="sample_editable_1_new" class="btn-icon-only mbl" style="margin-right: 2px; background: none; border: none;" ng-click="vm.addCallDetailsNotes()">
+                                <img src="/Content/images/addNotes.png" />
+                            </button>
+                            <button ng-class="{'disableButton' : vm.ids.length < 1 || vm.downloading == true}" title="View History" id="sample_editable_1_new" class="btn-icon-only mbl" style="margin-right: 2px; background: none; border: none;" ng-click="vm.getCallNotesHistory()">
+                                <img src="/Content/images/historyIcon.png" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isLeadFlowTab">
+                        <div class="form-group form-md-line-input">
+                            <button [ng-class]="{'disableButton' : vm.ids.length < 1 || vm.downloading == true}" title="Download File" id="sample_editable_1_new" class="btn-icon-only mbl" style=" background: none; border: none;" ng-click="vm.downloadLeadFlowDetails()">
+                                <img src="/Content/images/downloadIcon.png" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-show="vm.isCallDetailsTab">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.callDetailList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-show="vm.isLeadFlowTab">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailList.length > 0">
+                    Showing
+                    <span ng-if="(vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize) <= vm.count">{{((vm.queryLeadFlow.pageNumber - 1) * vm.queryLeadFlow.pageSize)+ 1}} to {{vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize) > vm.count">{{((vm.queryLeadFlow.pageNumber - 1) * vm.queryLeadFlow.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.leadFlowList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChangeForLeadFlow()" items-per-page="vm.queryLeadFlow.pageSize"
+                        ng-model="vm.queryLeadFlow.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="sideTablable">
+                <li class="active" id="general"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">Call Details Report</a></li>
+                <li id="invoice"><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab4">Lead Flow Report</a></li>
+            </ul>
+        </div>
+        <div ng-show="vm.isCallDetailsTab">
+            <div class="table-scrollable table-mbl">
+                <div style="max-height: 630px; overflow:scroll;">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead fix-head>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ID }"
+                                    rowspan="1" colspan="1" aria-label="ID" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sorting(vm.SortColumns.ID);">
+                                    ID#
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Date,
+                                               'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Date,
+                                               'sorting': vm.query.sort.propName != vm.SortColumns.Date }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Date" style="width: 120px; min-width: 100px; max-width:120px;"
+                                    ng-click="vm.sorting(vm.SortColumns.Date);">
+                                    Date/Time Of Call
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.DialedNumber,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.DialedNumber,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.DialedNumber }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="DialedNumber"
+                                    style="width: 150px; min-width: 150px !important; max-width: 150px !important;" ng-click="vm.sorting(vm.SortColumns.DialedNumber);">
+                                    Dialed Number (dnis)
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.CallerId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.CallerId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.CallerId }"
+                                    rowspan="1" colspan="1" aria-label="CallerId" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                    ng-click="vm.sorting(vm.SortColumns.CallerId);">
+                                    Caller ID (ani)
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.TransferTo,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.TransferTo,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.TransferTo }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferTo" style="width: 150px; min-width: 150px; max-width: 150px;"
+                                    ng-click="vm.sorting(vm.SortColumns.TransferTo);">
+                                    Transfer To Number
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PhoneLabel" style="width: 110px; min-width: 110px; max-width: 110px;"
+                                    ng-click="vm.sorting(vm.SortColumns.PhoneLabel);">
+                                    Phone Label
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RingSeconds_CallFlow" style="width: 100px; min-width: 100px; max-width: 100px; ">
+                                    Ring Seconds
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RingCount_CallFlow" style="width: 100px; min-width: 100px; max-width: 100px; ">
+                                    Ring Count
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RecordedSeconds_Recording" style="width: 130px; min-width: 130px; max-width: 130px; ">
+                                    Recorded Seconds
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.CallDuration,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.CallDuration,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.CallDuration }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallDuration" style="width: 90px; min-width: 90px; max-width: 90px; text-align:center;"
+                                    ng-click="vm.sorting(vm.SortColumns.CallDuration);">
+                                    Call Duration
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallRoute" style="width: 210px; min-width: 210px; max-width: 210px;">
+                                    Call Route(Mapped By ZipCode)
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Franchisee }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Franchisee" style="width: 150px; min-width: 150px; max-width: 150px;"
+                                    ng-click="vm.sorting(vm.SortColumns.Franchisee);">
+                                    Franchisee(Invoca API)
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowEnteredZip" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Flow Entered Zip
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 170px; min-width: 170px; max-width: 170px; ">
+                                    Preferred Contact Number
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 170px; min-width: 170px; max-width: 170px; ">
+                                    Email
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    First Name
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Last Name
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Company
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Office
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Zip Code
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Resulting Action
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Number
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important ">
+                                    Street
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    City
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    State
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    Country
+                                </th>
+                                <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Call Note
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Transcription Status
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="MissedCall_CallMetrics" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Missed Call
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Type_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Find Me List
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('KeywordGroups_CallAnalytics')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordGroups_CallAnalytics" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Keyword Groups
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('KeywordSpottingComplete_CallAnalytics')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordSpottingComplete_CallAnalytics" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Keyword Spotting Complete
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Campaign_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Campaign_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Campaign
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CampaignId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CampaignId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Campaign Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Adgroup_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Adgroup_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Ad Group
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('AdgroupId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdgroupId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Ad Group Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Ads_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Ads_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Ads
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('AdId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Ad Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Keywords_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Keywords_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Key Words
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('KeywordId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Keyword Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('ClickId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ClickId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Click Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('KeyWordMatchType_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeyWordMatchType_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    KeyWord Match Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallInlyFlag_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallInlyFlag_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    CallInly Flag
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Valid_Call')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ValidCall" style="width: 90px; min-width: 90px; max-width: 90px;">
+                                    Valid Call
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Call_Type')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"
+                                    aria-label="CallType" style="width: 60px; min-width: 60px; max-width: 60px;">
+                                    Call Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Tag')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Tag" style="width: 80px; min-width:80px; max-width: 80px;">
+                                    Tag
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSetName')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallFlowSetName" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Call Flow Set Name
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DataFromNewAPI')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallFlowSetName" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Data From New API
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSetId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSetId" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Call Flow Set Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowDestination')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowDestination" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Flow Destination
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowDestinationId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowDestinationId" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Flow Destination Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowReroute')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowReroute" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Flow Reroute
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallTransferType')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallTransferType" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Transfer Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Invoice')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Invoice" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    Invoice#
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSource')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSource" style="width: 200px; min-width: 200px; max-width: 200px; ">
+                                    Call Flow Source
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceId" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Call Flow Source Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceQualified')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceQualified" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Call Flow Source Qualified
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowRepeatSourceCaller')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowRepeatSourceCaller" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Call Flow Repeat Source Caller
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceCap')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceCap" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Call Flow Source Cap
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceRoute')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRoute" style="width: 300px; min-width: 300px; max-width: 300px; ">
+                                    Call Flow Source Route
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceRouteId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRouteId" style="width: 300px; min-width: 300px; max-width: 300px; ">
+                                    Call Flow Source Route Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowSourceRouteQualified')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRouteQualified" style="width: 300px; min-width: 300px; max-width: 300px; ">
+                                    Call Flow Source Route Qualified Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallFlowState')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowState" style="width: 100px; min-width: 150px; max-width: 150px; ">
+                                    Call Flow State
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('TransferType_CallFlow')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType_CallFlow" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Transfer Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallTransferStatus_CallFlow')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallTransferStatus_CallFlow" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Transfer Status
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DialogAnalytics_Recording')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DialogAnalytics_Recording" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    Dialog Analytics
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('GeoLookupAttempt_ReverseLookUp')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GeoLookupAttempt_ReverseLookUp" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Geo Lookup Attempt
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('GeoLookupResult_ReverseLookUp')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GeoLookupResult_ReverseLookUp" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Geo Lookup Result
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CallActivities')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallActivities" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Call Activities
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Channel_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Channel_Attribution" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Channel
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Status_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Status_Attribution" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Status
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Rank_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Rank_Attribution" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Rank
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Pid_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Pid_Attribution" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Pid
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Bid_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Bid_Attribution" style="width: 150px; min-width: 150px; max-width: 150px; ">
+                                    Bid
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentTitle_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTitle_FirstTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    First Touch  Document Title
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentUrl_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentUrl_FirstTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    First Touch  Document Url
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentPath_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentPath_FirstTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    First Touch  Document Path
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentTimeStamp_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTimeStamp_FirstTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    First Touch  Document Time Stamp
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentTitle_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTitle_LastTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Last Touch  Document Title
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentUrl_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentUrl_LastTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Last Touch  Document Url
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentPath_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentPath_LastTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Last Touch  Document Path
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DocumentTimeStamp_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTimeStamp_LastTouch" style="width: 250px; min-width: 250px; max-width: 250px; ">
+                                    Last Touch  Document Time Stamp
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('IPAddress_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="IPAddress_VisitorData" style="width: 250px; min-width: 250px; max-width: 250px;">
+                                    IP Address
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Device_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Device_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Device
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Browser_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Browser_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Browser
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('BrowserVersion_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="BrowserVersion_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Browser Version
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Os_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Os_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    OS
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('OsVersion_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="OsVersion_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Os Version
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('SearchTerm_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="SearchTerm_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    SearchTerm
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('ActivityValue_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityValue_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Activity Value
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('ActivityTypeId_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityTypeId_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Activity Type Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('ActivityKeyword_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityKeyword_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Activity Keyword
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('ActivityTag_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityTag_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Activity Tag
+                                </th>
+
+                                <th ng-if="vm.selectedColumns.indexOf('Platform_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Platform_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Platform
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('SourceGuard_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="SourceGuard_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Source Guard
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VisitorLogUrl_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VisitorLogUrl_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Visitor Log Url
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('GoogleUaClientId_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GoogleUaClientId_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Google Ua Client Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('GClid_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GClid_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    GCl Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('UtmSource_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmSource_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Utm Source
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('UtmMedium_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmMedium_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Utm Medium
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('UtmCampaign_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmCampaign_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Utm Campaign
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('UtmTerm_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmTerm_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Utm Term
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('UtmContent_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmContent_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Utm Content
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtKeyword_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtKeyword_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Keyword
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtMatchType_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtMatchType_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Match Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtNetwork_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtNetwork_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Network
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtDevice_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtDevice_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Device
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtDeviceModel_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtDeviceModel_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Device Model
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtCreative_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtCreative_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Creative
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtPlacement_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtPlacement_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Placement
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtTarget_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtTarget_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Target
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtParam1_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtParam1_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Param1
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtParam2_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtParam2_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Param2
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtRandom_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtRandom_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Random
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtAceid_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAceid_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Ace Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtAdposition_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAdposition_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    VtAd Position
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtProductTargetId_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtProductTargetId_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Vt Product Target Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('VtAdType_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAdType_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    VtAd Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DomainSetName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DomainSetName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Domain Set Name
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('DomainSetId_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DomainSetId_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Domain Set Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('PoolName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PoolName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Pool Name
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('LocationName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="LocationName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Location Name
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CustomValue_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CustomValue_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Custom Value
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('CustomId_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CustomId_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Custom Id
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('Type_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Type_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Type
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('RecordingUrl_Recording')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RecordingUrl_Recording" style="width: 350px; min-width: 350px; max-width: 350px; ">
+                                    Call Recording
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('HomeOwner')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="HomeOwner" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Home Owner
+                                </th>
+                                <th ng-if="vm.selectedColumns.indexOf('HomeMarket')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="HomeMarket" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    Home Market
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.callDetailList">
+                                <td style="width: 40px; min-width: 40px; max-width: 40px;">{{item.id}}</td>
+                                <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    <span ng-if="item.dataFromInvoca=='Yes'">{{item.dateOfCall | date:'MM/dd/yyyy hh:mm a'}}</span>
+                                    <span ng-if="item.dataFromInvoca=='No'">{{item.dateOfCall | dateTimeFilter: 'udt'}}</span>
+                                </td>
+                                <td style="width: 130px; min-width: 130px; max-width: 130px; text-align:center">{{item.dnis | phonemask}}</td>
+                                <td style="width: 100px; min-width: 100px; max-width: 100px; text-align:center">{{item.ani | phonemask}}</td>
+                                <td style="width: 150px; min-width: 150px; max-width: 150px; text-align:center">{{item.transferToNumber | phonemask}}</td>
+                                <td style="width: 110px; min-width: 110px; max-width: 110px;">{{item.phoneLabel}}</td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RingSeconds_CallFlow" style="width: 100px; min-width: 100px; max-width: 100px; text-align: center;">
+                                    {{item.ringSeconds_CallFlow}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RingCount_CallFlow" style=" text-align: center; width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.ringCount_CallFlow}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RecordedSeconds_Recording" style="width: 130px; min-width: 130px; max-width: 130px;">
+                                    {{item.recordedSeconds_Recording}}
+                                </td>
+                                <td style="width: 100px; min-width: 100px; max-width: 100px; text-align:center">{{item.callDuration}} min.</td>
+                                <td style="width: 210px; min-width: 210px; max-width: 210px; text-align: center">{{item.callRoute}}</td>
+                                <td style="width: 150px; min-width: 150px; max-width: 150px; text-align: center">{{item.franchisee}}</td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowEnteredZip" style="width: 150px; min-width: 150px; max-width: 150px; text-align:center;">
+                                    {{item.callFlowEnteredZip}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 170px; min-width: 170px; max-width: 170px; ">
+                                    <span ng-if="item.preferredContactNumber != null && item.preferredContactNumber > 0">
+                                        {{item.preferredContactNumber}}
+                                    </span>
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.email}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.firstName}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.lastName}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.company}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.office}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.zipCode}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.resultingAction}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.houseNumber}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.street}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.city}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.state}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 80px !important; min-width: 80px !important; max-width: 80px !important; ">
+                                    {{item.country}}
+                                </td>
+                                <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    <span style="word-break:break-all;">
+                                        {{item.callNote | limitTo: 50}}{{item.callNote.length > 50 ? '......' : ''}}
+                                        <a href="javascript:void(0);" ng-click="vm.getNotes(item.callNote, item.ani)" ng-if="item.callNote.length > 50">View More</a>
+                                    </span>
+                                    <span style="float:right !important">
+                                        <i class="fa fa-history" title="Notes History" ng-click="vm.getNotesHistory(item.callNote, item.ani)" ng-if="item.callNote.length > 0"></i>
+                                    </span>
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TranscriptionStatus_CallAnalytics" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.transcriptionStatus_CallAnalytics}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="MissedCall_CallMetrics" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.missedCall_CallMetrics}}
+                                </td>
+                                <td tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Find_MeList" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.findMeList}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('KeywordGroups_CallAnalytics')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordGroups_CallAnalytics" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.keywordGroups_CallAnalytics}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('KeywordSpottingComplete_CallAnalytics')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordSpottingComplete_CallAnalytics" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.keywordSpottingComplete_CallAnalytics}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Campaign_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Campaign_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.campaign_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CampaignId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CampaignId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.campaignId_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Adgroup_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Adgroup_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.adgroup_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('AdgroupId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdgroupId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.adgroupId_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Ads_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Ads_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.ads_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('AdId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.adId_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Keywords_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Keywords_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.keywords_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('KeywordId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeywordId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.keywordId_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('ClickId_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ClickId_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.clickId_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('KeyWordMatchType_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="KeyWordMatchType_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.keyWordMatchType_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallInlyFlag_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallInlyFlag_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.callInlyFlag_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Valid_Call')!== -1" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    <span ng-if="item.validCall == false">0</span>
+                                    <span ng-if="item.validCall == true">1</span>
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Call_Type')!== -1" style="width: 60px; min-width: 60px; max-width: 60px;">{{item.callType}}</td>
+                                <td ng-if="vm.selectedColumns.indexOf('Tag')!== -1" style="width: 80px; min-width: 80px; max-width: 80px;">{{item.tag}}</td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSetName')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallFlowSetName" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSetName}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DataFromNewAPI')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallFlowSetName" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.dataFromNewAPI}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSetId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSetId" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSetId}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowDestination')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowDestination" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowDestination}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowDestinationId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowDestinationId" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowDestinationId}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowReroute')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowReroute" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.callFlowReroute}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallTransferType')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowReroute" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.transferType}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Invoice')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Invoice" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    <a ng-if="item.invoiceId > 0" ng-click="vm.viewInvoice(item.invoiceId)">{{item.invoiceId}}</a>
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSource')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSource" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSource}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceId" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceId}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceQualified')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceQualified" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceQualified}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowRepeatSourceCaller')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowRepeatSourceCaller" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowRepeatSourceCaller}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceCap')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" CallflowSourceCap" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceCap}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceRoute')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRoute" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceRoute}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceRouteId')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRouteId" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceRouteId}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowSourceRouteQualified')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowSourceRouteQualified" style="width: 50px; min-width: 50px; max-width: 50px;">
+                                    {{item.callFlowSourceRouteQualified}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallFlowState')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallflowState" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.callFlowState}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('TransferType_CallFlow')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferType_CallFlow" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.transferType_CallFlow}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CallTransferStatus_CallFlow')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallTransferStatus_CallFlow" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.callTransferStatus_CallFlow}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DialogAnalytics_Recording')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DialogAnalytics_Recording" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.dialogAnalytics_Recording}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('GeoLookupAttempt_ReverseLookUp')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GeoLookupAttempt_ReverseLookUp" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.geoLookupAttempt_ReverseLookUp}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('GeoLookupResult_ReverseLookUp')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GeoLookupResult_ReverseLookUp" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.geoLookupResult_ReverseLookUp}}
+                                </td>
+
+                                <td ng-if="vm.selectedColumns.indexOf('CallActivities')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallActivities" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.callActivities}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Channel_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Channel_Attribution" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.channel_Attribution}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Status_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Status_Attribution" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.status_Attribution}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Rank_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Rank_Attribution" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.rank_Attribution}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Pid_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Pid_Attribution" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.pid_Attribution}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Bid_Attribution')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Bid_Attribution" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    {{item.bid_Attribution}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentTitle_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTitle_FirstTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentTitle_FirstTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentUrl_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentUrl_FirstTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentUrl_FirstTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentPath_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentPath_FirstTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentPath_FirstTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentTimeStamp_FirstTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTimeStamp_FirstTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentTimeStamp_FirstTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentTitle_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTitle_LastTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentTitle_LastTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentUrl_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentUrl_LastTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentUrl_LastTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentPath_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentPath_LastTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentPath_LastTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DocumentTimeStamp_LastTouch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DocumentTimeStamp_LastTouch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.documentTimeStamp_LastTouch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('IPAddress_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="IPAddress_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.ipAddress_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Device_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Device_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.device_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Browser_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Browser_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.browser_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('BrowserVersion_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="BrowserVersion_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.browserVersion_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Os_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Os_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.os_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('OsVersion_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="OsVersion_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.osVersion_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('SearchTerm_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="SearchTerm_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.searchTerm_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('ActivityValue_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityValue_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.activityValue_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('ActivityTypeId_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityTypeId_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.activityTypeId_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('ActivityKeyword_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityKeyword_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.activityKeyword_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('ActivityTag_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="ActivityTag_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.activityTag_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Platform_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Platform_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.platform_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('SourceGuard_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="SourceGuard_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.sourceGuard_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VisitorLogUrl_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VisitorLogUrl_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.visitorLogUrl_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('GoogleUaClientId_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GoogleUaClientId_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.googleUaClientId_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('GClid_VisitorData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GClid_VisitorData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.gClid_VisitorData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('UtmSource_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmSource_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.utmSource_DefaultUtmParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('UtmMedium_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmMedium_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.utmMedium_DefaultUtmParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('UtmCampaign_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmCampaign_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.utmCampaign_DefaultUtmParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('UtmTerm_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmTerm_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.utmTerm_DefaultUtmParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('UtmContent_DefaultUtmParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="UtmContent_DefaultUtmParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.utmContent_DefaultUtmParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtKeyword_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtKeyword_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtKeyword_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtMatchType_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtMatchType_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtMatchType_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtNetwork_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtNetwork_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtNetwork_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtDevice_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtDevice_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtDevice_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtDeviceModel_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtDeviceModel_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtDeviceModel_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtCreative_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtCreative_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtCreative_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtPlacement_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtPlacement_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtPlacement_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtTarget_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtTarget_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.VtTarget_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtParam1_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtParam1_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtParam1_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtParam2_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtParam2_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtParam2_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtRandom_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtRandom_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtRandom_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtAceid_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAceid_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtAceid_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtAdposition_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAdposition_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtAdposition_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtProductTargetId_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtProductTargetId_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtProductTargetId_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('VtAdType_ValueTrackParameters')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="VtAdType_ValueTrackParameters" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.vtAdType_ValueTrackParameters}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DomainSetName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DomainSetName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.domainSetName_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('DomainSetId_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="DomainSetId_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.domainSetId_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('PoolName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PoolName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.poolName_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('LocationName_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="LocationName_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.locationName_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CustomValue_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CustomValue_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.customValue_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('CustomId_SourceIqData')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CustomId_SourceIqData" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.customId_SourceIqData}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('Type_PaidSearch')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Type_PaidSearch" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.type_PaidSearch}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('RecordingUrl_Recording')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="RecordingUrl_Recording" style="width: 350px; min-width: 350px; max-width: 350px;">
+                                    <a href={{item.recordingUrl_Recording}} target="_blank">{{item.recordingUrl_Recording}}</a>
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('HomeOwner')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="HomeOwner" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.homeOwner}}
+                                </td>
+                                <td ng-if="vm.selectedColumns.indexOf('HomeMarket')!== -1" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="HomeMarket" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                    {{item.homeMarket}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.callDetailList.length == 0">
+                            <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailList.length > 0">
+                        Showing
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                        records
+                    </div>
+                </div>
+                <div class="pull-right" ng-if="vm.callDetailList.length < vm.count">
+                    <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                        <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                            ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                            last-text="&raquo;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.isLeadFlowTab">
+            <div class="table-scrollable table-mbl">
+                <div style="max-height: 40vh; overflow:scroll;">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead fix-head>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.ID,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.ID,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.ID }"
+                                    rowspan="1" colspan="1" aria-label="ID" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.ID);">
+                                    ID#
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Date" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Data From New API
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Date" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Data From Invoca
+                                </th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Franchisee" style="width: 100px; min-width: 130px; max-width: 100px;">
+                                    Entered ZipCode
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Date,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Date,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.Date }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Date" style="width: 100px; min-width: 130px; max-width: 100px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.Date);">
+                                    Date/Time Of Call
+                                </th>
+                                <th style="width: 100px; min-width: 130px; max-width: 100px;">
+                                    First Name
+                                </th>
+                                <th style="width: 100px; min-width: 130px; max-width: 100px;">
+                                    Last Name
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallerId,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallerId,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.CallerId }"
+                                    rowspan="1" colspan="1" aria-label="CallerId" style="width: 100px; min-width: 130px; max-width: 100px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.CallerId);">
+                                    Caller ID (ani)
+                                </th>
+                                <th style="width: 100px; min-width: 130px; max-width: 100px;">
+                                    State
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallStatus,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallStatus,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.CallStatus }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallStatus" style="width: 110px; min-width: 130px; max-width: 110px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.CallStatus);">
+                                    Call Status
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.TransferTo,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.TransferTo,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.TransferTo }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TransferTo" style="width: 110px; min-width: 130px; max-width: 110px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.TransferTo);">
+                                    Transfer To Number
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Destination,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Destination,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.Destination }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Destination" style="width: 110px; min-width: 130px; max-width: 110px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.Destination);">
+                                    Destination
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.PhoneLabel,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.PhoneLabel,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.PhoneLabel }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PhoneLabel" style="width: 150px; min-width: 150px; max-width: 150px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.PhoneLabel);">
+                                    Phone Label
+                                </th>
+
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallRoute,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallRoute,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.CallRoute }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallType" style="width: 100px; min-width: 100px; max-width: 200px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.CallRoute);">
+                                    Call Route(Mapped By ZipCode)
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallDuration,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.CallDuration,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.CallDuration }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="CallDuration" style="width: 50px; min-width: 100px; max-width: 50px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.CallDuration);">
+                                    Call Duration
+                                </th>
+                                <th ng-if="vm.isSuperAdmin" ng-class="{'sorting_desc': vm.queryLeadFlow.sortingOrder == 1 && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Franchisee,
+                                                        'sorting_asc' : vm.queryLeadFlow.sortingOrder == 0  && vm.queryLeadFlow.sortingColumn == vm.SortColumnsLeadFlow.Franchisee,
+                                                        'sorting': vm.queryLeadFlow.sortingColumn != vm.SortColumnsLeadFlow.Franchisee }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Franchisee" style="width: 80px; min-width: 100px; max-width: 80px;"
+                                    ng-click="vm.sortingForLead(vm.SortColumnsLeadFlow.Franchisee);">
+                                    Franchisee
+                                </th>
+                                <th style="width: 80px; min-width: 100px; max-width: 80px;">
+                                    Source
+                                </th>
+                                <th style="width: 80px; min-width: 100px; max-width: 80px;">
+                                    Re-Route
+                                </th>
+                                <th style="width: 80px; min-width: 100px; max-width: 80px;">
+                                    Source Qualified
+                                </th>
+                                <th style="width: 80px; min-width: 100px; max-width: 80px;">
+                                    Repeat Source Caller
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.leadFlowList">
+                                <td style="width: 40px; min-width: 40px; max-width: 40px;">{{item.id}}</td>
+                                <td style="width: 40px; min-width: 40px; max-width: 40px;">{{item.dataFromNewAPI}}</td>
+                                <td style="width: 40px; min-width: 40px; max-width: 40px;">{{item.dataFromInvoca}}</td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">{{item.enteredZipCode}}</td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">
+                                    <span ng-if="item.dataFromInvoca=='Yes'">{{item.dateOfCall | date:'MM/dd/yyyy hh:mm:ss a'}}</span>
+                                    <span ng-if="item.dataFromInvoca=='No'">{{item.dateOfCall | dateTimeFilter: 'udt'}}</span>
+                                </td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">{{item.firstName}}</td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">{{item.lastName}}</td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">{{item.callerId | phonemask}}</td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">{{item.appState}}</td>
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;"><b>{{item.callStatus}}</b></td>
+                                <td style="width: 150px; min-width: 110px; max-width: 110px;">{{item.transferNumber | phonemask}}</td>
+                                <td style="width: 150px; min-width: 110px; max-width: 110px;">{{item.destination}}</td>
+                                <td style="width: 150px; min-width: 150px; max-width: 150px;">{{item.phoneLabel }}/t</td>
+                                <!-- <td style="width: 150px; min-width: 150px; max-width: 150px;">{{item.streetAddress }}</td>-->
+                                <td style="width: 150px; min-width: 100px; max-width: 100px;">{{item.callRoute}}</td>
+                                <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.callDuration}} min.</td>
+                                <td ng-if="vm.isSuperAdmin" style="width: 80px; min-width: 80px; max-width: 80px;">{{item.franchiseeName}}</td>
+                                <td style="width: 150px; min-width: 130px; max-width: 150px;">{{item.source}}</td>
+                                <td style="width: 150px; min-width: 130px; max-width: 150px;">{{item.reroute}}</td>
+                                <td style="width: 150px; min-width: 130px; max-width: 150px;">{{item.sourceQualified}}</td>
+                                <td style="width: 150px; min-width: 130px; max-width: 150px;">{{item.repeaSourceCaller}}</td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.leadFlowList.length == 0">
+                            <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix" ng-show="vm.isCallDetailsTab">
+                <div class="pull-left">
+                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailList.length > 0">
+                        Showing
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                        records
+                    </div>
+                </div>
+                <div class="pull-right" ng-if="vm.callDetailList.length < vm.count">
+                    <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                        <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                            ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                            last-text="&raquo;"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix" ng-show="vm.isLeadFlowTab">
+                <div class="pull-left">
+                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailList.length > 0">
+                        Showing
+                        <span ng-if="(vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize) <= vm.count">{{((vm.queryLeadFlow.pageNumber - 1) * vm.queryLeadFlow.pageSize)+ 1}} to {{vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize}} of {{vm.count}} </span>
+                        <span ng-if="(vm.queryLeadFlow.pageNumber * vm.queryLeadFlow.pageSize) > vm.count">{{((vm.queryLeadFlow.pageNumber - 1) * vm.queryLeadFlow.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                        records
+                    </div>
+                </div>
+                <div class="pull-right" ng-if="vm.leadFlowList.length < vm.count">
+                    <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                        <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChangeForLeadFlow()" items-per-page="vm.queryLeadFlow.pageSize"
+                            ng-model="vm.queryLeadFlow.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                            last-text="&raquo;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

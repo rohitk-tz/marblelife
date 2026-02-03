@@ -1,0 +1,272 @@
+﻿<style>
+    .redColor
+    {
+        color:red !important;
+    }
+    .blackColor
+    {
+         color:black !important;
+    }
+    ul.dropdown-menu.pull-right {
+        left: 0px !important;
+    }
+    button.btn.blue.dropdown-toggle {
+        width: 86% !important
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getUsers();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '1'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getUsers();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-sm" id="franchisee" ng-model="vm.query.roleId"
+                                    ng-change="vm.getUsers();"
+                                    ng-options="role.value as role.display for role in vm.roles">
+                                <option disabled value=''></option>
+                            </select>
+                            <label for="franchisee">Role</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '3'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.name" key-stroke-action change="vm.getUsers">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '4'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.email" key-stroke-action change="vm.getUsers">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '5'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.userName" key-stroke-action change="vm.getUsers">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '6' || vm.searchOption == ''" style="margin-top:-8px !important">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getUsers">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '7'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-sm" id="franchisee" ng-model="vm.query.statusId"
+                                    ng-change="vm.getUsers();"
+                                    ng-options="role.value as role.display for role in vm.searchStatusOptions">
+                                <option disabled value=''></option>
+                            </select>
+                            <label for="franchisee">Status</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.addNew()" class="btn btn-primary">
+                            Add New
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.users.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.users.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="table-scrollable table-mbl">
+            <div style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th style="width: 100px; min-width: 100px; max-width: 100px;"></th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                tabindex="0" aria-controls="sample_1" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id" ng-click="vm.sorting(vm.SortColumns.Id);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                ng-click="vm.sorting(vm.SortColumns.Name);">
+                                Name
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Email }"
+                                rowspan="1" colspan="1" aria-label="Email" style="width: 160px; min-width: 160px; max-width: 160px;"
+                                ng-click="vm.sorting(vm.SortColumns.Email);">
+                                Email
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Username,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Username,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Username }"
+                                rowspan="1" colspan="1" aria-label="Username" style="width: 160px; min-width: 160px; max-width: 160px;"
+                                ng-click="vm.sorting(vm.SortColumns.Username);">
+                                Username
+                            </th>
+                            <th ng-if="vm.isSuperAdmin == true" width="200" ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.FranchiseeName,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.FranchiseeName,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.FranchiseeName }"
+                                rowspan="1" colspan="1" aria-label="FranchiseeName" style="width: 150px; min-width: 150px; max-width: 150px;"
+                                ng-click="vm.sorting(vm.SortColumns.FranchiseeName);">
+                                Franchisee
+                            </th>
+                            <th width="200" class="sorting_disabled" rowspan="1" colspan="1" aria-label="Phone" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Phone
+                            </th>
+                            <th class="sorting_disabled" style="width: 120px; min-width: 120px; max-width: 120px;" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Address">
+                                Address
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Country }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Country" style="width: 80px; min-width: 80px; max-width: 80px;"
+                                ng-click="vm.sorting(vm.SortColumns.Country);">
+                                Country
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.LastLoginAt,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.LastLoginAt,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.LastLoginAt }"
+                                rowspan="1" colspan="1" aria-label="Status"
+                                ng-click="vm.sorting(vm.SortColumns.LastLoginAt);" style="width: 150px; min-width: 150px; max-width: 150px;">
+                                Last Login At
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Role,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Role,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Role }"
+                                rowspan="1" colspan="1" aria-label="Status"
+                                ng-click="vm.sorting(vm.SortColumns.Role);" style="width: 150px; min-width: 150px; max-width: 150px;">Role</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="gradeX odd" role="row" ng-repeat="user in vm.users">
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <div class="btn-group pull-right">
+                                    <button class="btn blue dropdown-toggle" data-toggle="dropdown"
+                                            ng-disabled="user.roleId == vm.Roles.FrontOfficeExecutive && vm.currentRole == vm.Roles.FranchiseeAdmin">
+                                        Action <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li>
+                                            <a ng-click="vm.editUser(user.userId,user.franchiseeId)">Edit</a>
+                                            <!--<a href="#/users/{{user.userId}}/edit">Edit</a>-->
+
+
+                                        </li>
+                                        <li ng-if="user.userId != vm.loggedInUserId">
+                                            <a ng-click="vm.lock(user.userId, user.isLocked)">{{user.isLocked==false?"Lock":"Unlock"}}</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin && user.roleId == vm.Roles.FranchiseeAdmin">
+                                            <a ng-click="vm.manageAccount(user.userId)">Manage Account</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="sorting_1" style="width: 40px; min-width: 40px; max-width: 40px;">{{user.userId}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">
+                                <a ng-click="vm.editUser(user.userId)" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">{{user.name.fullName}}</a>
+                            </td>
+                            <td class="break_word" style="width: 160px; min-width: 160px; max-width: 160px;"><a href="mailto:{{user.email}}" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}"> {{user.email}}</a></td>
+                            <td class="break_word" style="width: 160px; min-width: 160px; max-width: 160px;" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">{{user.userName}}</td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;" ng-if="vm.isSuperAdmin == true" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}"> {{user.franchiseeName}}</td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-repeat="phoneNumber in user.phoneNumbers" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">
+                                    {{phoneNumber.number | phonemask : user.address.countryId}} ({{phoneNumber.name}})
+                                    <span ng-if="!$last"><br /> </span>
+                                </span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-if="user.address != null && user.address.addressLine1 != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">{{user.address.addressLine1}}</span>
+                                <span ng-if="user.address != null && user.address.addressLine2 != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">, {{user.address.addressLine2}} </span>
+                                <span ng-if="user.address != null && user.address.city != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">, {{user.address.city}} </span>
+                                <span ng-if="user.address != null && user.address.state != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">, {{user.address.state}}</span>
+                                <span ng-if="user.address != null && user.address.zipCode != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">, {{user.address.zipCode}} </span>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">  <span ng-if="user.address != null && user.address.country != null" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}"> {{user.address.country}} </span> </td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}">  {{user.lastLoggedIn | dateTimeFilter: 'dt'}}</td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;" ng-class="{redColor: user.isLocked, blackColor: !user.isLocked}"> {{user.role}} </td>
+
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.users.length == 0">
+                        <td colspan="11" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.users.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.users.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

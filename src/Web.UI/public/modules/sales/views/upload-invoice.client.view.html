@@ -1,0 +1,49 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Sales Data</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+
+    <form name="zipForm">
+
+        <div class="margin-bottom-20 margin-top-20">
+            <label>File Uploader</label>
+
+            <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                 ngf-pattern="'.xlsx'">
+                Drop sales file to upload
+                <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx,.xls'" ngf-accept="'.xlsx,.xls'">Select File</a>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+            <div style="margin-top: 5%;">
+                Notes
+                <div class="form-group form-md-line-input form-md-floating-label" style="display:flex; position:relative;" id="notesDiv">
+                    <textarea class="form-control" rows="4" id="notes" ng-model="vm.fileInfo.notes" maxlength="1024" placeholder="Enter Description"></textarea>
+                </div>
+                
+            </div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.fileInfo.file != null">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{vm.fileInfo.file.caption}}
+                    </td>
+                    <td>
+                        {{vm.fileInfo.file.size}} Bytes
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+    </form>
+</div>
+<div class="modal-footer margin-top-20">
+    <button type="button" class="btn blue" ng-disabled="zipForm.$invalid" ng-click="vm.save();">Submit</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

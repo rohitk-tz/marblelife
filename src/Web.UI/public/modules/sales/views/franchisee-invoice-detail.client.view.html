@@ -1,0 +1,261 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left search-single">Invoice Detail</h4>
+    <button class="btn default" ng-print print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body" id="printSection">
+    <div class="invoice">
+        <div class="row">
+            <div class="col-xs-6">
+                <h4>Franchisee:</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        {{vm.invoiceDetails.franchiseeName}}
+                    </li>
+                    <li ng-if="vm.invoiceDetails.address.addressLine1 != null">
+                        {{vm.invoiceDetails.address.addressLine1}}, {{vm.invoiceDetails.address.addressLine2}}
+                    </li>
+                    <li ng-if="vm.invoiceDetails.address.city != null">
+                        {{vm.invoiceDetails.address.city}}, {{vm.invoiceDetails.address.state}} - {{vm.invoiceDetails.address.zipCode}}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right">
+                    <span class="pull-right" ng-if="vm.invoiceDetails.currencyCode!=vm.defaultCurrency">
+                        <strong> Currency Exchange Rate : </strong>  1 USD = {{vm.currencyRateForNote}} {{vm.invoiceDetails.currencyCode}}
+                    </span>
+                    <br /><br />
+                    Invoice# - {{vm.invoiceDetails.invoiceId}}
+                    <br />
+                    Generated On - {{vm.invoiceDetails.generatedOn | dateTimeFilter : 'd'}}
+                    <br />
+                    <span ng-if="vm.invoiceDetails.invoiceDate!=null">InvoiceDate - {{vm.invoiceDetails.invoiceDate | dateTimeFilter}}<br /></span>
+                    Due Date - {{vm.invoiceDetails.dueDate | dateTimeFilter}}
+                    <br />
+
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Item
+                            </th>
+                            <th class="hidden-480">
+                                Description
+                            </th>
+                            <th>
+                                %
+                            </th>
+                            <th class="hidden-480">
+                                Start/End Date
+                            </th>
+                            <!--<th class="hidden-480">
+                                End Date
+                            </th>-->
+                            <th class="hidden-480">
+                                Quantity
+                            </th>
+                            <th class="hidden-480">
+                                Sales Amount
+                            </th>
+                            <th class="hidden-480">
+                                Total
+                            </th>
+                            <th class="hidden-480" id="noPrint" width="80px" ng-if="vm.isSuperAdmin && vm.invoiceDetails.statusId == vm.status.Unpaid">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="invoiceItem in vm.invoiceDetails.invoiceItems">
+                            <td>
+                                {{invoiceItem.id}}
+                            </td>
+                            <td>
+                                {{invoiceItem.item}}
+                            </td>
+                            <td>
+                                {{invoiceItem.description}}
+                                <p ng-if="invoiceItem.oneTimeProjectDescription!=null" style="font-size:12px;font-style:italic"> {{invoiceItem.oneTimeProjectDescription}}</p>
+                                <p ng-if="invoiceItem.loneDescription!=null" style="font-size:12px;font-style:italic"> {{invoiceItem.loneDescription}}</p>
+                                <p>
+                                    <ul ng-if="invoiceItem.serviceFeeType == 'SEO Charges' ">
+                                        <li>LOCAL WEBSITE HOSTING</li>
+                                        <li>LOCAL WEBSITE MANAGEMENT</li>
+                                        <li>GOOGLE MAPS OPTIMIZATION</li>
+                                        <li>SOCIAL MEDIA CONTENT & SUPPORT</li>
+                                        <li>PPC (PAY PER CLICK) MANAGEMENT</li>
+                                        <li>AUTOMATED REVIEW SYSTEM</li>
+                                    </ul>
+                                </p>
+                            </td>
+                            <td>
+                                <span ng-if="invoiceItem.percentage!=null && invoiceItem.percentage!=0">{{invoiceItem.percentage}}%</span>
+                                <span ng-if="invoiceItem.percentage==0">-</span>
+                                <span ng-if="invoiceItem.itemTypeId == vm.invoiceItemTypes.Royalty && invoiceItem.percentage == null"><i>Min. Royalty adjustment.</i></span>
+                            </td>
+                            <td class="hidden-480">
+                                {{invoiceItem.startDate | dateTimeFilter}}-{{invoiceItem.endDate | dateTimeFilter}}
+                            </td>
+
+                            <td class="hidden-480">
+                                {{invoiceItem.quantity}}
+                            </td>
+                            <td>
+                                <div ng-if="invoiceItem.itemTypeId != vm.invoiceItemTypes.LateFee">
+                                    <span ng-if="invoiceItem.salesAmount != null" currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                          input="invoiceItem.salesAmount" from-Currency="vm.invoiceDetails.currencyCode">
+                                    </span>
+                                    <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && invoiceItem.salesAmount > 0">
+                                        ({{vm.defaultCurrency}} - ${{invoiceItem.salesAmount}})
+                                    </span>
+                                </div>
+                                <div ng-if="invoiceItem.itemTypeId == vm.invoiceItemTypes.LateFee">
+                                    <span>0</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span ng-if="invoiceItem.amount != null" currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                      input="invoiceItem.amount" from-Currency="vm.invoiceDetails.currencyCode">
+                                </span>
+                                <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && invoiceItem.amount > 0">
+                                    ({{vm.defaultCurrency}} - ${{invoiceItem.amount}})
+                                </span>
+                            </td>
+
+                            <td id="noPrint">
+                                <span class="hidden-480" ng-if="vm.isSuperAdmin
+                                    && vm.invoiceDetails.statusId == vm.status.Unpaid
+                                    && ((invoiceItem.itemTypeId == vm.invoiceItemTypes.Royalty && invoiceItem.percentage == null)
+                                    || invoiceItem.itemTypeId == vm.invoiceItemTypes.LateFee
+                                    || (invoiceItem.itemTypeId == vm.invoiceItemTypes.ServiceFee
+                                    && (invoiceItem.serviceFeeTypeId == vm.serviceFeeTypes.NationalCharge || invoiceItem.serviceFeeTypeId == vm.serviceFeeTypes.OneTimeProject
+                                    || invoiceItem.serviceFeeTypeId == vm.serviceFeeTypes.Bookkeeping || invoiceItem.serviceFeeTypeId == vm.serviceFeeTypes.BookkeepingVar))
+                                    || invoiceItem.itemTypeId == vm.invoiceItemTypes.InterestRate)">
+                                    <a ng-if="vm.invoiceDetails.payments.length <= 0" ng-click="vm.deleteInvoiceItem(invoiceItem.id)">Delete</a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div ng-if="vm.invoiceDetails.payments.length > 0">
+            <h4>Payments</h4>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Mode of payment
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="payment in vm.invoiceDetails.payments">
+                                <td>
+                                    {{payment.id}}
+                                </td>
+                                <td>
+                                    {{payment.instrumentType }}
+                                </td>
+                                <td>
+                                    <p ng-repeat="payment1 in payment.accountCreditPaymentEditModel">
+                                        {{payment1.description }}: ${{payment1.amount}}
+                                    </p>
+                                   
+                                </td>
+                                <td>
+                                    {{payment.date | dateTimeFilter}}
+                                </td>
+                                <td>
+                                    <span ng-if="payment.amount != null" currency-Exchange conversion-Rate="vm.currencyRate"
+                                          input="payment.amount" from-Currency="vm.invoiceDetails.currencyCode">
+                                    </span>
+                                    <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && payment.amount > 0">
+                                        ({{vm.defaultCurrency}} - ${{payment.amount}})
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-7">
+                <span class="pull-left">
+                    <strong>Note : </strong>
+                    <i>
+                        We are considering Currency Exchange Rate of - {{vm.invoiceDetails.uploadEndDate | dateTimeFilter}}, i.e. end date of your upload.
+                        for currency Exchange rate refer Site -
+                        <a href="javascript:void(0);" ng-click="vm.goToReferenceSite()" role="button" aria-expanded="true">
+                            <span> {{vm.currencyExchangeReferenceSite}}</span>
+                        </a>
+                    </i>
+                </span>
+            </div>
+            <div class="col-xs-5 invoice-block">
+                <ul class="list-unstyled amounts pull-right">
+                    <li>
+                        <strong>Total amount:</strong>
+                        <span ng-if="vm.invoiceDetails.totalPayment != null" currency-Exchange conversion-Rate="vm.currencyRate"
+                              input="vm.invoiceDetails.totalPayment" from-Currency="vm.invoiceDetails.currencyCode">
+                        </span>
+                        <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && vm.invoiceDetails.totalPayment > 0">
+                            ({{vm.defaultCurrency}} - ${{vm.invoiceDetails.totalPayment}})
+                        </span>
+                    </li>
+                    <li>
+                        <strong>Payment:</strong>
+                        <span ng-if="vm.invoiceDetails.totalAmount != null" currency-Exchange conversion-Rate="vm.currencyRate"
+                              input="vm.invoiceDetails.totalAmount" from-Currency="vm.invoiceDetails.currencyCode">
+                        </span>
+                        <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && vm.invoiceDetails.totalAmount > 0">
+                            ({{vm.defaultCurrency}} - ${{vm.invoiceDetails.totalAmount}})
+                        </span>
+                    </li>
+                    <li>
+                        <strong>Grand Total:</strong>
+                        <span ng-if="vm.invoiceDetails.grandTotal != null" currency-Exchange conversion-Rate="vm.currencyRate"
+                              input="vm.invoiceDetails.grandTotal" from-Currency="vm.invoiceDetails.currencyCode">
+                        </span>
+                        <span ng-if="!vm.isSuperAdmin && vm.invoiceDetails.currencyCode!=vm.defaultCurrency && vm.invoiceDetails.grandTotal > 0">
+                            ({{vm.defaultCurrency}} - ${{vm.invoiceDetails.grandTotal}})
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.IsOneTimeProjectFee">
+        <span class="pull-left">
+            <strong>Service Fee Note : </strong>
+            <i>{{vm.description}}</i>
+        </span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

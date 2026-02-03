@@ -1,0 +1,113 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Sales Data</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+    <form name="batchUploadForm">
+        <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isSuperAdmin == true">
+            <select class="form-control" id="franchisee" name="franchisee" ng-model="vm.batch.franchiseeId"
+                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection" required>
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select>
+            <label for="franchisee">Franchisee<span class="required" aria-required="true"> * </span></label>
+            <div ng-show="batchUploadForm.franchisee.$dirty && batchUploadForm.franchisee.$invalid">
+                <span class="text-danger" ng-if="batchUploadForm.franchisee.$error.required">
+                    Franchisee is required.
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <date-picker-ts control-id="start-date" label="Start*" model="vm.batch.periodStartDate" />
+            </div>
+            <div class="col-md-6">
+                <date-picker-ts control-id="end-date" label="End*" model="vm.batch.periodEndDate" />
+            </div>
+        </div>
+        <div class="margin-bottom-20 margin-top-20">
+            <label>File Uploader</label>
+            <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                 ngf-pattern="'.xlsx'">
+                Drop sales file to upload
+                <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'">Select File</a>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.batch.file != null">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{vm.batch.file.caption}}
+                    </td>
+                    <td>
+                        {{vm.batch.file.size}} Bytes
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-if="vm.feeProfile!=null" class="pull-left">
+            <span ng-if="vm.feeProfile.paymentFrequencyId == vm.feeProfiles.Weekly"><strong>Note: </strong><i>Your weekly upload should be from Monday to Sunday.</i></span>
+            <span ng-if="vm.feeProfile.paymentFrequencyId == vm.feeProfiles.Monthly || vm.feeProfile.salesBasedRoyalty == false">
+                <strong>Note: </strong><i>Your monthly upload should be from 1st to last day of month.</i>
+            </span>
+        </div>
+        <br />
+        <div ng-if="vm.batch.isAnnualUpload">
+            <div class="margin-bottom-40 margin-top-20">
+                <label>Annual File Uploader</label>
+                <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isSuperAdmin == true || vm.isFranchiseeAdmin==true">
+                    <select class="form-control" id="franchisee" name="franchisee" ng-model="vm.batch.year"
+                            ng-options="franchisee.value as franchisee.display for franchisee in vm.yearCollection" required>
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select>
+                    <label for="franchisee">Year<span class="required" aria-required="true"> * </span></label>
+                    <div ng-show="batchUploadForm.franchisee.$dirty && batchUploadForm.franchisee.$invalid">
+                        <span class="text-danger" ng-if="batchUploadForm.franchisee.$error.required">
+                            Year is required.
+                        </span>
+                    </div>
+                </div>
+                <div ngf-drop="vm.uploadAnnualFile($file)" class="drop-box"
+                     ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                     ngf-pattern="'.xlsx'">
+                    Drop sales file to upload
+                    <a href="javascript:void(0)" ngf-select="vm.uploadAnnualFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'">Select File</a>
+                </div>
+                <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+            </div>
+            <div class="margin-top-20" ng-if="vm.batch.annualFile != null">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{vm.batch.annualFile.caption}}
+                        </td>
+                        <td>
+                            {{vm.batch.annualFile.size}} Bytes
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <span>
+                    <strong>Note: </strong><i>
+                        Your Annual report should cover the dates of 01/01/{{vm.currentYear}} to 12/31/{{vm.currentYear}}
+                        unless your franchise launched during {{vm.currentYear}}, in which case a later date will be accepted as your start date.
+                    </i>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer margin-top-20">
+    <button type="button" class="btn blue" ng-disabled="batchUploadForm.$invalid" ng-click="vm.save();">Submit</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

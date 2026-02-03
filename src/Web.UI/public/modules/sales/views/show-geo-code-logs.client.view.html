@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Geo Code Logs</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body" style="overflow-y: auto">
+    <div class="tabbable">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="sideTablable">
+                <li class="active" id="general"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">General Information</a></li>
+                <li id="invoice"><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab4">County</a></li>
+                <li id="building"><a ng-click="vm.changeTab(3)" data-toggle="tab" href="~/#tab2">ZipCode</a></li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+            <div class="tab-contents">
+                <div class="tab-pane fade in " ng-if="vm.isGenernalTab">
+                    <pre>{{vm.logs}}</pre>
+                </div>
+                <div class="tab-pane fade in " id="tab2" ng-if="vm.isCountyTab">
+                    <pre>{{vm.logs}}</pre>
+                </div>
+                <div class="tab-pane fade in " id="tab4" ng-if="vm.isZipCodeTab">
+                    <pre>{{vm.logs}}</pre>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>
+
+<!-- Tabs navs -->
+<!-- Tabs content -->

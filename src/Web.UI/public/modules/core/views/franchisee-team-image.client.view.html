@@ -1,0 +1,125 @@
+﻿<style type="text/css">
+    .modal .modal-header {
+        border-bottom: 1px solid #EFEFEF;
+        background-color: #26327e;
+        color: white;
+    }
+    i.fa.fa-remove
+    {
+        color:white;
+    }
+    .upload-btn-wrapper .btn {
+        border: 1px solid #818181;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 28px;
+        width: 28px;
+        border-radius: 50%;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        display: inline-block;
+        padding: 0;
+        line-height: 28px;
+        position: absolute;
+        bottom: 10px;
+        right: 6px;
+    }
+
+    img.logo-image {
+        min-height: 100px;
+        max-width: 404px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            height: 100%;
+        }
+
+
+    .upload-section {
+        border: 3px dashed #ccc;
+        border-radius: 5px;
+        width: 100%;
+        padding: 10px 20px;
+        box-sizing: border-box;
+    }
+
+
+        .upload-section > p {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .upload-section .btn-link {
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .upload-section div {
+            margin: 0 auto;
+            text-align: center;
+        }
+    @media only screen and (max-width: 767px) {
+        img.logo-image {
+            max-width: initial !important;
+            border: 0px solid #ddd !important;
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Franchisee Team Image<span> : {{vm.franchiseeName}}</span></h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form name="calendarImportForm">
+        <div class="row" style="margin-right:0px !important">  
+            <div class="row margin-top-10">
+                <div class="col-md-12 pull-left">
+                    <div class="pull-left">
+                        <div class="row">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-left: 15px;">
+                                    <div class="form-group">
+                                        <div class="upload-btn-wrapper">
+                                            <img id="team-image" class="logo-image" ng-src="{{vm.ImageSrc}}" alt="Franchisee Team Image" />
+                                            <input id="file_input" type="file" style="width: 100%;" file-model-image="tempFile.attachTempImageFile" onchange="angular.element(this).scope().readUrl(this, 'team-image');" name="pic" accept="image/*" />
+                                            <button ng-show="!vm.isImageDeleted" ng-click="vm.delete();" class="btn" style="top:50%;right:0px"><i class="fa fa-trash"></i> </button>
+                                            <button ng-click="vm.upload();" class="btn" style="top:20%;right:0px"><i class="fa fa-pencil"></i> </button>
+                                            <button ng-if="vm.fileId !=null" ng-click="vm.downloadUserImage(vm.fileId);" class="btn" style="bottom:2%;right:0px"><i class="fa fa-download"></i> </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div class="modal-footer clear-both">
+        <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+        <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="vm.isImageChanged == false">Save</button>
+    </div>
+</div>

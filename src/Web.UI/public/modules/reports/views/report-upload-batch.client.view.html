@@ -1,0 +1,172 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getUploadBatchReport();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getUploadBatchReport();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.statusId"
+                                    ng-change="vm.getUploadBatchReport();"
+                                    ng-options="status.value as status.display for status in vm.options">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Status</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getUploadBatchReport"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadMissingUploadReport()" class="btn btn-primary" ng-disabled="vm.ids.length < 1 || vm.downloading == true">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.reportList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.reportList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:15px !important;margin-top:15px !important">
+            <div class="col-md-12">
+                <span style="line-break:initial;float:left !important">
+                    <span style="font:bolder"><b>Note:</b></span>
+                    This report is intended to address <b>REPORTING EXCEPTIONS Of – FAILED TO REPORT</b> and <b>LATE TO REPORT</b> which are not easily accessible via the <b> MANAGE SALES UPLOAD page </b> where a full summary of upload history for a franchise can be found.
+                </span>
+            </div>
+        </div>
+        <div class="table-scrollable table-mbl">
+            <div fix-height style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ID }"
+                                tabindex="0" aria-controls="sample_1" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID" ng-click="vm.sorting(vm.SortColumns.ID);">ID#</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Franchisee }"
+                                tabindex="0" aria-controls="sample_1" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="Franchisee" ng-click="vm.sorting(vm.SortColumns.Franchisee);">Franchisee</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.FeeProfile,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.FeeProfile,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.FeeProfile }"
+                                tabindex="0" aria-controls="sample_2" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="FeeProfile" ng-click="vm.sorting(vm.SortColumns.FeeProfile);">Payment Frequency</th>
+                            <th style="width: 150px; min-width: 150px; max-width: 150px;">Upload Period</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.WaitPeriod,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.WaitPeriod,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.WaitPeriod }"
+                                tabindex="0" aria-controls="sample_1" style="width: 60px; min-width: 60px; max-width: 60px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="WaitPeriod" ng-click="vm.sorting(vm.SortColumns.WaitPeriod);">Wait Period</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ExpectedDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ExpectedDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ExpectedDate }"
+                                tabindex="0" aria-controls="sample_1" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="ExpectedDate" ng-click="vm.sorting(vm.SortColumns.ExpectedDate);">Expected Upload Date</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ActualDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ActualDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ActualDate }"
+                                tabindex="0" aria-controls="sample_1" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="ActualDate" ng-click="vm.sorting(vm.SortColumns.ActualDate);">Actual Upload Date</th>
+                            <th style="width: 50px; min-width: 50px; max-width: 50px;">Upload Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="record in vm.reportList">
+                            <td style="width: 40px; min-width: 40px; max-width: 40px;">{{record.id}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{record.franchisee}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{record.paymentFrequency}}</td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;">{{record.startDate | dateTimeFilter}} - {{record.endDate | dateTimeFilter}}</td>
+                            <td style="width: 60px; min-width: 60px; max-width: 60px;"><span ng-if="record.waitPeriod > 0">{{record.waitPeriod}} days</span></td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{record.expectedUploadDate | dateTimeFilter}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="record.actualUploadDate != null">{{record.actualUploadDate | dateTimeFilter}}</span>
+                                <span ng-if="record.actualUploadDate == null"> - </span>
+                            </td>
+                            <td style="width: 50px; min-width: 50px; max-width: 50px;">
+                                <i ng-if="record.isUploaded" class="fa fa-check icon-green" aria-hidden="true"></i>
+                                <i ng-if="!record.isUploaded" class="fa fa-times icon-red" aria-hidden="true"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="report.recordCollection.length == 0">
+                        <td colspan="6"><span> No Records Found for selected time period!</span></td>
+                    </tr>
+                    <tr ng-if="vm.reportList.length <= 0">
+                        <td colspan="7" class="text-center"><span> No Records Found!</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.reportList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.reportList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

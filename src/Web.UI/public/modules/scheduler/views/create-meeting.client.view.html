@@ -1,0 +1,114 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Meeting : {{ vm.franchisee}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="vacationForm">
+        <div class="row">
+            <div class="col-md-2"><span>Choose Option</span></div>
+            <div class="col-md-2">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="isLoanRoyality" name="isLoanRoyality" ng-value="true" class="md-check"
+                           ng-click="vm.isUser(true);" ng-model="vm.query.isEquipment">
+                    <label for="isLoanRoyality">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        Equipment
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="isUser" name="isUser" ng-value="true" class="md-check"
+                           ng-click="vm.isUser(false);" ng-model="vm.query.isUser">
+                    <label for="isUser">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        User
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 l-lg- col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <input type="text" class="form-control" id="vacationTitle" name="vacationTitle" ng-model="vm.vacationInfo.title"
+                           maxlength="128" required>
+                    <label for="vacationTitle">Title*</label>
+                </div>
+            </div>
+            <div class="col-md-4 l-lg-4 col-xs-12" ng-show="vm.query.isEquipment">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input">
+                        <div ng-dropdown-multiselect="" options="vm.techList" extra-settings="settings" translation-texts="translationTexts"
+                             selected-model="vm.query.idList" checkboxes="true" events="{ onSelectionChanged: vm.getReportList }">
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="vacationForm.tech.$dirty && vacationForm.tech.$invalid && !vm.isNotAvailable">
+                    <span class="text-danger" ng-if="vacationForm.tech.$error.required">
+                        Person is required.
+                    </span>
+                </div>
+                <!--<div style="margin-top: 4%;" ng-show="vm.id>0">
+            <label>For All Meetings </label>
+            <input id="checkFollower" type="checkbox" ng-checked="leader" aria-label="Follower input" ng-model="vm.query.isForAllMeetings">
+        </div>-->
+            </div>
+            <div class="col-md-4 l-lg-4 col-xs-12" ng-show="vm.query.isUser">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input">
+                        <div ng-dropdown-multiselect="" options="vm.techListForUser" extra-settings="settings" translation-texts="translationTextsForUsers"
+                             selected-model="vm.query.idListForUser" checkboxes="true" events="{ onSelectionChanged: vm.getReportList }">
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="vacationForm.tech.$dirty && vacationForm.tech.$invalid && !vm.isNotAvailable">
+                    <span class="text-danger" ng-if="vacationForm.tech.$error.required">
+                        Person is required.
+                    </span>
+                </div>
+                <!--<div style="margin-top: 4%;" ng-show="vm.id>0">
+            <label>For All Meetings </label>
+            <input id="checkFollower" type="checkbox" ng-checked="leader" aria-label="Follower input" ng-model="vm.query.isForAllMeetings">
+        </div>-->
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12 clear-both">
+                <label>Start Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.vacationInfo.startDate"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15"
+                                    datepicker-append-to-body="true">
+                    </datetimepicker>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>End Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.vacationInfo.endDate"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15"
+                                    datepicker-append-to-body="true">
+                    </datetimepicker>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer clear-both">
+            <div class="col-md-12 col-lg-12 col-xs-5">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.createMeeting(vacationForm);" ng-disabled="vacationForm.$invalid || vm.isProcessing == true">Save</button>
+           </div>
+            </div>
+</form>
+</div>
+
+

@@ -1,0 +1,142 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left"> View Price Estimates: {{vm.priceEstimate.service}} </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<style>
+    .modal-body.ng-scope
+    {
+        max-height:unset;
+    }
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        border: 1px solid transparent;
+        padding: 10px 10px 40px 10px;
+        position: relative;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        margin-left: 0px !important;
+    }
+    .container .signature {
+        border: 1px solid white;
+        /*margin: 0 auto;*/
+        cursor: pointer;
+    }
+    .container .signature canvas {
+        border: 1px solid #999;
+        /*margin: 0 auto;*/
+        cursor: pointer;
+    }
+    .container .buttons {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+    .container .sizes {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+    .container .sizes input {
+        width: 4em;
+        text-align: center;
+    }
+    .result {
+        border: 1px solid blue;
+        margin: 30px auto 0 auto;
+        height: 220px;
+        width: 568px;
+    }
+    .customScroll-s {
+        width: 100%;
+        float: left;
+        height: 430px;
+        overflow-y: scroll;
+    }
+    .customScroll-s::-webkit-scrollbar {
+        width: 7px;
+    }
+    /* Track */
+    .customScroll-s::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+    /* Handle */
+    .customScroll-s::-webkit-scrollbar-thumb {
+        background: #000;
+        border-radius: 10px;
+    }
+</style>
+<div class="modal-body">
+    <div class="col-md-12" style="border-color:black !important;" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div class={{vm.scrollClass}}>
+            <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info">
+                <thead>
+                    <tr style="background-color:#dddddd !important">
+                        <td><span style="font-weight:bolder; width: 20%">Franchisee</span></td>
+                        <td style="text-align: left !important; width:15%;">
+                            <span style="font-weight: bolder; ">
+                                Corporate Price(in $)<br />
+                            </span>
+                        </td>
+                        <td style="text-align: left !important; width: 15%;">
+                            <span style="font-weight:bolder">
+                                Franchisee Price(in $)<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 20%;"><span style="font-weight:bolder">Alternative Solution</span></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="subitem in vm.priceEstimateServices">
+                        <td style="width: 20%;">
+                            {{subitem.franchisee}}
+                        </td>
+                        <td style="padding-left: 33px; width: 20%;" ng-if="vm.hasTwoPriceColumns">
+                            <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: -20px; margin-right: 2px;">
+                                {{subitem.corporatePrice|number:2}}
+                            </div>
+                            <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: 5px;">
+                                {{subitem.corporateAdditionalPrice|number:2}}
+                            </div>
+                        </td>
+                        <td style="width:10%; text-align:center;" ng-if="!vm.hasTwoPriceColumns">
+                            <div style="padding: 0 0px; display: inline-flex; margin-right: 30px; ">
+                                {{subitem.corporatePrice|number:2}}
+                            </div>
+                        </td>
+                        <td style="padding-left: 33px; width: 20%;" ng-if="vm.hasTwoPriceColumns">
+                            <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left:-20px; margin-right: 2px;">
+                                {{subitem.franchiseePrice|number:2}}
+                            </div>
+                            <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: 5px;">
+                                {{subitem.franchiseeAdditionalPrice|number:2}}
+                            </div>
+                        </td>
+                        <td style="width: 10%; text-align: center;" ng-if="!vm.hasTwoPriceColumns">
+                            <div style="padding:0 0px; display:inline-flex; margin-right:30px;">
+                                {{subitem.franchiseePrice|number:2}}
+                            </div>
+                        </td>
+                        <td style="width: 20%;">
+                            {{subitem.alternativeSolution}}
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.priceEstimateServices.length==0">
+                        <td colspan="4">
+                            <b>   No Records Found</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="vm.close()">Close</button>
+</div>

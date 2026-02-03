@@ -1,0 +1,47 @@
+SET SQL_SAFE_UPDATES = 0;
+CALL beforeAfter_Migration();
+SET SQL_SAFE_UPDATES = 1;
+
+
+DROP PROCEDURE IF EXISTS beforeAfter_Migration;
+
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('9', 'New Year’s Day', '2019-01-01', '2019-01-01', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('10', 'M L King Day', '2019-01-21', '2019-01-21', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('11', 'Valentine’s Day', '2019-02-14', '2019-02-14', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('12', 'President’s Day', '2019-02-18', '2019-02-18', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('13', 'Good Friday', '2019-04-19', '2019-04-19', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('14', 'Easter Sunday', '2019-04-21', '2019-04-21', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('15', 'Mother’s Day', '2019-05-12', '2019-05-12', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('16', 'Memorial Day', '2019-05-27', '2019-05-27', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('17', 'Father’s Day', '2019-06-16', '2019-06-16', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('18', 'Independence Day', '2019-07-04', '2019-07-04', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('19', 'Labor Day', '2019-09-02', '2019-09-02', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('20', 'Columbus Day', '2019-10-14', '2019-10-14', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('21', 'Halloween', '2019-10-31', '2019-10-31', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('22', 'Veterans Day', '2019-11-11', '2019-11-11', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('23', 'Thanksgiving Day', '2019-11-28', '2019-11-28', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('24', 'Christmas Eve', '2019-12-24', '2019-12-24', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('25', 'Christmas Day', '2019-12-25', '2019-12-25', b'0');
+
+UPDATE `servicefeeinvoiceitem` SET `Percentage`='7.00' WHERE `Id`='267038';
+UPDATE  `servicefeeinvoiceitem` SET `Percentage`='7.00' WHERE `Id`='267039';
+UPDATE `servicefeeinvoiceitem` SET `Percentage`='7.00' WHERE `Id`='268918';
+UPDATE `servicefeeinvoiceitem` SET `Percentage`='7.00' WHERE `Id`='268919';
+UPDATE `servicefeeinvoiceitem` SET `Percentage`='8.00' WHERE `Id`='270185';
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE
+    `servicefeeinvoiceitem` pd INNER JOIN `servicefeeinvoiceitem` pd2 ON
+    pd.Id=pd2.Id SET pd.`Percentage`='7.00'
+where pd2.`Percentage`='75.00';
+SET SQL_SAFE_UPDATES = 1;
+
+
+SET SQL_SAFE_UPDATES = 0;
+Update invoiceitem set IsDeleted=b'1' where Id=270185;
+
+UPDATE `franchiseeloan` SET `Description`='Commencing 3-1-2019 $488.26 payment on $20,000 loan at 8% for 48 months' WHERE `Id`='15';
+
+UPDATE `payment` SET `Amount`='516.76' WHERE `Id`='284457';
+
+SET SQL_SAFE_UPDATES = 1;

@@ -1,0 +1,133 @@
+﻿<style type="text/css">
+    .error{
+        background-color:lightblue;
+    }
+    .not-error {
+        background-color: transparent;
+    }
+    .add-mores {
+        background-color: #26327e;
+        color: #fff !important;
+        line-height: 24px;
+        position: absolute;
+        text-align: center;
+        width: 24px;
+    }
+
+    .add-deltes {
+        background-color: #26327e;
+        color: #fff !important;
+        line-height: 24px;
+        position: absolute;
+        text-align: center;
+        width: 24px;
+        margin-left: 45%;
+    }
+    .color-code {
+        height: 20px;
+        width: 10%;
+        float: right;
+        margin-top: -42px;
+    }
+    @media screen and (min-width: 370px) and (max-height: 670px) {
+        
+
+        .add-mores {
+            background-color: #26327e;
+            color: #fff !important;
+            line-height: 24px;
+            position: absolute;
+            text-align: center;
+            width: 24px;
+        }
+
+        .add-deltes {
+            background-color: #26327e;
+            color: #fff !important;
+            line-height: 24px;
+            position: absolute;
+     fmin       text-align: center;
+            width: 24px;
+            margin-left: 8%;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="portlet blue-hoki box">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-list-ul"></i> MLFS CONFIGURATION
+            </div>
+        </div>
+        <div class="portlet-body">
+            <table class="table no-footer table-striped" style="padding:0;margin:0">
+                <thead>
+                    <tr role="row">
+                        <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="GROUP" style="width:10%">
+                            <span>Name</span>
+                        </th>
+                        <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="FIRST YEAR" style="width:10%">
+                            <span>Min Value</span>
+                        </th>
+                        <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="STATUS" style="width:5.5%">
+                            <span>Max Value</span>
+                        </th>
+                        <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Year" style="width:10%">
+                            <span>Color Code</span>
+                        </th>
+                        <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Year" style="width:10%">
+                            <span>Action</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in vm.saveQuery.statusList track by $index">
+                        <td ng-class="{'error' : vm.errorRowIndex== $index , 'not-error' : vm.errorRowIndex != $index }">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input class="form-control" type="text" name="name" ng-model="item.name" required />
+                            </div>
+                        </td>
+                        <td ng-class="{'error' : vm.errorRowIndex== $index , 'not-error' : vm.errorRowIndex != $index }">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input class="form-control" type="number" name="minValue" ng-model="item.minValue" required />
+                            </div>
+                        </td>
+                        <td ng-class="{'error' : vm.errorRowIndex== $index , 'not-error' : vm.errorRowIndex != $index }">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input class="form-control" type="number" name="maxValue" ng-model="item.maxValue" required/>
+                            </div>
+                        </td>
+                        <td ng-class="{'error' : vm.errorRowIndex== $index , 'not-error' : vm.errorRowIndex != $index }">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input class="form-control" colorpicker type="text" name="colorCode" ng-model="item.colorCode"  ng-style="{'color':item.colorCode,'borderBottom':'1px solid '+ item.colorCode}"  />
+                            </div>
+                        </td>
+                        <td ng-class="{'error' : vm.errorRowIndex== $index , 'not-error' : vm.errorRowIndex != $index }">
+                            <div class="col-md-1">
+                                <a href="javascript:void(0);" class="add-mores" ng-click="vm.addMore()"
+                                   ng-if="vm.saveQuery.statusList.length == ($index + 1)">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="javascript:void(0);" class="add-deltes" ng-click="vm.deleteFromList($index)">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="form-actions noborder text-right">
+            <button type="button" class="btn btn-primary" ng-click="vm.saveMLFSConfiguration();">Save</button>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

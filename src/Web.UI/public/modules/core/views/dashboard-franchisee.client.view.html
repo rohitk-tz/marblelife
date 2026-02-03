@@ -1,0 +1,403 @@
+﻿<div class="row" ng-controller="franchiseeAdminController as vm">
+
+    <div class="col-md-12" ng-if="vm.expiryingDocuments.length >0 && !vm.closeNotificationWindow">
+        <div class="portlet light" style="background-color:lightgoldenrodyellow">
+            <div ng-click="vm.closeNotification()" class="fa fa-times pull-right"></div>
+            <div ng-repeat="documents in vm.expiryingDocuments">
+                <span>
+                    Your Document {{documents.documentName}}  is Expiring on  {{documents.expiryDate| date }}, kindly upload it.
+                    <a ng-if="documents.documentTypeId=='202'" ui-sref="core.layout.franchisee.national({ franchiseeId: ' + vm.franchiseeId + ' })"> Upload Now</a>
+                    <a ng-if="documents.documentTypeId=='201'" ui-sref="core.layout.franchisee.document({ franchiseeId: ' + vm.franchiseeId + ' })"> Upload Now</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="!vm.isTeamImageUploaded">
+        <div class="portlet light" style="background-color:lightgoldenrodyellow">
+            <div ng-click="vm.closeNotification()" class="fa fa-times pull-right"></div>
+            <span>
+                Please Upload Team Profile Image.
+            </span>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="vm.response.isUploaded == false">
+        <div class="portlet light" style="background-color:red">
+
+            <span style="color:white">
+                <b>
+                    Your Annual Upload is Pending for Year {{vm.response.year}}, kindly upload it.
+                    <a ng-if="vm.response.isLastBatchUploaded" ng-click="vm.annualUpload()"> Upload Now</a>
+                </b>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="vm.response.isUploaded && vm.response.isFailed && !vm.response.lastUploadFailed">
+        <div class="portlet light" style="background-color:red">
+            <span style="color:white">
+                <b>Your Annual Upload for the year {{vm.response.year}} is Failed, Please check the logs and Upload the file Again.<a ng-click="vm.annualUpload()"> Upload Now</a></b>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="vm.response.isUploaded && !vm.response.isFailed && vm.response.isRejected && !vm.response.lastUploadFailed">
+        <div class="portlet light" style="background-color:red">
+            <span style="color:white">
+                <b> Your Annual Upload for the year {{vm.response.year}} is Rejected by Our Team, Please Review the File and Upload Again.<a ng-click="vm.annualUpload()"> Upload Now</a></b>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-12" ng-if="!vm.closeNotificationWindow && (vm.unpaidInvoiceList.length>0 || vm.pendingUploads.length>0)">
+        <div class="portlet light" style="background-color:lightgoldenrodyellow">
+            <div ng-click="vm.closeNotification()" class="fa fa-times pull-right"></div>
+            <div ng-if="vm.pendingUploads.length>0">
+                You have pending upload of period(s) -
+                <span ng-repeat="upload in vm.pendingUploads">
+                    <b> ({{upload.startDate | dateTimeFilter}} - {{upload.endDate | dateTimeFilter}})<span ng-if="!$last">, </span><span ng-if="$last">. </span></b>
+                </span>Please Upload Sales data.
+                &nbsp;<a ng-click="vm.salesSummary()">Upload Now</a>
+                <br /><br />
+            </div>
+            <div ng-if="vm.unpaidInvoiceList.length>0">
+                <span ng-repeat="invoice in vm.unpaidInvoiceList | filter : {isLateFeeCharged:'true'}">
+                    There is an unpaid invoice# <b><a ng-click="vm.viewInvoice(invoice.invoiceId)">{{invoice.invoiceId}}</a></b>
+                    of amount <b>
+
+                        <span ng-if="invoice.payableAmount != null" currency-Exchange conversion-Rate="invoice.currencyRate"
+                              input="invoice.payableAmount" from-Currency="invoice.currencyCode">
+                        </span>
+                    </b>,
+                    DueDate - <b>{{invoice.dueDate | dateTimeFilter}}</b>.
+                    &nbsp;Late fee has been charged, please make payment to avoid daily interest rate charges.
+                    &nbsp;<a ng-click="vm.makePayment(invoice.franchiseeId,invoice.invoiceId,invoice.franchiseName,invoice.payableAmount,invoice.currencyRate,invoice.accountTypeId,invoice.currencyCode)">Pay Now</a>
+                    <br /><br />
+                </span>
+
+                <span ng-repeat="invoice in vm.unpaidInvoiceList | filter : {isLateFeeCharged:'false'}">
+                    There is an unpaid invoice# <b><a ng-click="vm.viewInvoice(invoice.invoiceId)">{{invoice.invoiceId}}</a></b>
+                    of amount <b>
+                        <span ng-if="invoice.payableAmount != null" currency-Exchange conversion-Rate="invoice.currencyRate"
+                              input="invoice.payableAmount" from-Currency="invoice.currencyCode">
+                        </span>
+                    </b>,
+                    DueDate - <b>{{invoice.dueDate | dateTimeFilter}}</b>.
+                    &nbsp;Please make payment on time to avoid Late Fee Charges.
+                    &nbsp;<a ng-click="vm.makePayment(invoice.franchiseeId,invoice.invoiceId,invoice.franchiseName,invoice.payableAmount,invoice.currencyRate,invoice.accountTypeId,invoice.currencyCode)">Pay Now</a>
+                    <br /><br />
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+                <a class="dashboard-stat dashboard-stat-light blue-madison" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-briefcase fa-icon-medium"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.totalCustomers}}
+                        </div>
+                        <div class="desc">
+                            Total Customers
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a class="dashboard-stat dashboard-stat-light red-intense" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.customerWithEmails}}
+                        </div>
+                        <div class="desc">
+                            Customer with Emails
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a class="dashboard-stat dashboard-stat-light green-haze" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-group fa-icon-medium"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.customerWithAddress}}
+                        </div>
+                        <div class="desc">
+                            Customer with Address
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-4 padding-top-57">
+        <div class="pull-right">
+            <div class="actions">
+                <div class="pull-right search-single margin-top-15">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+                <div class="pull-right search-single margin-left-15">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getFilteredList"
+                               start-date="vm.query.rangeStartDate" end-date="vm.query.rangeEndDate">
+                        <label for="date-range">Date Range</label>
+                    </div>
+                </div>
+                <div class="pull-right search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                                ng-change="vm.getFilteredData();"
+                                ng-options="year.value as year.display for year in vm.yearCollection">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="year">Year</label>
+                    </div>
+                </div>
+                <div class="pull-right search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="month" ng-model="vm.query.month"
+                                ng-change="vm.getFilteredData();"
+                                ng-options="month.value as month.display for month in vm.monthCollection">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="month">Month</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 clear-both">
+        <div class="portlet light" style="min-height:544px">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-red-sunglo bold uppercase">Revenue</span>
+                </div>
+                <div class="btn-group btn-group-devided pull-right pie-chart-search" data-toggle="buttons">
+                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm" ng-click="vm.getClassChart()">
+                        <input type="radio" name="options" class="toggle" id="option1">Class
+                    </label>
+                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm" ng-click="vm.getServiceChart()">
+                        <input type="radio" name="options" class="toggle" id="option2">Service
+                    </label>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab1">
+                        <am-chart id="myFirstChart" options="amChartOptions" height="370px" width="100%"></am-chart>
+                        <div id="legenddiv" class="legends-mul-col"></div>
+                    </div>
+                    <div class="text-center text-danger no-record" style="margin-top: -50%" ng-if="vm.showClassChart && vm.revenue.length == 0">No records found.</div>
+                    <div class="text-center text-danger no-record" style="margin-top: -50%" ng-if="vm.showServiceChart && vm.serviceRevenue.length == 0">No records found.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-red-sunglo bold uppercase">Email Coverage</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab1">
+                        <am-chart id="myFirstChart1" options="amChartOptionsforList" height="400px" width="100%"></am-chart>
+                        <div id="legenddiv1" class="legends-mul-col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+
+    <div class="col-md-4 col-sm-12 clear-both">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Sales Summary
+                </div>
+                <div class="actions">
+                    <a ng-click="vm.salesSummary()" class="btn btn-default btn-sm">
+                        See All
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> Duration </th>
+                            <th> Total Sales  </th>
+                            <th> Invoices </th>
+                            <th> Customers </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="salesSummary in vm.salesSummaryList">
+                            <td> {{salesSummary.periodStartDate | dateTimeFilter : 'd'}} -  {{salesSummary.periodEndDate | dateTimeFilter : 'd'}}</td>
+                            <td>
+                                <span ng-if="salesSummary.totalSales != null" is-us-client="isUsClient" currency-Exchange conversion-Rate="salesSummary.currencyRate"
+                                      input="salesSummary.totalSales" from-Currency="salesSummary.currencyCode">
+                                </span>
+                            </td>
+                            <td> {{salesSummary.totalInvoices}} </td>
+                            <td> {{salesSummary.totalCustomers}} </td>
+                            <td><a href="javascript:void(0);" ng-click="vm.downloadSalesData(salesSummary.fileId)">Download file</a></td>
+                        </tr>
+                        <tr ng-if="vm.salesSummaryList == null || vm.salesSummaryList.length < 1">
+                            <td colspan="7" class="text-center"> NO RECORDS FOUND! </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-indent"></i>Invoices
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Due Date
+                            </th>
+                            <th>
+                                Total Sales
+                            </th>
+                            <th>
+                                Payable Amount
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="franchiseeInvoice in vm.recentInvoiceList">
+                            <td><a ng-click="vm.viewInvoice(franchiseeInvoice.invoiceId)">{{franchiseeInvoice.invoiceId}}</a></td>
+                            <td>{{franchiseeInvoice.dueDate | dateTimeFilter : 'd'}}</td>
+                            <td>
+                                <span ng-if="franchiseeInvoice.totalSales != null" is-us-client="isUsClient" currency-Exchange conversion-Rate="franchiseeInvoice.currencyRate"
+                                      input="franchiseeInvoice.totalSales" from-Currency="franchiseeInvoice.currencyCode">
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="franchiseeInvoice.payableAmount != null" is-us-client="isUsClient" currency-Exchange conversion-Rate="franchiseeInvoice.currencyRate"
+                                      input="franchiseeInvoice.payableAmount" from-Currency="franchiseeInvoice.currencyCode">
+                                </span>
+                            </td>
+                            <td>{{franchiseeInvoice.status}}</td>
+                        </tr>
+                        <tr ng-if="vm.recentInvoiceList == null || vm.recentInvoiceList.length < 1">
+                            <td colspan="5" class="text-center"> NO INVOICES YET! </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-user"></i>SalesRep Leaderboard
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr class="uppercase">
+                            <th>
+                                Rep
+                            </th>
+                            <th>
+                                Sales
+                            </th>
+                            <th>
+                                Paid Amount
+                            </th>
+                            <th>
+                                Number of Jobs
+                            </th>
+                            <th>
+                                Average Sales
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="rep in vm.salesRepLeaderboardList">
+                            <td>
+                                <a href="javascript:;" class="primary-link">{{rep.salesRep}}</a>
+                            </td>
+                            <td>
+                                <span ng-if="rep.amount != null" currency-Exchange conversion-Rate="rep.currencyRate"
+                                      input="rep.amount" from-Currency="rep.currencyCode">
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="rep.paidAmount != null" currency-Exchange conversion-Rate="rep.currencyRate"
+                                      input="rep.paidAmount" from-Currency="rep.currencyCode">
+                                </span>
+                            </td>
+                            <td>
+                                {{rep.noOfJobs}}
+                            </td>
+                            <td>
+                                <span ng-if="rep.avgSales != null" is-us-client="isUsClient" currency-Exchange conversion-Rate="rep.currencyRate" input="rep.avgSales" from-Currency="rep.currencyCode">
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.salesRepLeaderboardList == null || vm.salesRepLeaderboardList.length < 1">
+                            <td colspan="6" class="text-center"> NO RECORDS FOUND! </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-red-sunglo bold uppercase">Review Coverage</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab1">
+                        <am-chart id="myFirstChart3" options="amChartOptionsforListForreview" height="400px" width="100%"></am-chart>
+                        <div id="legenddiv3" class="legends-mul-col"></div>
+                    </div>
+                    <div class="pull-left margin-left-15" style="font-weight: bolder; font-size: 16px; margin-top: -20px; margin-left: 278px !important">
+                        <span style="margin-left:50px">Franchisee Review Sent:<span></span>{{vm.reviewCount.totalReviewSentForFranchisee}}</span>
+                        <span style="margin-left:50px">Franchisee Review Received:<span></span>{{vm.reviewCount.totalReviewReceivedForFranchisee}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>

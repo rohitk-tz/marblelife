@@ -1,0 +1,82 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left search-single">Job Details : <b>{{vm.jobInfo.assignee}}</b></h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="invoice">
+        <div class="row">
+            <div class="col-xs-6">
+                <h4>Customer Info :</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        {{vm.jobInfo.jobCustomer.customerName}}
+                    </li>
+                    <li>
+                        {{vm.jobInfo.jobCustomer.email}}
+                    </li>
+                    <li>
+                        {{vm.jobInfo.jobCustomer.phoneNumber}}
+                    </li>
+                    <li ng-if="vm.jobInfo.jobCustomer.address.addressLine1 != null">
+                        {{vm.jobInfo.jobCustomer.address.addressLine1}}, {{vm.jobInfo.jobCustomer.address.addressLine2}}
+                    </li>
+                    <li ng-if="vm.jobCustomer.jobInfo.address.city != null">
+                        {{vm.jobInfo.jobCustomer.address.city}}, {{vm.jobInfo.jobCustomer.address.state}} - {{vm.jobInfo.jobCustomer.address.zipCode}}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right">
+                    <h4>Job Info :</h4>
+                    <b>Title - </b>{{vm.jobInfo.title}}
+                    <br />
+                    <b>Class - </b>{{vm.jobInfo.customerClass}}
+                    <br />
+                    <b>Job Start Date - </b>{{vm.jobInfo.jobStart | dateTimeFilter : 'udt'}}
+                    <br />
+                    <b>Job End Date - </b>{{vm.jobInfo.jobEnd | dateTimeFilter : 'udt'}}
+                    <br />
+                    <span ng-if="vm.jobInfo.salesRep != null"><b>Sales Rep - </b>{{vm.jobInfo.salesRep}}<br /></span>
+                </p>
+            </div>
+        </div>
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>Start Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.jobInfo.start"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15">
+                    </datetimepicker>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>End Time *</label>
+                <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                    <datetimepicker ng-model="vm.jobInfo.end"
+                                    date-format="MM/dd/yyyy"
+                                    date-options="dateOptions"
+                                    minute-step="15">
+                    </datetimepicker>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <br />
+        <div class="row" ng-if="vm.jobInfo.description != null">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div style="height:200px;">
+                    <h4>Job Description :</h4>
+                    <p slimscroll="{height: '150px'}"> {{vm.jobInfo.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.validate();" ng-disabled="jvm.isProcessing == true || !vm.validTech">Save</button>
+</div>

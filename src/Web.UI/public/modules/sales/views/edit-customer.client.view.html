@@ -1,0 +1,109 @@
+﻿<div>
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+    <div class="portlet light">
+        <div class="portlet-body form">
+            <form role="form" name="customerForm">
+                <div class="row">
+                    <div class="col-md-8 col-lg-7">
+                        <h3 class="section-header">Basic Information</h3>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-xs-12">
+
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="text" class="form-control" id="name" name="name" ng-model="vm.customer.name" ng-disabled="true">
+                                    <label for="name">Customer Name</label>
+                                </div>
+
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <multiple-email emails="vm.customer.emails"> </multiple-email>
+                                </div>
+
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : customerForm.phoneNumber.$error.required}">
+                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.customer.phoneNumber" mask-format="phone">
+                                    <label for="phoneNumber">Number<span class="required" aria-required="true"> * </span></label>
+                                    <div ng-show="customerForm.phoneNumber.$dirty && customerForm.phoneNumber.$invalid">
+                                        <span class="text-danger" ng-if="customerForm.phoneNumber.$error.required">
+                                            Phone number is required.
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control" id="marketingClass" ng-model="vm.customer.marketingClassId"
+                                            ng-options="marketingClass.value as marketingClass.display for marketingClass in vm.marketingClass" required>
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="marketingClass">Select MarketingClass<span class="required" aria-required="true"> * </span></label>
+                                </div>
+
+
+
+                                <div class="form-group form-md-line-input form-md-floating-label pull-left">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="receiveNotification" ng-model="vm.customer.receiveNotification" class="md-check">
+                                        <label for="receiveNotification">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            Receive Notification ?
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-lg-6">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                        <input type="text" class="form-control" id="address-line-1" ng-model="vm.customer.address.addressLine1">
+                                        <label for="address-line-1">Address Line 1</label>
+                                    </div>
+                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                        <input type="text" class="form-control" id="address-line-2" ng-model="vm.customer.address.addressLine2"/>
+                                        <label for="address-line-2">Address Line 2</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <input type="text" class="form-control" id="country" ng-model="vm.customer.address.country">
+                                                    <label for="country">Country</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input id="state" class="form-control" label="state" name="state" type="text" ng-model="vm.customer.address.state" />
+                                                <label for="state">State</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input id="city" class="form-control" label="city" name="city" type="text" ng-model="vm.customer.address.city"/>
+                                                <label for="city">City</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" id="zip" ng-model="vm.customer.address.zipCode" mask-format="zip">
+                                                <label for="zip">ZipCode</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions noborder text-right">
+                                <button type="button" class="btn btn-link" ng-click="vm.cancel();" ng-disabled="vm.isProcessing == true">Cancel</button>
+                                <button type="button" class="btn btn-primary" ng-disabled="customerForm.$invalid || emailForm.$invalid || vm.isProcessing == true" ng-click="vm.save();">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

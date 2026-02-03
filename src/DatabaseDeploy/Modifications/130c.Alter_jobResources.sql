@@ -1,0 +1,11 @@
+﻿ALTER TABLE `jobresource` 
+DROP FOREIGN KEY `jobResource_job`;
+ALTER TABLE `jobresource` 
+CHANGE COLUMN `JobId` `JobId` BIGINT(20) NULL DEFAULT NULL ,
+ADD COLUMN `EstimateId` BIGINT(20) NULL DEFAULT NULL ;
+ALTER TABLE `jobresource` 
+ADD CONSTRAINT `jobResource_job`
+  FOREIGN KEY (`JobId`)
+  REFERENCES `job` (`Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

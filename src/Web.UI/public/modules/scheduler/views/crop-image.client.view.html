@@ -1,0 +1,149 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-img-crop/0.3.2/ng-img-crop.css" integrity="sha512-ua2h/M3JrwaLu3T6HqiY7jYHHH/n3/Zpa5lk6mRW2yUOPNlqrBnE5Fi4D3aMTZGIbyV1mQQyHIS67pMhYV/cDQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    img-crop canvas {
+        display: block;
+        outline: 0;
+        -webkit-tap-highlight-color: transparent;
+        top: 40%;
+        left: 20%;
+    }
+
+    .cropArea {
+        background: #E4E4E4;
+        overflow: hidden;
+        width: 350px;
+        height: 350px;
+    }
+
+    @media (min-width: 992px) {
+        img-crop canvas {
+            display: block;
+            position: absolute;
+            top: 40%;
+            left: 20%;
+            outline: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .cropArea {
+            background: #E4E4E4;
+            overflow: hidden;
+            width: 350px;
+            height: 350px;
+        }
+
+        .modal-dialog.modal-lg {
+            /*margin-left: 0px;*/
+            width: 80% !important;
+        }
+    }
+
+    @media only screen and (min-width: 668px) and (max-width: 1695px) {
+        img-crop canvas {
+            display: block;
+            position: absolute;
+            outline: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .cropArea {
+            background: #E4E4E4;
+            overflow: hidden;
+            width: 350px;
+            height: 350px;
+        }
+
+        .modal-dialog.modal-lg {
+            /*margin-left: 0px;*/
+            width: 80% !important;
+        }
+    }
+
+    .modal-dialog.modal-lg {
+        /*left: 0px;
+        margin-left: 0px;*/
+        width: 100%;
+        height: auto;
+    }
+
+    .imag-class {
+        width: 100%;
+        margin: 0px;
+        max-width: 100%;
+        /*        max-height: 200px;*/
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .div-style {
+        background: #e6e6e6;
+        border: 2px solid #333;
+    }
+
+    .img-magnifier-container {
+        position: relative;
+    }
+
+    .img-magnifier-glass {
+        position: absolute;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: none;
+        /*Set the size of the magnifier glass:*/
+        width: 100px;
+        height: 100px;
+    }
+
+    .enabled {
+        background: lightblue !important;
+    }
+
+    .disabled {
+        background: #fff;
+    }
+
+    .flex-1 {
+        flex: 1;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+        .d-flex:hover {
+            cursor: auto;
+        }
+
+    .flex-1:hover {
+        cursor: auto;
+    }
+    canvas {
+        margin-left: -70px !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{vm.text}}<span></span></h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<form role="form" name="note_form">
+    <div class="modal-body" style="padding:2% !important;z-index:999999 !important">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="cropArea">
+                    <img-crop image="vm.image.url" result-image="myCroppedImage" area-type="square"></img-crop>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>Cropped Images</p>
+                <div><img ng-src="{{myCroppedImage}}" style="height:300px;width:300px" /></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer clear-both">
+        <button type="button" class="btn default" ng-click="vm.save(myCroppedImage);">Save</button>
+        <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    </div>
+
+</form>
+

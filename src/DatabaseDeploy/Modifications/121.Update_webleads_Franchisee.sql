@@ -1,0 +1,44 @@
+﻿ALTER TABLE `franchisee` 
+ADD COLUMN `WebLeadFranchiseeId` VARCHAR(128) NULL COMMENT '' AFTER `IsDeleted`;
+
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='27,85,57' WHERE `Id`='25';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='28,92,82,162,161,130,131,129,123' WHERE `Id`='30';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='48' WHERE `Id`='21';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='52' WHERE `Id`='18';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='53' WHERE `Id`='20';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='58' WHERE `Id`='39';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='59,90,107,168,167,144' WHERE `Id`='22';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='60,61,56,101' WHERE `Id`='40';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='62' WHERE `Id`='38';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='64,95,96,97,163,164,165,158,159,50' WHERE `Id`='11';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='80,119' WHERE `Id`='46';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='84,166,160,157' WHERE `Id`='8';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='94' WHERE `Id`='45';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='81,143' WHERE `Id`='27';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='70,103,171,132,109' WHERE `Id`='17';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='65,66,67' WHERE `Id`='42';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='102,170,137,110' WHERE `Id`='47';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='105,69' WHERE `Id`='5';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='108' WHERE `Id`='19';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='173,133' WHERE `Id`='14';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='172,116,115' WHERE `Id`='41';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='153,122' WHERE `Id`='50';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='152' WHERE `Id`='57';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='149' WHERE `Id`='56';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='148' WHERE `Id`='54';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='147' WHERE `Id`='52';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='146' WHERE `Id`='53';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='145' WHERE `Id`='51';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='89,156,139' WHERE `Id`='61';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='138' WHERE `Id`='48';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='134,135' WHERE `Id`='31';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='128,91' WHERE `Id`='29';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='126' WHERE `Id`='3';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='106,169,125' WHERE `Id`='62';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='124,114' WHERE `Id`='16';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='121' WHERE `Id`='15';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='120' WHERE `Id`='9';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='155,142,141,113,112' WHERE `Id`='64';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='111' WHERE `Id`='10';
+UPDATE `franchisee` SET `WebLeadFranchiseeId`='55' WHERE `Id`='23';
+

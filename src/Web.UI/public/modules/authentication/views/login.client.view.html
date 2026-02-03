@@ -1,0 +1,34 @@
+﻿<div>
+    <form name="loginForm" class="login-form">
+        <div class="alert alert-danger display-hide">
+            <button class="close" data-close="alert"></button>
+            <span>
+                Enter any username and password.
+            </span>
+        </div>
+        <div class="form-group form-md-line-input form-md-floating-label">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" ng-keydown="$event.keyCode === 13 && vm.enterKey()"
+                   name="username" ng-model="vm.user.userName" placeholder="Username" required />
+            <label>&nbsp;</label>
+            <label class="control-label visible-ie8 visible-ie9">Username</label>
+        </div>
+        <div class="form-group form-md-line-input form-md-floating-label">
+            <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" ng-keydown="$event.keyCode === 13 && vm.enterKey()"
+                   placeholder="Password" name="password" ng-model="vm.user.password" required />
+            <label>&nbsp;</label>
+            <label class="control-label visible-ie8 visible-ie9">Password</label>
+        </div>
+        <div class="form-actions">
+            <div class="clearfix">
+                <label class="pull-left">
+                    <input type="checkbox" name="remember" value="1" /> Remember
+                </label>
+                <a href="javascript:;" ng-click="vm.forgetPassword()" id="forget-password" class="forget-password pull-right">Forgot Password?</a>
+            </div>
+            <div class="clearfix">
+                <button type="submit" class="btn uppercase btn-block btn-login" ng-click="vm.login();" ng-disabled="loginForm.$invalid || vm.isProcessing == true">Login</button>
+            </div>
+        </div>
+    </form>
+</div>

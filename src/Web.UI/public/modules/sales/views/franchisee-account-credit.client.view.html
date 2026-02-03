@@ -1,0 +1,377 @@
+﻿<style type="text/css">
+    .currency-nav {
+        font: bolder;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Account Credit</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+
+    <div class="invoice">
+        <div class="row invoice-logo">
+            <div class="col-xs-4 invoice-logo-space">
+                <h4>Franchisee:</h4>
+                {{vm.list.franchisee}}
+            </div>
+            <br />
+            <div class="col-xs-7" ng-if="vm.isSuperAdmin">
+                <p class="pull-right">
+                    <button type="button" class="btn default" ng-click="vm.openModel();" ng-disabled="vm.disableCreateAccountCredit">Add Account Credit</button>
+            </div>
+            <div class="col-xs-1">
+                <p class="pull-right">
+                    <button class="btn btn-primary" ng-print-amchart print-element-id="printSection"><i class="fa fa-print"></i></button>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="row invoice-logo" ng-if="vm.list.collection.length > 0">
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Available AdFund Amount:</b>
+            <b>
+                <span ng-if="vm.totalAmountByCategory.totalByAdFund==0">
+                    $
+                </span>
+                <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                      input="vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+                </span>
+            </b>
+        </div>
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Available Royalty Amount:</b>
+            <b>
+                <span ng-if="vm.totalAmountByCategory.totalByRoyality==0">
+                    $
+                </span>
+                <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                      input="vm.totalAmountByCategory.totalByRoyality" from-Currency="vm.list.currencyCode">
+                </span>
+            </b>
+        </div>
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Available Sales Amount:</b>
+            <b>
+                <span ng-if="vm.totalAmountByCategory.totalByTotalSales==0">
+                    $
+                </span>
+                <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                      input="vm.totalAmountByCategory.totalByTotalSales" from-Currency="vm.list.currencyCode">
+                </span>
+            </b>
+        </div>
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Available Amount:</b>
+            <b>
+                <span ng-if="vm.totalAmountByCategory.totalByTotalSales==0">
+                    $
+                </span>
+                <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                      input="vm.totalAmountByCategory.totalByTotalSales+vm.totalAmountByCategory.totalByRoyality+vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+                </span>
+            </b>
+        </div>
+    </div>
+    <div class="clearfix" ng-if="vm.list.collection.length < vm.count">
+        <div class="pull-left">
+            <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.list.collection.length > 0">
+                Showing
+                <span ng-if="(vm.pageNumber * vm.pageSize) <= vm.count">{{((vm.pageNumber - 1) * vm.pageSize)+ 1}} to {{vm.pageNumber * vm.pageSize}} of {{vm.count}} </span>
+                <span ng-if="(vm.pageNumber * vm.pageSize) > vm.count">{{((vm.pageNumber - 1) * vm.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                records
+            </div>
+        </div>
+        <div class="pull-right">
+            <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.pageSize"
+                    ng-model="vm.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                    last-text="&raquo;"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.createAccountCredit && vm.isSuperAdmin">
+        <ng-form name="accountCredit_form">
+            <div class="col-md-4">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : accountCredit_form.amount.$error.required}">
+                        <input type="text" class="form-control" id="amount" name="amount" only-decimal ng-model="vm.accountCredit.Amount" min="1" maxlength="10" required>
+                        <label for="amount">Amount ($)<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="accountCredit_form.amount.$dirty && accountCredit_form.amount.$error.required">
+                        <span class="text-danger" ng-if="accountCredit_form.amount.$error.required">
+                            Amount is required.
+                        </span>
+                        <span class="text-danger" ng-if="accountCredit_form.amount.$error.min">
+                            Positive value is required.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="width:240px;" class="form-group form-md-line-input form-md-floating-label">
+                    <select class="form-control input-medium" id="creditType" ng-model="vm.accountCredit.typeId"
+                            ng-options="credit.value as credit.display for credit in vm.creditType" required>
+                        <option disabled value=''></option>
+                    </select>
+                    <label for="creditType">Credit Type<span class="required" aria-required="true"> * </span></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : accountCredit_form.Description.$error.required}">
+                        <input type="text" class="form-control" id="description" name="Description" ng-model="vm.accountCredit.Description" min="1" maxlength="250" required />
+                        <label for="description">Description<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="accountCredit_form.Description.$dirty && accountCredit_form.Description.$error.required">
+                        <span class="text-danger" ng-if="accountCredit_form.Description.$error.required">
+                            Description is required.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.closeModel();" ng-if="vm.createAccountCredit">Cancel</button>
+                <button type="button" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing || accountCredit_form.$invalid">Add</button>
+            </div>
+        </ng-form>
+        <hr>
+    </div>
+    <div class="row">
+        <span class="col-xs-12 caption" ng-if="vm.list.collection.length <= 0">
+            Franchisee Does't have any Account Credit Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.collection.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>#</th>
+                        <th>Credited On</th>
+                        <th>Invoice#</th>
+                        <th>Description</th>
+                        <th>Initial Amount</th>
+                        <th>Remaining Amount</th>
+                        <th>Credited By</th>
+                        <th ng-if="vm.isSuperAdmin"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="item in vm.list.collection">
+                        <td>
+                            <span ng-if="item.expanded" ng-click="item.expanded = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                            <span ng-if="!item.expanded" ng-click="item.expanded = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                        </td>
+                        <td>{{item.accountCreditId}}</td>
+                        <td>
+                            <span ng-if="item.creditedOn != null">
+                                {{item.creditedOn | dateTimeFilter}}
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="item.invoiceId > 0">{{item.invoiceId}} <br /></span>
+                            <span ng-if="item.creditType!=null"><b>({{item.creditType}})</b></span>
+                        </td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <span ng-if="item.initialAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.initialAmount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="item.remainingAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.remainingAmount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 120px">
+                            <span ng-if="item.creditedOn != null">
+                                {{item.creditedBy}}
+                            </span>
+                        </td>
+                        <td ng-if="vm.isSuperAdmin">
+                            <span ng-if="item.remainingAmount == item.initialAmount" class="hidden-480">
+                                <a ng-click="vm.deleteAccountCredit(item.accountCreditId)">Delete</a>
+                            </span>
+                            <span ng-if="item.remainingAmount > 0 && item.creditHistory != null">
+                                <a ng-click="vm.removeCredit(item.accountCreditId)">Remove Credit</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="item.expanded">
+                        <td colspan="8">
+                            <table class="table table-striped table-bordered" id="sample_2" role="grid" aria-describedby="sample_2_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Invoice#</th>
+                                        <th>Payment Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in item.creditHistory">
+                                        <td>{{record.invoiceId}}</td>
+                                        <td>{{record.paymentDate | dateTimeFilter}}</td>
+                                        <td>
+                                            <span ng-if="record.amount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.amount" from-Currency="vm.list.currencyCode">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tr ng-if="item.creditHistory.length == 0 || item.creditHistory == null">
+                                    <td colspan="4" class="text-center"><span> No History Found!</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="item.clearedAmount > 0 && item.expanded" ng-repeat-end="">
+                        <td colspan="8">
+                            The amount of <span ng-if="item.clearedAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                input="item.clearedAmount" from-Currency="vm.list.currencyCode"></span> has been nullified.
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row pull-right" ng-if="vm.list.total > 0">
+        <span class="col-xs-12">
+            Total Remaining Credits -
+            <span ng-if="vm.list.total != null" currency-Exchange conversion-Rate="vm.currencyRate"
+                  input="vm.list.total" from-Currency="vm.list.currencyCode">
+            </span>
+        </span>
+    </div>
+</div>
+
+
+<div id="printSection" class="print" style="display:none">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Account Credit : {{vm.list.franchisee}}</h4>
+    </div>
+    <div class="row invoice-logo" ng-if="vm.list.collection.length > 0">
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Total AdFund Amount</b>
+            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                  input="vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+            </span>
+        </div>
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Total Royality Amount</b>
+            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                  input="vm.totalAmountByCategory.totalByRoyality" from-Currency="vm.list.currencyCode">
+            </span>
+        </div>
+        <div class="col-xs-12 invoice-logo-space">
+            <b>Total Sales Amount</b>
+            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                  input="vm.totalAmountByCategory.totalByTotalSales" from-Currency="vm.list.currencyCode">
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <span class="col-xs-12 caption" ng-if="vm.list.collection.length <= 0">
+            Franchisee Does't have any Account Credit Record.
+        </span>
+        <div class="col-xs-12" ng-if="vm.list.collection.length > 0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>#</th>
+                        <th>Credited On</th>
+                        <th>Invoice#</th>
+                        <th>Description</th>
+                        <th>Initial Amount</th>
+                        <th>Remaining Amount</th>
+                        <th>Credited By</th>
+                        <!--<th ng-if="vm.isSuperAdmin"></th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="item in vm.list.collection">
+                        <td>
+                            <span ng-click="item.expanded = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                        </td>
+                        <td>{{item.accountCreditId}}</td>
+                        <td>
+                            <span ng-if="item.creditedOn != null">
+                                {{item.creditedOn | dateTimeFilter}}
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="item.invoiceId > 0">{{item.invoiceId}} <br /></span>
+                            <span ng-if="item.creditType!=null"><b>({{item.creditType}})</b></span>
+                        </td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <span ng-if="item.initialAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.initialAmount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="item.remainingAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.remainingAmount" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 120px">
+                            <span ng-if="item.creditedOn != null">
+                                {{item.creditedBy}}
+                            </span>
+                        </td>
+                        <!--<td ng-if="vm.isSuperAdmin">
+                            <span ng-if="item.remainingAmount == item.initialAmount" class="hidden-480">
+                                <a ng-click="vm.deleteAccountCredit(item.accountCreditId)">Delete</a>
+                            </span>
+                            <span ng-if="item.remainingAmount > 0 && item.creditHistory != null">
+                                <a ng-click="vm.removeCredit(item.accountCreditId)">Remove Credit</a>
+                            </span>
+                        </td>-->
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <table class="table table-striped table-bordered" id="sample_2" role="grid" aria-describedby="sample_2_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Invoice#</th>
+                                        <th>Payment Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in item.creditHistory">
+                                        <td>{{record.invoiceId}}</td>
+                                        <td>{{record.paymentDate | dateTimeFilter}}</td>
+                                        <td>
+                                            <span ng-if="record.amount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.amount" from-Currency="vm.list.currencyCode">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tr ng-if="item.creditHistory.length == 0 || item.creditHistory == null">
+                                    <td colspan="4" class="text-center"><span> No History Found!</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="item.clearedAmount > 0 && item.expanded" ng-repeat-end="">
+                        <td colspan="8">
+                            The amount of <span ng-if="item.clearedAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                input="item.clearedAmount" from-Currency="vm.list.currencyCode"></span> has been nullified.
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

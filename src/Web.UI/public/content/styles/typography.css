@@ -1,0 +1,8 @@
+﻿@font-face {
+	font-family: 'kievit-book';
+	src: url('../../fonts/kievitbook/kievit-book.eot');
+	src: local('☺'), url('../../fonts/kievitbook/kievit-book.woff') format('woff'), url('../../fonts/kievitbook/kievit-book.ttf') format('truetype'), url('../../fonts/kievitbook/kievit-book.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+

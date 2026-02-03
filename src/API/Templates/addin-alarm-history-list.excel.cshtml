@@ -1,0 +1,20 @@
+﻿@model Core.Scheduler.ViewModel.BeforeAfterImageSendMailViewModel
+
+<html>
+<head>
+    <title>Before-After Images of Job/Estimate</title>
+</head>
+<body>
+
+    <h1>Before Job</h1>
+    @foreach (var slide in Model.BeforeImages.ImagesInfo)
+    {
+        <img src=@slide.ImageUrl style="margin:auto; height:150px;padding:10px">
+    }
+    <h1>After Job</h1>
+    @foreach (var slide in Model.AfterImages.ImagesInfo)
+    {
+        <img src=@slide.ImageUrl style="margin:auto; height:150px">
+    }
+</body>
+</html>

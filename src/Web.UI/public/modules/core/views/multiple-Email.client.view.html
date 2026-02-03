@@ -1,0 +1,30 @@
+﻿<div>
+    <form role="form" name="emailForm">
+        <div class="row" ng-repeat="email in emails">
+            <div class="col-md-8 remove-parent">
+                <div class="form-group form-md-line-input form-md-floating-label multi-add">
+                    <input type="text" class="form-control" id="email" name="email" ng-model="email.email" ng-disabled="email.isSynced">
+                    <label for="email">Email</label>
+                    <a href="javascript:void(0);" class="add-more" ng-click="addMore()"
+                       ng-if="$last && maxEmailCount != ($index + 1)">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <span ng-if="!email.isSynced">
+                        <a href="javascript:void(0);" class="delete-more" ng-click="remove($index)" ng-if="!$last || email.email != null"><i class="fa fa-trash-o"></i></a>
+                    </span>
+                    <div ng-show="emailForm.email.$dirty && emailForm.email.$invalid">
+                        <span class="text-danger" ng-if="emailForm.email.$error.email">
+                            Email not valid.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1" style="padding-left:0px; margin-top: 25px;">
+                <span ng-if="email.isSynced">
+                    <i class="fa fa-envelope fa-2x icon_feedback_received" title="Customer Email is Synced with Email API."></i>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+

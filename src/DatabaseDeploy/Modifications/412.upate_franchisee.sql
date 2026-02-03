@@ -1,0 +1,1 @@
+update makalu.franchisee set RegistrationDate='2015-01-01 00:00:00' where Id>0

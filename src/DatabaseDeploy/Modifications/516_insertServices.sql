@@ -1,0 +1,2 @@
+INSERT INTO `makalu`.`servicetype` (`Name`, `ColorCode`, `Description`, `CategoryId`, `SubCategoryId`, `IsActive`, `IsDeleted`, `OrderBy`, `NewOrderBy`) VALUES ('COUNTERLIFE:MARBLE', '#00FFF0', 'Countertop services', '101', '252', b'0', b'0', 39, 23);
+INSERT INTO `makalu`.`servicetype` (`Name`, `ColorCode`, `Description`, `CategoryId`, `SubCategoryId`, `IsActive`, `IsDeleted`, `OrderBy`, `NewOrderBy`) VALUES ('COUNTERLIFE:GRANITE', '#00FFF0', 'Countertop services', '101', '252', b'0', b'0', 40, 24);

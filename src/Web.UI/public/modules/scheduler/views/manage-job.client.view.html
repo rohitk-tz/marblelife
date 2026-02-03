@@ -1,0 +1,1848 @@
+﻿<style>
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 999999;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+        /*.tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-right: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }*/
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    #lb-back {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        transition: all ease 0.4s;
+    }
+
+        #lb-back.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    /* [LIGHTBOX IMAGE] */
+    #lb-img {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;
+    }
+
+        #lb-img img {
+            margin: 0px;
+            max-width: 100%;
+            width: 100% !important;
+        }
+
+    /* [DOES NOT MATTER] */
+    html, body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .upload-btn-wrapper .btn {
+        border: 1px solid #818181;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 28px;
+        width: 28px;
+        border-radius: 50%;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        display: inline-block;
+        padding: 0;
+        line-height: 28px;
+        position: absolute;
+        bottom: 10px;
+        right: 6px;
+    }
+
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .mbl-switch2 {
+        display: none;
+    }
+
+        .mbl-switch2 + label:after {
+            position: absolute;
+            width: 34px;
+            content: 'No';
+            background-color: #b9b9b9;
+            top: 1px;
+            color: #fff;
+            font-size: 12px;
+            height: 18px;
+            text-align: center;
+            border-radius: 3px;
+            left: auto;
+            right: 1px;
+        }
+
+        .mbl-switch2 + label {
+            position: relative;
+            width: 70px;
+            border: 1px solid #b9b9b9;
+            border-radius: 4px;
+            margin: 0;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mbl-switch2:checked + label:after {
+            content: 'Yes';
+            background-color: #578ebe;
+            left: 1px;
+        }
+
+    .page-title {
+        display: none;
+    }
+
+    .page-title-local {
+        color: #26327e;
+        font-family: kievit-book;
+        font-size: 20px;
+        text-transform: uppercase;
+    }
+
+    .is-add-to-galary-image {
+        border: 12px solid #26327e;
+    }
+
+    .not-is-add-to-galary-image {
+        border: 0px solid lightblue;
+    }
+
+    .img-magnifier-container:hover {
+        cursor: pointer;
+    }
+
+    .img-magnifier-container {
+        position: relative;
+    }
+
+    .img-magnifier-glass {
+        position: absolute;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: none;
+        /*Set the size of the magnifier glass:*/
+        width: 100px;
+        height: 100px;
+    }
+
+    .numberCircle {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        padding: 8px;
+        background: #fff;
+        border: 2px solid #666;
+        color: #666;
+        text-align: center;
+        font: 14px Arial, sans-serif;
+    }
+
+    .is-best-image {
+        border: 12px solid lightblue;
+    }
+
+    .not-best-image {
+        border: 0px solid lightblue;
+    }
+
+    ol.carousel-indicators {
+        display: none !important;
+    }
+
+    .color-picker {
+        border-width: 4px !important;
+    }
+
+    .pre-unwrapped {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        display: block;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .flex-1 {
+        flex: 1;
+    }
+
+    .min-h-0 {
+        min-height: 0px !important;
+    }
+
+    .padding-0 {
+        padding: 0;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .close-icon {
+        font-size: 30px;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        background: #ffffff;
+        padding: 5px 7px;
+        margin: 0px;
+        height: 25px;
+        width: 25px;
+        z-index: 100 !important;
+    }
+
+        .close-icon i.fa {
+            float: left
+        }
+
+        .close-icon:hover, .close-icon:focus, .close-icon:active {
+            text-decoration: none;
+        }
+
+    .job-panel {
+        box-shadow: 0 0 3px #ccc;
+        background-color: #efefef;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .padding-0 {
+        padding: 0 !important;
+    }
+
+    .margin-bottom-5 {
+        margin-bottom: 5px !important;
+    }
+
+    .image-section {
+        min-width: 400px;
+        border: 1px solid #ccc;
+        overflow: hidden;
+        margin-bottom: 10px;
+        min-height: 200px;
+        vertical-align: middle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .image-section > img {
+            width: auto;
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+            max-width: 100%;
+        }
+
+
+    .flex-wrap {
+        flex-flow: wrap;
+    }
+
+    .m-b-0 {
+        margin-bottom: 0 !important;
+    }
+
+    .font-11 {
+        font-size: 11px !important;
+    }
+
+    .no-media {
+        width: 100%;
+        margin: 0;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .w-200 {
+        width: 200px;
+    }
+
+    .job-panel .portlet .row .col-md-6:nth-child(2n) .portlet-title {
+        margin-bottom: 3px;
+    }
+
+    .list-stripted li {
+        border-bottom: 1px solid #f1f1f1;
+        padding: 7px 0px;
+    }
+
+        .list-stripted li:last-child {
+            border-bottom: 0px;
+        }
+
+        .list-stripted li .text-left, .bg-silver-stripted li .text-left {
+            font-weight: bold
+        }
+
+    .bg-silver-stripted {
+        background: #f3f4f7;
+    }
+
+        .bg-silver-stripted li {
+            border-bottom: 1px solid #ffffff;
+            padding: 7px 0px;
+        }
+
+    .img-box-s {
+        width: 300px;
+        height: 520px;
+        background: #f4f5f7;
+        position: relative;
+        margin: 5px;
+        overflow: hidden;
+        float: left
+    }
+
+    .addAfter_slider {
+        height: initial
+    }
+
+    @media (min-width: 992px) {
+        .modal-dialog.modal-lg {
+            width: 60%;
+            height: auto;
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        .custom-btn {
+            text-align: right
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+        .custom-btn .btn {
+            padding: 8px 10px 8px 10px;
+        }
+
+        .padding-xs-5 {
+            padding: 5px !important;
+        }
+
+        .img-box-s {
+            width: 100%;
+            height: auto
+        }
+    }
+
+    .test:hover {
+        cursor: pointer;
+    }
+
+    .testCursor:hover {
+        cursor: default;
+    }
+
+    @media only screen and (min-width: 1536px) {
+        .box-width {
+            width: 779px;
+        }
+    }
+
+    @media only screen and (max-width: 1400px) {
+        .box-width {
+            width: 608px;
+        }
+    }
+
+    @media only screen and (max-width: 1100px) {
+        .box-width {
+            width: 435px;
+        }
+    }
+
+    @media only screen and (min-width: 300px) and (max-width: 1000px) {
+        .box-width {
+            width: 320px;
+        }
+    }
+
+    @media only screen and (min-width: 1250) and (max-width: 1290px) {
+        .box-width {
+            width: 779px;
+        }
+    }
+</style>
+
+<div class="clearfix">
+    <div class="clearfix page-controls" style="margin-left: -19px;margin-right: -14px;">
+        <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 5px;margin-left:5px !important">
+            <div class="container-fluid col-md-4 col-xs-12">
+                <h3 class="page-title-local">
+                    Manage Job: {{vm.jobInfo.franchisee}}
+                </h3>
+            </div>
+
+
+            <div class="col-md-8 custom-btn m-t-5 col-xs-10 col-sm-10 col-sm-10">
+                <span>
+                    <button ng-disabled="vm.isProcessing" id="sample_editable_1_new" ng-click="vm.openFollowUpModal()" class="btn btn-primary margin-top-10" title="Add Follow Up">
+                        <i class="fa fa-users" aria-hidden="true" title="Add Follow Up"></i>   Add Follow Up
+                    </button>
+                </span>
+                <span ng-if="vm.jobInfo.estimateId > 0 && !vm.isOpsMgr">
+                    <button ng-disabled="vm.isProcessing" id="sample_editable_1_new" ng-click="vm.goToEstimate()" class="btn btn-primary margin-top-10 " ng-disabled="vm.jobInfo.isEstimateDeleted">
+                        <i class="fa fa-sign-in"></i> Go To Estimate
+                    </button>
+                </span>
+                <span ng-if="vm.isEdit && !vm.isOpsMgr">
+                    <button ng-disabled="vm.isProcessing" id="sample_editable_1_new" ng-click="vm.editJob()" class="btn btn-primary margin-top-10">
+                        <i class="fa fa-edit"></i> Edit Job
+                    </button>
+                </span>
+                <span ng-if="!vm.isOpsMgr">
+                </span>
+                <span ng-if="!vm.isOpsMgr">
+                    <button ng-disabled="vm.isProcessing" id="sample_editable_1_new" ng-click="vm.addNote()" class="btn btn-primary margin-top-10">
+                        <i class="fa fa-sticky-note"></i> Add Note
+                    </button>
+                </span>
+
+                <span>
+                    <button ng-disabled="vm.isProcessing" class="btn btn-primary margin-top-10" ui-sref="core.layout.scheduler.manage({ franchiseeId: vm.jobInfo.franchiseeId,previousView:vm.previousView,nativateDate: vm.navigationDate})"><i class="fa fa-calendar"></i> Calendar View</button>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="sideTablable">
+        <li class="active" id="general"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">General Information</a></li>
+        <li id="invoice"><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab4">Invoice/Drawing</a></li>
+        <li id="building"><a ng-click="vm.changeTab(3)" data-toggle="tab" href="~/#tab2">Building Exterior</a></li>
+        <li id="beforeAfter"><a ng-click="vm.changeTab(4)" data-toggle="tab" href="~/#tab3">Job Before/After Images</a></li>
+        <li style="float:right">
+            <div class="pull-right" style="margin-top: 7%">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="confirmed" class="md-check" ng-model="vm.jobInfo.isActive" ng-click="vm.confirmChanging(true,vm.estimateInvoiceInfo)">
+                    <label for="confirmed">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        {{vm.jobInfo.schedulerStatusName}}
+                    </label>
+                </div>
+            </div>
+        </li>
+        <li style="float:right;margin-right:40px" ng-if="vm.isInvoiceEnhancement">
+            <div ng-if="vm.isInvoiceEnhancement" style="float:right;margin-right:10px!important;font-size:14px !important;margin-top:9px !important">
+                <div class="pull-right">
+                    <input type="checkbox" checked class="mbl-switch" id="document_2" ng-model="vm.jobInfo.isCustomerAvailable" ng-click="vm.changeAvailability(vm.estimateInvoiceInfo)" ng-disabled="!vm.jobInfo.isCustomerAvailable">
+                    <label for="document_2"></label>
+                </div>
+                <span style="margin-right:10px !important;font-size:17px !important">Is Customer Available</span>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-contents">
+        <div class="tab-pane fade in " ng-if="vm.isGenernalTab">
+            <!-- BEGIN SAMPLE FORM PORTLET-->
+            <div class="clear-both row">
+                <div class="col-md-8 col-sm-8">
+                    <div class="portlet light">
+                        <div class="portlet-title tabbable-line">
+                            <div class="col-sm-6 caption">
+                                <span class="caption-subject font-blue-steel bold uppercase">
+                                    Job Information
+                                    <label type="button" class="label label-sm label-success margin-left-15 search-single" ng-style="{'background-color': vm.jobInfo.statusColor}">{{vm.jobInfo.status}}</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <span class="" ng-if="vm.isSuperAdmin  || vm.isFranchiseeAdmin || vm.isFrontOffice" style="margin-right: 6px;">
+                                    <button id="sample_editable_1_new" ng-click="vm.copyJob()" class="btn btn-default btn-sm padding-xs-5 m-t-5">
+                                        Copy/Duplicate Job
+                                    </button>
+                                </span>
+                                <!--<div class="pull-right m-t-5" ng-if="!vm.isOpsMgr">-->
+                                <span style="margin-left:11px" class="m-t-5" ng-if="vm.isSuperAdmin  || vm.isFranchiseeAdmin || vm.isFrontOffice">
+                                    <button id="sample_editable_1_new" ng-click="vm.repeatJob()" class="btn btn-default btn-sm padding-xs-5 m-t-5">
+                                        Repeat/Change Time
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="portlet_tab">
+                                    <ul class="list-unstyled list-stripted">
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Title</div>
+                                            <div class="col-sm-1 col-xs-1"> <b>:</b> </div>
+                                            <div class="col-sm-8">{{vm.jobInfo.title}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Franchisee </div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.franchisee}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Customer Class</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.jobType}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Created On</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.createdOn| dateTimeFilter : 'dt'}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left" ng-show="vm.isRepeative">Initial Start Time</div>
+                                            <div class="col-sm-3 col-xs-11 text-left" ng-show="!vm.isRepeative">Start Time</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.startDate}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left" ng-show="vm.isRepeative">Initial End Time</div>
+                                            <div class="col-sm-3 col-xs-11 text-left" ng-show="!vm.isRepeative">End Time</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.endDate}}</div>
+                                        </li>
+                                        <li class="clearfix" ng-if="vm.jobInfo.salesRep != null">
+                                            <div class="col-sm-3 col-xs-11 text-left">Sales Rep.</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.salesRep}}</div>
+                                        </li>
+                                        <li class="clearfix" ng-if="vm.jobInfo.createdBy != null">
+                                            <div class="col-sm-3 col-xs-11 text-left">Created By</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.createdBy}}</div>
+                                        </li>
+                                        <li ng-if="vm.jobInfo.jobSchedulerList.length > 0" class="clearfix" ng-show="!vm.isRepeative">
+                                            <div class="col-sm-3 col-xs-11 text-left">Assignee(s)</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">
+                                                <span ng-repeat="assignee in vm.jobInfo.jobSchedulerList">
+                                                    {{assignee.assigneeName}} <span ng-if="!$last">,</span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="clearfix" ng-if="vm.jobInfo.statusId == '4' && (vm.isSuperAdmin || vm.isFranchiseeAdmin)">
+                                            <div class="col-sm-3 col-xs-11 text-left">QB Invoice</div>
+                                            <div class="col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">
+                                                <span class="col-sm-8">
+                                                    <span data-ng-hide="editMode">
+                                                        <span class="break_word">{{vm.jobInfo.qbInvoiceNumber}}</span>
+                                                    </span>
+                                                    <span data-ng-show="editMode" class="form-group form-md-line-input form-md-floating-label" style="margin-top:-10px">
+                                                        <!--<input type="text" class="form-control" id="QBInvoice" name="QBInvoice" ng-model="vm.jobInfo.qbInvoiceNumber" style="margin-left: -13px;"
+                                        maxlength="128" ng-blur="vm.checkQBNumber()">-->
+                                                        <input type="text" class="form-control" id="QBInvoice" name="QBInvoice" ng-model="vm.jobInfo.qbInvoiceNumber" style="margin-left: -13px;"
+                                                               maxlength="128">
+                                                    </span>
+                                                </span>
+                                                <span class="col-sm-4">
+                                                    <a class="col-sm-4 glyphicon glyphicon-edit" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                                                    <a class="col-sm-2 glyphicon glyphicon-ok" data-ng-show="editMode" data-ng-click="vm.updateQbInvoice();"></a>
+                                                    <a class="col-sm-2 glyphicon glyphicon-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode"></a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet light" ng-if="vm.jobInfo.description != null && vm.jobInfo.description != ''">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption">
+                                <span class="caption-subject font-blue-steel bold uppercase">Job Description</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <pre class="pre_unstyled pre-unwrapped"> {{vm.jobInfo.description}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet light" ng-show="vm.isRepeative">
+
+                        <!-- COLLAPSE / EXPAND HEADER -->
+                        <div class="portlet-title tabbable-line"
+                             style="cursor:pointer;"
+                             ng-click="vm.showJobDetails = !vm.showJobDetails">
+
+                            <div class="caption">
+                                <span class="caption-subject font-blue-steel bold uppercase">
+                                    JOB DETAILED INFORMATION (Click below to view the job detail)
+                                </span>
+                            </div>
+
+                            <!-- PLUS / MINUS ICON -->
+                            <div class="tools pull-right" style="font-size:18px;">
+                                <i ng-if="!vm.showJobDetails" class="fa fa-plus"></i>
+                                <i ng-if="vm.showJobDetails" class="fa fa-minus"></i>
+                            </div>
+                        </div>
+
+                        <!-- COLLAPSIBLE BODY -->
+                        <div class="portlet-body" ng-show="vm.showJobDetails">
+                            <div class="tab-content">
+
+                                <div class="tab-pane active" id="portlet_tab"
+                                     ng-repeat="assignee in vm.jobInfo.jobSchedulerList">
+
+                                    <a ng-click="vm.manageJob(assignee.jobId, assignee.id)"
+                                       ng-attr-title="{{vm.getTitle(assignee.id)}}"
+                                       ng-class="(assignee.id != vm.rowId) ? 'test' : 'testCursor'">
+
+                                        <ul class="list-unstyled bg-silver-stripted"
+                                            ng-style="assignee.alias ? { 'background-color': '#ffffc6','color':'black' } : null">
+
+                                            <li class="clearfix">
+                                                <div class="col-sm-3 col-xs-11 text-left">Assignee Name</div>
+                                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                                <div class="col-sm-8">{{assignee.assigneeName}}</div>
+                                            </li>
+
+                                            <li class="clearfix">
+                                                <div class="col-sm-3 col-xs-11 text-left"
+                                                     ng-show="assignee.alias">Current Start Date</div>
+                                                <div class="col-sm-3 col-xs-11 text-left"
+                                                     ng-show="!assignee.alias">Start Date</div>
+                                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                                <div class="col-sm-8">{{assignee.startDate}}</div>
+                                            </li>
+
+                                            <li class="clearfix">
+                                                <div class="col-sm-3 col-xs-11 text-left"
+                                                     ng-show="assignee.alias">Current End Date</div>
+                                                <div class="col-sm-3 col-xs-11 text-left"
+                                                     ng-show="!assignee.alias">End Date</div>
+                                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                                <div class="col-sm-8">{{assignee.endDate}}</div>
+                                            </li>
+
+                                            <li class="clearfix">
+                                                <div class="col-sm-3 col-xs-11 text-left">Invoice Name</div>
+                                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                                <div class="col-sm-8">{{assignee.invoiceNames}}</div>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="portlet light">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption">
+                                <span class="caption-subject font-blue-steel bold uppercase">Customer Information</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="portlet_tab">
+                                    <ul class="list-unstyled list-stripted">
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Name</div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.jobCustomer.customerName}}</div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Email</div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div style="word-break: break-all;" class="col-sm-8">{{vm.jobInfo.jobCustomer.email}}</div>
+                                        </li>
+                                        <li class="clearfix" ng-if="vm.jobInfo.jobCustomer.phoneNumber!=null && !vm.isMobile">
+                                            <div class="col-sm-3 col-xs-11 text-left">Phone</div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8">{{vm.jobInfo.jobCustomer.phoneNumber |  phonemask}}</div>
+                                        </li>
+                                        <li class="clearfix" ng-if="vm.jobInfo.jobCustomer.phoneNumber!=null && vm.isMobile">
+                                            <div class="col-sm-3 col-xs-11 text-left">Phone</div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8"><a href="tel:{{vm.jobInfo.jobCustomer.phoneNumber}}"><i class="fa fa-phone" aria-hidden="true"></i>{{vm.jobInfo.jobCustomer.phoneNumber |  phonemask}} </a></div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="col-sm-3 col-xs-11 text-left">Address</div>
+                                            <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                            <div class="col-sm-8" ng-binding ng-if="!vm.isMobile">
+                                                {{vm.jobInfo.jobCustomer.address.addressLine1}}, <span ng-if="vm.jobInfo.jobCustomer.address.addressLine2">{{vm.jobInfo.jobCustomer.address.addressLine2}},</span>
+                                                {{vm.jobInfo.jobCustomer.address.city}}, {{vm.jobInfo.jobCustomer.address.state}} - {{vm.jobInfo.jobCustomer.address.zipCode}},
+                                                {{vm.jobInfo.jobCustomer.address.country}}
+                                            </div>
+                                            <div class="col-sm-8" ng-binding ng-if="vm.isMobile">
+                                                <a ng-click="vm.googleApi(vm.jobInfo.jobCustomer.fullAddress)">
+                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    {{vm.jobInfo.jobCustomer.address.addressLine1}}, <span ng-if="vm.jobInfo.jobCustomer.address.addressLine2">{{vm.jobInfo.jobCustomer.address.addressLine2}},</span>
+                                                    {{vm.jobInfo.jobCustomer.address.city}}, {{vm.jobInfo.jobCustomer.address.state}} - {{vm.jobInfo.jobCustomer.address.zipCode}},
+                                                    {{vm.jobInfo.jobCustomer.address.country}}
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet light" ng-if="vm.jobInfo.notes !=null && vm.jobInfo.notes.length > 0">
+                        <div class="portlet1 light1">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption">
+                                    <span class="caption-subject font-blue-steel bold uppercase">Job Notes</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body" slimscroll="{height: '180px'}">
+                                <div class="tab-content" ng-repeat="note in vm.jobInfo.notes" style="margin-bottom:2%">
+                                    <div class="">
+                                        <a href="" ng-click="vm.jobNoteEdit(note.id,note.note)"><span class="pull-right" style="margin-left:2% !important"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+                                        <a href="" ng-click="vm.jobNoteDelete(note.id)"> <span class="pull-right"><i class="fa fa-trash" aria-hidden="true"></i></span></a>
+                                    </div>
+                                    <span class="bold">{{note.createdOn | dateTimeFilter : 'dt'}}</span><br />
+                                    <span class="bold">Added By - </span>{{note.createdBy}}<br />
+                                    <span class="bold">Job Status - </span>{{note.status}}<br />
+                                    <span class="bold">Note - </span>{{note.note}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet light" style="height:300px;" ng-if="vm.followUpList != null && vm.followUpList.length > 0">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption">
+                                <span class="caption-subject font-blue-steel bold uppercase">Job Follow Up</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body" slimscroll="{height: '220px'}">
+
+                            <div class="tab-content" ng-repeat="followUp in vm.followUpList track by $index">
+                                <div class="d-flex" style="margin-left: 87%;" ng-click="vm.deleteToDo(followUp,$index)"><i class="fa fa-remove"></i></div>
+                                <span class="bold">Task -</span><a href="{{followUp.redirectToFollowUp}}" target="_blank">{{followUp.toDo}}</a><br />
+                                <span class="bold">Follow-Up Date -</span> {{followUp.date |date:'M/d/yyyy'}}<br />
+                                <span class="bold">Status - </span>{{followUp.status}}<br />
+                                <span ng-if="vm.isSuperAdmin"> <span class="bold">Added By - </span>{{followUp.userName}}<br /></span>
+                                <span class="bold">Comment - </span>{{followUp.comment}}<br />
+                                <span ng-if="vm.isMoreThanFive && ($index + 1) ==vm.followUpList.length"><a ng-click="vm.openViewFollowUpModal()"><b>..See More</b></a></span>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade in " id="tab2" ng-if="vm.isBuildinglTab">
+            <div class="col-xs-12">
+                <div class="portlet light" style="min-height:630px;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption">
+                            <span class="caption-subject font-blue-steel bold uppercase">Exterior Building Media</span>
+                        </div>
+                        <button id="sample_editable_1_new" ng-click="vm.uploadMediaBuildingInvoice(vm.sliderImages,false,true)" class="btn btn-default btn-sm pull-right">
+                            Attach Media
+                        </button>
+                        <button ng-if="vm.isMediaSave" id="sample_editable_1_new" ng-click="vm.save(false)" class="btn btn-default btn-sm pull-right" style="margin-right:1%">
+                            Save
+                        </button>
+                    </div>
+                    <div class="portlet-body slider">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="portlet_tab">
+                                <div ng-if="vm.sliderImages.imagesInfo.length > 0">
+                                    <div class="img-box-s" ng-repeat="slide in vm.sliderImages.imagesInfo track by $index" index="$index">
+                                        <a href="javascript:void(0);" class="close-icon" ng-if="slide.isExteriorImageSave && slide.isImage" ng-click="vm.removeImage(vm.sliderImages.imagesInfo,$index,1,false,1)"><i class="fa fa-remove"></i> </a>
+                                        <a href="javascript:void(0);" title="Download Image" class="close-icon" ng-if="slide.isExteriorImageSave && slide.isImage" ng-click="vm.downloadImage(slide)" style="right:40px !important"><i class="fa fa-download"></i></a>
+                                        <img ng-src="{{slide.url}}" style="width:100%;">
+                                        <div class="margin-top-8">
+                                            <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"> <strong>Uploaded By: </strong> {{slide.createdBy}}</p>
+                                            <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong> Uploaded At: </strong> {{slide.createdOn|date:'M/d/yyyy HH:mm:ss'}}</p>
+                                            <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong> File Name: </strong> {{slide.caption}}</p>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div ng-if="vm.sliderImages.imagesInfo.length <= 0"><h4 class="text-center">No media uploaded yet! </h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade in " id="tab3" ng-if="vm.isBeforeAfterlTab">
+            <form role="form" name="mangeJobForm">
+                <div class="portlet light job-panel">
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="pull-left margin-right-10 bold">
+                                <p style="font-size: 14px;">Number of Unpaired Before/After: {{vm.noOfUnPaired}}</p>
+                                <p style="font-size:16px">{{vm.currentMarketingClass.display}}</p>
+                                <p style="font-size:15px" ng-if="!vm.isPresentRequiredClass">
+                                    <b><i>Note: Don't forget to upload Exterior Image shot for both BEFORE & AFTER images</i></b>
+                                </p>
+                            </div>
+                            <div class="pull-right margin-bottom-10">
+                                <button id="sample_editable_1_new" ng-click="vm.addNew()" class="btn btn-primary pull-right">
+                                    <i class="fa fa-plus" style="font-size:10px;color:white"></i>
+                                </button>
+                                <button ng-if="vm.isBeforeAFterSave" id="sample_editable_1_new" ng-click="vm.save(true)" class="btn btn-primary pull-right" style="margin-right: 10px;">
+                                    Save
+                                </button>
+                                <button ng-if="vm.isBeforeAFterSave" id="sample_editable_1_new" ng-click="vm.downloadImages(false)" class="btn btn-primary pull-right">
+                                    Download Images
+                                </button>
+                                <div class="pull-left tooltip" ng-if="vm.isBeforeAFterSave" style="margin-top:16px !important;z-index:10 !important">
+                                    <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;font-size: 39px;margin-top: -7px;"></i>
+                                    <span class="tooltiptext" style="color:white !important;background-color:#26327e !important;width:300px !important;padding:10px !important;z-index:100">
+                                        <p>To make any operations with the images, you need to click on the following icons on the before/ after images::</p>
+                                        <p style="text-align:left !important">
+                                            1. <i class="fa fa-remove"></i> : Remove the before/after image.
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            2. <i class="fa fa-shield fa-rotate-90"></i> : Rotate the before/after image.
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            3. <i class="fa fa-download"></i> : Download the before/after image.
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            4. <i class="fa fa-search-plus"></i> : Zoom in the before/after image
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            5. <i class="fa fa-search-minus"></i> : Zoom out the before/after image
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            6.<i class="fa fa-exchange"></i> : Swap before/after images
+                                        </p>
+                                        <p style="text-align:left !important">
+                                            7. <i class="fa fa-arrows"></i> : Shift the before/after images to  Building Exterior  or Invoice/Drawing.
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-panel padding-0">
+                        <div class="portlet light margin-bottom-10" ng-repeat="imgs in vm.jobEstimateImage track by $index">
+                            <div class="row" ng-class="{'is-add-to-galary-image': imgs.isAddToLocalGallery , 'not-is-add-to-galary-image': !imgs.isAddToLocalGallery}">
+                                <div class="row" ng-class="{'is-best-image': imgs.isBestPicture , 'not-best-image': !imgs.isBestPicture}" style="margin: 0%;margin-bottom: 1px;">
+                                    <div class="" id="printSection1_{{$index}}" style="display:none;">
+
+                                        <h1 ng-if="imgs.beforeImages.typeId==203">Before Job</h1>
+                                        <h1 ng-if="imgs.beforeImages.typeId==205">During Job</h1>
+                                        <div class="col-md-4" ng-repeat="slide in imgs.beforeImages.imagesInfo" style="padding: 50px; display: inline-block;">
+                                            <img ng-src="{{slide.url}}" style="margin:auto; height:150px;">
+                                        </div>
+                                        <h1>After Job</h1>
+                                        <div class="col-md-4" ng-repeat="slide in imgs.afterImages.imagesInfo" style="padding: 50px; display: inline-block;">
+                                            <img ng-src="{{slide.url}}" style="margin:auto; height:150px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-1" style="margin-right: 10px;margin-top:2%">
+                                                <b class="numberCircle" style="margin-left: 2%;">{{$index +1 }}</b>
+                                            </div>
+                                            <div class="col-md-5" ng-if="vm.jobEstimateImage.length > 1" style="margin-top:7px">
+
+                                                <div class="search-single">
+                                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                                        <select class="form-control ng-touched edited" id="search-option" ng-model="imgs.beforeImages.imageIndex"
+                                                                ng-change="vm.dropDownForBeforeAfter(true,imgs.beforeImages.imageIndex,imgs.beforeImages.selectedIndex)"
+                                                                ng-options="status.value as status.display for status in vm.listForBeforeAfterDropDown">
+                                                            <option selected disabled hidden style='display: none' value=''>Select Before Image Pair</option>
+                                                        </select>
+                                                        <label for="search-option">Select Before Image Pair</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-4" ng-if="vm.jobEstimateImage.length > 1" style="margin-top:7px">
+                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <select class="form-control  ng-touched edited" id="search-option" ng-model="imgs.afterImages.imageIndex"
+                                                            ng-change="vm.dropDownForBeforeAfter(false,imgs.afterImages.imageIndex,imgs.afterImages.selectedIndex)"
+                                                            ng-options="status.value as status.display for status in vm.listForBeforeAfterDropDown">
+                                                        <option selected disabled hidden style='display: none' value=''>Select After Image Pair</option>
+                                                    </select>
+                                                    <label for="search-option">Select After Image Pair</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-xs-12 pull-right" style="margin-top:10px" ng-if="imgs.beforeImages.imagesInfo.length > 0 && imgs.afterImages.imagesInfo.length > 0 && !vm.isTech && !vm.isSalesRep">
+                                                <div class="col-md-8 col-xs-6">
+                                                    <p style="font-size:15px !important"><b>Mark Best Pair </b></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="single-service clearfix" style="padding:0">
+                                                        <div>
+                                                            <input type="checkbox" checked class="mbl-switch2" id="beforeAfter_{{$index}}" ng-model="imgs.isBestPicture" ng-click="vm.bestPictureSelected($index,imgs, true)">
+                                                            <label for="beforeAfter_{{$index}}">&nbsp;</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-xs-12 pull-right" style="margin-top:10px" ng-if="imgs.beforeImages.imagesInfo.length > 0 && imgs.afterImages.imagesInfo.length > 0 && !vm.isTech && !vm.isSalesRep">
+                                                <div class="col-md-8 col-xs-6">
+                                                    <p style="font-size:15px !important"><b>Add to Local Site Gallery </b></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="single-service clearfix" style="padding:0">
+                                                        <div>
+                                                            <input type="checkbox" checked class="mbl-switch" id="addToGalary_{{$index}}" ng-model="imgs.isAddToLocalGallery" ng-click="vm.bestPictureSelected($index,imgs,false)">
+                                                            <label for="addToGalary_{{$index}}">&nbsp;</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12  m__10">
+                                        <span style="float:right"><a class="color__icons" ng-click="vm.deleteRow(vm.jobEstimateImage,$index)"><i class="fa fa-remove"></i></a></span>
+                                        <span ng-if="imgs.beforeImages.imagesInfo.length > 0 ||imgs.afterImages.imagesInfo.length > 0" style="float:right" class="resd_icons"><a class="color__icons" ng-print-amchart print-element-id="printSection1_{{$index}}" title="print"> <i class="fa fa-print"></i></a></span>
+                                        <span ng-if="imgs.beforeImages.imagesInfo.length > 0 ||imgs.afterImages.imagesInfo.length > 0" style="float:right" class="resd_icons"><a class="color__icons" ng-click="vm.beforeAfterMail(imgs,$index)"> <i class="fa fa-envelope"></i></a></span>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div>
+                                            <div class="portlet-title tabbable-line min-h-0 clearfix">
+                                                <div class="caption padding-0 margin-bottom-5 pull-left">
+                                                    <span class="caption-subject font-blue-steel bold uppercase font-lg">
+                                                        Before/During Job
+                                                    </span>
+                                                </div>
+                                                <div class="w-200 pull-right">
+                                                    <select class="form-control" id="search-option" ng-model="imgs.beforeImages.typeId" ng-change="vm.CategoryTypeChange(imgs.beforeImages)"
+                                                            ng-options="status.value as status.display for status in vm.typeId">
+                                                        <option selected disabled hidden style='display: none' value=''>Select Service Type</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body" style="margin-top:2% !important">
+                                                <div class="clearfix">
+                                                    <p> <b>{{imgs.beforeImages.text}} JOB</b></p>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select name="surfaceMaterial" ng-change="vm.OptionChanged(imgs,true)" class="form-control" id="search-option" ng-model="imgs.beforeImages.surfaceMaterial"
+                                                                    ng-disabled="imgs.beforeImages.isDisable" ng-options="status.value as status.display for status in vm.surfaceMaterial">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Material*</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.beforeImages.serviceTypeId" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'ServiceType')"
+                                                                    ng-options="status.value as status.display for status in vm.serviceType">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Service Type</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select ng-change="vm.OptionChanged(imgs,true)" class="form-control" id="search-option" ng-model="imgs.beforeImages.surfaceType"
+                                                                    ng-options="status.value as status.display for status in vm.surfaceType" ng-disabled="imgs.beforeImages.isDisable">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Type*</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.beforeImages.surfaceColor" ng-if="!imgs.beforeImages.isGroutilife"
+                                                                    ng-options="status.value as status.display for status in vm.surfaceColor" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'SurfaceColor')">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Color</option>
+                                                            </select>
+                                                            <input type="text" name="usercolor" ng-if="imgs.beforeImages.isGroutilife" ng-model="imgs.beforeImages.surfaceColor" class="form-control color-picker" style="padding-left: 2%;width: 96%;" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.beforeImages.finishMaterial" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'FinishMaterial')"
+                                                                    ng-options="status.value as status.display for status in vm.finishMaterial">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Finish Type</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select ng-change="vm.OptionChanged(imgs,true)" class="form-control" id="search-option" ng-model="imgs.beforeImages.buildingLocation"
+                                                                    ng-options="status.value as status.display for status in vm.buildingLocation" ng-disabled="imgs.beforeImages.isDisable">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Building Location*</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10" ng-if="imgs.beforeImages.buildingLocation=='Floor'">
+                                                            <input ng-disabled="imgs.beforeImages.isDisable" ng-click="vm.floorNoChange(imgs,imgs.beforeImages,'Before')" ng-model="imgs.beforeImages.floorNumber" type="number" value="1" min="1" max="1000" step="1" class="form-control" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <input placeholder="Property/Facility Management Company" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'CompanyName')" ng-model="imgs.beforeImages.compamyName" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="vm.isResidential">
+                                                            <input placeholder="Maid Service" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'MaidService')" ng-model="imgs.beforeImages.maidService" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential">
+                                                            <input placeholder="Property Manager" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'PropertyManager')" ng-model="imgs.beforeImages.propertyManager" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential && imgs.beforeImages.buildingLocation!='Floor'">
+                                                            <input placeholder="MAID/JANITORIAL" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'MaidJanitorial')" ng-model="imgs.beforeImages.maidJanitorial" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential && imgs.beforeImages.buildingLocation=='Floor'">
+                                                            <input placeholder="MAID/JANITORIAL" ng-change="vm.serviceSelectionChange(imgs.beforeImages,true,imgs.afterImages,imgs,'MaidJanitorial')" ng-model="imgs.beforeImages.maidJanitorial" class="form-control" style="padding-left: 2%;width: 33%;" maxlength="40" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <div class="clearfix" id="portlet_tab">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="flex-1 margin-right-10">
+                                                                    <div active="active" interval="0" no-wrap="noWrapSlides">
+                                                                        <div ng-init="imgId='before'+$parent.$index+'_'+$index;imgBeforeId='zoomD_before_'+$parent.$index;zoomcontainer='zoom-container-before_'+$parent.$index" ng-repeat="slide in imgs.beforeImages.imagesInfo track by $index" index="$index" class="box-width" style="position: relative;overflow:hidden;margin-top:4px !important">
+                                                                            <div style="width: 100%;background-color: #26327e;height: 35px;z-index: 999999999;">
+                                                                                <a href="javascript:void(0);" title="Remove Image" class="close-icon" ng-click="vm.removeImage(imgs.beforeImages.imagesInfo,$index,0,true,$parent.$index)"><i class="fa fa-remove"></i></a>
+                                                                                <a href="javascript:void(0);" title="Rotate Image" ng-click="vm.rotate(imgId,slide,$index,$parent.$index,'before');" class="close-icon" style="right:65px"><i class="fa fa-shield fa-rotate-90"></i> </a>
+                                                                                <a href="javascript:void(0);" class="close-icon" title="Download Images" ng-click="vm.downloadImage(slide)" style="right:92px !important"><i class="fa fa-download"></i></a>
+                                                                                <a href="javascript:void(0);" class="close-icon" title="Zoom In" ng-click="vm.zoomin(imgBeforeId,zoomcontainer,$parent.$index,'before')" style="right:119px !important"><i class="fa fa-search-plus"></i></a>
+                                                                                <a href="javascript:void(0);" class="close-icon" title="Zoom Out" ng-click="vm.zoomout(imgBeforeId,zoomcontainer,$parent.$index,'before')" style="right:146px !important"><i class="fa fa-search-minus"></i></a>
+                                                                                <a href="javascript:void(0);" class="close-icon" title="Swap the before-after images" ng-click="vm.swapImages(imgs.beforeImages,imgs.afterImages)" style="right:173px !important"><i class="fa fa-exchange"></i></a>
+                                                                                <a href="javascript:void(0);" title="Move Image(s) to Exterior or Invoice/ Drawing tabs" class="close-icon" style="right:200px !important" ng-click="vm.shiftModal(imgs.beforeImages)"><i class="fa fa-arrows"></i></a>
+                                                                                <a href="javascript:void(0);" title="Crop Image" ng-click="vm.cropImage(imgs,true);" class="close-icon" style="right:38px"><i class="fa fa-crop" aria-hidden="true"></i></a>
+                                                                            </div>
+                                                                            <div class="upload-btn-wrapper box-width" style="height:200px !important;margin-left:9%; overflow: hidden" id="{{zoomcontainer}}">
+                                                                                <img ng-if="!slide.isImageCropped" ondragstart="return false" class="{{imgBeforeId}} ZoomD" id="{{imgId}}" ng-src="{{slide.thumbUrl}}" style="margin-left:30%;height:200px;cursor:move;transform:{{slide.css}};" ng-click="vm.openPopUp(imgs,true);">
+                                                                                <img ng-if="slide.isImageCropped" ondragstart="return false" class="{{imgBeforeId}} ZoomD" id="{{imgId}}" ng-src="{{slide.thumbUrlCropped}}" style="margin-left:30%;height:200px;cursor:move;transform:{{slide.css}};" ng-click="vm.openPopUp(imgs,true);">
+                                                                            </div>
+                                                                            <div class="margin-top-8">
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"> <strong>Uploaded By: </strong> {{slide.createdBy}} ( {{imgs.beforeImages.designation}} )</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdOn!=undefined"><strong>Uploaded At: </strong> {{slide.createdOnForImage|date:'M/d/yyyy HH:mm:ss'}}</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.size!=undefined"><strong>File Size: </strong> {{slide.size}} Kb</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.size!=undefined"><strong>File Name: </strong> {{slide.caption}} </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div ng-if="imgs.beforeImages.imagesInfo.length <= 0"><h4 class="text-center">No media uploaded yet! </h4></div>
+                                                                        <br />
+                                                                    </div>
+                                                                </div>
+                                                                <div ng-init="imageid=imgs.beforeImages.id+'_'+$index+'_before';">
+                                                                    <div ng-if="(imgs.beforeImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1)" style="display:none">
+                                                                        <input id="{{imageid}}" type="file" accept="image/*" capture="environment" onchange="angular.element(this).scope().fileNameChanged(event.currentTarget.files)">
+                                                                    </div>
+                                                                    <button id="sample_editable_1_new"
+                                                                            ng-if="(imgs.beforeImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1) && isMobile" ng-click="vm.uploadMediaAfterBeforeForCamera(imageid,imgs.beforeImages,true)" class="btn btn-primary">
+                                                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <button ng-model="img.beforeImages.fileId" id="sample_editable_1_new"
+                                                                            ng-if="imgs.beforeImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1" ng-click="vm.uploadMediaAfterBefore(imgs.afterImages,true,true,imgs.beforeImages,true,imgs,$parent.$index)" class="btn btn-primary">
+                                                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                    </button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div class="">
+                                            <div class="portlet-title tabbable-line min-h-0 clearfix">
+                                                <div class="caption padding-0 margin-bottom-5">
+                                                    <span class="caption-subject font-blue-steel bold uppercase font-lg">After Job</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body" style="margin-top: 6%;">
+                                                <div class="clearfix">
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select ng-change="vm.OptionChanged(imgs,false)" class="form-control" id="search-option" ng-model="imgs.afterImages.surfaceMaterial"
+                                                                    ng-options="status.value as status.display for status in vm.surfaceMaterial" ng-disabled="imgs.afterImages.isDisable">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Material*</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.afterImages.serviceTypeId" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'ServiceType')"
+                                                                    ng-options="status.value as status.display for status in vm.serviceType">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Service Type</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select ng-change="vm.OptionChanged(imgs,false)" class="form-control" id="search-option" ng-model="imgs.afterImages.surfaceType"
+                                                                    ng-options="status.value as status.display for status in vm.surfaceType" ng-disabled="imgs.afterImages.isDisable">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Type*</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.afterImages.surfaceColor" ng-if="!imgs.afterImages.isGroutilife"
+                                                                    ng-options="status.value as status.display for status in vm.surfaceColor" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'SurfaceColor')">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Surface Color</option>
+                                                            </select>
+                                                            <input type="text" name="usercolor" ng-if="imgs.afterImages.isGroutilife" ng-model="imgs.afterImages.surfaceColor" class="form-control color-picker" style="padding-left: 2%;width: 96%;" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select class="form-control" id="search-option" ng-model="imgs.afterImages.finishMaterial" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'FinishMaterial')"
+                                                                    ng-options="status.value as status.display for status in vm.finishMaterial">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Finish Type</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <select ng-change="vm.OptionChanged(imgs,false)" class="form-control" id="search-option" ng-model="imgs.afterImages.buildingLocation"
+                                                                    ng-options="status.value as status.display for status in vm.buildingLocation" ng-disabled="imgs.afterImages.isDisable">
+                                                                <option selected disabled hidden style='display: none' value=''>Select Building Location*</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10" ng-if="imgs.afterImages.buildingLocation=='Floor'">
+                                                            <input ng-disabled="imgs.afterImages.isDisable" ng-click="vm.floorNoChange(imgs,imgs.afterImages,'After')" ng-model="imgs.afterImages.floorNumber" type="number" value="1" min="1" max="1000" step="1" class="form-control" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10">
+                                                            <input placeholder="Property/Facility Management Company" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'CompanyName')" ng-model="imgs.afterImages.compamyName" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="vm.isResidential">
+                                                            <input placeholder="Maid Service" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'MaidService')" ng-model="imgs.afterImages.maidService" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential">
+                                                            <input placeholder="Property Manager" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'PropertyManager')" ng-model="imgs.afterImages.propertyManager" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential && imgs.afterImages.buildingLocation!='Floor'">
+                                                            <input placeholder="MAID/JANITORIAL" ng-change="vm.serviceSelectionChange(imgs.afterImages,false,imgs.beforeImages,imgs,'MaidJanitorial')" ng-model="imgs.afterImages.maidJanitorial" class="form-control" style="padding-left: 2%;width: 100%;" maxlength="40" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex margin-bottom-10">
+                                                        <div class="flex-1 margin-right-10" ng-if="!vm.isResidential && imgs.afterImages.buildingLocation=='Floor'">
+                                                            <input placeholder="MAID/JANITORIAL" ng-change="vm.serviceSelectionChange(imgs.afterImages,true,imgs.afterImages,imgs,'MaidJanitorial')" ng-model="imgs.afterImages.maidJanitorial" class="form-control" style="padding-left: 2%;width: 33%;" maxlength="40" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <div class="clearfix" id="portlet_tab">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="flex-1 margin-right-10">
+                                                                    <div active="active" interval="0" no-wrap="noWrapSlides">
+                                                                        <div ng-init="imgId='after_'+$parent.$index+'_'+$index;imgAfterId='zoomD_after_'+$parent.$index;imgAfterId='zoomD_after_'+$parent.$index;zoomcontainer='zoom-container-after_'+$parent.$index" ng-repeat="slide in imgs.afterImages.imagesInfo track by $index" index="$index" style="position: relative;overflow:hidden;" class="box-width">
+                                                                            <div style="width: 100%;background-color: #26327e;height: 35px;z-index: 999999999;">
+                                                                                <a href="javascript:void(0);" title="Remove Image" class="close-icon" ng-click="vm.removeImage(imgs.afterImages.imagesInfo,$index,0,true,$parent.$index)"><i class="fa fa-remove"></i></a>
+                                                                                <a href="javascript:void(0);" title="Rotate Image" ng-click="vm.rotate(imgId,slide,$index,$parent.$index,'after');" class="close-icon" style="right:65px;float:right;box-shadow:none"><i class="fa fa-shield fa-rotate-90"></i> </a>
+                                                                                <a href="javascript:void(0);" title="Download Image" class="close-icon" ng-click="vm.downloadImage(slide)" style="right:92px !important"><i class="fa fa-download"></i></a>
+                                                                                <a href="javascript:void(0);" title="Zoom in" class="close-icon" ng-click="vm.zoomin(imgAfterId,zoomcontainer,$parent.$index,'after')" style="right:119px !important"><i class="fa fa-search-plus"></i></a>
+                                                                                <a href="javascript:void(0);" title="Zoom out" class="close-icon" ng-click="vm.zoomout(imgAfterId,zoomcontainer,$parent.$index,'after')" style="right:146px !important"><i class="fa fa-search-minus"></i></a>
+                                                                                <a href="javascript:void(0);" title="Swap the before-after images" class="close-icon" ng-click="vm.swapImages(imgs.beforeImages,imgs.afterImages)" style="right:173px !important"><i class="fa fa-exchange"></i></a>
+                                                                                <a href="javascript:void(0);" title="Move Image(s) to Exterior or Invoice/ Drawing tabs" class="close-icon" style="right:200px !important" ng-click="vm.shiftModal(imgs.afterImages)"><i class="fa fa-arrows"></i></a>
+                                                                                <a href="javascript:void(0);" title="Crop Image" ng-click="vm.cropImage(imgs,false);" class="close-icon" style="right:38px;float:right;box-shadow:none"><i class="fa fa-crop"></i> </a>
+                                                                            </div>
+                                                                            <div class="upload-btn-wrapper box-width" style="height:200px !important;margin-left:9%; overflow: hidden" id="{{zoomcontainer}}">
+                                                                                <img ng-if="!slide.isImageCropped" class="rounded float-left {{imgAfterId}} ZoomD" id="{{imgId}}" ng-src="{{slide.thumbUrl}}" style="margin-left: 9%; height: 200px; cursor: move; transform:{{slide.css}};" ng-click="vm.openPopUp(imgs,false);">
+                                                                                <img ng-if="slide.isImageCropped" class="rounded float-left {{imgAfterId}} ZoomD" id="{{imgId}}" ng-src="{{slide.thumbUrlCropped}}" style="margin-left: 9%; height: 200px; cursor: move; transform:{{slide.css}};" ng-click="vm.openPopUp(imgs,false);">
+                                                                            </div>
+                                                                            <div class="margin-top-8">
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"> <strong>Uploaded By: </strong> {{slide.createdBy}} ( {{imgs.afterImages.designation}} )</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong> Uploaded At: </strong> {{slide.createdOnForImage | date:'M/d/yyyy HH:mm:ss'}}</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong> File Size: </strong> {{slide.size}} Kb</p>
+                                                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong> File Name: </strong> {{slide.caption}} </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div ng-if="imgs.afterImages.imagesInfo.length <= 0"><h4 class="text-center">No media uploaded yet! </h4></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div ng-init="imageid=imgs.beforeImages.id+'_'+$index+'_before';imgAfterId='zoomD_after_'+$index;">
+                                                                    <div ng-if="imgs.afterImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1" style="display:none">
+                                                                        <input id="{{imageid}}" type="file" accept="image/*" capture="environment" onchange="angular.element(this).scope().fileNameChanged(event.currentTarget.files)">
+                                                                    </div>
+                                                                    <button ng-model="img.beforeImages.fileId" id="sample_editable_1_new"
+                                                                            ng-if="(imgs.afterImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1) && isMobile" ng-click="vm.uploadMediaAfterBeforeForCamera(imageid,imgs.afterImages,false)" class="btn btn-primary">
+                                                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <button ng-model="img.beforeImages.fileId" id="sample_editable_1_new"
+                                                                            ng-if="imgs.afterImages.imagesInfo.length <= 0 || vm.jobEstimateImage.length<1" ng-click="vm.uploadMediaAfterBefore(imgs.afterImages,true,true,imgs.beforeImages,false,imgs,$parent.$index)" class="btn btn-primary">
+                                                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane fade in " id="tab4" ng-if="vm.isInvoiceTab">
+            <div class="portlet light job-panel">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light" style="position: relative; display: flex; flex-direction: column; min-height: 450px">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption" ng-if="!vm.isInvoiceEnhancement">
+                                    <span class="caption-subject font-blue-steel bold uppercase">Invoice Media</span>
+                                </div>
+                                <!--<button ng-if="vm.isInvoiceEnhancement" id="sample_editable_1_new" ng-click="vm.saveInvoice(false,true)" class="btn btn-default btn-sm pull-right" title="Download Invoice(s)">
+                                    Download Invoice(s)
+                                </button>-->
+                                <button ng-if="vm.isInvoiceEnhancement" style="margin-right:1%" id="sample_editable_1_new" ng-click="vm.saveCustomerInvoice(false,true)" class="btn btn-default btn-sm pull-right" title="Download Customer Invoice(s)">
+                                    Download Customer Invoice(s)
+                                </button>
+                                <button id="sample_editable_1_new" ng-if="vm.isInvoiceEnhancement" ng-disabled="{{vm.isInvoiceNotSigned}}" ng-click="vm.sendMailToCustomer();" class="btn btn-default btn-sm pull-right" style="margin-right:1%">
+                                    Send Invoice for Sign upon completion
+                                </button>
+                                <button id="sample_editable_1_new" ng-if="vm.isInvoicePresent && !vm.isInvoiceEnhancement" ng-click="vm.isInvoiceEnhancement=!vm.isInvoiceEnhancement;vm.getEstimateInvoiceInfo();" class="btn btn-default btn-sm pull-right" style="margin-left:1%">
+                                    Review Estimate Invoices
+                                </button>
+                                <button ng-if="vm.isInvoiceEnhancement" ng-disabled="{{vm.isInvoiceNotSigned}}" style="margin-right:1%" id="sample_editable_1_ne[[vm.estimateInfo.isInvoicePresentw" ng-click="vm.openSignatureModal(false,false)" class="btn btn-default btn-sm pull-right" title="Sign Invoices">
+                                    Add Signature
+                                </button>
+                                <!--<button ng-if="vm.isInvoiceEnhancement" style="margin-left:10px" id="sample_editable_1_new" ng-click="vm.isInvoiceEnhancement=!vm.isInvoiceEnhancement" class="btn btn-default btn-sm pull-right" title="Cancel">
+                                    Cancel
+                                </button>-->
+                                <button ng-if="!vm.isInvoiceEnhancement" id="sample_editable_1_new" ng-click="vm.uploadMediaBuildingInvoice(vm.imvoiceImagesList,true)" class="btn btn-default btn-sm pull-right">
+                                    Attach Invoices
+                                </button>
+                                <button ng-if="vm.isInvoiceEnhancement" style="margin-right:1%" id="sample_editable_1_new" ng-click="vm.isInvoiceEnhancement=!vm.isInvoiceEnhancement" class="btn btn-default btn-sm pull-right" title="Cancel">
+                                    Cancel
+                                </button>
+                                <button ng-if="(vm.jobInfo.isInvoicePresent || vm.invoiceInJob) && vm.isInvoiceEnhancement" id="sample_editable_1_new" ng-click="vm.downloadInvoice()" class="btn btn-default btn-sm pull-right" style="margin-right:1%">
+                                    Download Internal Invoice(s)
+                                </button>
+                                <button ng-if="vm.isInvoiceMedia && !vm.isInvoiceEnhancement" id="sample_editable_1_new" ng-click="vm.save(false)" class="btn btn-default btn-sm pull-right" style="margin-right:1%">
+                                    Save
+                                </button>
+
+                            </div>
+                            <div class="portlet-body slider">
+                                <div class="tab-content" ng-if="!vm.isInvoiceEnhancement">
+                                    <div class="tab-pane active" id="portlet_tab">
+                                        <div class="img-box-s" ng-repeat="slide in vm.imvoiceImagesList.imagesInfo track by $index">
+                                            <a href="javascript:void(0);" class="close-icon" style="left:10px !important" ng-if="slide.isExteriorImageSave && slide.imageSavedByUser" ng-click="vm.removeImage(vm.imvoiceImagesList.imagesInfo,$index,1,false,1)"><i class="fa fa-remove"></i> </a>
+                                            <a href="javascript:void(0);" title="Download Image" class="close-icon" ng-if="slide.isExteriorImageSave && slide.isImage" ng-click="vm.downloadImage(slide)" style="left:40px !important"><i class="fa fa-download"></i></a>
+                                            <iframe ng-if="slide.isiFrame" ng-src="{{trustSrc(slide.iframUrl)}}" width="100%" height="80%"></iframe>
+                                            <a ng-if="slide.extension == 'pdf'" href="{{slide.iframUrl}}" target="_blank">
+                                                <img src="/content/images/pdf.png" width="100%" height="80%" />
+                                            </a>
+                                            <a ng-if="slide.extension == 'xlsx' || slide.extension == 'xls' || slide.extension == 'xltx' || slide.extension == 'xlt'" href="{{slide.iframUrl}}" target="_blank">
+                                                <img src="/content/images/excel.png" width="100%" height="80%" />
+                                            </a>
+                                            <a ng-if="slide.extension == 'doc' || slide.extension == 'docx'" href="{{slide.iframUrl}}" target="_blank">
+                                                <img src="/content/images/word.png" width="100%" height="80%" />
+                                            </a>
+                                            <img ng-if="!slide.isiFrame && (slide.extension != 'pdf' && slide.extension != 'xlsx' && slide.extension != 'doc')" ng-src="{{slide.url}}" style="width:100%;">
+                                            <div class="row col-md-12" style="padding-right:0px;">
+                                                <!--<p class="m-b-0 font-11" ng-if="slide.documentName!=undefined" style="word-break:break-all;">{{slide.documentName}}</p>-->
+                                                <p class="m-b-0 font-11" ng-if="slide.documentName!=undefined" style="word-break:break-all;">{{slide.name}}</p>
+                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"> <strong>Created By: </strong> {{slide.createdBy}}</p>
+                                                <p class="m-b-0 font-11" ng-if="slide.createdBy!=undefined"><strong>Created At: </strong> {{slide.createdOn|date:'M/d/yyyy HH:mm:ss'}}</p>
+                                            </div>
+                                        </div>
+                                        <div ng-if="vm.imvoiceImagesList.imagesInfo.length <= 0"><h4 class="text-center">No media uploaded yet! </h4></div>
+                                    </div>
+
+                                </div>
+                                <div class="invoice-box" ng-if="vm.isInvoiceEnhancement" style="margin-top:-32px !important">
+                                    <div class="row invoice-inner-box">
+                                        <div class="col-md-3">
+                                            <table class="table table-hover table-striped table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Customer:</b></td>
+                                                        <td>{{vm.estimateInvoiceInfo.customerName}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Street Address:</b></td>
+                                                        <td>{{vm.estimateInvoiceInfo.address}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>City, State, Zip:</b></td>
+                                                        <td>{{vm.estimateInvoiceInfo.city}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Number Of Invoices:</b>
+                                                            <br /><b>NOTE –</b> Expand Invoice Count to choose Invoice no.
+                                                        </td>
+                                                        <td>
+                                                            <div style="padding-top: 0px !important;">
+                                                                <input style="height:27px !important" type="text" class="form-control" id="invoiceCount" name="invoiceCount"
+                                                                       ng-model="vm.estimateInvoiceInfo.invoiceCount" maxlength="3" ng-keyup="vm.changeInNumberOfInvoices()" min="1" max="100" only-Digits disabled="disabled" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <table class="table table-hover table-striped table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Phone 1:</b></td>
+                                                        <td>{{vm.estimateInvoiceInfo.phoneNumber1}}</td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><b>Email:</b></td>
+                                                        <td>{{vm.estimateInvoiceInfo.email}}</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Estimate Date:</b><br /></td>
+                                                        <td>{{vm.jobInfo.startDate}}</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Sales/Technician Name :</b><br /></td>
+                                                        <td>{{vm.jobInfo.assignee}}</td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <table class="table table-hover table-striped table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <b>
+                                                                Price For Service($):
+                                                            </b>
+                                                        </td>
+                                                        <td style="float:right">{{vm.estimateInvoiceInfo.price| currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Less Deposit: <br />{{vm.estimateInvoiceInfo.lessDepositPercentage}}% at the time of Scheduling</b></td>
+                                                        <td style="float:right">{{vm.estimateInvoiceInfo.lessDeposit| currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Balance on Completion:</b></td>
+                                                        <td style="float:right">
+                                                            {{vm.estimateInvoiceInfo.balance| currency}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Marketing Class:</b></td>
+                                                        <td style="float:right">{{vm.estimateInvoiceInfo.marketingClass}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-md-3" style="height:170px;overflow-y:auto;">
+                                            <table class="table table-hover table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Invoice No
+                                                        </th>
+                                                        <th style="float:right">
+                                                            Price ($)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="serviceList in vm.totalNumberOfInvoices track by $index">
+
+                                                        <td> Invoice {{$index+1}}</td>
+                                                        <td style="float:right">
+                                                            {{vm.totalSumList[$index] | currency}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="table-scrollable table-mbl">
+                                        <div style="position:relative">
+                                            <a ng-if="vm.moveLeftView" class="moveRight" ng-click="vm.onScrollLeft($event)"> >> </a>
+                                            <a ng-if="vm.moveRightView" class="moveRight" ng-click="vm.onScrollLeft($event)"> << </a>
+                                            <div id="div-invoice" style="position: relative; overflow: auto; min-height: 500px; max-height: 600px; ">
+                                                <table class="table table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_1_info" style="background-color: #f5f7ff;">
+                                                    <thead>
+                                                        <tr role="row" style="background-color:white !important">
+                                                            <th></th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                                                style="width: 60px; min-width: 60px; max-width: 60px;text-align:center;position:sticky;background-color:white;top:0px;z-index:9999;z-index:1000" ng-click="vm.sorting(vm.SortColumns.Account);">
+                                                                Invoice No.
+                                                            </th>
+
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                                                style="width: 60px; min-width: 60px; max-width: 60px;text-align:center;position:sticky;background-color:white;top:0px;z-index:9999;z-index:1000" ng-click="vm.sorting(vm.SortColumns.Account);">
+                                                                Invoice Line #
+                                                            </th>
+                                                            <th rowspan="1" colspan="1" aria-label="Primary Contact" style="width: 120px; min-width: 120px; max-width: 120px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Location
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Country" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Surface Type
+                                                            </th>
+
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Country" style="width: 140px; min-width: 140px; max-width: 140px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Material Type
+                                                            </th>
+                                                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Status" style="width: 150px; min-width: 150px; max-width: 150px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Surface Color
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Address" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Surface Finish
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                                                style="width: 170px; min-width: 170px; max-width: 170px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Service Type
+                                                            </th>
+                                                            <th rowspan="1" colspan="1" aria-label="Email" style="width: 140px; min-width: 140px; max-width: 140px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                List Of Service
+                                                            </th>
+                                                            <th class="sorting_disabled"
+                                                                rowspan="1" colspan="1" aria-label="Phone" style="width: 260px; min-width: 260px; max-width: 260px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Service Description
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Length" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Salesperson Notes
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Length" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Informational Aids
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Length" style="width: 200px; min-width: 200px; max-width: 200px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Measurements (in ft.) 
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                                                style="width: 45px; min-width: 45px; max-width: 45px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Action<span style="visibility:hidden">Action</span>
+                                                            </th>
+                                                            <th aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Price (In $)" style="width: 280px; min-width: 280px; max-width: 280px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Price ($)
+                                                                <div class="row" style="margin-top:10px">
+                                                                    <div class="col-md-4">
+                                                                        <button style="margin-top:-5px !important" id="sample_editable_1_new" ng-click="vm.addingNotes(vm.estimateInvoiceInfo,true,'option1Notes')" class="btn btn-primary margin-top-10" title="{{vm.estimateInvoiceInfo.option1}}">
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option1 == '' || vm.estimateInvoiceInfo.option1 == null">Add Title</span>
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option1 != '' && vm.estimateInvoiceInfo.option1 != null">{{vm.estimateInvoiceInfo.option1 | limitTo: 5}}{{vm.estimateInvoiceInfo.option1.length > 5 ? '...' : ''}}</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button style="margin-top:-5px !important" id="sample_editable_1_new" ng-click="vm.addingNotes(vm.estimateInvoiceInfo,true,'option2Notes')" class="btn btn-primary margin-top-10" title="{{vm.estimateInvoiceInfo.option2}}">
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option2 == '' || vm.estimateInvoiceInfo.option2 == null">Add Title</span>
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option2 != '' &&  vm.estimateInvoiceInfo.option2 !=null">{{vm.estimateInvoiceInfo.option2 | limitTo: 5}}{{vm.estimateInvoiceInfo.option2.length > 5 ? '...' : ''}}</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button style="margin-top:-5px !important" id="sample_editable_1_new" ng-click="vm.addingNotes(vm.estimateInvoiceInfo,true,'option3Notes')" class="btn btn-primary margin-top-10" title="{{vm.estimateInvoiceInfo.option3}}">
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option3 == '' || vm.estimateInvoiceInfo.option3 == null">Add Title</span>
+                                                                            <span ng-show="vm.estimateInvoiceInfo.option3 != '' &&  vm.estimateInvoiceInfo.option3 !=null">{{vm.estimateInvoiceInfo.option3 | limitTo: 5}}{{vm.estimateInvoiceInfo.option3.length > 5 ? '...' : ''}}</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><b>Option 1</b><br /><input type="checkbox" id="option1" name="option1" value="option1" ng-click="vm.checkBoxClicked('option1')" disabled="disabled"></div>
+                                                                    <div class="col-md-4"><b>Option 2</b><br /><input type="checkbox" id="option2" name="option2" value="option2" ng-click="vm.checkBoxClicked('option2')" disabled="disabled"></div>
+                                                                    <div class="col-md-4"><b>Option 3</b><br /><input type="checkbox" id="option3" name="option3" value="option3" ng-click="vm.checkBoxClicked('option3')" disabled="disabled"></div>
+                                                                </div>
+                                                            </th>
+
+                                                            <th class="sorting_disabled"
+                                                                rowspan="1" colspan="1" aria-label="Phone" style="width: 140px; min-width: 140px; max-width: 140px;text-align:center;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Line Item Notes*
+                                                            </th>
+                                                            <th class="sorting_disabled"
+                                                                rowspan="1" colspan="1" aria-label="Phone" style="width: 140px; min-width: 140px; max-width: 140px;text-align:center;position:sticky;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Internal Notes  <br /><span style="font-size: 11px; font-style: italic">(These notes will not appear in the customer order.)</span>
+                                                            </th>
+                                                            <th class="sorting_disabled"
+                                                                rowspan="1" colspan="1" aria-label="Phone" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Approved Items
+                                                            </th>
+                                                            <th class="sorting_disabled"
+                                                                rowspan="1" colspan="1" aria-label="Phone" style="width: 100px; min-width: 100px; max-width: 100px;text-align:center;position:sticky;position:sticky;background-color:white;top:0px;z-index:1000">
+                                                                Assignee Name
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat-start="serviceList in vm.estimateInvoiceInfo.serviceList track by $index" ng-style="{'border-color': serviceList.borderColor}" style="border:2px solid;border-color:transparent">
+                                                            {{serviceList.borderColor}}
+                                                            <td style="width:5% !important">
+                                                                <span ng-if="serviceList.isExpand && serviceList.subItem.length>0"
+                                                                      ng-click="serviceList.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                                                                <span ng-if="!serviceList.isExpand && serviceList.subItem.length>0"
+                                                                      ng-click="serviceList.isExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                {{serviceList.invoiceNumber}}
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                {{$index+1}}
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;" ng-init="ids='location_'+$index">
+                                                                <div class="row">
+                                                                    <ul style="word-break:break-word;">
+                                                                        <li style="font-style:normal;text-align:left;word-break:break-word;margin:1px" ng-repeat="item in serviceList.locationIds">
+                                                                            {{item.id}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;" ng-init="ids='surface_'+$index">
+                                                                {{serviceList.typeOfSurface}}
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                {{serviceList.typeOfStoneType2}}
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;" ng-init="ids='stoneColor_'+$index">
+                                                                {{serviceList.typeOfStoneColor}}
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;list-style-type:none;" ng-init="ids='stoneType_'+$index">
+                                                                <div class="input-group mb-3">
+                                                                    {{serviceList.typeOfStoneType}}
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;width: 180px;min-width: 180px;max-width: 180px;border-right: 1px solid lightblue;">
+                                                                <div class="form-group">
+                                                                    <div class="col-md-9">
+                                                                        <div ng-if="!serviceList.editMode">
+                                                                            <span class="break_word">{{serviceList.serviceType}}</span>
+                                                                        </div>
+                                                                        <div ng-if="serviceList.editMode">
+                                                                            <div class="input-group mb-3">
+                                                                                {{serviceList.serviceType}}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--   <a class="col-md-3 glyphicon glyphicon-edit" ng-if="!serviceList.editMode" data-ng-click="serviceList.editMode = !serviceList.editMode"></a>-->
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid lightblue;" ng-init="ids='serviceType_'+$index" ng-click="vm.index=$index">
+                                                                <!--<div ng-dropdown-multiselect="" options="vm.serviceTypeForInvoiceList[$index]" extra-settings="settings" translation-texts="translationTexts"
+                                                                     selected-model="serviceList.serviceIds" checkboxes="true" events="selectEvents">
+
+                                                                </div>-->
+                                                                <!--{{serviceList}}-->
+                                                                <div class="row">
+                                                                    <ul style="word-break:break-word;list-style-type:none;">
+                                                                        <li style="font-style:normal;text-align:left;word-break:break-word;margin:1px">{{serviceList.serviceIds[0].id}}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;" ng-init="ids='description_'+$index">
+
+                                                                <div class="row">
+                                                                    <ul style="word-break:break-word;list-style-type:none;">
+                                                                        <li ng-if="!serviceList.isList" style="font-style:normal;text-align:left;word-break:break-word;margin:1px">
+                                                                            <span ng-bind-html="serviceList.description"></span>
+                                                                        </li>
+                                                                        <li ng-if="serviceList.isList" style="font-style:normal;text-align:left;word-break:break-word;margin:1px;margin-left:-29px">
+                                                                            <span ng-bind-html="serviceList.description"></span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div class="row" ng-if="serviceList.salesPersonNote!= '' && serviceList.salesPersonNote != undefined">
+                                                                    <a ng-click="vm.openNotesModal('Salesperson Notes', serviceList.salesPersonNote)" href="javascript:void(0);">
+                                                                        <i class="fa fa-info-circle {{serviceList.class}} tooltip" aria-hidden="true" style="font-size: 20px; z-index: 100 !important;" title="{{serviceList.salesPersonNote}}"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div class="row" ng-if="serviceList.informationNote!= '' && serviceList.informationNote != undefined">
+                                                                    <a class="" ng-click="vm.openNotesModal('Information Aid Notes', serviceList.informationNote)" href="javascript:void(0);">
+                                                                        <i class="fa fa-info-circle {{serviceList.class}} tooltip" aria-hidden="true" style="font-size: 20px; z-index: 100 !important;" title="{{serviceList.informationNote}}"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div style="padding:0 5px">
+                                                                    <!--   <a href="javascript:void(0);" ng-click="vm.addMeasurements($index)">Add/View Measurement</a>-->
+                                                                    <!--{{serviceList.sumTotalArea}}-->
+                                                                    <br />
+                                                                    <div ng-if="serviceList.sumTotalArea!=0 && serviceList.sumTotalArea!=undefined">
+                                                                        <strong>
+                                                                            Total area (in ft<sup>2</sup>) :
+                                                                        </strong>
+                                                                        {{serviceList.sumTotalArea}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <!--<a ng-if="$index!=0" ng-click="vm.deleteInvoice($index)" href="javascript:void(0);"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                                                                <a href="javascript:void(0);"><i class="fa fa-plus" aria-hidden="true" ng-click="vm.addNewService($index)"></i></a>-->
+
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div class="row">
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{serviceList.option1}}
+                                                                    </div>
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{serviceList.option2}}
+                                                                    </div>
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{serviceList.option3}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;border: 1px solid #ddd;">
+                                                                <span ng-if="serviceList.priceNotes != '' && serviceList.priceNotes != undefined">
+                                                                    <span style="word-break:break-all" ng-title={{serviceList.priceNotes}}>
+                                                                        {{serviceList.priceNotes| limitTo: 50}}{{serviceList.priceNotes.length > 50 ? '...' : ''}}
+                                                                    </span>
+                                                                    <a href="javascript:void(0);" title={{serviceList.priceNotes}} ng-click="vm.addingNotes(serviceList,false,'priceNotes')" ng-if="serviceList.priceNotes.length > 50">View All</a>
+                                                                    <a class="input-group-text fa fa-pencil" title={{serviceList.priceNotes}} ng-click="vm.addingNotes(serviceList,true,'priceNotes')"></a>
+                                                                </span>
+
+                                                                <!--   <a ng-if="serviceList.priceNotes=='' || serviceList.priceNotes==undefined" href="javascript:void(0);" ng-click="vm.addingNotes(serviceList,true,'priceNotes')">Add line items notes</a>-->
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;">
+                                                                <span ng-if="serviceList.notes != '' && serviceList.notes != undefined">
+                                                                    <span style="word-break:break-all">
+                                                                        {{serviceList.notes| limitTo: 50}}{{serviceList.notes.length > 50 ? '...' : ''}}
+                                                                    </span>
+                                                                    <a href="javascript:void(0);" ng-click="vm.addingNotes(serviceList,false,'notes')" ng-if="serviceList.notes.length > 50">View All</a>
+                                                                    <a class="input-group-text fa fa-pencil" ng-click="vm.addingNotes(serviceList,true,'notes')"></a>
+                                                                </span>
+                                                                <!--  <a ng-if="serviceList.notes=='' || serviceList.notes==undefined" href="javascript:void(0);" ng-click="vm.addingNotes(serviceList,true,'notes')">Add internal notes</a>-->
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 100px; min-width: 100px; max-width: 100px;">
+                                                                <span ng-if="!serviceList.isCross"><a href="javascript:void(0);" ng-click="vm.crossingInvoiceItem(serviceList,true)"><i class="fa fa-check" aria-hidden="true" title="Adding Invoice"></i></a></span>
+                                                                <span ng-if="serviceList.isCross"><a href="javascript:void(0);" ng-click="vm.crossingInvoiceItem(serviceList,false)"><i class="fa fa-times" aria-hidden="true" style="color:red !important" title="Crossing From Invoice"></i></a></span>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 100px; min-width: 100px; max-width: 100px;">
+                                                                {{serviceList.assigneeName}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-if="serviceList.isExpand" ng-repeat="subItem in serviceList.subItem track by $index" style="border-top: none;background-color:white;border:3px solid; border-color:transparent" ng-style="{'border-color': subItem.borderColor}">
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="border-top: none !important;"></td>
+                                                            <td style="font-style:normal;text-align:left;word-break:break-word;margin:1px;border: 1px solid #ddd;">
+                                                                <div class="row">
+                                                                    <ul style="word-break:break-word;list-style-type:none;">
+                                                                        <li ng-if="!subItem.isMainBundle" style="font-style:normal;text-align:left;word-break:break-word;margin:1px;">
+                                                                            {{subItem.serviceIds.id}}
+                                                                        </li>
+                                                                        <li ng-if="subItem.isMainBundle" style="font-style:normal;text-align:left;word-break:break-word;margin:1px;">
+                                                                            <b>{{subItem.serviceIds.id}}</b>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td style="font-style: normal; text-align: left; word-break: break-word; margin: 1px; border: 1px solid #ddd;">
+                                                                <div class="row">
+                                                                    <ul style="word-break: break-word; list-style-type: none;">
+                                                                        <li ng-if="!subItem.isList" style="font-style:normal;text-align:left;word-break:break-word;margin:1px">
+                                                                            <span ng-bind-html="subItem.description"></span>
+                                                                        </li>
+                                                                        <li ng-if="subItem.isList" style="font-style:normal;text-align:left;word-break:break-word;margin:1px;margin-left:-29px">
+                                                                            <span ng-bind-html="subItem.description"></span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div class="row" ng-if="subItem.salesPersonNote!= '' && subItem.salesPersonNote != undefined">
+                                                                    <a ng-click="vm.openNotesModal('Sales Person Notes', subItem.salesPersonNote)" href="javascript:void(0);">
+                                                                        <i class="fa fa-info-circle {{subItem.class}} tooltip" aria-hidden="true" style="font-size: 20px; z-index: 100 !important;" title="{{subItem.salesPersonNote}}"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;">
+                                                                <div class="row" ng-if="subItem.informationNote!= '' && subItem.informationNote != undefined">
+                                                                    <a ng-click="vm.openNotesModal('Information Aid Notes', subItem.informationNote)" href="javascript:void(0);">
+                                                                        <i class="fa fa-info-circle {{subItem.class}} tooltip" aria-hidden="true" style="font-size: 20px; z-index: 100 !important;" title="{{subItem.informationNote}}"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-top: none !important; border-right: 1px solid #DDD;"></td>
+                                                            <td>
+                                                                <div class="md-checkbox" ng-if="subItem.isBundle">
+                                                                    <input type="checkbox" id="subItem_{{$parent.$index}}_{{$index}}" class="md-check" ng-model="subItem.isActive">
+                                                                    <label for="subItem_{{$parent.$index}}_{{$index}}">
+                                                                        <span></span>
+                                                                        <span class="check"></span>
+                                                                        <span class="box"></span>
+                                                                    </label>
+                                                                    <br />
+                                                                </div>
+                                                            </td>
+                                                            <td style="font-style:normal;text-align:left;word-break:break-word;margin:1px;border: 1px solid #ddd;">
+                                                                <div class="row" style="margin-left: 23px;">
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{subItem.option1}}
+                                                                    </div>
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{subItem.option2}}
+                                                                    </div>
+                                                                    <div class="col-md-4" style="padding:0 5px">
+                                                                        {{subItem.option3}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;border: 1px solid #ddd;">
+                                                                <span ng-if="subItem.priceNotes != '' && subItem.priceNotes != undefined">
+                                                                    <span style="word-break:break-all">
+                                                                        {{subItem.priceNotes| limitTo: 50}}{{subItem.priceNotes.length > 50 ? '...' : ''}}
+                                                                    </span>
+                                                                    <a href="javascript:void(0);" title={{subItem.priceNotes}} ng-click="vm.addingNotes(subItem,false,'priceNotes')" ng-if="subItem.priceNotes.length > 50">View All</a>
+                                                                    <!-- <a class="input-group-text fa fa-pencil" ng-click="vm.addingNotes(subItem,true,'priceNotes')" title={{subItem.priceNotes}}></a>-->
+                                                                </span>
+
+                                                                <a ng-if="subItem.priceNotes=='' || subItem.priceNotes==undefined" href="javascript:void(0);" ng-click="vm.addingNotes(subItem,true,'priceNotes')">Add Line Item Notes</a>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;border: 1px solid #ddd;">
+                                                                <span ng-if="subItem.notes != '' && subItem.notes != undefined">
+                                                                    <span style="word-break:break-all">
+                                                                        {{subItem.notes| limitTo: 50}}{{subItem.notes.length > 50 ? '...' : ''}}
+                                                                    </span>
+                                                                    <a href="javascript:void(0);" ng-click="vm.addingNotes(subItem,false,'notes')" ng-if="subItem.notes.length > 50">View All</a>
+                                                                    <!-- <a class="input-group-text fa fa-pencil" ng-click="vm.addingNotes(subItem,true,'notes')"></a>-->
+                                                                </span>
+
+                                                                <a ng-if="subItem.notes=='' || subItem.notes==undefined" href="javascript:void(0);" ng-click="vm.addingNotes(subItem,true,'notes')">Add  Internal Notes</a>
+                                                            </td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;">
+                                                                <span ng-if="!subItem.isCross"><a href="javascript:void(0);" ng-click="vm.crossingInvoiceItem(subItem,true)"><i class="fa fa-check" aria-hidden="true" title="Adding Invoice"></i></a></span>
+                                                                <span ng-if="subItem.isCross"><a href="javascript:void(0);" ng-click="vm.crossingInvoiceItem(subItem,false)"><i class="fa fa-times" aria-hidden="true" style="color:red !important" title="Crossing From Invoice"></i></a></span>
+                                                            </td>
+                                                            <td style="border-top: none !important;"></td>
+                                                        </tr>
+                                                        <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+                                                        <tr>
+                                                            <td colspan="2"><b>Total (in $)</b></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><b>${{vm.option1 | number:2}}</b><br /></div>
+                                                                    <div class="col-md-4"><b>${{vm.option2 | number:2}}</b><br /></div>
+                                                                    <div class="col-md-4"><b>${{vm.option3 | number:2}}</b><br /></div>
+                                                                </div>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <fieldset class="the-fieldset" style="padding-top: 0px !important;">
+                                                <legend class="the-legend" style="padding-top: 0px !important;margin-bottom: 7px;"><b>General Notes(This applies for entire estimate)*</b></legend>
+                                                <div class="form-group form-md-line-input" style="padding-top: 0px !important;">
+                                                    <textarea rows="10" class="form-control" id="name" name="worth" ng-model="vm.estimateInvoiceInfo.notes" required
+                                                              maxlength="1028"></textarea>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-6" style="height:320px;overflow-y:auto;">
+                                            <fieldset class="the-fieldset">
+                                                <legend class="the-legend"><b>Invoice Notes(This applies for each invoice)*</b></legend>
+                                                <table class="table table-hover table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:18% !important">
+                                                                Invoice No
+                                                            </th>
+                                                            <th style="text-align:center">
+                                                                Notes
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr ng-repeat="serviceList in vm.estimateInvoiceInfo.invoiceNotesList track by $index">
+
+                                                            <td> Invoice {{$index+1}}</td>
+                                                            <td style="text-align:center;border-right: 1px solid #DDD;width: 200px; min-width: 200px; max-width: 200px;">
+
+                                                                <span ng-if="vm.estimateInvoiceInfo.invoiceNotesList[$index].notes != '' && vm.estimateInvoiceInfo.invoiceNotesList[$index].notes != undefined">
+                                                                    <span class="bold" style="word-break:break-all">
+                                                                        {{vm.estimateInvoiceInfo.invoiceNotesList[$index].notes| limitTo: 50}}{{vm.estimateInvoiceInfo.invoiceNotesList[$index].notes.length > 50 ? '...' : ''}}
+                                                                    </span>
+                                                                    <a href="javascript:void(0);" ng-click="vm.addingNotes(serviceList,false,'invoiceNotes')" ng-if="vm.estimateInvoiceInfo.invoiceNotesList[$index].notes.length > 50">View All</a>
+                                                                    <a class="input-group-text fa fa-pencil" ng-click="vm.addingNotes(serviceList,true,'invoiceNotes')"></a>
+                                                                </span>
+
+                                                                <a ng-if="vm.estimateInvoiceInfo.invoiceNotesList[$index].notes=='' || vm.estimateInvoiceInfo.invoiceNotesList[$index].notes==undefined" href="javascript:void(0);" ng-click="vm.addingNotes(serviceList,true,'invoiceNotes')">Add Notes</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lb-back">
+        <div id="lb-img"></div>
+    </div>
+</div>
+

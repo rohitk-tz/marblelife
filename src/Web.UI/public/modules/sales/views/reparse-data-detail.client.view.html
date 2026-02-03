@@ -1,0 +1,121 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Unpaid Invoice Details</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <span class="modal-title pull-left" ng-if="vm.invoiceList.length <= 0">
+        No Paid invoices To Delete related to this Sales Data Upload.
+        Please Confirm if You want to delete?
+    </span>
+    <span class="modal-title pull-left" ng-if="vm.invoiceList.length > 0">
+        Following are the Details of paid Invoices related to salesData Upload.
+        Amount of all your paid invoices will be added to your credit amount. Please Confirm if You want to delete?
+    </span>
+    <div class="modal-footer">
+        <button type="button" class="btn default" ng-click="vm.close();" ng-disabled="vm.isProcessing == true">Close</button>
+        <button type="submit" class="btn default" ng-click="vm.reparseBatch();" ng-disabled="vm.isProcessing == true">Delete</button>
+    </div>
+
+    <div class="row" ng-if="vm.invoiceList.length > 0">
+        <div class="col-md-12">
+            <div class="table-scrollable table-mbl">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead>
+                        <tr role="row">
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Invoice#
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                ng-if="vm.isSuperAdmin == true">
+                                Franchisee
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Start Date
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                End Date
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Due Date
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Total Sales
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Paid Amount
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Accrued Amount
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Payable Amount
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                AdFund
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Royalty
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name">
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.salesDataList">
+                            <td>{{item.invoiceId}}</td>
+                            <td ng-if="vm.isSuperAdmin == true">
+                            <a ng-click="vm.editFranchisee(item.franchiseeId)">{{item.franchiseeName}}</a></td>
+                            <td>{{item.customerName}}</td>
+                            <td>{{item.invoiceDate | dateTimeFilter : 'd'}}</td>
+                            <td>{{item.qbInvoiceNumber}}</td>
+                            <td>
+                                <span ng-if="item.address != null && item.address.city != null">{{item.address.addressLine1}}</span>
+                                <span ng-if="item.address != null &&item.address.addressLine2 != null">, {{item.address.addressLine2}} </span>
+                            </td>
+                            <td>  <span ng-if="item.address != null && item.address.city != null"> {{item.address.city}} </span> </td>
+                            <td>  <span ng-if="item.address != null && item.address.city != null">{{item.address.state}}</span> </td>
+                            <td>  <span ng-if="item.address != null && item.address.city != null"> {{item.address.zipCode}} </span> </td>
+                            <td>  <span ng-if="item.address != null && item.address.country != null"> {{item.address.country}} </span> </td>
+
+                            <td>
+                                <span ng-if="item.totalAmount != null">
+                                    {{item.totalAmount | currencyExchangeFilter:vm.currencyCode :item.currencyRate }}
+                                </span>
+                            </td>
+
+                            <td> {{item.paidAmount | currencyExchangeFilter:vm.currencyCode :item.currencyRate }}</td>
+                            <td>{{item.marketingClass | lowercase}}</td>
+
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.salesDataList.length == 0">
+                        <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.salesDataList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber -1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.salesDataList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+
+
+</div>
+

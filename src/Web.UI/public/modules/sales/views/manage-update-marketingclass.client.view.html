@@ -1,0 +1,343 @@
+﻿<style>
+    ol {
+        counter-reset: foo;
+        display: table;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 999999;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+        /*.tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-right: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }*/
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record search-single" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-sm input-inline"
+                            ng-model="vm.query.pageSize" ng-change="vm.getBatchList();"
+                            ng-options="option.value as option.display for option in vm.pagingOptions">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-if="vm.isCustomRange">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.getUpdateSalesDataList"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="!vm.isCustomRange && vm.isInvoiceListActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.query.year"
+                                    ng-change="vm.changeYearOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptionsList">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Select Year</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+
+                    <div class="pull-left tooltip" style="margin-top: 4% !important;margin-right: 2%;z-index:10!important" ng-show="vm.isInvoiceListActive">
+                        <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;font-size: 39px;margin-top: -7px;"></i>
+                        <span class="tooltiptext" style="color:white !important;background-color:#26327e !important;width:300px !important;padding:10px !important;">
+                            <p>Steps to Update Sales Data:</p>
+                            <p style="text-align:left !important">
+                                1. Click on <b>Download File</b> and make changes into your downloaded Update Sales Data file.
+                            </p>
+                            <p style="text-align:left !important">
+                                2. Those records that you want to edit, change there column <b>Is Changed</b> to <b>1</b>.
+                            </p>
+                            <p style="text-align:left !important">
+                                3. Update the same file by Clicking on <b>Upload File</b>
+                            </p>
+                            <p style="text-align:left !important">
+                                4. In the Downloaded template, only the following fields are eligible for update:<br />
+                                Address Line 1, Address Line 2, City, State, ZipCode, New Service, Final Service, New Class, Final Class, New Description, Final Description.
+                            </p>
+                        </span>
+                    </div>
+
+                    <div style="display:flex">
+                        <div class="pull-left m-t-5 search-single">
+                            <button id="sample_editable_1_new" ng-click="vm.uploadNewFile()" class="btn btn-primary">
+                                Upload File
+                            </button>
+                        </div>
+
+                        <div class="pull-left m-t-5 search-single">
+                            <button id="sample_editable_1_new" ng-click="vm.downloadInvoiceList()" class="btn btn-primary">
+                                Download File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.invoiceList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+
+            <div class="pull-right" ng-if="vm.invoiceList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row tabbable">
+            <ul class="nav nav-tabs" id="sideTablable">
+                <li class="active" id="general"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">Invoice List</a></li>
+                <li id="invoice"><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab4">File Parsing</a></li>
+            </ul>
+        </div>
+
+        <div class="row" ng-show="vm.isInvoiceListActive">
+            <div class="table-scrollable table-mbl">
+
+                <div fix-height style="overflow: auto;">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead fix-head>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                    style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.Id);">ID</th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                    style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.InvoiceId);">Invoice Id</th>
+                                <th style="width: 100px; min-width: 100px; max-width: 100px;"
+                                    tabindex="0" aria-controls="sample_1" ng-click="vm.sorting(vm.SortColumns.Status);">
+                                    Customer Name
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Franchisee Name
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Address Line 1
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Address Line 2
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    City
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    State
+                                </th>
+                                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Zip Code
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.GeneratedOn,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.GeneratedOn,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.GeneratedOn }"
+                                    tabindex="0" aria-controls="sample_1" aria-sort="ascending"
+                                    aria-label="Name" ng-click="vm.sorting(vm.SortColumns.GeneratedOn);" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Invoice Date
+                                </th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Service Name</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Marketing Class</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Description</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Item</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Rate</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Quantity</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="batch in vm.invoiceList">
+                                <td style="width: 50px; min-width: 50px; max-width: 50px;">{{batch.id}}</td>
+                                <td style="width: 50px; min-width: 50px; max-width: 50px;">{{batch.invoiceId}}</td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customerName}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.franchiseeName}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customer.addressLine1}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customer.addressLine2}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customer.city}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customer.state}}</span>
+                                </td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span>{{batch.customer.zipCode}}</span>
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{batch.generatedOn | dateTimeFilter: 'd'}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.serviceName}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.marketingClass}}</td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <div ng-if="batch.description.length > 0">
+                                        {{batch.description | limitTo: 50}}{{batch.description.length > 50 ? '...' : ''}}<a href="javascript:void(0);" ng-if="batch.description.length > 50" ng-click="vm.getNotes(batch.description)">View All</a>
+                                        <!--<a class="col-md-4 glyphicon glyphicon-edit" data-ng-hide="editMode" data-ng-click="vm.updateBatchEditable(batch);"></a>-->
+                                    </div>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.item}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">${{batch.rate}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.quantity}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">${{batch.amount}}</td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.batchList.length == 0">
+                            <td colspan="14" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.invoiceList.length > 0">
+                            Showing
+                            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                            records
+                        </div>
+                    </div>
+                    <div class="pull-right" ng-if="vm.invoiceList.length < vm.count">
+                        <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                            <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                                ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                                last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-show="vm.isFileListActive">
+            <div class="table-scrollable table-mbl">
+                <div fix-height style="overflow: auto;">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead fix-head>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                    style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.Id);">ID</th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Status }" style="width: 80px; min-width: 80px; max-width: 80px;"
+                                    tabindex="0" aria-controls="sample_1" ng-click="vm.sorting(vm.SortColumns.Status);">
+                                    Status
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadedDate }"
+                                    tabindex="0" aria-controls="sample_1" aria-sort="ascending"
+                                    aria-label="Name" ng-click="vm.sorting(vm.SortColumns.UploadedDate);" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    Uploaded On
+                                </th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Uploaded By</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Notes</th>
+                                <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="batch in vm.batchList">
+                                <td style="width: 50px; min-width: 50px; max-width: 50px;">{{batch.id}}</td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <span class="label label-sm" ng-class="{ 'label-danger': batch.statusId == vm.BatchStatus.Failed,
+                                  'label-success': batch.statusId == vm.BatchStatus.Parsed,
+                                  'label-info': batch.statusId == vm.BatchStatus.Uploaded,
+                                  'label-warning': batch.statusId == vm.BatchStatus.ParseInProgress }">{{batch.status}}</span>
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{batch.uploadedOn | dateTimeFilter: 'd'}}</td>
+                                <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;"><a href="mailto:{{batch.uploadedBy}}">{{batch.uploadedBy}}</a></td>
+                                <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                    <div ng-if="batch.notes.length > 0">
+                                        {{batch.notes | limitTo: 50}}{{batch.notes.length > 50 ? '...' : ''}}<a href="javascript:void(0);" ng-if="batch.notes.length > 50" ng-click="vm.getNotes(batch.notes)">View All</a>
+                                        <!--<a class="col-md-4 glyphicon glyphicon-edit" data-ng-hide="editMode" data-ng-click="vm.updateBatchEditable(batch);"></a>-->
+                                    </div>
+
+                                <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    <div class="btn-group">
+                                        <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                            Action <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:void(0);" ng-click="vm.downloadSalesData(batch.fileId)">Download file</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" ng-click="vm.getLogs(batch.logFileId)">View Logs</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.batchList.length == 0">
+                            <td colspan="14" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

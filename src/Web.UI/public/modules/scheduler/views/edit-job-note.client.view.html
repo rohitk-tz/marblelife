@@ -1,0 +1,27 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Note: {{vm.franchiseeName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<form role="form" name="note_form">
+    <div class="modal-body">
+        <div class="row margin-top-10">
+            <div class="col-md-10 pull-left">
+                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : note_form.note.$error.required}">
+                    <textarea class="form-control" rows="3" id="note" name="note" ng-model="vm.jobInfo.jobNote" maxlength="1024" autofocus required></textarea>
+                    <label for="note">Note<span class="required" aria-required="true"> * </span></label>
+                </div>
+                <div ng-show="note_form.note.$dirty && note_form.note.$invalid && note_form.note.$error.required">
+                    <span class="text-danger" ng-if="note_form.note.$error.required">
+                        Note is required.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer clear-both">
+        <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+        <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="note_form.$invalid">Save</button>
+    </div>
+
+</form>
+

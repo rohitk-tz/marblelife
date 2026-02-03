@@ -1,0 +1,420 @@
+﻿<style type="text/css">
+    .daterangepicker.dropdown-menu.ltr.show-calendar.opensright {
+        left: 36% !important;
+    }
+    ul.dropdown-menu.pull-right {
+        left: 0px !important;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 5px;">
+            <div class="col-md-8 col-xs-12">
+
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                ng-change="vm.resetSeachOption()"
+                                ng-options="item.value as item.display for item in vm.searchOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Search Options</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '5'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="tech" ng-model="vm.query.techId"
+                                ng-change="vm.getJobList();"
+                                ng-options="tech.userId as tech.label for tech in vm.techList">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="tech">Technician</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="jobType" ng-model="vm.query.jobTypeId"
+                                ng-change="vm.getJobList();"
+                                ng-options="type.value as type.display for type in vm.marketingClass">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="jobType">Customer Class</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '3'" style="margin-top: -9px !important;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.text">
+                        <label>Search</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single margin-left-15" ng-if="vm.searchOption == '4'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.option"
+                                ng-change="vm.getJobList();"
+                                ng-options="type.value as type.display for type in vm.options">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="type">Type</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single margin-left-15" ng-if="vm.searchOption == '6'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.imported"
+                                ng-change="vm.getJobList();"
+                                ng-options="type.value as type.display for type in vm.importOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="type">Source</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '7'">
+                    <div class="form-group form-md-line-input form-md-floating-label" style="display: flex; align-items: center;">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.CustomerTypeOption"
+                                ng-options="type.value as type.display for type in vm.CustomerTypeOptions"
+                                ng-change="vm.resetSeachOption()">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="customer">Customer</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.CustomerTypeOption == '10'" style="margin-top: -7px;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.customerName">
+                        <label>Name</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.CustomerTypeOption == '11'" style="margin-top: -7px;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.email">
+                        <label>Email</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.CustomerTypeOption == '12'" style="margin-top: 6px;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="number" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.phoneNumber">
+                        <label>Phone Number</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '8'" style="margin-top: -9px !important;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.text">
+                        <label>Search</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.searchOption == '9'">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.SalesRepNameTypeOption"
+                                ng-options="type.value as type.display for type in vm.SalesRepNameTypeOptions"
+                                ng-change="vm.resetSeachOption()">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="customer">SalesRep</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.SalesRepNameTypeOption == '13'" style="margin-top: -7px;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.firstName">
+                        <label>First Name</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single" ng-if="vm.SalesRepNameTypeOption == '14'" style="margin-top: -7px;">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                               ng-model="vm.query.lastName">
+                        <label>Last Name</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.getJobList"
+                               start-date="vm.query.dateCreated" end-date="vm.query.dateModified">
+                        <label for="date-range">Date Range</label>
+                    </div>
+                </div>
+                <div class="pull-left margin-left-15 margin-right-10 m-t-15">
+                    <a class="btn btn-primary" ng-click="vm.getJobList();">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+                <div class="pull-left search-single m-t-15">
+                    <a class="btn btn-primary" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="pull-right margin-left-15 m-t-15">
+                    <a class="btn btn-primary" ng-click="vm.refresh();">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+                <div class="pull-right margin-left-15 m-t-15">
+                    <button class="btn btn-primary" ui-sref="core.layout.scheduler.manage({ franchiseeId: vm.query.franchiseeId,previousView:vm.previousView })"><i class="fa fa-calendar"></i> Calendar View</button>
+                </div>
+            </div>
+            <div class="col-xs-12" style="border-top:1px solid #f1f1f1; padding-top:10px;">
+                <div class="pull-left" id="sample_1_length">
+                    <label>
+                        Show
+                        <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                                ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                                ng-change="vm.getJobList();">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select> records
+                    </label>
+                </div>
+            </div>
+            <div class="pull-left margin-left-15">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.jobs.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right margin-left-15" ng-if="vm.jobs.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="table-scrollable table-mbl">
+            <div fix-height style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable  no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;"></th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Id }"
+                                tabindex="0" aria-controls="sample_1"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                ng-click="vm.sorting(vm.SortColumns.Id);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Type,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Type,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Type }"
+                                tabindex="0" aria-controls="sample_1"
+                                rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name" style="width: 55px; min-width: 55px; max-width: 55px;"
+                                ng-click="vm.sorting(vm.SortColumns.JobType);">
+                                Type
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Title,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Title,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Title }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1"
+                                colspan="1" aria-sort="ascending" aria-label="Title" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                ng-click="vm.sorting(vm.SortColumns.Title);">
+                                Title
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.StartDate,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.StartDate,
+                                                        'sorting': vm.query.propName != vm.SortColumns.StartDate }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="StartDate" style="width: 80px; min-width: 80px; max-width: 80px;"
+                                ng-click="vm.sorting(vm.SortColumns.StartDate);">
+                                Start Time
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.EndDate,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.EndDate,
+                                                        'sorting': vm.query.propName != vm.SortColumns.EndDate }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="EndDate" style="min-width: 80px; min-width: 80px; max-width: 80px;"
+                                ng-click="vm.sorting(vm.SortColumns.EndDate);">
+                                End Time
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.JobType,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.JobType,
+                                                        'sorting': vm.query.propName != vm.SortColumns.JobType }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="JobType" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                ng-click="vm.sorting(vm.SortColumns.JobType);">
+                                Customer Class
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Technician,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Technician,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Technician }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1"
+                                colspan="1" aria-sort="ascending" aria-label="Name" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                ng-click="vm.sorting(vm.SortColumns.Technician);">
+                                Assignee
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.SalesRep,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.SalesRep,
+                                                        'sorting': vm.query.propName != vm.SortColumns.SalesRep }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="SalesRep" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                ng-click="vm.sorting(vm.SortColumns.SalesRep);">
+                                SalesRep
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1"
+                                colspan="1" aria-sort="ascending" aria-label="Name" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                ng-click="vm.sorting(vm.SortColumns.Name);">
+                                Customer
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.Email,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.Email,
+                                                        'sorting': vm.query.propName != vm.SortColumns.Email }"
+                                rowspan="1" colspan="1" aria-label="Email" style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.Email);">
+                                Email
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.PhoneNumber,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.PhoneNumber,
+                                                        'sorting': vm.query.propName != vm.SortColumns.PhoneNumber }"
+                                rowspan="1" colspan="1" aria-label="Email" style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.PhoneNumber);">
+                                Phone Number
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query.propName == vm.SortColumns.QBinvoiceNumber,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.QBinvoiceNumber,
+                                                        'sorting': vm.query.propName != vm.SortColumns.QBinvoiceNumber }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="MarketingClass" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                ng-click="vm.sorting(vm.SortColumns.QBinvoiceNumber);">
+                                QB Invoice
+                            </th>
+                            <th>
+                                Estimated value
+                            </th>
+                            <th>
+                                JOB Total
+                            </th>
+                            <th>
+                                Notes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="gradeX odd" role="row" ng-repeat="job in vm.jobs" ng-if="vm.jobs.length > 0 && !vm.isProcessing">
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <div class="btn-group pull-right">
+                                    <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                        Action <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li ng-if="job.jobId > 0 && (job.statusId <= '2' || job.statusId >= '6')">
+                                            <a ng-click="vm.editJob(job.id)">Edit</a>
+                                        </li>
+                                        <li ng-if="job.estimateId > 0">
+                                            <a ng-click="vm.editEstimate(job.estimateId)">Edit</a>
+                                        </li>
+                                        <li ng-if="job.isVacation > 0">
+                                            <a ng-click="vm.editVacation(job.id)">Edit</a>
+                                        </li>
+                                        <li ng-if="job.jobId > 0 && (vm.isSuperAdmin || vm.isExecutive || vm.isFranchiseeAdmin)">
+                                            <a ng-click="vm.deleteJob(job.id)">Delete</a>
+                                        </li>
+                                        <li ng-if="job.estimateId > 0 && (vm.isSuperAdmin || vm.isExecutive || vm.isFranchiseeAdmin)">
+                                            <a ng-click="vm.deleteEstimate(job.id)">Delete</a>
+                                        </li>
+                                        <li ng-if="job.isVacation && (vm.isSuperAdmin || vm.isExecutive || vm.isFranchiseeAdmin)">
+                                            <a ng-click="vm.deleteVacation(job.id)">Delete</a>
+                                        </li>
+                                        <li ng-if="job.jobId > 0">
+                                            <a ui-sref="core.layout.scheduler.job({ id: job.jobId,rowId:job.id,previousView:vm.previousView })">Manage Job</a>
+                                        </li>
+                                        <li ng-if="job.estimateId > 0">
+                                            <a ui-sref="core.layout.scheduler.estimate({ id: job.estimateId,rowId:job.id,previousView:vm.previousView })">Manage Estimate</a>
+                                        </li>
+                                        <li ng-if="job.isVacation > 0">
+                                            <a ui-sref="core.layout.scheduler.vacation({ id: job.id,previousView:vm.previousView })">Manage Personal</a>
+                                        </li>
+                                        <li ng-if="job.meetingId > 0">
+                                            <a ng-click="vm.editMeeting(job.id)">Edit</a>
+                                        </li>
+                                        <li ng-if="job.meetingId > 0 && job.isParent==true  && (vm.isSuperAdmin || vm.isExecutive || vm.isFranchiseeAdmin)">
+                                            <a ng-click="vm.deleteMeeting(job.id,job.techId)">Delete</a>
+                                        </li>
+                                        <li ng-if="job.meetingId > 0 && job.isParent==false  && (vm.isSuperAdmin || vm.isExecutive || vm.isFranchiseeAdmin)">
+                                            <a ng-click="vm.deleteMeeting(job.id,job.techId)">Delete All</a>
+                                        </li>
+                                        <li ng-if="job.meetingId > 0">
+                                            <a ui-sref="core.layout.scheduler.meeting({ id: job.id })">Manage Meeting</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="sorting_1" style="width: 40px; min-width: 40px; max-width: 40px;">{{job.id}}</td>
+                            <td style="width: 55px; min-width: 55px; max-width: 55px;">
+                                <span ng-if="job.jobId > 0" class="label label-sm" ng-style="{'background-color': '#89C4F4'}">Job</span>
+                                <span ng-if="job.estimateId > 0" class="label label-sm" ng-style="{'background-color': '#424296'}">Estimate</span>
+                                <span ng-if="job.jobId <= 0 && job.estimateId <= 0 && job.isVacation" class="label label-sm" ng-style="{'background-color': '#f63535'}">Personal</span>
+                                <span ng-if="job.jobId <= 0 && job.estimateId <= 0 && !job.isVacation" class="label label-sm" ng-style="{'background-color': '#f63535'}">Meeting</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; word-wrap: break-word;">{{job.schedulerTitle}}</td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                {{job.actualStartDate | date: 'MM/dd/yyyy HH:mm'}}
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                {{job.actualEndDate | date: 'MM/dd/yyyy HH:mm'}}
+                            </td>
+                            <td class="break_word" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-if="job.jobType !=null">{{job.jobType}}</span>
+                                <span ng-if="job.estimateType!=null">{{job.estimateType}}</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">{{job.assignee}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{job.salesRep}}</td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">{{job.jobCustomer.customerName}}</td>
+                            <td class="break_word" style="width: 120px; min-width: 120px; max-width: 120px;">{{job.jobCustomer.email}}</td>
+                            <td class="break_word" style="width: 120px; min-width: 120px; max-width: 120px;">{{job.jobCustomer.phoneNumber | phonemask}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{job.qBinvoiceNumber}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="job.estimatedValue > 0 && job.isInvoicePresent == false">{{job.estimatedValue | currency}}</span>
+                                <span ng-if="job.invoiceValue > 0 && job.isInvoicePresent == true">{{job.invoiceValue | currency}}</span>
+                                <span ng-if="job.estimatedValue <= 0 && job.invoiceValue <= 0"></span>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="job.jobTotal > 0">{{job.jobTotal | currency}}</span>
+                                <span ng-if="job.jobTotal <= 0"></span>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span style="word-wrap: break-word;" ng-if="job.notesForEstimate != '' ">
+                                    {{job.notesForEstimate | limitTo: 20}}{{job.notesForEstimate.length > 20 ? '...' : ''}}
+                                    <a ng-if="job.notesForEstimate.length > 20" ng-click="vm.viewDesc(job.notesForEstimate);">View</a>
+                                </span>
+                                <span style="word-wrap: break-word;" ng-if="job.notesForJob != '' ">
+                                    {{job.notesForJob | limitTo: 20}}{{job.notesForJob.length > 20 ? '...' : ''}}
+                                    <a ng-if="job.notesForJob.length > 20" ng-click="vm.viewDesc(job.notesForJob);">View</a>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.jobs.length == 0  && !vm.isProcessing">
+                            <td colspan="15" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                        <tr ng-if="vm.isProcessing">
+                            <td colspan="15" class="text-center" us-spinner="{top:'60%',color:'#5656a7',radius:42,lines:10,length:22,width: 10,Opacity:0}" style="background-color: #f5f7ff !important">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-md-5 col-sm-5">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.jobs.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="col-md-7 col-sm-7" ng-if="vm.jobs.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

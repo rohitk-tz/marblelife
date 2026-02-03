@@ -1,0 +1,77 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left"> {{vm.modalHeader}} </h4>
+    <a href="javascript:void(0);" ng-click="vm.cancel()" ng-if="vm.isAddReason" class="pull-right"><i class="fa fa-remove"></i></a>
+    <a href="javascript:void(0);" ng-click="vm.close()" ng-if="vm.isShowReason" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<style>
+    .modal-body.ng-scope
+    {
+        max-height:unset;
+    }
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        border: 1px solid transparent;
+        padding: 10px 10px 40px 10px;
+        position: relative;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        margin-left: 0px !important;
+    }
+
+        .container .signature {
+            border: 1px solid white;
+            /*margin: 0 auto;*/
+            cursor: pointer;
+        }
+
+            .container .signature canvas {
+                border: 1px solid #999;
+                /*margin: 0 auto;*/
+                cursor: pointer;
+            }
+
+        .container .buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .container .sizes {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+            .container .sizes input {
+                width: 4em;
+                text-align: center;
+            }
+
+    .result {
+        border: 1px solid blue;
+        margin: 30px auto 0 auto;
+        height: 220px;
+        width: 568px;
+    }
+</style>
+<div class="modal-body">
+    <div  class="col-md-12" style="border-color:black !important;" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+        <div class="row">
+            <textarea ng-if="vm.isAddReason" ng-minlength="" ng-model="vm.invoiceReason" ng-maxlength="5000" maxlength="5000" style="width: 558px; height: 167px;"/>
+            <div class="modal-scrollable" ng-if="vm.isShowReason" style="word-break:break-word; height:500px; max-height:500px;">
+                {{vm.reason}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="vm.saveReason()" ng-if="vm.isAddReason">Save</button>
+    <button class="btn" ng-click="vm.cancel()" ng-if="vm.isAddReason">Cancel</button>
+    <button class="btn" ng-click="vm.close()" ng-if="vm.isShowReason">Close</button>
+</div>

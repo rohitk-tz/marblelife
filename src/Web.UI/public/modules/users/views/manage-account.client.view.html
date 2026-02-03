@@ -1,0 +1,37 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Manage Account</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="text">
+        Select Franchisee(s) to provide Account access to the User.
+        <br/>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" ng-repeat="franchisee in vm.franchiseeCollection">
+            <div class="single-service clearfix">
+                <div class="pull-left">
+                    <div class="md-checkbox">
+                        <input type="checkbox" id="franchisee{{$index}}" ng-model="franchisee.isActive" class="md-check" ng-click="vm.addFranchiseeToList(franchisee.organizationId)"
+                               ng-disabled="franchisee.isDefault">
+                        <label for="franchisee{{$index}}">
+                            <span></span>
+                            <span class="check"></span>
+                            <span class="box"></span>
+                            {{franchisee.franchiseeName}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.manageAccount();">Save</button>
+</div>
+
+

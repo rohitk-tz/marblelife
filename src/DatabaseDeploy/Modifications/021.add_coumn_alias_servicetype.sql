@@ -1,0 +1,4 @@
+﻿ALTER TABLE `servicetype` 
+ADD COLUMN `Alias` VARCHAR(1024) NULL;
+
+

@@ -1,0 +1,49 @@
+﻿<style type="text/css">
+    .modal-dialog.modal-lg {
+        height: 1200px;
+        width: 1200px;
+    }
+    .modal-body .col-md-6 {
+        margin-bottom: 30px; /* vertical spacing between rows */
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Service Type List</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="col-md-6" ng-repeat="groupedData in vm.serviceTypeList">
+        <div class="single-service clearfix" ng-if="groupedData.groupName!=''" style="background-color: lightblue; margin-top: 15px !important; height:29px !important; ">
+            <b style="margin-left: 4px !important">{{groupedData.groupName}}</b>
+        </div>
+        <div  style="min-height: auto;float:none;overflow-y:auto;max-height: 350px;height: auto;">
+            <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                <thead>
+                    <tr role="row">
+                        <th>
+                            Service-Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Acceptable Synonyms
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="services in groupedData.collection">
+                        <td>{{services.display}}</td>
+                        <td>{{services.description}}</td>
+                        <td>{{services.synonyms}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

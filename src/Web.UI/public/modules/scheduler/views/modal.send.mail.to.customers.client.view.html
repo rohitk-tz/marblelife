@@ -1,0 +1,51 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Draft Custom Email</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <ng-form name="note_form">
+        <div class="row" ng-repeat="emailList in vm.emailList track by $index">
+            <div class="col-md-12">
+                <div class="input-group form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : note_form.email.$error.required}" style="width: 37%;">
+                    <input ng-keyup="vm.checkForValid()" name="email" class="form-control" id="email" ng-blur="vm.validate(note_form, $index)" mailTo="mailTo" ng-model="emailList.mailTo" maxlength="1024" />
+                    <label for="email">Send Mail To<span class="required" aria-required="true"> </span></label>
+                    <div class="input-group-btn">
+                        <a href="javascript:void(0);" class="add-more ng-scope" ng-click="vm.addMore()" style="padding:5px;z-index:9">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a style="padding:5px"  href="javascript:void(0);" ng-if="($index+1)==vm.emailList.length" class="delete-more ng-scope" ng-click="vm.remove($index)"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                </div>
+                <!--<span class="text-danger" ng-if="note_form.email.$error.invalid">
+                    Email is not Valid.
+                </span>-->
+
+            </div>
+
+            <!--<div class="col-md-6 col-sm-6 col-lg-6">
+                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : note_form.email.$error.required}">
+                    <input ng-keyup="vm.checkForValid()" name="email" class="form-control" id="email" ng-blur="vm.validate(note_form, $index)" mailTo="mailTo" ng-model="emailList.mailTo" maxlength="1024" />
+                    <label for="email">Send Mail To<span class="required" aria-required="true"> </span></label>
+                </div>
+                <span class="text-danger" ng-if="note_form.email.$error.invalid">
+                    Email is not Valid.
+                </span>
+            </div>-->
+            <!--<div class="col-md-4 col-sm-4 col-lg-4">
+                <a href="javascript:void(0);" class="add-more ng-scope" ng-click="vm.addMore()">
+                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-trash-o"></i>
+                </a>
+                <a href="javascript:void(0);" ng-if="($index+1)==vm.emailList.length" class="delete-more ng-scope" ng-click="vm.remove($index)"><i class="fa fa-trash-o"></i></a>
+            </div>-->
+        </div>
+    </ng-form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-disabled="!vm.isValid" ng-click="vm.save();">Send</button>
+</div>
+
+
+

@@ -1,0 +1,153 @@
+﻿<style>
+    ol {
+        counter-reset: foo;
+        display: table;
+    }
+
+    .marginForClearFix {
+        margin-top: 24px;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left"> Price Estimate File Upload History </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body" ng-if="!vm.showLogs">
+    <div class="clearfix page-controls">
+        <div class="dataTables_length pull-left m-t-15 showing-record search-single" id="sample_1_length">
+            <label>
+                Show
+                <select name="sample_1_length" aria-controls="sample_1" class="form-control input-sm input-inline"
+                        ng-model="vm.query.pageSize" ng-change="vm.getPriceEstimateUploadList();"
+                        ng-options="option.value as option.display for option in vm.pagingOptions">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select> records
+            </label>
+        </div>
+        <!--<div class="pull-right search-btn-wrap">
+            <div class="search-box">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                ng-change="vm.resetSeachOption()"
+                                ng-options="item.value as item.display for item in vm.searchOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Search Options</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.searchOption == '1'">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.statusId"
+                                ng-change="vm.getPriceEstimateUploadList();"
+                                ng-options="status.value as status.display for status in vm.uploadStatus">
+                            <option disabled value=''></option>
+                        </select>
+                        <label for="franchisee">Status</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single m-t-5">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+                <div class="pull-left search-single m-t-5">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <div class="table-scrollable table-mbl">
+        <div>
+            <table class="table table-hover table-striped table-bordered dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                <thead>
+                    <tr role="row">
+                        <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                            tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                            style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.Id);">ID</th>
+                        <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Status }" style="width: 80px; min-width: 80px; max-width: 80px;"
+                            tabindex="0" aria-controls="sample_1" ng-click="vm.sorting(vm.SortColumns.Status);">
+                            Status
+                        </th>
+                        <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadedDate }"
+                            tabindex="0" aria-controls="sample_1" aria-sort="ascending"
+                            aria-label="Name" ng-click="vm.sorting(vm.SortColumns.UploadedDate);" style="width: 120px; min-width: 120px; max-width: 120px;">
+                            Uploaded On
+                        </th>
+                        <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Uploaded By</th>
+                        <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Notes</th>
+                        <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="batch in vm.batchList" ng-if="vm.batchList.length > 0">
+                        <td style="width: 50px; min-width: 50px; max-width: 50px;">{{batch.id}}</td>
+                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                            <span class="label label-sm" ng-class="{ 'label-danger': batch.statusId == vm.BatchStatus.Failed,
+                                  'label-success': batch.statusId == vm.BatchStatus.Parsed,
+                                  'label-info': batch.statusId == vm.BatchStatus.Uploaded,
+                                  'label-warning': batch.statusId == vm.BatchStatus.ParseInProgress }">{{batch.status}}</span>
+                        </td>
+                        <td style="width: 120px; min-width: 120px; max-width: 120px;">{{batch.uploadedOn | dateTimeFilter: 'd'}}</td>
+                        <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;"><a href="mailto:{{batch.uploadedBy}}">{{batch.uploadedBy}}</a></td>
+                        <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                            <div style="word-break:break-all;" ng-if="batch.notes.length > 0">
+                                {{batch.notes}}
+                            </div>
+                        </td>
+                        <td style="width: 100px; min-width: 150px; max-width: 150px;">
+                            <div class="btn-group">
+                                <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                    Action <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0);" ng-click="vm.downloadPriceEstimateData(batch.fileId)">Download file</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" ng-if="batch.statusId == vm.BatchStatus.Failed || batch.statusId == vm.BatchStatus.Parsed" ng-click="vm.getLogs(batch.logFileId)">View Logs</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.batchList.length == 0">
+                        <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix marginForClearFix">
+        <div class="pull-left">
+            <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.batchList.length > 0">
+                Showing
+                <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                records
+            </div>
+        </div>
+        <div class="pull-right" ng-if="vm.batchList.length < vm.count">
+            <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                    ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                    last-text="&raquo;"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body overflow-y-visible" style="overflow-y:auto !important" ng-if="vm.showLogs">
+    <pre>{{vm.logs}}</pre>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-if="vm.showLogs" ng-click="vm.showLogs = false;">Back</button>
+    <button class="btn" ng-click="vm.close()">Close</button>
+</div>

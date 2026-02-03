@@ -1,0 +1,56 @@
+﻿<style type="text/css">
+    .has-zero {
+        border: 2px solid #26327e !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left"> Phone Call For {{vm.franchiseeName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row">
+            <table class="table table-striped" id="sample_2" role="grid" aria-describedby="sample_2_info">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>DataFromNewAPI</th>
+                        <th>DateOfCall</th>
+                        <th>Ani</th>
+                        <th>Caller ID</th>
+                        <th>TransferToNumber</th>
+                        <th>TransferType</th>
+                        <th>PhoneLabel</th>
+                        <th>CallType</th>
+                        <th>CallDuration</th>
+                        <th>Tag</th>
+                        <th>Call Flow State</th>
+                        <th>Route</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="items in vm.franchiseePhoneCall">
+                        <td>{{items.id}}</td>
+                        <td><span ng-if="items.dataFromNewAPI">Yes</span><span ng-if="!items.dataFromNewAPI">Yes</span></td>
+                        <td>{{items.dateOfCall |date:'M/d/yyyy HH:mm:ss'}}</td>
+                        <td>{{items.ani}}</td>
+                        <td>{{items.callerId|  phonemask}}</td>
+                        <td>{{items.transferToNumber|  phonemask}}</td>
+                        <td>{{items.transferType}}</td>
+                        <td>{{items.phoneLabel}}</td>
+                        <td>{{items.callType}}</td>
+                        <td>{{items.callDuration}}</td>
+                        <td>{{items.tag}}</td>
+                        <td>{{items.callFlowState}}</td>
+                        <td>{{items.route}}</td>
+                    </tr>
+                  
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

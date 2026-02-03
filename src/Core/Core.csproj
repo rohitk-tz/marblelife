@@ -1,0 +1,1357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SixLabors.ImageSharp.3.1.5\build\SixLabors.ImageSharp.props" Condition="Exists('..\packages\SixLabors.ImageSharp.3.1.5\build\SixLabors.ImageSharp.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{76D7ECAF-70D0-4135-8627-7B4D746AF7A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'taazaa_qa|AnyCPU'">
+    <OutputPath>bin\taazaa_qa\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'production|AnyCPU'">
+    <OutputPath>bin\production\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'new_qa|AnyCPU'">
+    <OutputPath>bin\new_qa\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.2.3\lib\net45\antlr.runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.202\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.7.203.6\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper, Version=30.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.30.0.1\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ical.Net, Version=2.1.0.19501, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.2.3\lib\net45\Ical.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ical.Net.Collections, Version=2.1.0.19501, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.2.3\lib\net45\Ical.Net.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ImageProcessor, Version=2.9.1.225, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.2.9.1\lib\net452\ImageProcessor.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.2.3\lib\net45\NodaTime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.9.0\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.12.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGrid, Version=9.22.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.9.22.0\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Common, Version=2.5.4.6040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.5.4\lib\net40\Spire.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.7.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.5.4\lib\net40\Spire.License.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=5.5.9.18040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.5.4\lib\net40\Spire.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=9.5.4.6040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.5.4\lib\net40\Spire.XLS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\starkbank-ecdsa.1.2.0\lib\net452\StarkbankEcdsa.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.0\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TaxJar, Version=3.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TaxJar.3.3.2\lib\net452\TaxJar.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\ApplicationManager.cs" />
+    <Compile Include="Application\Attribute\CascadeEntityAttribute.cs" />
+    <Compile Include="Application\Attribute\DefaultImplementationAttribute.cs" />
+    <Compile Include="Application\Attribute\DownloadFieldAttribute.cs" />
+    <Compile Include="Application\Attribute\NoValidatorRequiredAttribute.cs" />
+    <Compile Include="Application\Attribute\NoValidationResolveAtStartAttribute.cs" />
+    <Compile Include="Application\Domain\ContentType.cs" />
+    <Compile Include="Application\Domain\DataRecorderMetaData.cs" />
+    <Compile Include="Application\Domain\File.cs" />
+    <Compile Include="Application\Domain\Folder.cs" />
+    <Compile Include="Application\Domain\Lookup.cs" />
+    <Compile Include="Application\Domain\LookupType.cs" />
+    <Compile Include="Application\Enum\FileTypes.cs" />
+    <Compile Include="Application\Enum\LookupTypes.cs" />
+    <Compile Include="Application\Enum\MessageType.cs" />
+    <Compile Include="Application\ExcelFileFormaterForDirectoryCreator.cs" />
+    <Compile Include="Application\Exceptions\CustomBaseException.cs" />
+    <Compile Include="Application\Exceptions\InvalidAddressException.cs" />
+    <Compile Include="Application\Exceptions\InvalidDataProvidedException.cs" />
+    <Compile Include="Application\Exceptions\InvalidDependencyRegistrationException.cs" />
+    <Compile Include="Application\Exceptions\InvalidFileUploadException.cs" />
+    <Compile Include="Application\Exceptions\UserBlockedException.cs" />
+    <Compile Include="Application\Extensions\CurrencyExtension.cs" />
+    <Compile Include="Application\Extensions\PathExtensions.cs" />
+    <Compile Include="Application\IAppContextStore.cs" />
+    <Compile Include="Application\IClock.cs" />
+    <Compile Include="Application\ICryptographyOneWayHashService.cs" />
+    <Compile Include="Application\IDependencyInjectionHelper.cs" />
+    <Compile Include="Application\IExcelFileCreator.cs" />
+    <Compile Include="Application\IExcelFileCreatorMarketingLead.cs" />
+    <Compile Include="Application\IExcelFileFormaterCreator.cs" />
+    <Compile Include="Application\IExcelFileFormaterForDirectoryCreator.cs" />
+    <Compile Include="Application\IExcelFranchiseeFileFormaterCreator.cs" />
+    <Compile Include="Application\IExcelTaxDocumentFileFormaterCreator.cs" />
+    <Compile Include="Application\IFileFactory.cs" />
+    <Compile Include="Application\IFileService.cs" />
+    <Compile Include="Application\IImageHelper.cs" />
+    <Compile Include="Application\ILogService.cs" />
+    <Compile Include="Application\Impl\Clock.cs" />
+    <Compile Include="Application\Impl\CryptographyOneWayHashService.cs" />
+    <Compile Include="Application\Impl\CustomerExcelFileParser.cs" />
+    <Compile Include="Application\Impl\DateRangeHelperService.cs" />
+    <Compile Include="Application\Impl\ExcelFileCreator.cs" />
+    <Compile Include="Application\Impl\ExcelFileCreatorMarketingLead.cs" />
+    <Compile Include="Application\Impl\ExcelFileFormaterCreator.cs" />
+    <Compile Include="Application\Impl\ExcelFileParser.cs" />
+    <Compile Include="Application\Impl\ExcelFranchiseeFileFormaterCreator.cs" />
+    <Compile Include="Application\Impl\ExcelTaxDocumentFileFormaterCreator.cs" />
+    <Compile Include="Application\Impl\FileFactory.cs" />
+    <Compile Include="Application\Impl\FileService.cs" />
+    <Compile Include="Application\Impl\HomeAdvisorFileParser.cs" />
+    <Compile Include="Application\Impl\ImageHelper.cs" />
+    <Compile Include="Application\Impl\ISortingHelper.cs" />
+    <Compile Include="Application\Impl\MediaLocation.cs" />
+    <Compile Include="Application\Impl\MediaLocationHelper.cs" />
+    <Compile Include="Application\Impl\PdfFileService.cs" />
+    <Compile Include="Application\Impl\SessionFactory.cs" />
+    <Compile Include="Application\Impl\Settings.cs" />
+    <Compile Include="Application\Impl\SortingHelper.cs" />
+    <Compile Include="Application\Impl\UpdateInvoiceFileParser.cs" />
+    <Compile Include="Application\Impl\WkHtmltoPdfSwitches.cs" />
+    <Compile Include="Application\Impl\PriceEstimateExcelFileParser.cs" />
+    <Compile Include="Application\IPdfFileService.cs" />
+    <Compile Include="Application\IPdfGenerator.cs" />
+    <Compile Include="Application\IRepository.cs" />
+    <Compile Include="Application\ISessionContext.cs" />
+    <Compile Include="Application\ISessionFactory.cs" />
+    <Compile Include="Application\ISettings.cs" />
+    <Compile Include="Application\IUnitOfWork.cs" />
+    <Compile Include="Application\ValueType\Dimension.cs" />
+    <Compile Include="Application\ValueType\Name.cs" />
+    <Compile Include="Application\ValueType\SecureHash.cs" />
+    <Compile Include="Application\ViewModel\DeleteInvoiceResponseModel.cs" />
+    <Compile Include="Application\ViewModel\DropDownListViewModel.cs" />
+    <Compile Include="Application\ViewModel\EditModelBase.cs" />
+    <Compile Include="Application\ViewModel\FeedbackMessageModel.cs" />
+    <Compile Include="Application\ViewModel\FileModel.cs" />
+    <Compile Include="Application\ViewModel\HomeAdvisorParentModel.cs" />
+    <Compile Include="Application\ViewModel\ModelValidationItem.cs" />
+    <Compile Include="Application\ViewModel\ModelValidationOutput.cs" />
+    <Compile Include="Application\ViewModel\PagingModel.cs" />
+    <Compile Include="Application\ViewModel\ParsedFileParentModel.cs" />
+    <Compile Include="Application\ViewModel\PostResponseModel.cs" />
+    <Compile Include="Application\ViewModel\ResponseModel.cs" />
+    <Compile Include="AWS\IAWSService.cs" />
+    <Compile Include="AWS\Impl\AWSService.cs" />
+    <Compile Include="Billing\Domain\AccountCreditPayment.cs" />
+    <Compile Include="Billing\Domain\AuditAddress.cs" />
+    <Compile Include="Billing\Domain\AuditAddressDiscrepancy.cs" />
+    <Compile Include="Billing\Domain\AuditCustomer.cs" />
+    <Compile Include="Billing\Domain\AuditFranchiseeSales.cs" />
+    <Compile Include="Billing\Domain\AuditInvoice.cs" />
+    <Compile Include="Billing\Domain\AuditInvoiceItem.cs" />
+    <Compile Include="Billing\Domain\AuditInvoicePayment.cs" />
+    <Compile Include="Billing\Domain\AuditPayment.cs" />
+    <Compile Include="Billing\Domain\AuditPaymentItem.cs" />
+    <Compile Include="Billing\Domain\AuthorizeNetApiMaster.cs" />
+    <Compile Include="Billing\Domain\Check.cs" />
+    <Compile Include="Billing\Contants\ServiceTypeAlias.cs" />
+    <Compile Include="Billing\Domain\ChargeCard.cs" />
+    <Compile Include="Billing\Domain\ChargeCardPayment.cs" />
+    <Compile Include="Billing\Domain\CheckPayment.cs" />
+    <Compile Include="Billing\Domain\ECheck.cs" />
+    <Compile Include="Billing\Domain\ECheckPayment.cs" />
+    <Compile Include="Billing\Domain\FranchiseeInvoice.cs" />
+    <Compile Include="Billing\Domain\InterestRateInvoiceItem.cs" />
+    <Compile Include="Billing\Domain\CurrencyExchangeRate.cs" />
+    <Compile Include="Billing\Domain\InvoiceAddress.cs" />
+    <Compile Include="Billing\Domain\InvoicePayment.cs" />
+    <Compile Include="Billing\Domain\LateFeeInvoiceItem.cs" />
+    <Compile Include="Billing\Domain\PaymentInstrument.cs" />
+    <Compile Include="Billing\Domain\Invoice.cs" />
+    <Compile Include="Billing\Domain\InvoiceItem.cs" />
+    <Compile Include="Billing\Domain\Payment.cs" />
+    <Compile Include="Billing\Domain\FranchiseePaymentProfile.cs" />
+    <Compile Include="Billing\Domain\PaymentMailReminder.cs" />
+    <Compile Include="Billing\Domain\ServiceFeeInvoiceItem.cs" />
+    <Compile Include="Billing\Enum\AccountCreditType.cs" />
+    <Compile Include="Billing\Enum\AuthorizeNetAccountType.cs" />
+    <Compile Include="Billing\Enum\InvoiceStatus.cs" />
+    <Compile Include="Billing\Enum\LateFeeType.cs" />
+    <Compile Include="Billing\IAuditFactory.cs" />
+    <Compile Include="Billing\ICalculateLoanScheduleService.cs" />
+    <Compile Include="Billing\IChargeCardService.cs" />
+    <Compile Include="Billing\IECheckFactory.cs" />
+    <Compile Include="Billing\IECheckPaymentService.cs" />
+    <Compile Include="Billing\Enum\AccountType.cs" />
+    <Compile Include="Billing\Enum\ChargeCardType.cs" />
+    <Compile Include="Billing\Enum\CvvResponseCode.cs" />
+    <Compile Include="Billing\Domain\PaymentItem.cs" />
+    <Compile Include="Billing\Enum\InstrumentType.cs" />
+    <Compile Include="Billing\Enum\InvoiceItemType.cs" />
+    <Compile Include="Billing\Enum\PaymentStatus.cs" />
+    <Compile Include="Billing\Enum\ProcessorResponseResult.cs" />
+    <Compile Include="Billing\Enum\ServiceTypes.cs" />
+    <Compile Include="Billing\Enum\TransactionResponseType.cs" />
+    <Compile Include="Billing\IChargeCardFactory.cs" />
+    <Compile Include="Billing\IChargeCardPaymentProfileFactory.cs" />
+    <Compile Include="Billing\IChargeCardPaymentService.cs" />
+    <Compile Include="Billing\IChargeCardProfileService.cs" />
+    <Compile Include="Billing\ICheckFactory.cs" />
+    <Compile Include="Billing\ICheckService.cs" />
+    <Compile Include="Billing\IECheckProfileService.cs" />
+    <Compile Include="Billing\IECheckService.cs" />
+    <Compile Include="Billing\IFranchiseeInvoiceFactory.cs" />
+    <Compile Include="Billing\IInvoiceFactory.cs" />
+    <Compile Include="Billing\IinvoiceItemFactory.cs" />
+    <Compile Include="Billing\IInvoiceItemService.cs" />
+    <Compile Include="Billing\IInvoicePaymentService.cs" />
+    <Compile Include="Billing\IInvoiceService.cs" />
+    <Compile Include="Billing\Impl\AuditFactory.cs" />
+    <Compile Include="Billing\Impl\CalculateLoanScheduleService.cs" />
+    <Compile Include="Billing\Impl\ChargeCardFactory.cs" />
+    <Compile Include="Billing\Impl\ChargeCardPaymentProfileFactory.cs" />
+    <Compile Include="Billing\Impl\ChargeCardService.cs" />
+    <Compile Include="Billing\Impl\CheckFactory.cs" />
+    <Compile Include="Billing\Impl\CheckService.cs" />
+    <Compile Include="Billing\Impl\ECheckFactory.cs" />
+    <Compile Include="Billing\Impl\ECheckService.cs" />
+    <Compile Include="Billing\Impl\FranchiseeInvoiceGenerationPollingAgent.cs" />
+    <Compile Include="Billing\Impl\FranchiseeInvoiceFactory.cs" />
+    <Compile Include="Billing\IFranchhiseeInvoiceParseService.cs" />
+    <Compile Include="Billing\Impl\InvoiceFactory.cs" />
+    <Compile Include="Billing\Impl\InvoiceItemFactory.cs" />
+    <Compile Include="Billing\Impl\InvoiceItemService.cs" />
+    <Compile Include="Billing\Impl\InvoicePaymentService.cs" />
+    <Compile Include="Billing\Impl\InvoiceService.cs" />
+    <Compile Include="Billing\Impl\PaymentFactory.cs" />
+    <Compile Include="Billing\Impl\PaymentService.cs" />
+    <Compile Include="Billing\IPaymentFactory.cs" />
+    <Compile Include="Billing\IPaymentService.cs" />
+    <Compile Include="Billing\Impl\FranchiseeSalesPaymentService.cs" />
+    <Compile Include="Billing\IFranchiseeSalesPaymentService.cs" />
+    <Compile Include="Billing\ViewModel\AccountCreditPaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\ChargeCardEditModel.cs" />
+    <Compile Include="Billing\ViewModel\CurrencyExchangeRateViewModel.cs" />
+    <Compile Include="Billing\ViewModel\DownloadPaymentModel.cs" />
+    <Compile Include="Billing\ViewModel\FranchiseePaymentInstrumentViewModel.cs" />
+    <Compile Include="Billing\ViewModel\InstrumentOnFileEditModel.cs" />
+    <Compile Include="Billing\ViewModel\ChargeCardPaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceDetailsForAttactmentViewModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceItemEditModel.cs" />
+    <Compile Include="Billing\ViewModel\PaymentInstrumentViewModel.cs" />
+    <Compile Include="Billing\ViewModel\CheckPaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\ECheckEditModel.cs" />
+    <Compile Include="Billing\Impl\PaymentItemFactory.cs" />
+    <Compile Include="Billing\IPaymentItemFactory.cs" />
+    <Compile Include="Billing\ViewModel\DownloadInvoiceModel.cs" />
+    <Compile Include="Billing\ViewModel\EPaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\FranchiseeSalesPaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceDetailsViewModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceEditModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceListFilter.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceListModel.cs" />
+    <Compile Include="Billing\ViewModel\InvoiceViewModel.cs" />
+    <Compile Include="Billing\ViewModel\PaymentEditModel.cs" />
+    <Compile Include="Billing\ViewModel\PaymentModeDetailViewModel.cs" />
+    <Compile Include="Billing\ViewModel\ProcessorResponse.cs" />
+    <Compile Include="Billing\ViewModel\PaymentItemEditModel.cs" />
+    <Compile Include="Billing\ViewModel\CurrencyRates.cs" />
+    <Compile Include="Billing\ViewModel\StartEndDateViewModel.cs" />
+    <Compile Include="Dashboard\Enum\OrganizationType.cs" />
+    <Compile Include="Dashboard\IDashboardFactory.cs" />
+    <Compile Include="Dashboard\IDashboardService.cs" />
+    <Compile Include="Dashboard\Impl\DashboardFactory.cs" />
+    <Compile Include="Dashboard\Impl\DashboardService.cs" />
+    <Compile Include="Dashboard\ViewModel\AnnualUploadResponseModel.cs" />
+    <Compile Include="Dashboard\ViewModel\CustomerCountViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\DocumentPendingListModel.cs" />
+    <Compile Include="Dashboard\ViewModel\DocumentSummaryListModel.cs" />
+    <Compile Include="Dashboard\ViewModel\DocumentSummaryViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\FranchiseeDirectoryListModel.cs" />
+    <Compile Include="Dashboard\ViewModel\FranchiseeDirectoryViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\FranchiseeLeaderboardViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\RecentInvoiceListModel.cs" />
+    <Compile Include="Dashboard\ViewModel\RecentInvoiceViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\SalesRepLeaderboardViewModel.cs" />
+    <Compile Include="Dashboard\ViewModel\SalesSummaryListModel.cs" />
+    <Compile Include="Dashboard\ViewModel\SalesSummaryViewModel.cs" />
+    <Compile Include="DomainBase.cs" />
+    <Compile Include="Geo\Domain\AddressHistryLog.cs" />
+    <Compile Include="Geo\ICountryService.cs" />
+    <Compile Include="Geo\Impl\CountryService.cs" />
+    <Compile Include="Geo\Impl\PhoneFactory.cs" />
+    <Compile Include="Geo\Impl\PhoneService.cs" />
+    <Compile Include="Geo\Impl\StateService.cs" />
+    <Compile Include="Geo\IPhoneFactory.cs" />
+    <Compile Include="Geo\IPhoneService.cs" />
+    <Compile Include="Geo\IStateService.cs" />
+    <Compile Include="Geo\ViewModel\CityViewModel.cs" />
+    <Compile Include="Geo\ViewModel\CountryViewModel.cs" />
+    <Compile Include="Geo\ViewModel\PhoneEditModel.cs" />
+    <Compile Include="Geo\ViewModel\StateViewModel.cs" />
+    <Compile Include="Localization\Validations\Franchisee.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Franchisee.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MarketingLead\Domain\CallDetailsReportNotes.cs" />
+    <Compile Include="MarketingLead\Domain\CallDetailData.cs" />
+    <Compile Include="MarketingLead\Domain\FranchsieeGoogleReviewUrlAPI.cs" />
+    <Compile Include="MarketingLead\Domain\HomeAdvisor.cs" />
+    <Compile Include="MarketingLead\Domain\MarketingLeadCallDetail.cs" />
+    <Compile Include="MarketingLead\Domain\MarketingLeadCallDetailV2.cs" />
+    <Compile Include="MarketingLead\Domain\MarketingLeadCallDetailV3.cs" />
+    <Compile Include="MarketingLead\Domain\MarketingLeadCallDetailV4.cs" />
+    <Compile Include="MarketingLead\Domain\MarketingLeadCallDetailV5.cs" />
+    <Compile Include="MarketingLead\Domain\Phonechargesfee.cs" />
+    <Compile Include="MarketingLead\Domain\RoutingNumber.cs" />
+    <Compile Include="MarketingLead\Domain\Tag.cs" />
+    <Compile Include="MarketingLead\Domain\WebLead.cs" />
+    <Compile Include="MarketingLead\Domain\WebLeadData.cs" />
+    <Compile Include="MarketingLead\Enum\CallType.cs" />
+    <Compile Include="MarketingLead\Enum\PerformanceParameter.cs" />
+    <Compile Include="MarketingLead\Enum\RoutingNumberCategory.cs" />
+    <Compile Include="MarketingLead\Enum\TagType.cs" />
+    <Compile Include="MarketingLead\IHomeAdvisorFileParser.cs" />
+    <Compile Include="MarketingLead\IMarketingLeadChartReportService.cs" />
+    <Compile Include="MarketingLead\Impl\HomeAdvisorFileParser.cs" />
+    <Compile Include="MarketingLead\Impl\MarketingLeadChartReportService.cs" />
+    <Compile Include="MarketingLead\INotificationToFA.cs" />
+    <Compile Include="MarketingLead\IUpdateMarketingLeadReportDataService.cs" />
+    <Compile Include="MarketingLead\IMarketingLeadsReportService.cs" />
+    <Compile Include="MarketingLead\IMarketingLeadsService.cs" />
+    <Compile Include="MarketingLead\Impl\UpdateMarketingLeadReportDataService.cs" />
+    <Compile Include="MarketingLead\Impl\MarketingLeadsReportService.cs" />
+    <Compile Include="MarketingLead\Impl\MarketingLeadsService.cs" />
+    <Compile Include="MarketingLead\IMarketingLeadsFactory.cs" />
+    <Compile Include="MarketingLead\Impl\MarketingLeadsFactory.cs" />
+    <Compile Include="MarketingLead\Impl\GetRoutingNumberService.cs" />
+    <Compile Include="MarketingLead\IGetRoutingNumberService.cs" />
+    <Compile Include="MarketingLead\Impl\UpdateConvertedLeadsService.cs" />
+    <Compile Include="MarketingLead\IUpdateConvertedLeadsService.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailList.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailListModelV2.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailListV2.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailNotesFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\InvocaCallDetails.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailListV3.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailReportListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailReportViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailsViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailViewModelV2.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallRetailRecordV2.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallRetailRecordV3.cs" />
+    <Compile Include="MarketingLead\ViewModel\FranchiseePhoneCallListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\FranchiseePhoneCallViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\HomeAdvisorReportFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\HomeAdvisorReportListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadPerformanceFranchiseeFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadPerformanceFranchiseeNationalViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadPerformanceFranchiseeViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadPerformanceListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadPerformanceNationalListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadWebSiteFranchiseeListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadWebSiteFranchiseeLocalViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadWebSiteFranchiseeNationalListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\LeadWebSiteFranchiseeViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagemenChartViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartBusinessHourListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartDayListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartDayViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementAndLocalChartGraphViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartGroupedListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartListModelForChart.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementCharViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementVsLocalChartListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementChartReportFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\ManagementAndLocalChartViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\MarketingLeadCallDetailViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallRetailRecord.cs" />
+    <Compile Include="MarketingLead\ViewModel\MarketingLeadCallDetailViewModelV2.cs" />
+    <Compile Include="MarketingLead\ViewModel\MarketingLeadChartListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\MarketingLeadChartViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\PhoneCallEditBYBulkModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\PhoneCallEditModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\CallDetailsReportNotesViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\PhoneCallFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\PhoneCallInvoiceEditModel.cs" />
+    <Compile Include="Notification\ViewModel\BeforeAfterBestPairNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\BeforeAfterBestPairViewModel.cs" />
+    <Compile Include="Notification\ViewModel\WebLeadsNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\NotificationToFAModel.cs" />
+    <Compile Include="Organizations\Domain\FloorGrindingAdjustmentNotes.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeDurationNotesHistry.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeRegistrationHistry.cs" />
+    <Compile Include="Organizations\Domain\FloorGrindingAdjustment.cs" />
+    <Compile Include="Organizations\Domain\MinRoyaltyFeeSlabs.cs" />
+    <Compile Include="Organizations\Domain\OnetimeprojectfeeAddFundRoyality.cs" />
+    <Compile Include="Organizations\Domain\Perpetuitydatehistry.cs" />
+    <Compile Include="Organizations\Domain\ReplacementCharges.cs" />
+    <Compile Include="Organizations\Domain\MaintenanceCharges.cs" />
+    <Compile Include="Organizations\Domain\ShiftCharges.cs" />
+    <Compile Include="Organizations\Domain\TaxRates.cs" />
+    <Compile Include="Organizations\Domain\ReviewPushAPILocation.cs" />
+    <Compile Include="Organizations\Domain\ReviewPushCustomerFeedback.cs" />
+    <Compile Include="Organizations\Domain\PriceEstimateServices.cs" />
+    <Compile Include="Organizations\Domain\ServicesTag.cs" />
+    <Compile Include="Organizations\Enum\DocumentReportType.cs" />
+    <Compile Include="Organizations\Enum\FranchiseeNotes.cs" />
+    <Compile Include="Organizations\Enum\LanguageEnum.cs" />
+    <Compile Include="Organizations\Enum\LoanType.cs" />
+    <Compile Include="Organizations\Impl\ReviewPushGettingCustomerFeedback.cs" />
+    <Compile Include="Organizations\IReviewPushTaazaaFranchiseeMapping.cs" />
+    <Compile Include="Organizations\ViewModel\DurationApprovalViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeDocumentFilter.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeDocumentListModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeGroupModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeNotesDurationViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeRegistrationHistryViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\MinRoyaltyFeeSlabsEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\OneTimeProjectFilter.cs" />
+    <Compile Include="Organizations\ViewModel\ReviewPushCustomerFeedbackListModel.cs" />
+    <Compile Include="Organizations\ViewModel\ReviewPushCustomerFeedbackViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\ReviewPushFranchiseeListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\RoutingNumberList.cs" />
+    <Compile Include="MarketingLead\ViewModel\RoutingNumberListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\RoutingNumberRecord.cs" />
+    <Compile Include="MarketingLead\ViewModel\RoutingNumberViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadFranchiseeList.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadInfoModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadListViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\MarketingLeadReportFilter.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadReportListModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadReportViewModel.cs" />
+    <Compile Include="MarketingLead\ViewModel\WebLeadViewModel.cs" />
+    <Compile Include="Notification\Domain\EmailTemplate.cs" />
+    <Compile Include="Notification\Domain\NotificationEmailRecipient.cs" />
+    <Compile Include="Notification\Domain\NotificationEmail.cs" />
+    <Compile Include="Notification\Domain\NotificationQueue.cs" />
+    <Compile Include="Notification\Domain\NotificationResource.cs" />
+    <Compile Include="Notification\Domain\NotificationType.cs" />
+    <Compile Include="Notification\IAnnualAuditNotificationService.cs" />
+    <Compile Include="Notification\ICustomerFeedbackAPIRecordService.cs" />
+    <Compile Include="Notification\IDocumentNotificationPollingAgent.cs" />
+    <Compile Include="Notification\Impl\AnnualAuditNotificationService.cs" />
+    <Compile Include="Notification\Impl\CustomerFeedbackAPIRecordService.cs" />
+    <Compile Include="Notification\Impl\DocumentNotificationPollingAgent.cs" />
+    <Compile Include="Notification\ViewModel\AnnualAuditNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\BeforeAfterImageMailNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\CustomerMailViewModel.cs" />
+    <Compile Include="Notification\ViewModel\DocumentUploadNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\EmailAPINotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\FranchiseeLoanCompletionNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\MonthlyNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\MonthlySalesUploadNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\NewJobOrEstimateReminderNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\NotmappedAttribute.cs" />
+    <Compile Include="Notification\ViewModel\ReviewSystemRecordViewModel.cs" />
+    <Compile Include="Notification\ViewModel\SendCustomerFeedbackNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\SendMonthlyEmailAPIRecordNotifcationModel.cs" />
+    <Compile Include="Notification\ViewModel\SendReviewSystemRecordNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\TechListViewModel.cs" />
+    <Compile Include="Notification\ViewModel\WeeklyUnpaidInvoiceNotificationReportFranchiseeWiseModel.cs" />
+    <Compile Include="Notification\ViewModel\WeeklyUnpaidInvoiceNotificationReportModel.cs" />
+    <Compile Include="Organizations\Domain\DocumentType.cs" />
+    <Compile Include="Organizations\Domain\FranchiseDocument.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeLoan.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeLoanSchedule.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeServiceFee.cs" />
+    <Compile Include="Organizations\Domain\LoanadjustmentAudit.cs" />
+    <Compile Include="Organizations\Domain\OneTimeProjectFee.cs" />
+    <Compile Include="Organizations\Enum\DocumentCategory.cs" />
+    <Compile Include="Organizations\Enum\DocumentType.cs" />
+    <Compile Include="Organizations\Enum\FranchiseeCallCategory.cs" />
+    <Compile Include="Organizations\Enum\LeadPerformanceEnum.cs" />
+    <Compile Include="Organizations\Enum\OrganizationNames.cs" />
+    <Compile Include="Organizations\Enum\ServiceFeeType.cs" />
+    <Compile Include="Organizations\Enum\ServiceTypeCategory.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeDocumentType.cs" />
+    <Compile Include="Organizations\IFranchiseeDocumentFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeDocumentService.cs" />
+    <Compile Include="Organizations\IFranchiseeLeadPerformanceFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeServiceFeeFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeServiceFeeService.cs" />
+    <Compile Include="Organizations\IFranchiseeTechnicianMailFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeTechnicianMailService.cs" />
+    <Compile Include="Organizations\ILeadPerformanceFranchiseeDetailsService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeDocumentFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeDocumentService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeLeadPerformanceFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeServiceFeeFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeServiceFeeService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeTechnicianMailFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeTechnicianMailService.cs" />
+    <Compile Include="Organizations\Impl\LeadPerformanceFranchiseeDetailsService.cs" />
+    <Compile Include="Organizations\OrganizationRoleUserInfoService.cs" />
+    <Compile Include="Organizations\ViewModel\AmortPaymentSchedule.cs" />
+    <Compile Include="Organizations\ViewModel\DeactivateFranchisee.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentListFilter.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentListModel.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeAccountCreditPaymentViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeChangeServiceFee.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeDocumentEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentTypeViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeEmailEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeLoanViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeRedesignViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeResignListModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeServiceFeeEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\DocumentTypeEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeTeamImageEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeTeamImageViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeViewModelForDownload.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeViewModelForFranchiseeDirectoryDownload.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeViewModelForReport.cs" />
+    <Compile Include="Organizations\ViewModel\LeadPerformanceEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\LeadPerformanceFranchiseeDetailsModel.cs" />
+    <Compile Include="Organizations\ViewModel\LoanScheduleViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\ManageFranchiseeAccountModel.cs" />
+    <Compile Include="Organizations\ViewModel\ReviewPushFranchiseeViewModel.cs" />
+    <Compile Include="Reports\Domain\BatchUploadRecord.cs" />
+    <Compile Include="Reports\Domain\CustomerEmailAPIRecord.cs" />
+    <Compile Include="Reports\Domain\FranchiseeSalesInfo.cs" />
+    <Compile Include="Reports\Domain\PriceEstimateFileUpload.cs" />
+    <Compile Include="Reports\Domain\WeeklyNotification.cs" />
+    <Compile Include="Notification\Enum\NotificationResourceType.cs" />
+    <Compile Include="Notification\Enum\NotificationTypes.cs" />
+    <Compile Include="Notification\Enum\RecipientType.cs" />
+    <Compile Include="Notification\Enum\ServiceStatus.cs" />
+    <Compile Include="Notification\IEmailDispatcher.cs" />
+    <Compile Include="Billing\IInvoiceLateFeePollingAgent.cs" />
+    <Compile Include="Notification\ILateFeeNotificationService.cs" />
+    <Compile Include="Notification\Impl\EmailDispatcher.cs" />
+    <Compile Include="Billing\Impl\InvoiceLateFeePollingAgent.cs" />
+    <Compile Include="Notification\Impl\InvoiceNotificationService.cs" />
+    <Compile Include="Notification\Impl\LateFeeNotificationService.cs" />
+    <Compile Include="Notification\Impl\NotificationModelFactory.cs" />
+    <Compile Include="Notification\Impl\NotificationPollingAgent.cs" />
+    <Compile Include="Notification\Impl\NotificationService.cs" />
+    <Compile Include="Notification\Impl\NotificationServiceHelper.cs" />
+    <Compile Include="Notification\Impl\PaymentReminderPollingAgent.cs" />
+    <Compile Include="Notification\Impl\UserNotificationModelFactory.cs" />
+    <Compile Include="Notification\Impl\WeeklyNotificationPollingAgent.cs" />
+    <Compile Include="Notification\INotificationModelFactory.cs" />
+    <Compile Include="Notification\INotificationPollingAgent.cs" />
+    <Compile Include="Notification\INotificationService.cs" />
+    <Compile Include="Notification\IInvoiceNotificationService.cs" />
+    <Compile Include="Notification\IPaymentReminderPollingAgent.cs" />
+    <Compile Include="Notification\IUserNotificationModelFactory.cs" />
+    <Compile Include="Notification\IWeeklyNotificationPollingAgent.cs" />
+    <Compile Include="Notification\ViewModel\DateRangeViewModel.cs" />
+    <Compile Include="Notification\ViewModel\EmailNotificationModelBase.cs" />
+    <Compile Include="Notification\ViewModel\InvoiceDetailNotificationViewModel.cs" />
+    <Compile Include="Notification\ViewModel\InvoicePaymentReminderNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\InvoiceViewModelForDetail.cs" />
+    <Compile Include="Notification\ViewModel\WeeklyNotificationReportViewModel.cs" />
+    <Compile Include="Notification\ViewModel\LateFeeReminderNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\PaymentConfirmationNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\PaymentViewModelForInvoice.cs" />
+    <Compile Include="Notification\ViewModel\SalesdataUploadReminderNotificationModel.cs" />
+    <Compile Include="Notification\ViewModel\SendLoginCredentialViewModel.cs" />
+    <Compile Include="Notification\ViewModel\UserForgetPasswordNotificationViewModel.cs" />
+    <Compile Include="Notification\ViewModel\WeeklyNotificationListModel.cs" />
+    <Compile Include="Organizations\Domain\Franchisee.cs" />
+    <Compile Include="Organizations\Domain\FeeProfile.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeAccountCredit.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeNotes.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeServices.cs" />
+    <Compile Include="Organizations\Domain\LateFee.cs" />
+    <Compile Include="Organizations\Domain\RoyaltyFeeSlabs.cs" />
+    <Compile Include="Organizations\Domain\FranchiseeSales.cs" />
+    <Compile Include="Organizations\Domain\SalesDataMailReminder.cs" />
+    <Compile Include="Organizations\Domain\ServiceType.cs" />
+    <Compile Include="Organizations\Enum\PaymentFrequency.cs" />
+    <Compile Include="Organizations\Enum\ServiceType.cs" />
+    <Compile Include="Organizations\IFeeProfileFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeAccountCreditFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeInfoService.cs" />
+    <Compile Include="Organizations\IFranchiseeNotesFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeSalesFactory.cs" />
+    <Compile Include="Organizations\IFranchiseeSalesService.cs" />
+    <Compile Include="Organizations\IFranchiseeServicesFactory.cs" />
+    <Compile Include="Organizations\ILateFeeFactory.cs" />
+    <Compile Include="Organizations\Impl\FeeProfileEditModelValidator.cs" />
+    <Compile Include="Organizations\Impl\FeeProfileFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeAccountCreditFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeInfoService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeMigrationService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeNotesFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeSalesFactory.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeSalesService.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeEditModelValidator.cs" />
+    <Compile Include="Organizations\Impl\FranchiseeServicesFactory.cs" />
+    <Compile Include="Organizations\Impl\LateFeeFactory.cs" />
+    <Compile Include="Organizations\Impl\RoyaltyFeeSlabsFactory.cs" />
+    <Compile Include="Organizations\Impl\RoyaltyFeeSlabsEditModelValidator.cs" />
+    <Compile Include="Organizations\IRoyaltyFeeSlabsFactory.cs" />
+    <Compile Include="Organizations\ViewModel\FeeProfileViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeAccountCreditEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeAccountCreditList.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeAccountCreditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeDetailsModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeListFilter.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeListModel.cs" />
+    <Compile Include="Organizations\ViewModel\FeeProfileEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeNotesViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeSalesViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\LateFeeEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeInfoListModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeInfoViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\OrganizationViewModel.cs" />
+    <Compile Include="Organizations\ViewModel\RoyaltyFeeSlabsEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeSalesEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeServiceEditModel.cs" />
+    <Compile Include="Organizations\ViewModel\FranchiseeEditModel.cs" />
+    <Compile Include="Geo\Domain\Address.cs" />
+    <Compile Include="Geo\Domain\City.cs" />
+    <Compile Include="Geo\Domain\Country.cs" />
+    <Compile Include="Geo\Domain\State.cs" />
+    <Compile Include="Geo\Domain\Zip.cs" />
+    <Compile Include="Geo\Enum\AddressType.cs" />
+    <Compile Include="Geo\IAddressFactory.cs" />
+    <Compile Include="Geo\ICityService.cs" />
+    <Compile Include="Geo\Impl\AddressEditModelValidator.cs" />
+    <Compile Include="Geo\Impl\AddressFactory.cs" />
+    <Compile Include="Geo\Impl\CityService.cs" />
+    <Compile Include="Geo\Impl\ZipService.cs" />
+    <Compile Include="Geo\IZipService.cs" />
+    <Compile Include="Geo\ViewModel\AddressEditModel.cs" />
+    <Compile Include="Geo\ViewModel\AddressViewModel.cs" />
+    <Compile Include="Localization\Validations\Geo.Designer.cs" />
+    <Compile Include="Localization\Validations\Login.Designer.cs" />
+    <Compile Include="Localization\Validations\Shared.Designer.cs" />
+    <Compile Include="Organizations\Domain\Organization.cs" />
+    <Compile Include="Organizations\Domain\OrganizationRoleUser.cs" />
+    <Compile Include="Organizations\Impl\OrganizationFactory.cs" />
+    <Compile Include="Organizations\IOrganizationFactory.cs" />
+    <Compile Include="Organizations\IOrganizationRoleUserService.cs" />
+    <Compile Include="Organizations\ViewModel\OrganizationEditModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\Enum\CustomerComeFromCategory.cs" />
+    <Compile Include="Reports\Enum\LookUpTypeCategory.cs" />
+    <Compile Include="Reports\Enum\ServiceTagCategory.cs" />
+    <Compile Include="Reports\ICalendarImagesMigration.cs" />
+    <Compile Include="Reports\ICreateEmailRecordForApiService.cs" />
+    <Compile Include="Reports\IEmailAPIIntegrationNotificationService.cs" />
+    <Compile Include="Reports\IEmailNotificationForPayrollReport.cs" />
+    <Compile Include="Reports\IEmailNotificationForPhotoReport.cs.cs" />
+    <Compile Include="Reports\IFranchiseeSalesInfoReportFactory.cs" />
+    <Compile Include="Reports\IGrowthReportService.cs" />
+    <Compile Include="Reports\IMlfsReport.cs" />
+    <Compile Include="Reports\IMlfsReportFactory.cs" />
+    <Compile Include="Reports\IMonthlyReviewNotificationService.cs" />
+    <Compile Include="Reports\ICustomerEmailAPIRecordFactory.cs" />
+    <Compile Include="Reports\ICustomerEmailReportService.cs" />
+    <Compile Include="Reports\Impl\BeforeAfterImagesUploadwithS3Bucket.cs" />
+    <Compile Include="Reports\Impl\CalendarImagesMigration.cs" />
+    <Compile Include="Reports\Impl\CreateEmailRecordForApiService.cs" />
+    <Compile Include="Reports\Impl\CreateMergeRecordForApiService.cs" />
+    <Compile Include="Reports\Impl\EmailAPIIntegrationNotificationService.cs" />
+    <Compile Include="Reports\Impl\EmailNotificationForPayrollReport.cs" />
+    <Compile Include="Reports\Impl\EmailNotificationForPhotoReport.cs" />
+    <Compile Include="Reports\Impl\EmailNotificationOnFranchiseePriceExceed.cs" />
+    <Compile Include="Reports\Impl\FranchiseeSalesInfoReportFactory.cs" />
+    <Compile Include="Reports\Impl\GrowthReportService.cs" />
+    <Compile Include="Reports\Impl\MlfsReport.cs" />
+    <Compile Include="Reports\Impl\MlfsReportFactory.cs" />
+    <Compile Include="Reports\Impl\MLFSReportGrouping.cs" />
+    <Compile Include="Reports\Impl\MonthlyReviewNotificationService.cs" />
+    <Compile Include="Reports\Impl\CustomerEmailAPIRecordFactory.cs" />
+    <Compile Include="Reports\Impl\CustomerEmailReportService.cs" />
+    <Compile Include="Reports\Impl\PriceEstimateParserNotificationService.cs" />
+    <Compile Include="Reports\Impl\PriceEstimateFileParser.cs" />
+    <Compile Include="Reports\Impl\S3BucketSync.cs" />
+    <Compile Include="Reports\IPriceEstimateParserNotificationService.cs" />
+    <Compile Include="Reports\IPriceEstimateFileParser.cs" />
+    <Compile Include="Reports\IS3BucketSync.cs" />
+    <Compile Include="Reports\ViewModel\ArReportFilter.cs" />
+    <Compile Include="Reports\ViewModel\ARReportListModel.cs" />
+    <Compile Include="Reports\ICreateMergeRecordForApiService.cs" />
+    <Compile Include="Reports\ViewModel\IBeforeAfterImagesUploadwithS3Bucket.cs" />
+    <Compile Include="Reports\ViewModel\IEmailNotificationOnFranchiseePriceExceed.cs" />
+    <Compile Include="Reports\ViewModel\LocalMarketingViewModel.cs" />
+    <Compile Include="Reports\ViewModel\PriceEstimateUploadEditModel.cs" />
+    <Compile Include="Reports\ViewModel\FranchiseeGroupModel.cs" />
+    <Compile Include="Reports\ViewModel\ReviewChartDataListModel.cs" />
+    <Compile Include="Reports\ViewModel\ReviewChartDataViewModel.cs" />
+    <Compile Include="Reports\ViewModel\ReviewCountModel.cs" />
+    <Compile Include="Reports\ViewModel\TimeEstimateViewModel.cs" />
+    <Compile Include="Reports\ViewModel\PriceEstimateViewModel.cs" />
+    <Compile Include="Reports\ViewModel\PriceEstimateModel.cs" />
+    <Compile Include="Reports\ViewModel\MLFSReportConfigurationViewModel.cs" />
+    <Compile Include="Reports\ViewModel\MLFSReportListFilter.cs" />
+    <Compile Include="Reports\ViewModel\MLFSReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductChannelReportChartListModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductChannelReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductChannelReportViewModel.cs" />
+    <Compile Include="Reports\Impl\ProductReportService.cs" />
+    <Compile Include="Reports\Impl\ReportFactory.cs" />
+    <Compile Include="Reports\Impl\ReportService.cs" />
+    <Compile Include="Reports\Impl\SalesDataUploadReportNotificationService.cs" />
+    <Compile Include="Reports\Impl\SendCustomerListNotificationService.cs" />
+    <Compile Include="Reports\Impl\UpdateBatchUploadRecordService.cs" />
+    <Compile Include="Reports\Impl\UpdateSalesAmountService.cs" />
+    <Compile Include="Reports\IProductReportService.cs" />
+    <Compile Include="Reports\IReportFactory.cs" />
+    <Compile Include="Reports\IReportService.cs" />
+    <Compile Include="Reports\ISalesDataUploadReportNotificationService.cs" />
+    <Compile Include="Reports\ISendCustomerListNotificationService.cs" />
+    <Compile Include="Reports\IUpdateBatchUploadRecordService.cs" />
+    <Compile Include="Reports\IUpdateSalesAmountService.cs" />
+    <Compile Include="Reports\ViewModel\ChartViewModel.cs" />
+    <Compile Include="Reports\ViewModel\CustomerEmailAPIRecordRequestModel.cs" />
+    <Compile Include="Reports\ViewModel\CustomerEmailAPIRecordResponseModel.cs" />
+    <Compile Include="Reports\ViewModel\CustomerEmailReportFilter.cs" />
+    <Compile Include="Reports\ViewModel\CustomerEmailReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\CustomerEmailReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\CustomerInfoModel.cs" />
+    <Compile Include="Reports\ViewModel\EmailApiMergeFieldModel.cs" />
+    <Compile Include="Reports\ViewModel\EmailChartDataListModel.cs" />
+    <Compile Include="Reports\ViewModel\EmailChartDataViewModel.cs" />
+    <Compile Include="Reports\ViewModel\EmailReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\FranchiseeSalesInfoList.cs" />
+    <Compile Include="Reports\ViewModel\FranchiseeServiceClassCollection.cs" />
+    <Compile Include="Reports\ViewModel\GrowthReportFilter.cs" />
+    <Compile Include="Reports\ViewModel\GrowthReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\GrowthReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\LateFeeReportFilter.cs" />
+    <Compile Include="Reports\ViewModel\LateFeeReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\LateFeeReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductChartViewModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductGraphViewModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductReportChartListModel.cs" />
+    <Compile Include="Reports\ViewModel\ProductReportListFilter.cs" />
+    <Compile Include="Reports\ViewModel\SalesFunnelReportChartViewModel.cs" />
+    <Compile Include="Reports\ViewModel\TopLeadersFilter.cs" />
+    <Compile Include="Reports\ViewModel\TopLeadersListModel.cs" />
+    <Compile Include="Reports\ViewModel\TopLeadersInfoModel.cs" />
+    <Compile Include="Reports\ViewModel\TopLeadersViewModel.cs" />
+    <Compile Include="Reports\ViewModel\ServiceReportListFilter.cs" />
+    <Compile Include="Reports\ViewModel\ServiceReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\ServiceReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\UploadBatchCollectionViewModel.cs" />
+    <Compile Include="Reports\ViewModel\UploadBatchReportListModel.cs" />
+    <Compile Include="Reports\ViewModel\UploadBatchReportViewModel.cs" />
+    <Compile Include="Reports\ViewModel\UploadReportFilter.cs" />
+    <Compile Include="Reports\ViewModel\PriceEstimateDataUploadListModel.cs" />
+    <Compile Include="ReviewApi\Impl\ReviewApiFactory.cs" />
+    <Compile Include="ReviewApi\Impl\ReviewApiService.cs" />
+    <Compile Include="ReviewApi\IReviewApiFactory.cs" />
+    <Compile Include="ReviewApi\IReviewApiService.cs" />
+    <Compile Include="ReviewApi\ViewModel\BeforeAfterListModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\BeforeAfterViewModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\CountryListModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\CountyListModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\FranchiseeListModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\ReviewCustomerListModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\ReviewCustomerViewModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\ReviewPushResponseModel.cs" />
+    <Compile Include="ReviewApi\ViewModel\ZipCodeListModel.cs" />
+    <Compile Include="Review\Domain\AllCustomerFeedback.cs" />
+    <Compile Include="Review\Domain\CustomerFeedbackResponse.cs" />
+    <Compile Include="Review\Domain\CustomerReviewForMarketing.cs" />
+    <Compile Include="Review\Domain\CustomerReviewSystemRecord.cs" />
+    <Compile Include="Review\Domain\CustomerFeedbackRequest.cs" />
+    <Compile Include="Review\Domain\PartialCustomerEmailAPIRecord.cs" />
+    <Compile Include="Review\ICustomerFeedbackReportFactory.cs" />
+    <Compile Include="Review\ICustomerFeedbackReportService.cs" />
+    <Compile Include="Review\Impl\CustomerFeedbackReportFactory.cs" />
+    <Compile Include="Review\Impl\CustomerFeedbackReportService.cs" />
+    <Compile Include="Review\Impl\GetCustomerFeedbackService.cs" />
+    <Compile Include="Review\Impl\CustomerFeedbackFactory.cs" />
+    <Compile Include="Review\Impl\CustomerFeedbackService.cs" />
+    <Compile Include="Review\ICustomerFeedbackFactory.cs" />
+    <Compile Include="Review\ICustomerFeedbackService.cs" />
+    <Compile Include="Review\Impl\SendFeedBackRequestPollingAgent.cs" />
+    <Compile Include="Review\ISendFeedBackRequestPollingAgent.cs" />
+    <Compile Include="Review\IGetCustomerFeedbackService.cs" />
+    <Compile Include="Review\ViewModel\CreateBusinessForReviewModel.cs" />
+    <Compile Include="Review\ViewModel\CreateCustomerForReviewModel.cs" />
+    <Compile Include="Review\ViewModel\CustomerFeedbackReportFilter.cs" />
+    <Compile Include="Review\ViewModel\CustomerFeedbackReportListModel.cs" />
+    <Compile Include="Review\ViewModel\CustomerFeedbackReportViewModel.cs" />
+    <Compile Include="Review\ViewModel\FeedbackRequestModel.cs" />
+    <Compile Include="Review\ViewModel\FeedbackResponseListModel.cs" />
+    <Compile Include="Review\ViewModel\FeedbackResponseViewModel.cs" />
+    <Compile Include="Review\ViewModel\GetBusinessReviewModel.cs" />
+    <Compile Include="Review\ViewModel\GetCustomerForReviewModel.cs" />
+    <Compile Include="Review\ViewModel\ReviewAPIResponseModel.cs" />
+    <Compile Include="Review\ViewModel\ReviewPushResponseListModel.cs" />
+    <Compile Include="Review\ViewModel\ReviewPushResponseViewModel.cs" />
+    <Compile Include="Review\ViewModel\UpdateCustomerRecordViewModel.cs" />
+    <Compile Include="Sales\Domain\AdFundInvoiceItem.cs" />
+    <Compile Include="Sales\Domain\AccountCredit.cs" />
+    <Compile Include="Sales\Domain\AccountCreditItem.cs" />
+    <Compile Include="Sales\Domain\AnnualReportType.cs" />
+    <Compile Include="Sales\Domain\AnnualRoyality.cs" />
+    <Compile Include="Sales\Domain\AnnualSalesDataUpload.cs" />
+    <Compile Include="Sales\Domain\Customer.cs" />
+    <Compile Include="Sales\Domain\CustomerDataUpload.cs" />
+    <Compile Include="Sales\Domain\CustomerEmail.cs" />
+    <Compile Include="Sales\Domain\EstimateInvoice.cs" />
+    <Compile Include="Sales\Domain\EstimateInvoiceCustomer.cs" />
+    <Compile Include="Sales\Domain\EstimateInvoiceService.cs" />
+    <Compile Include="Sales\Domain\EstimateInvoiceServiceDescription.cs" />
+    <Compile Include="Sales\Domain\FranchiseeFeeEmailInvoiceItem.cs" />
+    <Compile Include="Sales\Domain\FranchiseeSalesPayment.cs" />
+    <Compile Include="Sales\Domain\HoningMeasurementDefault.cs" />
+    <Compile Include="Sales\Domain\HoningMeasurement.cs" />
+    <Compile Include="Sales\Domain\InvoiceFileUplaod.cs" />
+    <Compile Include="Sales\Domain\MarketingClass.cs" />
+    <Compile Include="Sales\Domain\MasterMarketingClass.cs" />
+    <Compile Include="Sales\Domain\MlfsConfigurationSetting.cs" />
+    <Compile Include="Sales\Domain\RoyaltyInvoiceItem.cs" />
+    <Compile Include="Sales\Domain\SalesDataUpload.cs" />
+    <Compile Include="Sales\Domain\SubClassMarketingClass.cs" />
+    <Compile Include="Sales\Domain\SystemAuditRecord.cs" />
+    <Compile Include="Sales\Domain\UpdateMarketingClassfileupload.cs" />
+    <Compile Include="Sales\Enum\AnnualGroupType.cs" />
+    <Compile Include="Sales\Enum\AuditActionType.cs" />
+    <Compile Include="Sales\Enum\AuditReportType.cs" />
+    <Compile Include="Sales\Enum\DocumentEnum.cs" />
+    <Compile Include="Sales\Enum\JobStatus.cs" />
+    <Compile Include="Sales\Enum\MarketingClassType.cs" />
+    <Compile Include="Sales\Enum\SalesDataUploadStatus.cs" />
+    <Compile Include="Sales\FileParserHelper.cs" />
+    <Compile Include="Sales\IAccountCreditFactory.cs" />
+    <Compile Include="Sales\IAccountCreditItemFactory.cs" />
+    <Compile Include="Sales\IAccountCreditService.cs" />
+    <Compile Include="Sales\IAnnualSalesDataParsePollingAgent.cs" />
+    <Compile Include="Sales\IAnnualSalesDataUploadService.cs" />
+    <Compile Include="Sales\ICustomerFactory.cs" />
+    <Compile Include="Sales\ICustomerFileParser.cs" />
+    <Compile Include="Sales\ICustomerFileUploadPollingAgent.cs" />
+    <Compile Include="Sales\ICustomerService.cs" />
+    <Compile Include="Geo\IEmailFactory.cs" />
+    <Compile Include="Sales\IDownloadFileHelperService.cs" />
+    <Compile Include="Sales\IInvoiceFileParserService.cs" />
+    <Compile Include="Sales\IInvoiceItemUpdateInfoService.cs" />
+    <Compile Include="Sales\IMarketingClassService.cs" />
+    <Compile Include="Sales\Impl\AccountCreditFactory.cs" />
+    <Compile Include="Sales\Impl\AccountCreditItemFactory.cs" />
+    <Compile Include="Sales\Impl\AccountCreditService.cs" />
+    <Compile Include="Sales\Impl\AnnualSalesDataParsePollingAgent.cs" />
+    <Compile Include="Sales\Impl\AnnualSalesDataUploadService.cs" />
+    <Compile Include="Sales\Impl\CustomerFactory.cs" />
+    <Compile Include="Sales\Impl\CustomerFileParser.cs" />
+    <Compile Include="Sales\Impl\CustomerFileUploadPollingAgent.cs" />
+    <Compile Include="Sales\Impl\CustomerService.cs" />
+    <Compile Include="Geo\Impl\EmailFactory.cs" />
+    <Compile Include="Sales\Impl\DownloadFileHelperService.cs" />
+    <Compile Include="Sales\Impl\InvoiceFileParserService.cs" />
+    <Compile Include="Sales\Impl\InvoiceInfoEditModel.cs" />
+    <Compile Include="Sales\Impl\InvoiceItemUpdateInfoService.cs" />
+    <Compile Include="Sales\Impl\MarketingClassService.cs" />
+    <Compile Include="Sales\Impl\RoyaltyReportFactory.cs" />
+    <Compile Include="Sales\Impl\RoyaltyReportService.cs" />
+    <Compile Include="Sales\Impl\SalesDataUploadReminderPollingAgent.cs" />
+    <Compile Include="Sales\Impl\SalesFunnelFactory.cs" />
+    <Compile Include="Sales\Impl\SalesFunnelNationalService.cs" />
+    <Compile Include="Sales\Impl\SalesInvoiceFactory.cs" />
+    <Compile Include="Sales\Impl\SalesInvoiceService.cs" />
+    <Compile Include="Sales\Impl\SaveModelStats.cs" />
+    <Compile Include="Sales\Impl\UpdateInvoiceFileParser.cs" />
+    <Compile Include="Sales\Impl\UpdatingInvoiceIdsNotificationServices.cs" />
+    <Compile Include="Sales\Impl\UpdatingInvoiceNotificationServices.cs" />
+    <Compile Include="Sales\ISalesDataUploadReminderPollingAgent.cs" />
+    <Compile Include="Sales\ISalesDataParsePollingAgent.cs" />
+    <Compile Include="Sales\Impl\SalesDataUploadCreateModelValidator.cs" />
+    <Compile Include="Sales\IRoyaltyReportFactory.cs" />
+    <Compile Include="Sales\ISalesDataFileParser.cs" />
+    <Compile Include="Sales\Impl\SalesDataFileParser.cs" />
+    <Compile Include="Sales\Impl\SalesDataParsePollingAgent.cs" />
+    <Compile Include="Sales\Impl\SalesDataUploadFactory.cs" />
+    <Compile Include="Sales\Impl\SalesDataUploadService.cs" />
+    <Compile Include="Sales\ISalesDataUploadCreateModelValidator.cs" />
+    <Compile Include="Sales\ISalesDataUploadFactory.cs" />
+    <Compile Include="Sales\ISalesDataUploadService.cs" />
+    <Compile Include="Sales\IRoyaltyReportService.cs" />
+    <Compile Include="Sales\ISalesFunnelFactory.cs" />
+    <Compile Include="Sales\ISalesFunnelNationalService.cs" />
+    <Compile Include="Sales\ISalesInvoiceFactory.cs" />
+    <Compile Include="Sales\ISalesInvoiceService.cs" />
+    <Compile Include="Sales\IUpdateInvoiceFileParser.cs" />
+    <Compile Include="Sales\IUpdatingInvoiceIdsNotificationServices.cs" />
+    <Compile Include="Sales\IUpdatingInvoiceNotificationServices.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditItemViewModel.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditListFilter.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditViewModel.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditEditModel.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditItemEditModel.cs" />
+    <Compile Include="Sales\ViewModel\AccountCreditListModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualAuditSalesListModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualAuditSalesViewModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualDataUploadCreateModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualDownloadFilter.cs" />
+    <Compile Include="Sales\ViewModel\AnnualGroupedReport.cs" />
+    <Compile Include="Sales\ViewModel\AnnualSalesDataListFiltercs.cs" />
+    <Compile Include="Sales\ViewModel\AnnualUploadValidationModel.cs" />
+    <Compile Include="Sales\ViewModel\AuditInvoiceViewModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomerCreateEditModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomerEditModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomerFileUploadCreateModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomerListFilter.cs" />
+    <Compile Include="Sales\ViewModel\CustomerListModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomersignatureViewModel.cs" />
+    <Compile Include="Sales\ViewModel\CustomerViewModel.cs" />
+    <Compile Include="Sales\ViewModel\DownloadAllInvoiceModel.cs" />
+    <Compile Include="Sales\ViewModel\EmailEditModel.cs" />
+    <Compile Include="Sales\ViewModel\EstimateInvoiceEditMailModel.cs" />
+    <Compile Include="Sales\ViewModel\EstimateInvoiceEditModel.cs" />
+    <Compile Include="Sales\ViewModel\EstimateInvoiceViewModel.cs" />
+    <Compile Include="Sales\ViewModel\FranchiseeAccountCreditListModel.cs" />
+    <Compile Include="Sales\ViewModel\FranchiseeAccountCreditViewModel.cs" />
+    <Compile Include="Sales\ViewModel\QbInvoiceList.cs" />
+    <Compile Include="Sales\ViewModel\RoyaltyReportListModel.cs" />
+    <Compile Include="Sales\ViewModel\RoyaltyReportViewModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualSalesDataCustomerViewModel.cs" />
+    <Compile Include="Sales\ViewModel\AnnualSalesDataCustonerListModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesDataListViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesDataUploadCreateModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesDataListFilter.cs" />
+    <Compile Include="Sales\ViewModel\SalesDataUploadListModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesDataUploadViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelLocalExcelViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelLocalGraphListModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelLocalGraphViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelLocalViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelNationalBestViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelNationalExcelViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelNationalListFilter.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelNationalListModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesFunnelNationalViewModel.cs" />
+    <Compile Include="Sales\ViewModel\SalesInvoiceViewModel.cs" />
+    <Compile Include="Sales\ViewModel\ServiceAmountViewModel.cs" />
+    <Compile Include="Sales\ViewModel\ServiceTypeListModel.cs" />
+    <Compile Include="Sales\ViewModel\UpdateInvoiceEditModel.cs" />
+    <Compile Include="Sales\ViewModel\UpdateMarketingClassInfoListFilter.cs" />
+    <Compile Include="Sales\ViewModel\UpdateMarketingClassListModel.cs" />
+    <Compile Include="Scheduler\Domain\BeforeAfterImages.cs" />
+    <Compile Include="Scheduler\Domain\BeforeAfterImageMailAudit.cs" />
+    <Compile Include="Scheduler\Domain\CalendarFileUpload.cs" />
+    <Compile Include="Scheduler\Domain\County.cs" />
+    <Compile Include="Scheduler\Domain\CustomerJobEstimate.cs" />
+    <Compile Include="Scheduler\Domain\CustomerSignature.cs" />
+    <Compile Include="Scheduler\Domain\CustomerSignatureInfo.cs" />
+    <Compile Include="Scheduler\Domain\DebuggerLogs.cs" />
+    <Compile Include="Scheduler\Domain\EstimateServiceInvoiceNotes.cs" />
+    <Compile Include="Scheduler\Domain\FranchiseeTechMailEmail.cs" />
+    <Compile Include="Scheduler\Domain\FranchiseeTechMailService.cs" />
+    <Compile Include="Scheduler\Domain\GeoCodefileupload.cs" />
+    <Compile Include="Scheduler\Domain\Holiday.cs" />
+    <Compile Include="Scheduler\Domain\Job.cs" />
+    <Compile Include="Scheduler\Domain\JobDetails.cs" />
+    <Compile Include="Scheduler\Domain\JobEstimate.cs" />
+    <Compile Include="Scheduler\Domain\JobCustomer.cs" />
+    <Compile Include="Scheduler\Domain\JobEstimateImage.cs" />
+    <Compile Include="Scheduler\Domain\EstimateInvoiceAssignee.cs" />
+    <Compile Include="Scheduler\Domain\JobEstimateServices.cs" />
+    <Compile Include="Scheduler\Domain\JobEstimateImageCategory.cs" />
+    <Compile Include="Scheduler\Domain\JobNote.cs" />
+    <Compile Include="Scheduler\Domain\JobReminderAudit.cs" />
+    <Compile Include="Organizations\Domain\LeadPerformanceDetails.cs" />
+    <Compile Include="Scheduler\Domain\MarkbeforeAfterImagesHistry.cs" />
+    <Compile Include="Scheduler\Domain\NewJobEstimateModel.cs" />
+    <Compile Include="Scheduler\Domain\ReviewMarketingImageLastDateHistry.cs" />
+    <Compile Include="Scheduler\Domain\SalesTaxRates.cs" />
+    <Compile Include="Scheduler\Domain\EstimateInvoiceServiceImage.cs" />
+    <Compile Include="Scheduler\Domain\SeoPriceNotes.cs" />
+    <Compile Include="Scheduler\Domain\TechAndSalesSchedulerReminder.cs" />
+    <Compile Include="Scheduler\Domain\TechnicianWorkOrder.cs" />
+    <Compile Include="Scheduler\Domain\EstimateInvoiceDimension.cs" />
+    <Compile Include="Scheduler\Domain\TechnicianWorkOrderForInvoice.cs" />
+    <Compile Include="Scheduler\Domain\TermAndCondition.cs" />
+    <Compile Include="Scheduler\Domain\TermsAndConditionFranchisee.cs" />
+    <Compile Include="Scheduler\Enum\DebuggerLogType.cs" />
+    <Compile Include="Scheduler\Enum\EmailEnum.cs" />
+    <Compile Include="Scheduler\Enum\LanguageEnum.cs" />
+    <Compile Include="Scheduler\Enum\MeasurementEnum.cs" />
+    <Compile Include="Scheduler\Enum\SignatureType.cs" />
+    <Compile Include="Scheduler\Enum\TechnicianWorkOrderInvoiceType.cs" />
+    <Compile Include="Scheduler\Enum\ZipParsingType.cs" />
+    <Compile Include="Scheduler\IBeforeAfterImagesNotificationServices.cs" />
+    <Compile Include="Scheduler\IBeforeAfterThumbNailService.cs" />
+    <Compile Include="Scheduler\IDebuggerLog.cs" />
+    <Compile Include="Scheduler\IEstimateInvoiceFactory.cs" />
+    <Compile Include="Scheduler\IEstimateInvoiceServices.cs" />
+    <Compile Include="Scheduler\Impl\BeforeAfterImagesNotificationServices.cs" />
+    <Compile Include="Scheduler\Impl\BeforeAfterThumbNailService.cs" />
+    <Compile Include="Scheduler\Impl\DebuggerLog.cs" />
+    <Compile Include="Scheduler\Impl\EstimateInvoiceFactory.cs" />
+    <Compile Include="Scheduler\Impl\EstimateInvoiceServices.cs" />
+    <Compile Include="Scheduler\Impl\Imager.cs" />
+    <Compile Include="Scheduler\Impl\AttachingInvoicesServices.cs" />
+    <Compile Include="Scheduler\Impl\SalesTaxAPIServices.cs" />
+    <Compile Include="Scheduler\Impl\WorkOrderTechnicianService.cs" />
+    <Compile Include="Scheduler\IAttachingInvoicesServices.cs" />
+    <Compile Include="Scheduler\ISalesTaxAPIServices.cs" />
+    <Compile Include="Scheduler\IWorkOrderTechnicianService.cs" />
+    <Compile Include="Scheduler\ViewModel\BestPairImageSendToMarketingSiteModel.cs" />
+    <Compile Include="Scheduler\ViewModel\InvoieLineImageModel.cs" />
+    <Compile Include="Scheduler\ViewModel\DebuggerLogModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobAssigneeInvoiceEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\LocalMarketingReviewFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\LocalMarketingReviewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MailTemplateEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\SalesTaxRatesViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\SelectInvoicesViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ShiftJobEstimateViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\TechnicianWorkOrderForInvoiceViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\UpdateMarketingClassViewModel.cs" />
+    <Compile Include="ToDo\Domain\ToDoComment.cs" />
+    <Compile Include="ToDo\Domain\ToDoFollowUpList.cs" />
+    <Compile Include="Scheduler\Domain\ZipCode.cs" />
+    <Compile Include="Scheduler\Enum\BeforeAfterBestPairType.cs" />
+    <Compile Include="Scheduler\Enum\BeforeAfterImagesType.cs" />
+    <Compile Include="Scheduler\Enum\BeforeAfterPairType.cs" />
+    <Compile Include="Scheduler\Enum\ConfirmationEnum.cs" />
+    <Compile Include="Scheduler\Enum\DragDropSchedulerEnum.cs" />
+    <Compile Include="Scheduler\Enum\NonResidentalClassEnum.cs" />
+    <Compile Include="Scheduler\IAutoGenereatedMailForBestFit.cs" />
+    <Compile Include="Scheduler\IBeforeAfterImageService.cs" />
+    <Compile Include="Scheduler\ICancellationMailForTechSalesICancellationMailForTechSalesNotification.cs" />
+    <Compile Include="Scheduler\IGeoCodeFactory.cs" />
+    <Compile Include="Scheduler\IGeoCodeService.cs" />
+    <Compile Include="MarketingLead\IReviewPushLocationAPI.cs" />
+    <Compile Include="MarketingLead\IHomeAdvisorParser.cs" />
+    <Compile Include="Scheduler\IJobDetailsFactory.cs" />
+    <Compile Include="Scheduler\IJobSchedulerService.cs" />
+    <Compile Include="Scheduler\IMailForNonResidentalBuildingType.cs" />
+    <Compile Include="Scheduler\Impl\AutoGenereatedMailForBestFitNotification.cs" />
+    <Compile Include="Scheduler\Impl\BeforeAfterImageService.cs" />
+    <Compile Include="Scheduler\Impl\CancellationMailForTechSales.cs" />
+    <Compile Include="Scheduler\Impl\EncryptionHelper.cs" />
+    <Compile Include="Scheduler\Impl\GeoCodeFactory.cs" />
+    <Compile Include="Scheduler\Impl\GeoCodeService.cs" />
+    <Compile Include="Scheduler\Impl\HomeAdvisorParser.cs" />
+    <Compile Include="Scheduler\Impl\JobDetailsFactory.cs" />
+    <Compile Include="Scheduler\Impl\JobReminderNotification.cs" />
+    <Compile Include="Scheduler\Domain\JobResource.cs" />
+    <Compile Include="Scheduler\Domain\JobStatus.cs" />
+    <Compile Include="Scheduler\Domain\JobScheduler.cs" />
+    <Compile Include="Scheduler\Domain\Meeting.cs" />
+    <Compile Include="Scheduler\Domain\TimeZoneInfo.cs" />
+    <Compile Include="Scheduler\Enum\CalendarStatusType.cs" />
+    <Compile Include="Scheduler\Enum\JobStatusType.cs" />
+    <Compile Include="Scheduler\Enum\RepeatFrequency.cs" />
+    <Compile Include="Scheduler\Enum\ScheduleType.cs" />
+    <Compile Include="Scheduler\ICalendarFactory.cs" />
+    <Compile Include="Scheduler\ICalendarImportService.cs" />
+    <Compile Include="Scheduler\ICalendarParsePollingAgent.cs" />
+    <Compile Include="Scheduler\IEstimateService.cs" />
+    <Compile Include="Scheduler\IJobFactory.cs" />
+    <Compile Include="Scheduler\IJobInfoFactory.cs" />
+    <Compile Include="Scheduler\IJobInfoService.cs" />
+    <Compile Include="Scheduler\IJobReminderNotificationService.cs" />
+    <Compile Include="Scheduler\IJobService.cs" />
+    <Compile Include="Scheduler\Impl\CalendarFactory.cs" />
+    <Compile Include="Scheduler\Impl\CalendarImportService.cs" />
+    <Compile Include="Scheduler\Impl\CalendarParsePollingAgent.cs" />
+    <Compile Include="Scheduler\Impl\EstimateService.cs" />
+    <Compile Include="Scheduler\Impl\JobFactory.cs" />
+    <Compile Include="Scheduler\Impl\JobInfoFactory.cs" />
+    <Compile Include="Scheduler\Impl\JobInfoService.cs" />
+    <Compile Include="Scheduler\Impl\JobReminderNotificationtoUsersService.cs" />
+    <Compile Include="Scheduler\Impl\JobSchedulerService.cs" />
+    <Compile Include="Scheduler\Impl\JobService.cs" />
+    <Compile Include="MarketingLead\Impl\ReviewPushLocationAPI.cs" />
+    <Compile Include="Scheduler\Impl\MailForNonResidentalBuildingTypeNotification.cs" />
+    <Compile Include="Scheduler\Impl\NotificationToFA.cs" />
+    <Compile Include="Scheduler\Impl\SendNewJobNotificationtoTech.cs" />
+    <Compile Include="Scheduler\Impl\ZipFileParser.cs" />
+    <Compile Include="Scheduler\Impl\ZipParserNotificationService.cs" />
+    <Compile Include="Scheduler\ISendNewJobNotificationtoTechService.cs" />
+    <Compile Include="Scheduler\IJobReminderNotificationtoUsersService.cs" />
+    <Compile Include="Scheduler\IZipFileParser.cs" />
+    <Compile Include="Scheduler\IZipParserNotificationService.cs" />
+    <Compile Include="Scheduler\ViewModel\AddressComponentModel.cs" />
+    <Compile Include="Scheduler\ViewModel\AddressGeoCodeModel.cs" />
+    <Compile Include="Scheduler\ViewModel\AttachInvoiceWithJobViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterFileModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageDeletionViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageForFranchiseeAdminListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageMailViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageSendMailViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\BeforeAfterImageViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\SelectedScheduler.cs" />
+    <Compile Include="Scheduler\ViewModel\ConfirmationModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ConfirmationResponseModel.cs" />
+    <Compile Include="Scheduler\ViewModel\CustomerInfoModel.cs" />
+    <Compile Include="Scheduler\ViewModel\DownloadCountyModel.cs" />
+    <Compile Include="Scheduler\ViewModel\DownloadZipCodeModel.cs" />
+    <Compile Include="Scheduler\ViewModel\DragDropSchedulerModel.cs" />
+    <Compile Include="Scheduler\ViewModel\EmailViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\FranchiseeHolidayModel.cs" />
+    <Compile Include="Scheduler\ViewModel\FranchiseInfoModel.cs" />
+    <Compile Include="Scheduler\ViewModel\GeoCodeDataInfoViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\GeoCodeResponse.cs" />
+    <Compile Include="Scheduler\ViewModel\CalendarDataModel.cs" />
+    <Compile Include="Scheduler\ViewModel\CalendarImportModel.cs" />
+    <Compile Include="Scheduler\ViewModel\FileUploadModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ImageClassViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobEstimateCategoryViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ImageParentChildListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobEstimateEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobInfoEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobNoteEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobOccurenceEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobOccurenceListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobSchedulerEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobCustomerEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobListFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\JobListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobResourceEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\JobViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MailListFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\MailListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MediaModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MeetingDeleteViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MeetingEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\MeetingViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\NameValuePair.cs" />
+    <Compile Include="Scheduler\ViewModel\SaveBeforeAfterImageFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\SaveImagesBestPairFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\SaveReviewImageFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\ScheduleAvailabilityFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\SchedulerNoteModel.cs" />
+    <Compile Include="Scheduler\ViewModel\VacationRepeatEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\CountyCreateEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipCodeInfoListFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipCreateEditModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipDataInfoListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipDataInfoViewModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipDataListFilter.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipDataUploadListModel.cs" />
+    <Compile Include="Scheduler\ViewModel\ZipDataUploadViewModel.cs" />
+    <Compile Include="ToDo\Enum\ToDoFollowUpEnum.cs" />
+    <Compile Include="ToDo\Enum\ToDoStatusEnum.cs" />
+    <Compile Include="ToDo\Impl\ToDoFactory.cs" />
+    <Compile Include="ToDo\Impl\ToDoService.cs" />
+    <Compile Include="ToDo\IToDoFactory.cs" />
+    <Compile Include="ToDo\IToDoService.cs" />
+    <Compile Include="ToDo\ViewModel\ToDoEditModel.cs" />
+    <Compile Include="ToDo\ViewModel\ToDoFilter.cs" />
+    <Compile Include="ToDo\ViewModel\ToDoListModel.cs" />
+    <Compile Include="Users\Domain\EmailSignatures.cs" />
+    <Compile Include="Users\Domain\EquipmentUserDetails.cs" />
+    <Compile Include="Users\Domain\OrganizationRoleUserFranchisee.cs" />
+    <Compile Include="Users\Domain\Person.cs" />
+    <Compile Include="Users\Domain\Phone.cs" />
+    <Compile Include="Users\Domain\Role.cs" />
+    <Compile Include="Users\Domain\SalesRep.cs" />
+    <Compile Include="Users\Domain\UserLog.cs" />
+    <Compile Include="Users\Domain\UserLogin.cs" />
+    <Compile Include="Users\Enum\PhoneType.cs" />
+    <Compile Include="Users\Enum\RoleType.cs" />
+    <Compile Include="Users\Enum\SortingOrder.cs" />
+    <Compile Include="Users\ILoginAuthenticationModelValidator.cs" />
+    <Compile Include="Users\Domain\CustomerLog.cs" />
+    <Compile Include="Users\Impl\LoginAuthenticationModelValidator.cs" />
+    <Compile Include="Users\Impl\PasswordResetService.cs" />
+    <Compile Include="Users\Impl\PersonEditModelValidator.cs" />
+    <Compile Include="Users\Impl\PersonFactory.cs" />
+    <Compile Include="Users\Impl\PhoneNumberTextValidator.cs" />
+    <Compile Include="Users\Impl\SendLoginCredentialsService.cs" />
+    <Compile Include="Users\Impl\UniqueEmailValidator.cs" />
+    <Compile Include="Users\Impl\UserEditModelValidator.cs" />
+    <Compile Include="Users\Impl\UserFactory.cs" />
+    <Compile Include="Users\Impl\UserLoginEditModelValidator.cs" />
+    <Compile Include="Users\Impl\UserLoginFactory.cs" />
+    <Compile Include="Users\Impl\UserLoginService.cs" />
+    <Compile Include="Users\Impl\UserLogService.cs" />
+    <Compile Include="Users\Impl\UserService.cs" />
+    <Compile Include="Organizations\IOrganizationRoleUserInfoService.cs" />
+    <Compile Include="Users\IPasswordResetService.cs" />
+    <Compile Include="Users\IPersonFactory.cs" />
+    <Compile Include="Users\IPhoneNumberTextValidator.cs" />
+    <Compile Include="Users\ISendLoginCredentialsService.cs" />
+    <Compile Include="Users\IUniqueEmailValidator.cs" />
+    <Compile Include="Users\IUserFactory.cs" />
+    <Compile Include="Users\IUserLoginFactory.cs" />
+    <Compile Include="Users\IUserLoginService.cs" />
+    <Compile Include="Users\IUserLogService.cs" />
+    <Compile Include="Users\IUserService.cs" />
+    <Compile Include="Users\ViewModels\ChangePasswordEditModel.cs" />
+    <Compile Include="Users\ViewModels\FrabchiseeDocumentEditModel.cs" />
+    <Compile Include="Users\ViewModels\LoginAuthenticationModel.cs" />
+    <Compile Include="Users\ViewModels\LoginCustomerAuthenticationModel.cs" />
+    <Compile Include="Users\ViewModels\OrganizationOwnerEditModel.cs" />
+    <Compile Include="Users\ViewModels\PersonEditModel.cs" />
+    <Compile Include="Users\ViewModels\PersonEquipmentEditModel.cs" />
+    <Compile Include="Users\ViewModels\UserSignatureEditModel.cs" />
+    <Compile Include="Users\ViewModels\UserEditModel.cs" />
+    <Compile Include="Users\ViewModels\UserEquipmentEditModel.cs" />
+    <Compile Include="Users\ViewModels\UserListFilter.cs" />
+    <Compile Include="Users\ViewModels\UserListModel.cs" />
+    <Compile Include="Users\ViewModels\UserLoginEditModel.cs" />
+    <Compile Include="Users\ViewModels\UserSessionModel.cs" />
+    <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Application\Impl\ZipExcelFileParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dashboard\Domain\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Validations\Franchisee.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Franchisee.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Validations\Geo.resx" />
+    <EmbeddedResource Include="Localization\Validations\Login.resx" />
+    <EmbeddedResource Include="Localization\Validations\Shared.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ionic.Zip.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.203.6\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.203.6\analyzers\dotnet\cs\SharedAnalysisCode.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SixLabors.ImageSharp.3.1.5\build\SixLabors.ImageSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SixLabors.ImageSharp.3.1.5\build\SixLabors.ImageSharp.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

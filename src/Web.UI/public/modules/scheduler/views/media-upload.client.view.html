@@ -1,0 +1,37 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Media<span> : {{vm.info.franchisee}}</span></h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="margin-bottom-40 margin-top-20">
+        <label>Media Uploader</label>
+        <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true" ngf-pattern="'.jpg,.png,.jpeg,.gif'"
+             ngf-accept="'.jpg,.png,.jpeg,.gif'">
+            Drop files (.jpg,.png,.jpeg,.gif) to attach, or
+            <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="true" ngf-pattern="'.jpg,.png,.jpeg,.gif'"
+               ngf-accept="'.jpg,.png,.jpeg,.gif'">browse</a>.
+        </div>
+        <div ngf-no-file-drop>Media Drag/Drop is not supported for this browser</div>
+    </div>
+    <div class="margin-top-20" ng-if="vm.info.fileList.length > 0">
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+            <tr ng-repeat="file in vm.info.fileList">
+                <td>
+                    {{file.caption}}
+                </td>
+                <td>
+                    {{file.size}} Bytes
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer clear-both">
+        <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+        <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing == true">Save</button>
+    </div>
+</div>

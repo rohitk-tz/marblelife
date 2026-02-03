@@ -1,0 +1,1 @@
+﻿update Customer set ReceiveNotification = 1 where id > 0;

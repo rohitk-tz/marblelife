@@ -1,0 +1,26 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">{{vm.info.message}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body overflow-y-visible">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12" ng-if="!vm.info.isFromDuration">
+            <div class="form-group form-md-line-input">
+                <textarea maxlength="1024" style="width:100% !important" class="form-control input-medium resp-100" name="description" id="description" ng-model="vm.info.description" />
+                <label value="">{{vm.info.textboxMessage}}<span class="required" aria-required="true"> * </span></label>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12" ng-if="vm.info.isFromDuration">
+            <div class="form-group form-md-line-input">
+                <input class="form-control input-lg" id="duration" name="duration" ng-model="vm.info.duration"
+                       maxlength="4" only-decimal />
+                <label value="">{{vm.info.textboxMessage}}<span class="required" aria-required="true"> * </span></label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+    <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing == true">Save</button>
+</div>

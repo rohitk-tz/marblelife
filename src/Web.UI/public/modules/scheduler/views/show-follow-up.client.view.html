@@ -1,0 +1,83 @@
+﻿<style type="text/css">
+    .modal-body.ng-scope {
+        /*width: 81%;*/
+        overflow-wrap: break-word;
+        height: 59vh;
+    }
+    .modal-dialog{
+        width:80% !important;
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Follow Up: {{vm.franchiseeName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <form role="form" name="followUpForm">
+        <div class="row" style="margin-left:10px !important">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <textarea style="max-width: 366px !important; max-height: 300px !important; min-height: 53px !important; min-width: 370px !important;" id="todTaskList" class="form-control" label="followUpList" name="followUpList" type="text" autocomplete="off" ng-model="vm.followUpInfo.task" uib-typeahead="todTaskList.name as todTaskList.name for todTaskList in vm.toDoList($viewValue)"
+                              typeahead-loading="loadingToDo" typeahead-min-length="2" maxlength="5000"></textarea>
+                    <label for="firstname">Follow Up <span class="required" aria-required="true"> * </span></label>
+                    <i ng-show="loadingToDos" class="fa fa-refresh"></i>
+                </div>
+                <div ng-show="followUpForm.followUpList.$dirty && followUpForm.followUpList.$invalid && followUpForm.followUpList.$error.required">
+                    <span class="text-danger" ng-if="followUpForm.followUpList.$error.required">
+                        Follow Up List is required.
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <textarea style="max-width: 366px !important; max-height: 300px !important; min-height: 53px !important; min-width: 370px !important;" type="text" class="form-control" id="comment" name="comment" ng-model="vm.followUpInfo.comment"
+                              maxlength="5000"></textarea>
+                    <label for="firstname">Comments<span class="required" aria-required="true"> </span></label>
+                </div>
+                <div ng-show="followUpForm.comment.$dirty && followUpForm.comment.$invalid && followUpForm.comment.$error.required">
+                    <span class="text-danger" ng-if="followUpForm.comment.$error.required">
+                        Comment is required.
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <date-picker-ts control-id="start-date" label="Date*" model="vm.followUpInfo.date" format="{momentFormat:'MM/DD/YYYY HH:mm'}" datespicker-append-to-body="true"/>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="margin-left:10px !important">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <input id="customer" class="form-control" label="customer" name="customer" type="text" ng-model="vm.followUpInfo.customerName" maxlength="256" disabled/>
+                    <label for="customer">Customer Name <span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="phoneName" name="phoneName" ng-model="vm.followUpInfo.phoneNumber"
+                           maxlength="128" mask-format="phone" disabled/>
+                    <label for="firstname">Phone Number<span class="required" aria-required="true"> </span></label>
+                </div>
+
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="email" name="email" ng-model="vm.followUpInfo.email"
+                           maxlength="128" disabled/>
+                    <label for="firstname">Email<span class="required" aria-required="true"> </span></label>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="followUpForm.$invalid">Save</button>
+</div>

@@ -1,0 +1,103 @@
+﻿<div class="row">
+    <div class="col-xs-12" ng-repeat="assignee in list" style="background: #f5f5f5; margin-bottom:10px; padding-top: 10px; padding-bottom: 15px;">
+        <ng-form name="occurenceForm">
+            <div class="row">
+                <div class="col-sm-12 text-right" style="margin-bottom:5px;">
+                    <a ng-if="!assignee.isDeleted" href="javascript:void(0)" class="btn btn-danger btn-xs" ng-click="removeOccurence($index)"><i class="fa fa-remove"></i></a>
+                </div>
+                <div class="col-sm-6">
+                    <label>Start Time *</label>
+                    <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                        <datetimepicker ng-model="assignee.startDate"
+                                        date-format="MM/dd/yyyy"
+                                        date-options="dateOptions"
+                                        minute-step="15"
+                                        ng-change="validateStart(occurenceForm, $index);"
+                                        name="startDate">
+                        </datetimepicker>
+                        <p class="text-danger" ng-if="occurenceForm.startDate.$error.invalid">
+                            <i class="fa fa-warning"></i>  Invalid Start Date.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>End Time *</label>
+                    <div class="form-group  form-md-line-input form-md-floating-label clear-both">
+                        <datetimepicker ng-model="assignee.endDate"
+                                        date-format="MM/dd/yyyy"
+                                        date-options="dateOptions"
+                                        minute-step="15"
+                                        ng-change="validateEnd(occurenceForm, $index);"
+                                        name="endDate">
+                        </datetimepicker>
+                        <p class="text-danger" ng-if="occurenceForm.endDate.$error.invalid">
+                            <i class="fa fa-warning"></i> Invalid End Date.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group input-medium form-md-line-input form-md-floating-label">
+                        <select class="form-control" name="assignee" id="assignee" ng-model="assignee.assigneeId"
+                                ng-options="type.id as type.label for type in techList" ng-change="validateSchedule(occurenceForm,assignee);"></select>
+                        <label value="">Assignee<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <p class="text-danger" ng-if="occurenceForm.assignee.$error.invalid"><i class="fa fa-warning"></i> Assignee is Required!</p>
+                </div>
+                <div class="col-sm-6 form-group" style="margin-top:20px;" ng-if="invoiceList.length!=0 && (convertToJob && !fromConvertToJob)">
+                    <div style="float:left;">
+                        <div ng-dropdown-multiselect="" options="invoiceList" extra-settings="settings" translation-texts="translationTexts"
+                             selected-model="assignee.invoiceNumber" checkboxes="true" events="selectEvents" style="margin-right:10px !important; word-break:break-all;">
+                        </div>
+                        <div class="row">
+                            <ul style="word-break:break-word;">
+                                <li style="font-style:normal;text-align:left;word-break:break-word;margin:1px" ng-repeat="item in assignee.invoiceNumber">
+                                    {{item.label}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group" style="margin-top:20px;" ng-if="(invoiceList.length!=0 && (!convertToJob && fromConvertToJob) && assignee.isNew==true)">
+                    <div style="float:left;">
+                        <div ng-dropdown-multiselect="" options="invoiceList" extra-settings="settings" translation-texts="translationTexts"
+                             selected-model="assignee.invoiceNumber" checkboxes="true" events="selectEvents" style="margin-right:10px !important; word-break:break-all;">
+                        </div>
+                        <div class="row">
+                            <ul style="word-break:break-word;">
+                                <li style="font-style:normal;text-align:left;word-break:break-word;margin:1px" ng-repeat="item in assignee.invoiceNumber">
+                                    {{item.label}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group" style="margin-top:20px;" ng-if="(!convertToJob && fromConvertToJob) && assignee.isNew!=true">
+                    <div style="float:left;">
+                        <div class="row">
+                            <ul style="word-break:break-word;">
+                                <li style="font-style:normal;text-align:left;word-break:break-word;margin:1px" ng-repeat="item in assignee.invoiceNumber">
+                                    {{item.label}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <span class="text-danger" ng-if="isNonRemovable"><i class="fa fa-warning"></i> Can't remove last Assignee!</span>
+                </div>
+            </div>
+        </ng-form>
+
+    </div>
+    <div class="col-xs-12" style="border-bottom:5px solid #f1f1f1; padding-top:10px; padding-bottom:10px;">
+        <a href="javascript:void(0)" ng-click="addOccurence()" class="pull-right btn btn-success"><i class="fa fa-plus"></i> Add</a>
+    </div>
+    <div class="col-xs-12" style="border-bottom:5px solid #f1f1f1; padding-top:10px; padding-bottom:10px;">
+        <b> BE AWARE: </b> If you are scheduling a multi-day job that brackets a HOLIDAY the system WILL allow this to occur.  As such, please review your calendar to see whether
+        any existing HOLIDAYS are present within the planned multi-day period before completing the schedule.
+    </div>
+    <div class="col-xs-12" ng-if="isNotAvailable">
+        <span class="text-danger">{{error}}</span>
+    </div>
+</div>

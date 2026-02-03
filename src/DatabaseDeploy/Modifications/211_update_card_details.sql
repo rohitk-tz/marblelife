@@ -1,0 +1,1 @@
+update `paymentinstrument` set `IsDeleted`=b'1' where `Id`='72';

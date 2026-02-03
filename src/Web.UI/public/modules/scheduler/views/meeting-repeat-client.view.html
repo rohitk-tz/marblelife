@@ -1,0 +1,63 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Repeat Meeting : {{vm.vacationInfo.franchisee}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="repeatVacation_form">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 margin-top-20">
+                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : repeatVacation_form.type.$dirty && repeatVacation_form.type.$error.requiredSelect}">
+                    <select class="form-control " name="type" id="type" ng-model="vm.repeatModel.repeatFrequency"
+                            ng-options="type.value as type.display for type in vm.repeatFrequency" required-select></select>
+                    <label value="">Repeat<span class="required" aria-required="true"> * </span></label>
+                    <div ng-show="repeatVacation_form.type.$dirty && repeatVacation_form.type.$invalid">
+                        <span class="text-danger" ng-if="repeatVacation_form.jobType.$error.requiredSelect">
+                            Repeat Type is Required!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-sm-5 col-xs-12" ng-if="vm.repeatModel.repeatFrequency != null && vm.repeatModel.repeatFrequency != vm.repeat.Custom">
+                <label>End Time *</label>
+                <date-picker-ts control-id="end-date" label="End" model="vm.repeatModel.endDate" />
+            </div>
+
+            <div class="clear-both" ng-if="vm.repeatModel.repeatFrequency != null && vm.repeatModel.repeatFrequency == vm.repeat.Custom">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <label>Start Time *</label>
+                    <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                        <datetimepicker ng-model="vm.repeatModel.startDate"
+                                        date-format="MM/dd/yyyy"
+                                        date-options="dateOptions"
+                                        minute-step="15"
+                                        datepicker-append-to-body="true">
+                        </datetimepicker>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <label>End Time *</label>
+                    <div class="form-group form-md-line-input form-md-floating-label clear-both">
+                        <datetimepicker ng-model="vm.repeatModel.endDate"
+                                        date-format="MM/dd/yyyy"
+                                        date-options="dateOptions"
+                                        minute-step="15"
+                                        datepicker-append-to-body="true">
+                        </datetimepicker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <b> BE AWARE: </b> If you are scheduling a multi-day meeting that brackets a HOLIDAY the system WILL allow this to occur.  As such, please review your calendar to see whether
+                any existing HOLIDAYS are present within the planned multi-day period before completing the schedule.
+            </div>
+        </div>
+        <div class="modal-footer clear-both">
+            <button type="button" class="btn btn-default" ng-click="vm.close();">Close</button>
+            <button type="submit" class="btn btn-primary" ng-click="vm.save(repeatVacation_form);" ng-disabled="repeatVacation_form.$invalid || vm.isProcessing == true">Save</button>
+            
+        </div>
+    </form>
+</div>

@@ -1,0 +1,199 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getRoutingNumbers();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getRoutingNumbers();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="tag" ng-model="vm.query.tagId"
+                                    ng-change="vm.getRoutingNumbers();"
+                                    ng-options="tag.value as tag.display for tag in vm.tagList">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="tag">Tag</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: 6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getRoutingNumbers">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadPhoneLabels()" class="btn btn-primary" ng-disabled="vm.ids.length < 1 || vm.downloading == true">
+                            Download
+                        </button>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.goToList()" class="btn btn-primary">
+                            Call Detail List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.routingNumbers.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.routingNumbers.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+            <div class="pull-right">
+                <span ng-if="vm.routingNumbers.length > 0" class="pull-left search-single margin-top-20">
+                    <b>Note: </b>
+                    <i>Franchisee(s) will be updated on the CallDetails Report within 24 hrs.!</i>
+                </span>
+            </div>
+        </div>
+
+        <div class="table-scrollable table-mbl">
+            <div fix-height style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.ID,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.ID }"
+                                rowspan="1" colspan="1" aria-label="ID" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                ng-click="vm.sorting(vm.SortColumns.ID);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneNumber,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneNumber,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneNumber }"
+                                rowspan="1" colspan="1" aria-label="ID" style="width: 80px; min-width: 80px; max-width: 80px;"
+                                ng-click="vm.sorting(vm.SortColumns.PhoneNumber);">
+                                Phone Number
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                rowspan="1" colspan="1" aria-label="ID" style="width: 150px; min-width: 150px; max-width: 150px;"
+                                ng-click="vm.sorting(vm.SortColumns.PhoneLabel);">
+                                Phone Label
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Franchisee,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Franchisee }"
+                                rowspan="1" colspan="1" aria-label="ID" style="width: 180px; min-width: 180px; max-width: 180px;"
+                                ng-click="vm.sorting(vm.SortColumns.Franchisee);">
+                                Franchisee
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Tag,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Tag,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Tag }"
+                                rowspan="1" colspan="1" aria-label="ID" style="width: 180px; min-width: 180px; max-width: 180px;"
+                                ng-click="vm.sorting(vm.SortColumns.Tag);">
+                                Tag
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.routingNumbers">
+                            <td style="width: 40px; min-width: 40px; max-width: 40px;">{{item.id}}</td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">{{item.phoneNumber | phonemask}}</td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;">{{item.phoneLabel}}</td>
+                            <td style="width: 180px; min-width: 180px; max-width: 180px;">
+                                <span class="col-md-8">
+                                    <span data-ng-hide="editMode">
+                                        <span class="break_word">{{item.franchisee}}</span>
+                                    </span>
+                                    <span data-ng-show="editMode">
+                                        <select class="form-control" id="class" ng-model="item.franchiseeId" name="class"
+                                                ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection" data-ng-required>
+                                            <option selected disabled hidden style='display: none' value=''></option>
+                                        </select>
+                                    </span>
+                                </span>
+                                <a class="col-md-4 glyphicon glyphicon-edit" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                                <a class="col-md-2 glyphicon glyphicon-ok" data-ng-show="editMode" data-ng-click="vm.updateFranchisee(item.id,item.franchiseeId);"></a>
+                                <a class="col-md-2 glyphicon glyphicon-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode"></a>
+                            </td>
+                            <td style="width: 180px; min-width: 180px; max-width: 180px;">
+                                <span class="col-md-8">
+                                    <span data-ng-hide="tag_editMode">
+                                        <span class="break_word">{{item.tag}}</span>
+                                    </span>
+                                    <span data-ng-show="tag_editMode">
+                                        <select class="form-control" id="class" ng-model="item.tagId" name="class"
+                                                ng-options="tag.value as tag.display for tag in vm.tagList" data-ng-required>
+                                            <option selected disabled hidden style='display: none' value=''></option>
+                                        </select>
+                                    </span>
+                                </span>
+                                <a class="col-md-4 glyphicon glyphicon-edit" data-ng-hide="tag_editMode" data-ng-click="tag_editMode = !tag_editMode"></a>
+                                <a class="col-md-2 glyphicon glyphicon-ok" data-ng-show="tag_editMode" data-ng-click="vm.updateTag(item.id,item.tagId);"></a>
+                                <a class="col-md-2 glyphicon glyphicon-remove" data-ng-show="tag_editMode" data-ng-click="tag_editMode = !tag_editMode"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.routingNumbers.length == 0">
+                        <td colspan="5" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.routingNumbers.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.routingNumbers.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

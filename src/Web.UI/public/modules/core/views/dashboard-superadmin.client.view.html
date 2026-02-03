@@ -1,0 +1,421 @@
+﻿<style>
+   .box2 {
+    width: 2%;
+    height: 16px;
+    background-color: black;
+    margin-left: 3%;
+    margin-top: -1%;
+}
+    @media only screen and (max-width: 767px) {
+        .daterangepicker {
+            width: 92% !important;
+            margin-left: -156px !important;
+           
+        }
+
+            .daterangepicker .calendar {
+               max-width:100%;
+            }
+            .input-small {
+                width: 125px !important;
+            }
+    }
+    @media only screen and (max-width: 356px) {
+        .input-small {
+            width: 110px !important;
+        }
+    }
+</style>
+<div class="row" ng-controller="adminController as vm">
+    <div class="col-md-3">
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <i class="icon-share font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">Franchisee Directory</span>
+                </div><br /><br />
+            </div>
+            <div>
+                <input class="form-control" ng-model="vm.searchText" placeholder="Search..." ng-keyup="vm.getFranchiseeDirectoryListForSuperAdmin()">
+            </div>
+            <br />
+            <div class="portlet-body" slimscroll="{height: '688px'}">
+                <div class="portlet gren" ng-repeat="franchise in vm.franchisees">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            {{franchise.name}}
+                        </div>
+                        <a class="fa fa-calendar m-t-15 pull-right" ui-sref="core.layout.scheduler.manage({ franchiseeId: franchise.id })" title="view Scheduler"></a>
+                    </div>
+                    <div class="portlet-body">
+                        <b>Email:</b> <span ng-show="franchise.email != null"><a href="mailto:{{franchise.email}}">{{franchise.email}}</a></span>
+                        <span ng-show="franchise.email == null">N/A</span>
+                        <br />
+                        <b>Phone:</b>
+                        <span ng-show="franchise.phoneNumbers.length > 0"
+                              ng-repeat="phoneNumber in franchise.phoneNumbers">{{phoneNumber.number | phonemask}}({{phoneNumber.name}})<span ng-if="!$last">, </span></span>
+                        <span ng-show="franchise.phoneNumbers.length <= 0">N/A</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 25px;">
+            <div class="col-xs-12">
+                <div class="actions">
+                    <div class="margin-right-10 pull-left">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.resetFranchisee(vm.query.franchiseeId)"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="margin-right-10 pull-left">
+                        <div class="form-group  input-small form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="month" ng-model="vm.query.month"
+                                    ng-change="vm.getFilteredData();"
+                                    ng-options="month.value as month.display for month in vm.monthCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="month">Month</label>
+                        </div>
+                    </div>
+                    <div class="margin-right-10 pull-left">
+                        <div class="form-group input-small form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                                    ng-change="vm.getFilteredData();"
+                                    ng-options="year.value as year.display for year in vm.yearCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="year">Year</label>
+                        </div>
+                    </div>
+                    <div class="margin-right-10 pull-left">
+                        <div class="form-group input-small form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control" id="date-range" date-range-picker change="vm.getFilteredList"
+                                   start-date="vm.query.rangeStartDate" end-date="vm.query.rangeEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="margin-top-15 margin-right-10 pull-left">
+                        <a class="btn btn-primary" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+                <a class="dashboard-stat dashboard-stat-light blue-madison" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-briefcase fa-icon-medium"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.totalCustomers}}
+                        </div>
+                        <div class="desc">
+                            Total Customers
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a class="dashboard-stat dashboard-stat-light red-intense" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.customerWithEmails}}
+                        </div>
+                        <div class="desc">
+                            Customer with Emails
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a class="dashboard-stat dashboard-stat-light green-haze" href="javascript:;">
+                    <div class="visual">
+                        <i class="fa fa-group fa-icon-medium"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            {{vm.customerCount.customerWithAddress}}
+                        </div>
+                        <div class="desc">
+                            Customer with Address
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row margin-top-10">
+            <div class="col-md-6 col-sm-12">
+                <!-- BEGIN PORTLET-->
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption">
+                            <span class="caption-subject font-red-sunglo bold uppercase">Revenue</span>
+                        </div>
+                        <div class="btn-group btn-group-devided pull-right pie-chart-search" data-toggle="buttons">
+                            <label class="btn btn-transparent grey-salsa btn-circle btn-sm active" ng-click="vm.getClassChart()">
+                                <input ng-model="vm.classRadioButtion" type="radio" name="options" class="toggle" id="option1">Class
+                            </label>
+                            <label class="btn btn-transparent grey-salsa btn-circle btn-sm" ng-click="vm.getServiceChart()">
+                                <input ng-model="vm.serviceRadioButton" type="radio" name="options" class="toggle" id="option2">Service
+                            </label>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="portlet_tab">
+                                <am-chart id="myFirstChart" options="amChartOptions" height="368px" width="100%"></am-chart>
+                                <div id="legenddiv" class="legends-mul-col"></div>
+                                <div id="legenddiv2" class="legends-mul-col"></div>
+                            </div>
+                            <div class="text-center text-danger no-record" style="margin-top: -50%" ng-if="vm.showClassChart && vm.revenueLength == 0">No records found.</div>
+                            <div class="text-center text-danger no-record" style="margin-top: -50%" ng-if="vm.showServiceChart && vm.revenueLength == 0">No records found.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- END PORTLET-->
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <!-- BEGIN PORTLET-->
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption caption-md">
+                            <i class="icon-bar-chart theme-font hide"></i>
+                            <span class="caption-subject theme-font bold uppercase">Franchisee Leaderboard</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr class="uppercase">
+                                        <th>Franchisee</th>
+                                        <th>Sales</th>
+                                        <th>Paid Amount</th>
+                                        <th>Number of Jobs</th>
+                                        <th>Average Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in vm.franchiseeLeaderboardList">
+                                        <td>
+                                            <a ng-click="vm.editFranchisee(record.id)"> {{record.name}}</a>
+                                        </td>
+                                        <td>
+                                            <span ng-if="record.amount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.amount" from-Currency="record.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="record.paidAmount != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.paidAmount" from-Currency="record.currencyCode">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{record.noOfJobs}}
+                                        </td>
+                                        <td>
+                                            <span ng-if="record.avgSales != null" currency-Exchange conversion-Rate="record.currencyRate"
+                                                  input="record.avgSales" from-Currency="record.currencyCode">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tr ng-if="vm.franchiseeLeaderboardList.length == 0">
+                                    <td colspan="5" class="text-center"><span> NO RECORDS FOUND!</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PORTLET-->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 clear-both">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Invoices
+                </div>
+                <div class="actions">
+                    <a ng-click="vm.invoiceList()" class="btn btn-default btn-sm">
+                        See All
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> Franchise </th>
+                            <th> Due Date </th>
+                            <th> Total Sales  </th>
+                            <th> Payable Amount  </th>
+                            <th> Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="recentInvoice in vm.recentInvoiceList">
+                            <td>{{recentInvoice.franchiseName}}</td>
+                            <td> {{recentInvoice.dueDate | dateTimeFilter}}</td>
+                            <td>
+                                <span ng-if="recentInvoice.totalSales != null" currency-Exchange conversion-Rate="recentInvoice.currencyRate"
+                                      input="recentInvoice.totalSales" from-Currency="recentInvoice.currencyCode">
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="recentInvoice.payableAmount != null" currency-Exchange conversion-Rate="recentInvoice.currencyRate"
+                                      input="recentInvoice.payableAmount" from-Currency="recentInvoice.currencyCode">
+                                </span>
+                            </td>
+
+                            <td> {{recentInvoice.status}} </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.recentInvoiceList.length == 0">
+                        <td colspan="5" class="text-center"><span> NO INVOICES YET!</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Sales Summary
+                </div>
+                <div class="actions">
+                    <a ng-click="vm.salesSummary()" class="btn btn-default btn-sm">
+                        See All
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th> Franchise </th>
+                                <th> Duration </th>
+                                <th> Total Sales  </th>
+                                <th> Received  </th>
+                                <th> Accrued  </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="salesSummary in vm.salesSummaryList">
+                                <td> {{salesSummary.franchise}} </td>
+                                <td> {{salesSummary.periodStartDate | dateTimeFilter}} - {{salesSummary.periodEndDate | dateTimeFilter}} </td>
+
+                                <td>
+                                    <span ng-if="salesSummary.totalSales != null" currency-Exchange conversion-Rate="salesSummary.currencyRate"
+                                          input="salesSummary.totalSales" from-Currency="salesSummary.currencyCode">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span ng-if="salesSummary.received != null" currency-Exchange conversion-Rate="salesSummary.currencyRate"
+                                          input="salesSummary.received" from-Currency="salesSummary.currencyCode">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span ng-if="salesSummary.accrued != null" currency-Exchange conversion-Rate="salesSummary.currencyRate"
+                                          input="salesSummary.accrued" from-Currency="salesSummary.currencyCode">
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.salesSummaryList.length == 0">
+                            <td colspan="5" class="text-center"><span> NO RECORDS FOUND!</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-red-sunglo bold uppercase">Email Coverage(<span style="color: #26327e">{{vm.franchiseesNameforEmailChart}}</span>)</span>
+                </div>
+                <div class="caption pull-right">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.franchiseesIdforEmailChart"
+                                ng-change="vm.generateChartData(vm.franchiseesIdforEmailChart)"
+                                ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollectionForEmailChart">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="franchisee">Franchisee</label>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab1">
+                        <am-chart id="myFirstChart1" options="amChartOptionsforList" height="400px" width="100%"></am-chart>
+                        <div id="legenddiv1" class="legends-mul-col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-md-8">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-red-sunglo bold uppercase">Review Coverage(<span style="color: #26327e">{{vm.franchiseesNameforEmailChartForreview}}</span>)</span>
+                </div>
+                <div class="pull-left margin-left-15" style="font-weight: bolder; font-size: 16px; margin-top: 9px">
+                    <span style="margin-left:50px">Total Review Sent:<span></span>{{vm.reviewCount.totalReviewSent}}</span>
+                    <span style="margin-left:50px">Total Review Received:<span></span>{{vm.reviewCount.totalReviewReceived}}</span>
+                </div>
+                <div class="caption pull-right">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.franchiseesIdforEmailChartForreview"
+                                ng-change="vm.generateChartDataForreview(vm.franchiseesIdforEmailChartForreview)"
+                                ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollectionForEmailChart">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="franchisee">Franchisee</label>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab1">
+                        <am-chart id="myFirstChart3" options="amChartOptionsforListForreview" height="400px" width="100%"></am-chart>
+                        <div id="legenddiv3" class="legends-mul-col"></div>
+                    </div>
+                    <div class="pull-left margin-left-15" style="font-weight: bolder; font-size: 16px; margin-top: -20px; margin-left: 278px !important">
+                        <span style="margin-left:50px">Franchisee Review Sent:<span></span>{{vm.reviewCount.totalReviewSentForFranchisee}}</span>
+                        <span style="margin-left:50px">Franchisee Review Received:<span></span>{{vm.reviewCount.totalReviewReceivedForFranchisee}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>

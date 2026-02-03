@@ -1,0 +1,195 @@
+﻿<!-- BEGIN HEADER TOP -->
+<style>
+    .custom-nav li {
+        display: block !important
+    }
+    @media (max-width: 767px) {
+        .navbar-default .navbar-nav > li {
+            padding: 0 5px;
+        }
+    }
+    .toDoAlign {
+        position: absolute;
+        top: -4px;
+        color: white;
+        font-size: 15px;
+        text-align: right;
+        right: 2px;
+    }
+</style>
+<nav class="navbar navbar-default navbar-fixed-top" id="header1" style="position:static; top:0;">
+    <div class="container-fluid" id="header2"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand  hidden-xs" href="#/dashboard"><img src="/content/images/logo.png" alt="Marble Life" class="logo-small"></a>
+            <a class="navbar-brand  visible-xs" href="#/dashboard"><img src="/content/images/logo-m.png" alt="Marble Life" style="width:45px;"></a>
+        </div>
+
+        <div class="pull-right">
+
+            <ul class="nav navbar-nav navbar-right custom-nav">
+                <li data-toggle="tooltip">
+                    <a ng-click="vm.openImportModal();" role="button" title="Team Image Picture" ng-if="vm.isFranchiseeAdmin || vm.isFrontOfficeExecutive">
+                        <img style="height: 41px;width: 41px;" id="team-image" alt="" class="img-circle" ng-src="{{vm.teamImageSrc}}">
+                    </a>
+                </li>
+                <li>
+                    <a role="button" ng-if="!vm.isFranchiseeAdmin && !vm.isFrontOfficeExecutive && !vm.isSuperAdmin" title="Team Image Picture">
+                        <img style="height: 41px;width: 41px;" id="team-image" alt="" class="img-circle" ng-src="{{vm.teamImageSrc}}">
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" title="Profile Picture" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img id="profile-image" alt="User Profile Image" class="img-circle" ng-src="{{vm.imagesrc}}" style="height: 41px;width: 41px;">
+                        <span class="username username-hide-mobile">{{vm.identity.name.fullName}}</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li></li>
+                        <li ng-if="vm.isFranchiseeAdmin || vm.isFrontOfficeExe">
+                            <a href="javascript:void(0);" ng-click="vm.manageFranchisee();">
+                                <span ng-if="vm.isFranchiseeAdmin">Login As</span>
+                                <span ng-if="vm.isFrontOfficeExe">Switch Franchisee</span>
+                            </a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.managePayment(vm.franchiseeId)">Payment Profiles</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.accountCredit(vm.franchiseeId);">Account Credit</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.oneTimeProjectFee(vm.franchiseeId);">OneTime Project Fee</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.loan(vm.franchiseeId);">Loan</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.geMarketingClass();">Marketing Class List</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin">
+                            <a href="javascript:void(0);" ng-click="vm.getServiceType();">Service List</a>
+                        </li>
+                        <li ng-if=" vm.isFrontOfficeExe">
+                            <a ui-sref="core.layout.report.mlfs()">MLFS Report</a>
+                        </li>
+                        <li ng-if="vm.isFrontOfficeExe|| vm.isSuperAdmin">
+                            <a ui-sref="core.layout.report.mlfsConfiguration()">MLFS Configuration</a>
+                        </li>
+                        <li ng-if="vm.isSuperAdmin|| vm.isFrontOfficeExe">
+                            <a ui-sref="core.layout.scheduler.zip({ franchiseeId: vm.franchiseeId })">Manage Geo Code</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin">
+                            <a ui-sref="core.layout.scheduler.manage({ franchiseeId: vm.franchiseeId })">Manage Scheduler</a>
+                        </li>
+                        <li ng-if="vm.isSuperAdmin|| vm.isFrontOfficeExe||vm.isFranchiseeAdmin">
+                            <a ui-sref="core.layout.scheduler.mail({ franchiseeId: vm.franchiseeId })">Mail List</a>
+                        </li>
+                        <li ng-if="vm.isSuperAdmin || vm.isFrontOfficeExe || vm.isFranchiseeAdmin">
+                            <a ui-sref="core.layout.report.franchiseeMails({ franchiseeId: vm.franchiseeId })">Franchisee Mails  List</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin || vm.isFrontOfficeExe">
+                            <a ui-sref="core.layout.franchisee.lists({ franchiseeId: vm.franchiseeId })">Franchisee Directory</a>
+                        </li>
+                        <li ng-if="vm.isSuperAdmin">
+                            <a ui-sref="core.layout.scheduler.beforeAfter()">Review Marketing Images</a>
+                        </li>
+                        <li>
+                            <a ui-sref="core.layout.scheduler.beforeAfterFa()">Photo Management</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="vm.configureEmailSignatures();">Configure Email Signatures</a>
+                        </li>
+                        <li ng-if="vm.isSuperAdmin">
+                            <a ui-sref="core.layout.report.managePhoneCall()">Manage Phone Call Charges</a>
+                        </li>
+                        <li ng-if="vm.isFranchiseeAdmin || vm.isSuperAdmin  || vm.isFrontOfficeExe">
+                            <a ui-sref="core.layout.report.managePriceEstimate()">Manage Price/Time Estimate</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="vm.logout();">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--<a href="javascript:void(0);" ng-click="vm.goToFranchiseeStore()" class="dropdown-toggle btn btn-default margin-top-20 hidden-xs" role="button" aria-expanded="true">
+                <span class="username username-hide-mobile ng-binding">FRANCHISE STORE (MLFS) <i class="fa fa-external-link"></i></span>
+            </a>-->
+
+            <a href="javascript:void(0);" ng-click="vm.goToFranchiseeStore()" class="dropdown-toggle btn btn-default margin-top-20 hidden-xs" role="button" aria-expanded="true" title="'Everything you Need - When you Need It'
+MARBLELIFE FRANCHISE STORE shortcut to the materials and equipment you need to deliver another 'WOW' result">
+                <span class="username username-hide-mobile ng-binding">MLFS<i class="fa fa-external-link" style="margin-left:3px !important"></i></span>
+            </a>
+            <a href="javascript:void(0);" ng-click="vm.goToReferenceSite()" class="dropdown-toggle btn btn-default margin-top-20 hidden-xs" role="button" aria-expanded="true" title="For non-USA royalty reporters, the Wall Street Journal Exchange rate is used to translate your local currency into US Dollars.  The record of these rates can be secured here.">
+                <span class="username username-hide-mobile ng-binding">Curr.Exc <i class="fa fa-external-link"></i></span>
+            </a>
+            <a href="javascript:void(0);" ng-click="vm.goToDoList()" class="dropdown-toggle btn btn-default margin-top-20 hidden-xs" role="button" aria-expanded="true" title="Click here to View To-Dos And Follow Ups" style="background-color:transparent;box-shadow:none">
+                <i class="fa fa-bell" style="color:white;font-size:26px !important"></i>
+                <div class="toDoAlign">{{identity.todayToDoCount}}</div>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav main-navigation">
+                <li id="{{'dropDown_'+$index}}" ng-repeat="item in vm.currentRoleMenuItems" class="menu-dropdown mega-menu-dropdown" ng-class="item.class" ng-init="dropDownNumber = $index">
+                    <!--<a href="#/dashboard.html">Dashboard</a>-->
+                    <a id="header_{{item.id}}" ng-if="item.type == 'link'" ui-sref="{{item.state}}">{{item.name}}</a>
+                    <a ng-if="item.type == 'dropdown'" data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:void(0);" class="dropdown-toggle">
+                        {{item.name}} <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul ng-if="item.type == 'dropdown'" class="dropdown-menu" style="min-width: 220px">
+                        <li>
+                            <div class="mega-menu-content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="mega-menu-submenu list-unstyled">
+                                            <li ng-repeat="childItem in item.children">
+                                                <a ui-sref="{{childItem.state}}" class="iconify" ng-click="vm.closeDropDown(dropDownNumber);">
+                                                    <i class="icon-puzzle"></i>
+                                                    {{childItem.name}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li style="padding-left: 0px; padding-right: 0px;">
+                    <a class="iconify" ng-click="vm.redirectToBulkPhotoUpload()">
+                        <i class="icon-puzzle"></i>
+                        Bulk Photo Upload
+                    </a>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+
+
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="visible-xs" style="width:100%;float: left; text-align:center;background: #e6e6e6; padding:5px;">
+    <a href="javascript:void(0);" ng-click="vm.goToFranchiseeStore()" class="dropdown-toggle btn btn-link table-full-width" role="button" aria-expanded="true" title="'Everything you Need - When you Need It'
+MARBLELIFE FRANCHISE STORE shortcut to the materials and equipment you need to deliver another 'WOW' result">
+        <span class="username username-hide-mobile ng-binding">MLFS<i class="fa fa-external-link" style="margin-left:3px !important"></i></span>
+    </a>
+</div>
+<div class="visible-xs" style="width:100%;float: left; text-align:center;background: #e6e6e6; margin-top:2px; padding:5px;">
+    <a href="javascript:void(0);" ng-click="vm.goToReferenceSite()" class="dropdown-toggle btn btn-link table-full-width" role="button" aria-expanded="true" title="For non-USA royalty reporters, the Wall Street Journal Exchange rate is used to translate your local currency into US Dollars.  The record of these rates can be secured here.">
+        <span class="username username-hide-mobile ng-binding">Curr.Exc <i class="fa fa-external-link"></i></span>
+    </a>
+</div>
+<div class="visible-xs" style="width:100%;float: left; text-align:center;background: #e6e6e6; margin-top:2px; padding:5px;">
+    <a href="javascript:void(0);" ng-click="vm.goToDoList()" class="dropdown-toggle btn btn-link table-full-width" role="button" aria-expanded="true" title="Click here to View Today's To-Do" style="background-color:transparent;box-shadow:none">
+        <i class="fa fa-bell" style="color:white;font-size:26px !important"></i>
+        <div class="toDoAlign">{{identity.todayToDoCount}}</div>
+    </a>
+</div>

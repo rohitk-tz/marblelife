@@ -1,0 +1,30 @@
+﻿<div>
+    <div class="row" ng-repeat="pn in phoneNumbers">
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select class="form-control" id="phoneType" name="phoneType" ng-model="pn.phoneType"
+                        ng-options="type.value as type.display for type in phoneTypes">
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="phoneType">Type<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> * </span></label>
+            </div>
+        </div>
+        <div class="col-md-4 remove-parent">
+                <div class="form-group form-md-line-input form-md-floating-label multi-add">
+                    <input type="text" class="form-control" id="phoneNumber_{{$index}}" name="phoneNumber" ng-model="pn.phoneNumber" mask-format="phone">
+                    <label for="phoneNumber">Number<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> * </span></label>
+                    <a href="javascript:void(0);" class="add-more" ng-click="addMore()"
+                       ng-if="$last && maxPhoneCount != ($index + 1)">
+                        <i class="fa fa-plus"></i>
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="delete-more" ng-click="remove($index)" ng-if="!$last || pn.phoneNumber != null"><i class="fa fa-trash-o"></i></a>
+                   
+                </div>
+            </div>
+        <div class="col-md-4 remove-parent" style="margin-top:3% !important">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" ng-model="pn.isTransferable" ng-click="transferableClick(pn)">
+            <label class="form-check-label" for="exampleCheck1">Transfer to Number</label>
+        </div>
+    </div>
+</div>

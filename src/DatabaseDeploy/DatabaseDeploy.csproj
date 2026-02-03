@@ -1,0 +1,2478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD8D45FF-6C2B-486D-86CE-7F8B1CB7ED80}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DatabaseDeploy</RootNamespace>
+    <AssemblyName>DatabaseDeploy</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'taazaa_qa|AnyCPU'">
+    <OutputPath>bin\taazaa_qa\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'production|AnyCPU'">
+    <OutputPath>bin\production\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'new_qa|AnyCPU'">
+    <OutputPath>bin\new_qa\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Impl\DataExecutor.cs" />
+    <Compile Include="Impl\DataFileSyncronizer.cs" />
+    <Compile Include="Impl\Logger.cs" />
+    <Content Include="bin\Debug\DatabaseDeploy.exe" />
+    <Content Include="bin\Debug\DatabaseDeploy.pdb" />
+    <Content Include="bin\Debug\DatabaseDeploy.vshost.exe" />
+    <Content Include="bin\Debug\Data\001a.CountryCityState.sql" />
+    <Content Include="bin\Debug\Data\001b.ZIp.sql" />
+    <Content Include="bin\Debug\Data\001c.CityZip.sql" />
+    <Content Include="bin\Debug\Data\002.LookUpAndOtherStaticData.sql" />
+    <Content Include="bin\Debug\Data\003.InitialData.sql" />
+    <Content Include="bin\Debug\Data\004.EmailTemplate.sql" />
+    <Content Include="bin\Debug\Log.txt" />
+    <Content Include="bin\Debug\Modifications\001.AddPhoneType_Lookup.sql" />
+    <Content Include="bin\Debug\Modifications\002.AddServiceType.sql" />
+    <Content Include="bin\Debug\Modifications\004.UpdateMarketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\005.InvoiceItem_Column.sql" />
+    <Content Include="bin\Debug\Modifications\006.MarketingClass_CreateAll.sql" />
+    <Content Include="bin\Debug\Modifications\007.Update_ServiceType.sql" />
+    <Content Include="bin\Debug\Modifications\008.Create_FranchiseeAuthNetProfile.sql" />
+    <Content Include="bin\Debug\Modifications\009.Update_payment_ChargeCard.sql" />
+    <Content Include="bin\Debug\Modifications\010.Alter_paymentInstrument.sql" />
+    <Content Include="bin\Debug\Modifications\011.Alter_FranchiseeAuthNetProfile.sql" />
+    <Content Include="bin\Debug\Modifications\012.Alter_PaymentInstrument.sql" />
+    <Content Include="bin\Debug\Modifications\013.Alter_FranchiseePaymentProfile_autoincrement.sql" />
+    <Content Include="bin\Debug\Modifications\014.create_payment_item.sql" />
+    <Content Include="bin\Debug\Modifications\015.Change_Lookup_Name.sql" />
+    <Content Include="bin\Debug\Modifications\016.Create_Royalty_And_AdFund_Inv_Item.sql" />
+    <Content Include="bin\Debug\Modifications\017.AddServiceType_Product.sql" />
+    <Content Include="bin\Debug\Modifications\017b.Change_Column_QB_Identifier.sql" />
+    <Content Include="bin\Debug\Modifications\017c.add_condo_marketing_class.sql" />
+    <Content Include="bin\Debug\Modifications\017d.Create_CreditMemo.sql" />
+    <Content Include="bin\Debug\Modifications\017e.Create_CreditMemoItem.sql" />
+    <Content Include="bin\Debug\Modifications\018.Alter_FranchiseeSales.sql" />
+    <Content Include="bin\Debug\Modifications\019.Alter_AddFundInvoiceItem.sql" />
+    <Content Include="bin\Debug\Modifications\020.MarketingClass_CreateBank_Govt.sql" />
+    <Content Include="bin\Debug\Modifications\021.add_coumn_alias_servicetype.sql" />
+    <Content Include="bin\Debug\Modifications\022.update_servicetype_alias.sql" />
+    <Content Include="bin\Debug\Modifications\023.DropUniqueKey_userLogin.sql" />
+    <Content Include="bin\Debug\Modifications\024.Alter_ChargeCardPayment.sql" />
+    <Content Include="bin\Debug\Modifications\025.Create_Check_schema.sql" />
+    <Content Include="bin\Debug\Modifications\026.Alter_ECheckPayment.sql" />
+    <Content Include="bin\Debug\Modifications\027.Alter_lookup_add_InstrumentType.sql" />
+    <Content Include="bin\Debug\Modifications\028.Invoice_Notification_Template.sql" />
+    <Content Include="bin\Debug\Modifications\029.Payment_reminder_Email_Template.sql" />
+    <Content Include="bin\Debug\Modifications\030.SalesData_upload_Email_template.sql" />
+    <Content Include="bin\Debug\Modifications\031.Alter_Franchisee_AddLateFee.sql" />
+    <Content Include="bin\Debug\Modifications\032.Create_CheckPayment.sql" />
+    <Content Include="bin\Debug\Modifications\034.Create_MailReminder.sql" />
+    <Content Include="bin\Debug\Modifications\035.Alter_NotificationTyp_IsQueuingEnabled.sql" />
+    <Content Include="bin\Debug\Modifications\036.Update_EmailTemplates.sql" />
+    <Content Include="bin\Debug\Modifications\037.Update_emailTemplate_forgetPass_login.sql" />
+    <Content Include="bin\Debug\Modifications\038.Alter_PaymentInstrument_changeFKname.sql" />
+    <Content Include="bin\Debug\Modifications\039.Alter_Marketclass_InsertColorCode.sql" />
+    <Content Include="bin\Debug\Modifications\040.DataMigrateCreateRoyalityInvoice.sql" />
+    <Content Include="bin\Debug\Modifications\041.Add_EmailTemplate_lateFeeReminder.sql" />
+    <Content Include="bin\Debug\Modifications\042.Add_EmailTemplate_PaymentConfirmation.sql" />
+    <Content Include="bin\Debug\Modifications\043.Update_emailScript_updateName.sql" />
+    <Content Include="bin\Debug\Modifications\043b.Update_invoice_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\044.AlterLatefee.sql" />
+    <Content Include="bin\Debug\Modifications\045.Alter_Country.sql" />
+    <Content Include="bin\Debug\Modifications\046.AddCountry.sql" />
+    <Content Include="bin\Debug\Modifications\047.Create_Currency_Exchange_Rate.sql" />
+    <Content Include="bin\Debug\Modifications\048.Alter_InvoiceItem.sql" />
+    <Content Include="bin\Debug\Modifications\049.Alter_Payment.sql" />
+    <Content Include="bin\Debug\Modifications\050.Alter_Franchisee_AddCurrency.sql" />
+    <Content Include="bin\Debug\Modifications\051.alter_franchiseepaymnetprofile .sql" />
+    <Content Include="bin\Debug\Modifications\052.Alter_SalesDataUpload.sql" />
+    <Content Include="bin\Debug\Modifications\053.Update_Customer_add_marketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\054.Create_CustomerFile_upload.sql" />
+    <Content Include="bin\Debug\Modifications\055.Alter_Customer_Add_receiveNotification.sql" />
+    <Content Include="bin\Debug\Modifications\056.Create_Authorizednetmaster.sql" />
+    <Content Include="bin\Debug\Modifications\057.Create_franchiseeSales_payment.sql" />
+    <Content Include="bin\Debug\Modifications\058.Create_FranchiseeAccountCredit.sql" />
+    <Content Include="bin\Debug\Modifications\059.Create_AccountCreditPayment.sql" />
+    <Content Include="bin\Debug\Modifications\060.Insert_InstrumentType_AccountCredit.sql" />
+    <Content Include="bin\Debug\Modifications\061.Script_add_Product_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\062.Update_EmailTemplates.sql" />
+    <Content Include="bin\Debug\Modifications\063.UdateLookup_accountCredit.sql" />
+    <Content Include="bin\Debug\Modifications\064.Update_EmailTemplates.sql" />
+    <Content Include="bin\Debug\Modifications\065.Update_emailTemplates_subject.sql" />
+    <Content Include="bin\Debug\Modifications\066.Update_EmailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\067.Alter_FranchiseeInvoice.sql" />
+    <Content Include="bin\Debug\Modifications\068.Alter_InteresRateInvoiceItem.sql" />
+    <Content Include="bin\Debug\Modifications\069.Script_Update_customer_receiveNotification.sql" />
+    <Content Include="bin\Debug\Modifications\070.alter_lateFeeInvoiceItem.sql" />
+    <Content Include="bin\Debug\Modifications\071.Alter_franchiseeAccountCredit.sql" />
+    <Content Include="bin\Debug\Modifications\072.Alter.FranchiseeService_and_ServiceType.sql" />
+    <Content Include="bin\Debug\Modifications\073_alter_franchiseesalespayment_add_salesdatauploadId.sql" />
+    <Content Include="bin\Debug\Modifications\075.alter_franchiseeservice_add_salesTax.sql" />
+    <Content Include="bin\Debug\Modifications\076.franchiseeAccountCredit_dataMigrationScript.sql" />
+    <Content Include="bin\Debug\Modifications\077.DataMigration_script_FranchiseeSalesPayment.sql" />
+    <Content Include="bin\Debug\Modifications\078.Alter_franchiseeAccountCredit.sql" />
+    <Content Include="bin\Debug\Modifications\079.Create_FranchiseeNotes.sql" />
+    <Content Include="bin\Debug\Modifications\080.alter_franchiseeNotes.sql" />
+    <Content Include="bin\Debug\Modifications\081.Update_FranchiseeNotes_changeColumnName.sql" />
+    <Content Include="bin\Debug\Modifications\082.Update_Lookup_InvoiceItemType.sql" />
+    <Content Include="bin\Debug\Modifications\083.Update_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\084.Update_EmailTemplate_salesDataUploadReminder.sql" />
+    <Content Include="bin\Debug\Modifications\085.Update_lookup.sql" />
+    <Content Include="bin\Debug\Modifications\086.Insert_emailTemplate_Weeklynotification.sql" />
+    <Content Include="bin\Debug\Modifications\087.Create_weeklyNotification.sql" />
+    <Content Include="bin\Debug\Modifications\088.Update_weeklyNotification_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\089.Update_LateFeeInvoiceItem_add_Generatedon.sql" />
+    <Content Include="bin\Debug\Modifications\090.Update_emailTemplate_1.sql" />
+    <Content Include="bin\Debug\Modifications\091.Insert_ServiceType_colorCode.sql" />
+    <Content Include="bin\Debug\Modifications\092.Update_LateFee_Description.sql" />
+    <Content Include="bin\Debug\Modifications\093.Alter_franchiseeInvoice_Add_InvoiceDate.sql" />
+    <Content Include="bin\Debug\Modifications\094.Alter_FranchiseeInvoice_Add_isDownloaded.sql" />
+    <Content Include="bin\Debug\Modifications\095.Alter_Customer_add_DateCreated.sql" />
+    <Content Include="bin\Debug\Modifications\096.alter_customerEmail_add_datecreated.sql" />
+    <Content Include="bin\Debug\Modifications\097.Alter_franchisee_add_BusinessId.sql" />
+    <Content Include="bin\Debug\Modifications\098.Create_customerReviewSystem.sql" />
+    <Content Include="bin\Debug\Modifications\099.Create_reviewFeedbackRequest.sql" />
+    <Content Include="bin\Debug\Modifications\100.Create_customerFeedbackResponse.sql" />
+    <Content Include="bin\Debug\Modifications\101.Alter_customerFeedback.sql" />
+    <Content Include="bin\Debug\Modifications\102.Alter_customerfeedbackrequest.sql" />
+    <Content Include="bin\Debug\Modifications\103.Alter_customerFeedbackRequest_addQbinvoiceId.sql" />
+    <Content Include="bin\Debug\Modifications\104.Create_CustomerEmailApiRecord.sql" />
+    <Content Include="bin\Debug\Modifications\105.Alter_dateTime_dataType.sql" />
+    <Content Include="bin\Debug\Modifications\106.Scripts_feedbakcRequest.sql" />
+    <Content Include="bin\Debug\Modifications\107.Alter_customerFeedbackRequest_dropForeignKey.sql" />
+    <Content Include="bin\Debug\Modifications\107a.Alter_Franchisee_addDisplayName.sql" />
+    <Content Include="bin\Debug\Modifications\107b.Update_emailTemplate_kioskLink.sql" />
+    <Content Include="bin\Debug\Modifications\108.Create_monthly_Notification_script.sql" />
+    <Content Include="bin\Debug\Modifications\109.Update_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\109a.Update_emailTemplate_montlyNotification.sql" />
+    <Content Include="bin\Debug\Modifications\109b.Alter_customerfeedbackRequest.sql" />
+    <Content Include="bin\Debug\Modifications\109c.Insert_emailTemplate_monthlyEmailRecord.sql" />
+    <Content Include="bin\Debug\Modifications\109d.Migration_script_alter_customerfeedbackRequest.sql" />
+    <Content Include="bin\Debug\Modifications\109e.update_monthly_review system_template.sql" />
+    <Content Include="bin\Debug\Modifications\110.Update_NotificationResource.sql" />
+    <Content Include="bin\Debug\Modifications\111.Alter_emailTemplates_Notification.sql" />
+    <Content Include="bin\Debug\Modifications\111a.update_emailTemplates_notification.sql" />
+    <Content Include="bin\Debug\Modifications\111b.Update_emailTemplates_notification.sql" />
+    <Content Include="bin\Debug\Modifications\112.Scripts_MarketingLeads_tables.sql" />
+    <Content Include="bin\Debug\Modifications\113.Update_marketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\114.Create_webleads.sql" />
+    <Content Include="bin\Debug\Modifications\116.Add_franchiseeId_marketingLead.sql" />
+    <Content Include="bin\Debug\Modifications\117.Update_marketingClass_addBuilder.sql" />
+    <Content Include="bin\Debug\Modifications\118.alter_CustomerEmailApiRecord.sql" />
+    <Content Include="bin\Debug\Modifications\119.Update_marketingLead.sql" />
+    <Content Include="bin\Debug\Modifications\120.Create_franchiseeSalesInfo.sql" />
+    <Content Include="bin\Debug\Modifications\121.Update_webleads_Franchisee.sql" />
+    <Content Include="bin\Debug\Modifications\122.Update_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\123.Create_UploadBatchRecord.sql" />
+    <Content Include="bin\Debug\Modifications\123a_update_batchUpload_record.sql" />
+    <Content Include="bin\Debug\Modifications\124.Update_franchiseeSalesInfo.sql" />
+    <Content Include="bin\Debug\Modifications\125.Update_SalesUploadNotification_script.sql" />
+    <Content Include="bin\Debug\Modifications\126.update_organizationroleUser.sql" />
+    <Content Include="bin\Debug\Modifications\127.Create_job_estimate_customer.sql" />
+    <Content Include="bin\Debug\Modifications\128.Create_jobScheduler_jobstatus.sql" />
+    <Content Include="bin\Debug\Modifications\129.Create_jobResource.sql" />
+    <Content Include="bin\Debug\Modifications\130a_update_Job_jobEstimate.sql" />
+    <Content Include="bin\Debug\Modifications\130b.alter_jobResource.sql" />
+    <Content Include="bin\Debug\Modifications\130c.Alter_jobResources.sql" />
+    <Content Include="bin\Debug\Modifications\130_update_job.sql" />
+    <Content Include="bin\Debug\Modifications\131.Create_Job_Notes.sql" />
+    <Content Include="bin\Debug\Modifications\131a.Update_JobNote.sql" />
+    <Content Include="bin\Debug\Modifications\132.Update_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\132a_Update_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\133a.currencyExchangerate_script.sql" />
+    <Content Include="bin\Debug\Modifications\133_update_UploadRecors_SEMI.sql" />
+    <Content Include="bin\Debug\Modifications\134.alter_jobScheduler_job.sql" />
+    <Content Include="bin\Debug\Modifications\135.Script_Create_role.sql" />
+    <Content Include="bin\Debug\Modifications\136.Update_job_change_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\137.alter_Job_Franchisee_geoCode.sql" />
+    <Content Include="bin\Debug\Modifications\138.Add_callType_lookup.sql" />
+    <Content Include="bin\Debug\Modifications\139.create_calendarFileUpload.sql" />
+    <Content Include="bin\Debug\Modifications\140.Insert_lookup_scheduleType.sql" />
+    <Content Include="bin\Debug\Modifications\141.Alter_job_jobscheduler.sql" />
+    <Content Include="bin\Debug\Modifications\142.Create_timeZoneInformation.sql" />
+    <Content Include="bin\Debug\Modifications\143.Add_marketingClass_national.sql" />
+    <Content Include="bin\Debug\Modifications\144.Alter_jobestimate_add_GeoCode_marketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\145.Create_annualSalesdataupload.sql" />
+    <Content Include="bin\Debug\Modifications\146.Create_auditInvoice_payment.sql" />
+    <Content Include="bin\Debug\Modifications\147.Alter_annualSalesDataUpload_status.sql" />
+    <Content Include="bin\Debug\Modifications\148.Alter_annualSalesUpload.sql" />
+    <Content Include="bin\Debug\Modifications\149.AnnulaUpload_notificationType_emailTemplates.sql" />
+    <Content Include="bin\Debug\Modifications\150.Update_lookup_emailTemplate_auditStatus.sql" />
+    <Content Include="bin\Debug\Modifications\151.Create_systemAuditRecord.sql" />
+    <Content Include="bin\Debug\Modifications\152.delete_duplicate_paymentProfile.sql" />
+    <Content Include="bin\Debug\Modifications\153.Update_currencyRate.sql" />
+    <Content Include="bin\Debug\Modifications\154.Update_lookup_schedulerType.sql" />
+    <Content Include="bin\Debug\Modifications\155.Create_holiday.sql" />
+    <Content Include="bin\Debug\Modifications\156.add_0-mld_class_services.sql" />
+    <Content Include="bin\Debug\Modifications\157.alter_jobScheduler.sql" />
+    <Content Include="bin\Debug\Modifications\158.Add_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\159.Alter_annualSalesUpload.sql" />
+    <Content Include="bin\Debug\Modifications\160.Update_marketingclass.sql" />
+    <Content Include="bin\Debug\Modifications\160a.Update_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\161.Update_emailTemplate_reject_annualUpload.sql" />
+    <Content Include="bin\Debug\Modifications\162.Create_RoutingNumberTag.sql" />
+    <Content Include="bin\Debug\Modifications\163.Update_tag.sql" />
+    <Content Include="bin\Debug\Modifications\164.Update_login_for_Users.sql" />
+    <Content Include="bin\Debug\Modifications\165.Alter_marketingLeadCallDetail.sql" />
+    <Content Include="bin\Debug\Modifications\166.Alter_FranchiseeAccountCredit_add_creditType.sql" />
+    <Content Include="bin\Debug\Modifications\167.Create_invoicefileUpload.sql" />
+    <Content Include="bin\Debug\Modifications\168.Alter_customer_add_totalSales.sql" />
+    <Content Include="bin\Debug\Modifications\169.Insert_PhoneType.sql" />
+    <Content Include="bin\Debug\Modifications\170.update_customer_salesInfo.sql" />
+    <Content Include="bin\Debug\Modifications\171.Update_accountCredit_type.sql" />
+    <Content Include="bin\Debug\Modifications\172.UpdateCallDetailData.sql" />
+    <Content Include="bin\Debug\Modifications\173.Update_lookup_FranchiseeServiceFee.sql" />
+    <Content Include="bin\Debug\Modifications\173a.Create_franchiseeServiceFee.sql" />
+    <Content Include="bin\Debug\Modifications\174.Update_person.sql" />
+    <Content Include="bin\Debug\Modifications\175.Create_oneTimeProjectFee.sql" />
+    <Content Include="bin\Debug\Modifications\176.Create_franchiseeLoan.sql" />
+    <Content Include="bin\Debug\Modifications\177.Update_serviceFeeInvoiceitem.sql" />
+    <Content Include="bin\Debug\Modifications\178.AddNationalCharge.sql" />
+    <Content Include="bin\Debug\Modifications\179.serviceFee_Add_CurrencyExchangeRate.sql" />
+    <Content Include="bin\Debug\Modifications\180.update_phoneType_and_marketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\181.Alter_salesdataUpload.sql" />
+    <Content Include="bin\Debug\Modifications\182.Update_callDetailData.sql" />
+    <Content Include="bin\Debug\Modifications\183.Add_serviceFee_interestAmount.sql" />
+    <Content Include="bin\Debug\Modifications\184.Create_emailTemplate_LoginCredential.sql" />
+    <Content Include="bin\Debug\Modifications\185.Create_franchiseeDocument.sql" />
+    <Content Include="bin\Debug\Modifications\185a.Update_franchiseeDocument_notification.sql" />
+    <Content Include="bin\Debug\Modifications\186.Update_job_schedule.sql" />
+    <Content Include="bin\Debug\Modifications\187.Update_lookup_repeatFrequency.sql" />
+    <Content Include="bin\Debug\Modifications\188.Create_labelCategory_lookup.sql" />
+    <Content Include="bin\Debug\Modifications\189.Add_Role_accessOrder.sql" />
+    <Content Include="bin\Debug\Modifications\190.Update_franchisee_info_serviceType.sql" />
+    <Content Include="bin\Debug\Modifications\192.Create_Document_type_info.sql" />
+    <Content Include="bin\Debug\Modifications\193.Insert_Meeting.sql" />
+    <Content Include="bin\Debug\Modifications\194.insert_jobSchedulerForJobUpComing.sql" />
+    <Content Include="bin\Debug\Modifications\195.insert_jobSchedulerForJobUpComingForTech.sql" />
+    <Content Include="bin\Debug\Modifications\196.insert_jobSchedulerForJobCancelled.sql" />
+    <Content Include="bin\Debug\Modifications\197.insert_jobSchedulerForJobUpdation.sql" />
+    <Content Include="bin\Debug\Modifications\198_insert_FileIdinPerson.sql" />
+    <Content Include="bin\Debug\Modifications\199_insert_post_estimate.sql" />
+    <Content Include="bin\Debug\Modifications\200_create_scheduleReminderAudit.sql" />
+    <Content Include="bin\Debug\Modifications\201_update_jobSchedulerForJobUpComingForTech.sql" />
+    <Content Include="bin\Debug\Modifications\202_update_jobSchedulerForJobUpComingForTech.sql" />
+    <Content Include="bin\Debug\Modifications\203_update_jobSchedulerForJobUpComingForTechUpdation.sql" />
+    <Content Include="bin\Debug\Modifications\204_update_jobSchedulerForJobUpComingForCustomerImg.sql" />
+    <Content Include="bin\Debug\Modifications\205_update_jobSchedulerForComingUpdation.sql" />
+    <Content Include="bin\Debug\Modifications\206_alter_scheduleReminderAudit.sql" />
+    <Content Include="bin\Debug\Modifications\207_update_serviceTemplatewithFranchiseeName.sql" />
+    <Content Include="bin\Debug\Modifications\208_update_serviceTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\209_update_serviceTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\210_update_UpcomingJob.sql" />
+    <Content Include="bin\Debug\Modifications\211_update_card_details.sql" />
+    <Content Include="bin\Debug\Modifications\212_update_serviceTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\213.Create_Meeting.sql" />
+    <Content Include="bin\Debug\Modifications\213a.Insert_marketingClass.sql" />
+    <Content Include="bin\Debug\Modifications\214_alter_jobresource.sql" />
+    <Content Include="bin\Debug\Modifications\215.alter_jobnote.sql" />
+    <Content Include="bin\Debug\Modifications\216.insert_jobSchedulerForUserOnDay.sql" />
+    <Content Include="bin\Debug\Modifications\217.alter_emailTemplate.sql" />
+    <Content Include="bin\Debug\Modifications\218_insert_reassignedTech.sql" />
+    <Content Include="bin\Debug\Modifications\219_update_template.sql" />
+    <Content Include="bin\Debug\Modifications\220_update_datetime_to_utc.sql" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Content Include="bin\Debug\Schema\001.CreateSchema.sql" />
+    <Content Include="bin\Debug\Schema\002.CreateDbUser.sql" />
+    <Content Include="bin\Debug\Schema\003.Tables.sql" />
+    <Content Include="bin\Debug\Schema\004.ProcedureAndRoutines.sql" />
+    <Content Include="bin\taazaa_qa\DatabaseDeploy.exe" />
+    <Content Include="bin\taazaa_qa\DatabaseDeploy.pdb" />
+    <Content Include="bin\taazaa_qa\Data\001a.CountryCityState.sql" />
+    <Content Include="bin\taazaa_qa\Data\001b.ZIp.sql" />
+    <Content Include="bin\taazaa_qa\Data\001c.CityZip.sql" />
+    <Content Include="bin\taazaa_qa\Data\002.LookUpAndOtherStaticData.sql" />
+    <Content Include="bin\taazaa_qa\Data\003.InitialData.sql" />
+    <Content Include="bin\taazaa_qa\Data\004.EmailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\001.AddPhoneType_Lookup.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\002.AddServiceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\004.UpdateMarketingClass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\005.InvoiceItem_Column.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\006.MarketingClass_CreateAll.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\007.Update_ServiceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\008.Create_FranchiseeAuthNetProfile.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\009.Update_payment_ChargeCard.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\010.Alter_paymentInstrument.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\011.Alter_FranchiseeAuthNetProfile.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\012.Alter_PaymentInstrument.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\013.Alter_FranchiseePaymentProfile_autoincrement.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\014.create_payment_item.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\015.Change_Lookup_Name.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\016.Create_Royalty_And_AdFund_Inv_Item.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\017.AddServiceType_Product.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\017b.Change_Column_QB_Identifier.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\017c.add_condo_marketing_class.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\017d.Create_CreditMemo.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\017e.Create_CreditMemoItem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\018.Alter_FranchiseeSales.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\019.Alter_AddFundInvoiceItem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\020.MarketingClass_CreateBank_Govt.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\021.add_coumn_alias_servicetype.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\022.update_servicetype_alias.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\023.DropUniqueKey_userLogin.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\024.Alter_ChargeCardPayment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\025.Create_Check_schema.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\026.Alter_ECheckPayment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\027.Alter_lookup_add_InstrumentType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\028.Invoice_Notification_Template.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\029.Payment_reminder_Email_Template.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\030.SalesData_upload_Email_template.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\031.Alter_Franchisee_AddLateFee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\032.Create_CheckPayment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\034.Create_MailReminder.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\035.Alter_NotificationTyp_IsQueuingEnabled.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\036.Update_EmailTemplates.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\037.Update_emailTemplate_forgetPass_login.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\038.Alter_PaymentInstrument_changeFKname.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\039.Alter_Marketclass_InsertColorCode.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\040.DataMigrateCreateRoyalityInvoice.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\041.Add_EmailTemplate_lateFeeReminder.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\042.Add_EmailTemplate_PaymentConfirmation.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\043.Update_emailScript_updateName.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\043b.Update_invoice_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\044.AlterLatefee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\045.Alter_Country.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\046.AddCountry.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\047.Create_Currency_Exchange_Rate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\048.Alter_InvoiceItem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\049.Alter_Payment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\050.Alter_Franchisee_AddCurrency.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\051.alter_franchiseepaymnetprofile .sql" />
+    <Content Include="bin\taazaa_qa\Modifications\052.Alter_SalesDataUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\053.Update_Customer_add_marketingClass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\054.Create_CustomerFile_upload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\055.Alter_Customer_Add_receiveNotification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\056.Create_Authorizednetmaster.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\057.Create_franchiseeSales_payment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\058.Create_FranchiseeAccountCredit.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\059.Create_AccountCreditPayment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\060.Insert_InstrumentType_AccountCredit.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\061.Script_add_Product_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\062.Update_EmailTemplates.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\063.UdateLookup_accountCredit.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\064.Update_EmailTemplates.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\065.Update_emailTemplates_subject.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\066.Update_EmailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\067.Alter_FranchiseeInvoice.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\068.Alter_InteresRateInvoiceItem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\069.Script_Update_customer_receiveNotification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\070.alter_lateFeeInvoiceItem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\071.Alter_franchiseeAccountCredit.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\072.Alter.FranchiseeService_and_ServiceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\073_alter_franchiseesalespayment_add_salesdatauploadId.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\075.alter_franchiseeservice_add_salesTax.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\076.franchiseeAccountCredit_dataMigrationScript.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\077.DataMigration_script_FranchiseeSalesPayment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\078.Alter_franchiseeAccountCredit.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\079.Create_FranchiseeNotes.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\080.alter_franchiseeNotes.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\081.Update_FranchiseeNotes_changeColumnName.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\082.Update_Lookup_InvoiceItemType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\083.Update_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\084.Update_EmailTemplate_salesDataUploadReminder.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\085.Update_lookup.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\086.Insert_emailTemplate_Weeklynotification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\087.Create_weeklyNotification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\088.Update_weeklyNotification_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\089.Update_LateFeeInvoiceItem_add_Generatedon.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\090.Update_emailTemplate_1.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\091.Insert_ServiceType_colorCode.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\092.Update_LateFee_Description.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\093.Alter_franchiseeInvoice_Add_InvoiceDate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\094.Alter_FranchiseeInvoice_Add_isDownloaded.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\095.Alter_Customer_add_DateCreated.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\096.alter_customerEmail_add_datecreated.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\097.Alter_franchisee_add_BusinessId.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\098.Create_customerReviewSystem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\099.Create_reviewFeedbackRequest.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\100.Create_customerFeedbackResponse.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\101.Alter_customerFeedback.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\102.Alter_customerfeedbackrequest.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\103.Alter_customerFeedbackRequest_addQbinvoiceId.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\104.Create_CustomerEmailApiRecord.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\105.Alter_dateTime_dataType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\106.Scripts_feedbakcRequest.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\107.Alter_customerFeedbackRequest_dropForeignKey.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\107a.Alter_Franchisee_addDisplayName.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\107b.Update_emailTemplate_kioskLink.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\108.Create_monthly_Notification_script.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109.Update_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109a.Update_emailTemplate_montlyNotification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109b.Alter_customerfeedbackRequest.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109c.Insert_emailTemplate_monthlyEmailRecord.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109d.Migration_script_alter_customerfeedbackRequest.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\109e.update_monthly_review system_template.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\110.Update_NotificationResource.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\111.Alter_emailTemplates_Notification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\111a.update_emailTemplates_notification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\111b.Update_emailTemplates_notification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\112.Scripts_MarketingLeads_tables.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\113.Update_marketingClass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\114.Create_webleads.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\116.Add_franchiseeId_marketingLead.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\117.Update_marketingClass_addBuilder.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\118.alter_CustomerEmailApiRecord.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\119.Update_marketingLead.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\120.Create_franchiseeSalesInfo.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\121.Update_webleads_Franchisee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\122.Update_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\123.Create_UploadBatchRecord.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\123a_update_batchUpload_record.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\124.Update_franchiseeSalesInfo.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\125.Update_SalesUploadNotification_script.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\126.update_organizationroleUser.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\127.Create_job_estimate_customer.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\128.Create_jobScheduler_jobstatus.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\129.Create_jobResource.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\130a_update_Job_jobEstimate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\130b.alter_jobResource.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\130c.Alter_jobResources.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\130_update_job.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\131.Create_Job_Notes.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\131a.Update_JobNote.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\132.Update_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\132a_Update_emailTemplate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\133a.currencyExchangerate_script.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\133_update_UploadRecors_SEMI.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\134.alter_jobScheduler_job.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\135.Script_Create_role.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\136.Update_job_change_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\137.alter_Job_Franchisee_geoCode.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\138.Add_callType_lookup.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\139.create_calendarFileUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\140.Insert_lookup_scheduleType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\141.Alter_job_jobscheduler.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\142.Create_timeZoneInformation.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\143.Add_marketingClass_national.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\144.Alter_jobestimate_add_GeoCode_marketingClass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\145.Create_annualSalesdataupload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\146.Create_auditInvoice_payment.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\147.Alter_annualSalesDataUpload_status.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\148.Alter_annualSalesUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\149.AnnulaUpload_notificationType_emailTemplates.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\150.Update_lookup_emailTemplate_auditStatus.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\151.Create_systemAuditRecord.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\152.delete_duplicate_paymentProfile.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\153.Update_currencyRate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\154.Update_lookup_schedulerType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\155.Create_holiday.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\156.add_0-mld_class_services.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\157.alter_jobScheduler.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\158.Add_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\159.Alter_annualSalesUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\160.Update_marketingclass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\160a.Update_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\161.Update_emailTemplate_reject_annualUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\162.Create_RoutingNumberTag.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\163.Update_tag.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\164.Update_login_for_Users.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\165.Alter_marketingLeadCallDetail.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\166.Alter_FranchiseeAccountCredit_add_creditType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\167.Create_invoicefileUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\168.Alter_customer_add_totalSales.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\169.Insert_PhoneType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\170.update_customer_salesInfo.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\171.Update_accountCredit_type.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\172.UpdateCallDetailData.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\173.Update_lookup_FranchiseeServiceFee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\173a.Create_franchiseeServiceFee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\174.Update_person.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\175.Create_oneTimeProjectFee.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\176.Create_franchiseeLoan.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\177.Update_serviceFeeInvoiceitem.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\178.AddNationalCharge.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\179.serviceFee_Add_CurrencyExchangeRate.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\180.update_phoneType_and_marketingClass.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\181.Alter_salesdataUpload.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\182.Update_callDetailData.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\183.Add_serviceFee_interestAmount.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\184.Create_emailTemplate_LoginCredential.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\185.Create_franchiseeDocument.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\185a.Update_franchiseeDocument_notification.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\186.Update_job_schedule.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\187.Update_lookup_repeatFrequency.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\188.Create_labelCategory_lookup.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\189.Add_Role_accessOrder.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\190.Update_franchisee_info_serviceType.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\192.Create_Document_type_info.sql" />
+    <Content Include="bin\taazaa_qa\Modifications\193.Insert_Meeting.sql" />
+    <Content Include="bin\taazaa_qa\MySql.Data.dll" />
+    <Content Include="bin\taazaa_qa\Schema\001.CreateSchema.sql" />
+    <Content Include="bin\taazaa_qa\Schema\002.CreateDbUser.sql" />
+    <Content Include="bin\taazaa_qa\Schema\003.Tables.sql" />
+    <Content Include="bin\taazaa_qa\Schema\004.ProcedureAndRoutines.sql" />
+    <Content Include="Modifications\189.Add_Role_accessOrder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\172.UpdateCallDetailData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\175.Create_oneTimeProjectFee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\176.Create_franchiseeLoan.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\177.Update_serviceFeeInvoiceitem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\178.AddNationalCharge.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\126.update_organizationroleUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\117.Update_marketingClass_addBuilder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\082.Update_Lookup_InvoiceItemType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\052.Alter_SalesDataUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\034.Create_MailReminder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\173a.Create_franchiseeServiceFee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Modifications\036.Update_EmailTemplates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\037.Update_emailTemplate_forgetPass_login.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\038.Alter_PaymentInstrument_changeFKname.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\039.Alter_Marketclass_InsertColorCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\040.DataMigrateCreateRoyalityInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\041.Add_EmailTemplate_lateFeeReminder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\042.Add_EmailTemplate_PaymentConfirmation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\043.Update_emailScript_updateName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\044.AlterLatefee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\045.Alter_Country.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\046.AddCountry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\047.Create_Currency_Exchange_Rate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\048.Alter_InvoiceItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\049.Alter_Payment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\050.Alter_Franchisee_AddCurrency.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\051.alter_franchiseepaymnetprofile .sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\043b.Update_invoice_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\053.Update_Customer_add_marketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\056.Create_Authorizednetmaster.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\055.Alter_Customer_Add_receiveNotification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\057.Create_franchiseeSales_payment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\058.Create_FranchiseeAccountCredit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\059.Create_AccountCreditPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\060.Insert_InstrumentType_AccountCredit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\061.Script_add_Product_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\062.Update_EmailTemplates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\063.UdateLookup_accountCredit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\064.Update_EmailTemplates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\065.Update_emailTemplates_subject.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\066.Update_EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\067.Alter_FranchiseeInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\068.Alter_InteresRateInvoiceItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\069.Script_Update_customer_receiveNotification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\070.alter_lateFeeInvoiceItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\071.Alter_franchiseeAccountCredit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\072.Alter.FranchiseeService_and_ServiceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\073_alter_franchiseesalespayment_add_salesdatauploadId.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\075.alter_franchiseeservice_add_salesTax.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\076.franchiseeAccountCredit_dataMigrationScript.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\077.DataMigration_script_FranchiseeSalesPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\078.Alter_franchiseeAccountCredit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\079.Create_FranchiseeNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\080.alter_franchiseeNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\081.Update_FranchiseeNotes_changeColumnName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\083.Update_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\084.Update_EmailTemplate_salesDataUploadReminder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\085.Update_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\086.Insert_emailTemplate_Weeklynotification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\087.Create_weeklyNotification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\088.Update_weeklyNotification_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\089.Update_LateFeeInvoiceItem_add_Generatedon.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\090.Update_emailTemplate_1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\091.Insert_ServiceType_colorCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\092.Update_LateFee_Description.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\093.Alter_franchiseeInvoice_Add_InvoiceDate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\094.Alter_FranchiseeInvoice_Add_isDownloaded.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\095.Alter_Customer_add_DateCreated.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\096.alter_customerEmail_add_datecreated.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\097.Alter_franchisee_add_BusinessId.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\098.Create_customerReviewSystem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\099.Create_reviewFeedbackRequest.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\100.Create_customerFeedbackResponse.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\101.Alter_customerFeedback.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\102.Alter_customerfeedbackrequest.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\103.Alter_customerFeedbackRequest_addQbinvoiceId.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\104.Create_CustomerEmailApiRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\105.Alter_dateTime_dataType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\106.Scripts_feedbakcRequest.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\107a.Alter_Franchisee_addDisplayName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\107.Alter_customerFeedbackRequest_dropForeignKey.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\108.Create_monthly_Notification_script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\107b.Update_emailTemplate_kioskLink.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109.Update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109a.Update_emailTemplate_montlyNotification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109b.Alter_customerfeedbackRequest.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109c.Insert_emailTemplate_monthlyEmailRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109d.Migration_script_alter_customerfeedbackRequest.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\109e.update_monthly_review system_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\111.Alter_emailTemplates_Notification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\110.Update_NotificationResource.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\111a.update_emailTemplates_notification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\112.Scripts_MarketingLeads_tables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\113.Update_marketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\114.Create_webleads.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\116.Add_franchiseeId_marketingLead.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\111b.Update_emailTemplates_notification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\118.alter_CustomerEmailApiRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\119.Update_marketingLead.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\120.Create_franchiseeSalesInfo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\121.Update_webleads_Franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\122.Update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\123.Create_UploadBatchRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\123a_update_batchUpload_record.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\124.Update_franchiseeSalesInfo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\125.Update_SalesUploadNotification_script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\127.Create_job_estimate_customer.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\128.Create_jobScheduler_jobstatus.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\129.Create_jobResource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\130a_update_Job_jobEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\130c.Alter_jobResources.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\130_update_job.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\130b.alter_jobResource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\131.Create_Job_Notes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\131a.Update_JobNote.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\132.Update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\132a_Update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\133a.currencyExchangerate_script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\133_update_UploadRecors_SEMI.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\134.alter_jobScheduler_job.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\135.Script_Create_role.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\136.Update_job_change_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\137.alter_Job_Franchisee_geoCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\138.Add_callType_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\139.create_calendarFileUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\140.Insert_lookup_scheduleType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\141.Alter_job_jobscheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\142.Create_timeZoneInformation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\143.Add_marketingClass_national.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\144.Alter_jobestimate_add_GeoCode_marketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\145.Create_annualSalesdataupload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\146.Create_auditInvoice_payment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\147.Alter_annualSalesDataUpload_status.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\148.Alter_annualSalesUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\149.AnnulaUpload_notificationType_emailTemplates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\150.Update_lookup_emailTemplate_auditStatus.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\151.Create_systemAuditRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\152.delete_duplicate_paymentProfile.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\153.Update_currencyRate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\154.Update_lookup_schedulerType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\155.Create_holiday.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\156.add_0-mld_class_services.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\157.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\158.Add_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\159.Alter_annualSalesUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\160.Update_marketingclass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\160a.Update_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\161.Update_emailTemplate_reject_annualUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\162.Create_RoutingNumberTag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\163.Update_tag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\164.Update_login_for_Users.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\165.Alter_marketingLeadCallDetail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\166.Alter_FranchiseeAccountCredit_add_creditType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\167.Create_invoicefileUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\168.Alter_customer_add_totalSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\169.Insert_PhoneType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\170.update_customer_salesInfo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\171.Update_accountCredit_type.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\173.Update_lookup_FranchiseeServiceFee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\174.Update_person.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\179.serviceFee_Add_CurrencyExchangeRate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\180.update_phoneType_and_marketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\181.Alter_salesdataUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\182.Update_callDetailData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\183.Add_serviceFee_interestAmount.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\184.Create_emailTemplate_LoginCredential.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\185.Create_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\185a.Update_franchiseeDocument_notification.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\186.Update_job_schedule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\187.Update_lookup_repeatFrequency.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\188.Create_labelCategory_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\190.Update_franchisee_info_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\213.Create_Meeting.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\192.Create_Document_type_info.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\193.Insert_Meeting.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\194.insert_jobSchedulerForJobUpComing.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\195.insert_jobSchedulerForJobUpComingForTech.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\196.insert_jobSchedulerForJobCancelled.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\197.insert_jobSchedulerForJobUpdation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\198_insert_FileIdinPerson.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\199_insert_post_estimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\200_create_scheduleReminderAudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\201_update_jobSchedulerForJobUpComingForTech.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\202_update_jobSchedulerForJobUpComingForTech.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\203_update_jobSchedulerForJobUpComingForTechUpdation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\204_update_jobSchedulerForJobUpComingForCustomerImg.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\205_update_jobSchedulerForComingUpdation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\206_alter_scheduleReminderAudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\207_update_serviceTemplatewithFranchiseeName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\208_update_serviceTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\209_update_serviceTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\210_update_UpcomingJob.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\211_update_card_details.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\212_update_serviceTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\214_alter_jobresource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\215.alter_jobnote.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\216.insert_jobSchedulerForUserOnDay.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\217.alter_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\218_insert_reassignedTech.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\219_update_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\213a.Insert_marketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\220_insert_partialCustomerEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\221_update_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\222_updateTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\223_Alter_CustomerEmailAPIRecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\224_update_customer_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\225_create_techandsaleschedulerreminder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\226_alter_jobscheduler_offset.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\227_alter_urgent_mail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\228_alter_customerschedulerreminderaudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\229_alter_offset_jobscheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\230_alter_upcoming_job.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\232.organizationRoleUserFranchisee_migration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\231_insert_urgent_schudule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\232.template_updation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\233.update_colorCode_orgRoleUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\234.update_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\236.adding_symbol.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\235.Update_missingrecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\237.updating_Client_Mail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\238.Updating_UnpaidInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\239_update_organization.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\240_update_franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\241.update_marketingclasses.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\242.Update_jobScheduler_FranchiseeAdmin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\243.insert_ar_report.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\244.create_countyTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\245_create_geoFileUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\246.create_zipcode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\247_insert_documents.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\248.insert_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\249.alter_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\250.Alter_County_zipCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\251.add_foreignKey_zipcode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\252.alter_customer_mail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\253_alter_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\254.alter_documentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\255.insert_franchiseeDocumentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\256.Update_DocumentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\257.update_JobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\258.update_Job.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\259.update_JobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\260.update_CustomerMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\261.update_DocumentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\262.update_EmailTemplate_Reschedule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\266.create_auditaddress.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\267.create_addresslog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\263_update_routingnumber.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\264.upate_PartialPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\265.update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\268.create_auditAddress.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\269.create_auditCustomer.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\270.create_auditFranchiseeSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\271.insert_auditFranchiseeSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\272.create_auditReportType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\273.insert_auditReportType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\274.alter_addresshistrylog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\275.alter_addresshistrylog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\276.alter_annualsalesdataupload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\277.create_invoiceAddress.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\278.insert_invoiceAddress.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\279.alter_auditInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\280.alter_auditInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\281.alter_auditInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\282.create_annualroyality.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\283.alter_annualreporttype.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\284.alter_auditinvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\285.alter_annualRoyality.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\286.alter_addressHistryLog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\287.alter_addressHistryLog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\288.alter_auditAddressDiscrepancy.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\289.alter_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\290.alter_organizationRoleUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\291.alter_annualSalesUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\292.truncate_insert_invoiceAddress.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\293.alter_notificationQueue.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\294.Alter_Organization.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\296.update_jobEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\295.alter_jobEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\297.update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\298.alter_customerschedulerreminderaudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\299.update_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\300.alter_auditreportType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\301.alter_systemauditrecord.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\302.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\303.update_JobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\304.update_JobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\305.alter_file.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\306.update_serviceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\307.create_jobEstimateImageCategory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\308.create_jobEstimateImageServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\309.insert_loopup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\310.insert_jobEstimateImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\311.Insert_EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\312.Create_beforeAfterImageMailAudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\313.after_JobEstimateImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\314.insert_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\315.alter_jobEstimateImageCategory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\316.migrationScript_Job.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\317.migrationScript_Estimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\318.sp_deletion.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\319.update_EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\320.alter_userLogin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\321.update_JobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\322.alter_userLogin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\323.update_JobScheduler_Migation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\324.update_JobScheduler_Migration_EDT.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\325.update_JobScheduler_Migration_CDT.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\326.Update_JobScheduler_Migration_PST.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\327.Update_JobScheduler_Migration_MST.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\328.update_JobScheduler_Migration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\329.update_franchiseeLoanScheduler_Migration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\330.alter_JobEstimateServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\331.before_after_migrationScript.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\332.before_after_migrationScript_Calling.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\333_insert_Holidays.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\334_update_franchiseeloanschedule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\335_document_migration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\336_document_migration_for_0ml.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\337.update_franchisee_franchiseeLoan.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\338.create_loanadjusmentAudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\339.insert_LoanCompletionMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\340.update_LoanCompletionMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\341.alter_franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\342_insert_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\343_insert_marketingMasterClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\344_alter_franchiseeSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\345_alter_JobEstimateServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\346_insert_franchiseeServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\347_alter_geoCodeFile.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\348.alter_phone.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\350.alter_geocodefileupload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\349_insert_2020_holidays.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\351.alter_roles.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\352.alter_franchiseeLoan.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\353.create-franchiseeMailTech.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\354.insert-FranchiseeEmailFee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\355.create-franchiseeFeeEmailInvoiceItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\356.create_equipmentUserDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\357.alterZipCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\358.alter_meeting.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\359.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\360.alter_emailEmplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\361.alter.jobSchedulerAndLoopUp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\362.create.jobDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\363.migration_jobDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\364.sp_deletion.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\365.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\366.alter_jobDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\367.migration_jobDetailsEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\368.create_leadPerformanceFranchiseeDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\369.insert_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\370.migration_leadPerformanceFranchiseeReport.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\371.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\372.migration_ParentJobId.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\373.insert_notificationType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\374.update.EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\375.update_EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\376.update_Franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\378.create_ReviewPushAPILocation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\377.update_person.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\379.alter_franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\380.create_reviewPushCustomerFeedback.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\381.alter_customerFeedbackResponse.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\382.alter_customerfeedbackresponse.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\383.alter.customerResponse.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\384.alter.customerFeedBackResponse.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\385.insert_lookup_mlfs.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\386.create.mlfsConfiguration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\387.updation_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\388.update.mlfsConfiguration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\389.alter_jobEstimateImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\390.alter_beforeafterimageAudit.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\393.alter_jobestimateservices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\391.create_markbeforeAfterImagesHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\392.update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\394.create_reviewMarketingImageHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\395.insert_beforeAfter_notificationEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\396.alter_audithistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397.create_reviewMarketingImageLastDateHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397a.insert_documentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\518.migration_franchiseeServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397b.migration_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397c.alter_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397d.insert_holiday.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397e.alter_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397f.migration_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\397g.alter_documetType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\398.insert_lookup_bestPair.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\399.alter_markbeforeafterimageshistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\400.alter_jobestimateimage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\401.insert_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\402.alter_reviewmarketingimagehistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\403.update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\404.alter_histrybeforeafter.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\405.create_onetimeprojectfeeAddFundRoyality.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\406.alter_organization.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\407.alter_franchiseeDocument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\408.create_frachiseeRegistrationHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\409.alter_franchiseeRegistrationHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\410.create_minRoyality.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\411.create_migrationForRoyality.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\412.upate_franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\413.create_homeAdvisor.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\414.update_EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\415.insert_BeforeAfterImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\416.update_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\417.create_migration_For_ZeroDue.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\418.insert_emplateTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\419.insert_emailTemplateForRewenableMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\420.insert_emailTemplate_For_Meeting_Personal.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\420a.alter_organization.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\421.insert_JobDeletion.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\422.create_todoList.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\423.update_organizationRoleUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\424.create_organizationRoleUserMigration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\425.insert_LookUp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\426.alter_franchiseeDocumentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\427.create_Perpetuity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\428.alter_franchiseeLoanScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\428a.alter_customerReviewSystem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\429.alter_franchiseeServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\430.franchiseeDurationNotesHistry.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\431_insert_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\432_alter_geoCodeFile.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\433.alter_geoCodeUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\434.create_beforeAfter.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\435.insert_RPIDEmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\436.alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\437.alter_franchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\438.create_marketingLeadV2.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\439.create_EstimateInvoiceCustomer.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\440.create_EstimateInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\441.create_EstimateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\442.create_estimateInvoiceServiceDescription.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\443.insert_CustomerMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\444.create_updateMarketingClassfileupload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\445.alter_estimateinvoiceservice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\446.insert_termsAndConditionFranchisee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\447.create_termandConditionMigration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\448.create_estimateServiceInvoiceNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\449.alter_estimateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\450.alter_marketingLeadClassDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\451.create_customerSignature.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\452.update_customerMail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\453.create_CustomerSignatureInfo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\454_create_customerLog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\455.alter_estimateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\456.alter_jobEstimatrImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\457.insert_mexico_country.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\457a.alter_phone.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\458.insert_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\459_create_franchiseetechmailEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\460_insert_lookup_mexico.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\461_alter_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\462.insert_mexico_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\463.alter_FranchiseeTechMailEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\464.create_phonechargesfee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\465.alter_franchiseeTechMailEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\466.alter_estmateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\467.update_serviceList.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\468.update_marketinClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\469.update_organization.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\470.update_termAndCondition.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\471_create_debuggerLog.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\481_alter_servicetype.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\480_create_estimateinvoicedimension.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\479_alter_jobScheduler_reason.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\475_alter_estimateInvoiceService-Area.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\473_alter_estimateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\472_alter_jobScheduler.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\474_alter_franchiseeSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\476_insert_lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\477_create_technicianworkOrder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\478_insert_technicianWorkOrder.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\485_alter_estimateinvoiceservice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\484_alter_estimateinvoiceassignee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\483_create_estimateinvoiceassignee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\482_create_marketingLeadClassDetails3.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\488_alter_emailNotifications.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\487_jobScheduler_estimateInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\486_alter_notificationEmail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\489a_create_servicestag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\491_alter_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\489_create_termandcondition.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\490_alter_customerSignature.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\494_create_priceEstimates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\492_insert_emailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\493_alter_estimateInvoice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\495a.alter_servicestag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\495.alter_jobEstimateImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\503_alterTimeEstimateChanges.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\502_create_floorGrindingAdjustment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\501a_create_maintenanceCharges.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\500_create_replacementCharges.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\499_create_shiftCharges.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\497_alter_emailtemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\496_alter_estimateinvoicedimension.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\501_create_honingMeasurement.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\498_alter_franchisee_leadperformanceFranchiseeDetails.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\504_insert_lookup_SEO.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\505_alter_column_ValidCall_In_marketingleadcalldetail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\511_addServicesTagForQuartz.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\510_alterEmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\509_createServiceImage.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\508_alter_servicesTag1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\507_alter_servicesTag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\506_create_estimatePriceNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\513a_insert_holidays.sql" />
+    <Content Include="Modifications\513_alterservicestags.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\512_alterHoningmeasurement.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\517_changeServiceName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\516_insertServices.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\515_createCallDetailsReportNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\514_createPriceEstimateFileUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\519_changeSatinSemiGloss.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\524_bundlesInPriceEstimates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\523_emailTemplateChanges.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\522_emailSignatures.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\521_createHoningMeasurementDefault.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\520_changeMaintainancespelling.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\525_addListOfServicesForManagepriceEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\526_updateLookupForLoanTypeNone.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\527_updateServiceTagTableForTimeType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\529a_InsertServiceTagTableForPolishAndSeal.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\529_insertServiceTagTableForMANAGE PRICETIME ESTIMATE.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\530_alterTablePriceEstimateServicesForEmailNotificationOnFranchiseePriceExceed.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\531_alterInvoiceTableForNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\532_updateEmailTemplateTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\533_insertServicesTagForHydroforceCleaning.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\534_alterCallDetailsReportNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\535_alterEstimateInvoiceService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\536_alterMarketingleadcalldetailv3.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\537_alterEstimateinvoicecustomer.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\538_insertServicetag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\539_updateEmailtemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\540_updateLookupAndInsertInServicetag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\541a_alterCallDetailsReportNotes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\541_insertNotificationTypeAndEmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\542_alterBeforeAgterImagesForS3Bucket.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\543_alter_customerfeedbackParsing.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\544_create_franchiseeGoogleReviewUrlAPI.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\545_insertForPhotoReportInNotificationTypeAndEmailtemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\546_alterBeforeAfterImagesForCropper.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\547_alterCalldetailsreportnotesForEditTimestamp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\548a_alterServicestag.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\548_alterOnetimeprojectfeeaddfundroyalty.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\549_modifycolumnintodofollowupcomment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\550_createCustomerJobEstimate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\551_createAllCustomerFeedback.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\552_alterBeforeafterimages.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\553_alterTodofollowuplist.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\554_addTablesForBulkPhotoUpload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\555_addTableForBulkUploadImages.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\556_addTableForPhotoManagement.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\557_UpdateBulkPhotoUploadTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\558_addTableBulkUploadMarketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+	<None Include="App.new_qa.config">
+	  <DependentUpon>App.config</DependentUpon>
+	</None>
+    <None Include="App.production.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="App.taazaa_qa.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <Content Include="Modifications\035.Alter_NotificationTyp_IsQueuingEnabled.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="bin\Debug\DatabaseDeploy.exe.config" />
+    <None Include="bin\Debug\DatabaseDeploy.vshost.exe.config" />
+    <None Include="bin\Debug\DatabaseDeploy.vshost.exe.manifest" />
+    <None Include="bin\taazaa_qa\DatabaseDeploy.exe.config" />
+    <None Include="Schema\004.ProcedureAndRoutines.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Data\001a.CountryCityState.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\001b.ZIp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\001c.CityZip.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\002.LookUpAndOtherStaticData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\003.InitialData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Schema\003.Tables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Schema\001.CreateSchema.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Schema\002.CreateDbUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\004.EmailTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\003.CreateFranchisee.sql" />
+    <Content Include="Modifications\004.UpdateMarketingClass.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\005.InvoiceItem_Column.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\020.MarketingClass_CreateBank_Govt.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\006.MarketingClass_CreateAll.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\007.Update_ServiceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\008.Create_FranchiseeAuthNetProfile.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\009.Update_payment_ChargeCard.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\010.Alter_paymentInstrument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\011.Alter_FranchiseeAuthNetProfile.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\012.Alter_PaymentInstrument.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\013.Alter_FranchiseePaymentProfile_autoincrement.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\014.create_payment_item.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\015.Change_Lookup_Name.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\016.Create_Royalty_And_AdFund_Inv_Item.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\017.AddServiceType_Product.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\017b.Change_Column_QB_Identifier.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\017c.add_condo_marketing_class.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\017d.Create_CreditMemo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\017e.Create_CreditMemoItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\018.Alter_FranchiseeSales.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\019.Alter_AddFundInvoiceItem.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\021.add_coumn_alias_servicetype.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\022.update_servicetype_alias.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\023.DropUniqueKey_userLogin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\024.Alter_ChargeCardPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\025.Create_Check_schema.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\026.Alter_ECheckPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\027.Alter_lookup_add_InstrumentType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\028.Invoice_Notification_Template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\029.Payment_reminder_Email_Template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\030.SalesData_upload_Email_template.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\031.Alter_Franchisee_AddLateFee.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\032.Create_CheckPayment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Modifications\054.Create_CustomerFile_upload.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Modifications\002.AddServiceType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Modifications\001.AddPhoneType_Lookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile" Condition="Exists('App.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="App.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="AfterPublish">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
+  <Import Project="..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets" Condition="Exists('..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets'))" />
+  </Target>
+</Project>

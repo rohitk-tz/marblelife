@@ -1,0 +1,47 @@
+﻿<style>
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Shift Image(s) to Building Exterior or Invoice/ Drawing tabs</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <select class="form-control ng-touched edited" id="search-option" ng-model="vm.shiftImagesModel.shiftId"
+                            ng-change="vm.dropDownForBeforeAfter(true,imgs.beforeImages.imageIndex,imgs.beforeImages.selectedIndex)"
+                            ng-options="status.value as status.display for status in vm.imageShiftType">
+                        <option selected disabled hidden style='display: none' value=''>Select Option</option>
+                    </select>
+                    <label for="search-option">Select Shift Option</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.shiftImages();">Save</button>
+</div>

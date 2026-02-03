@@ -1,0 +1,287 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Make Payment</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <span class="">Franchisee - {{vm.franchisee}}</span> <br />
+        </div>
+        <div class="col-md-6">
+            <span class="">#Invoice - {{vm.invoiceId}}</span> <br />
+
+            <span class="">
+                <b> PayableAmount -</b>
+                <b>
+                    <span currency-Exchange conversion-Rate="vm.currencyRate"
+                          input="vm.payableAmount" from-Currency="vm.currency">
+                    </span>
+                </b>
+                <b>
+                    <span ng-if="!vm.isSuperAdmin && vm.currency!=vm.defaultCurrency && vm.payableAmount > 0">
+                        ({{vm.defaultCurrency}} - ${{vm.payableAmount}})
+                    </span>
+                </b>
+            </span> <br />
+
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.accountCredit.creditAmount > 0">
+        <div class="col-md-12">
+            <div class="col-md-6" style="padding:0">
+                <span class="text-center">
+                    You have Credit amount of -
+                    <span currency-Exchange conversion-Rate="vm.currencyRate"
+                          input="vm.accountCredit.creditAmount" from-Currency="vm.currency">
+                    </span>
+                    <span ng-if="!vm.isSuperAdmin && vm.currency!=vm.defaultCurrency && vm.accountCredit.creditAmount > 0">
+                        ({{vm.defaultCurrency}} - ${{vm.accountCredit.total}})
+                    </span>
+                    <br />
+                    The Amount will be adjusted in this Payment.
+                    <br />
+                </span>
+            </div>
+            <div class=" col-md-6 pull-left" style="font-size: 12px;padding:0px">
+                <div class="col-xs-12 invoice-logo-space">
+                    <span>
+                        <b>Credit Amount (in AdFund):</b>
+                        
+                            <span ng-if="vm.totalAmountByCategory.totalByAdFund==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+                            </span>
+                       
+                    </span>
+                </div>
+                <div class="col-xs-12 invoice-logo-space">
+                    <span>
+                        <b> Credit Amount (in Royalty):</b>
+                        
+                            <span ng-if="vm.totalAmountByCategory.totalByRoyality==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByRoyality" from-Currency="vm.list.currencyCode">
+                            </span>
+                        
+                    </span>
+                </div>
+                <div class="col-xs-12 invoice-logo-space">
+                    <span>
+                        <b>Credit Amount (Total Sales Amount):</b>
+                        
+                            <span ng-if="vm.totalAmountByCategory.totalByTotalSales==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByTotalSales" from-Currency="vm.list.currencyCode">
+                            </span>
+                    </span>
+                    
+                </div>
+            </div>
+
+        </div>
+        <div class="row" ng-if="vm.accountCredit.creditAmount >= vm.payableAmount">
+            <div class="col-md-12">
+                <div class="modal-footer">
+                    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                    <button type="submit" class="btn default" ng-disabled="vm.adjustingCredit" ng-click="vm.adjustAccountCredit(vm.invoiceId);">Adjust</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div ng-if="vm.loanAmount > 0 && vm.accountCredit.creditAmount < vm.payableAmount" class="margin-bottom-30">
+        <form role="form" name="loan_form">
+            <div class="row margin-left-15">
+                <span>
+                    <i>
+                        Please note the above payable amount includes your existing royalty balance PLUS your loan pre-scheduled loan installment of  &nbsp;<b> <span currency-Exchange conversion-Rate="vm.currencyRate" input="vm.loanAmount" from-Currency="vm.currency"> </span></b>.
+                        Should you wish to accelerate your loan payoff, you can submit an additional payment at this time be entering the ADDITIONAL amount you wish to pay against your loan below
+                        <br />
+                        Your current remaining loan balance after the installment included in the above payment would be &nbsp;<b> <span currency-Exchange conversion-Rate="vm.currencyRate" input="vm.remainingAmount" from-Currency="vm.currency"></span></b>.
+                        <br />
+                        <p>
+                            <div class="row" style="margin-right:0px !important">
+                                <div class="col-sm-8">
+                                    Additional Loan Payment you wish to make at this time:
+                                </div>
+                                <div class="col-sm-4 form-group form-md-line-input form-md-floating-label" style="padding: 0px !important;margin-top: -11px !important;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="loanAmount"
+                                               name="loanAmount" ng-model="vm.overPaymentAmount" only-decimal dmin="0" dmax="100000000" required>
+                                        <label for="loanAmount">Amount</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                    </i>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <div ng-if="vm.accountCredit.creditAmount < vm.payableAmount">
+        <div class="form-group form-md-line-input form-md-floating-label">
+            <select class="form-control" id="type" ng-model="vm.paymentType" name="type"
+                    ng-options="type.value as type.display for type in vm.instrumentTypes | filter: {value: '!43'}">
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select>
+            <label for="type">Payment Type</label>
+        </div>
+
+        <div ng-if="vm.paymentType == vm.instrumentType.ECheck">
+            <form role="form" name="eCheck_form">
+                <div class="md-checkbox">
+                    <input type="checkbox" id="saveCheck" class="md-check" ng-model="vm.eCheckModel.saveOnFile" ng-click="vm.isSaveECheck(vm.eCheckModel.saveOnFile)">
+                    <label for="saveCheck">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        Keep ECheck On File
+                    </label>
+                </div>
+
+                <div ng-include src="'/modules/sales/views/create-eCheck.client.view.html'"></div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save(eCheck_form);" ng-disabled="eCheck_form.$invalid || vm.isProcessing == true">Submit</button>
+            </div>
+        </div>
+
+        <div ng-if="vm.paymentType == vm.instrumentType.OnFileECheck">
+            <form role="form" name="eCheckOnFile_form">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control" id="eCheckOnFile" ng-model="vm.selectedCard" ng-class="{'has-error' : eCheckOnFile_form.eCheckOnFile.$error.required}"
+                                name="eCheckOnFile" required
+                                ng-options="detail as (detail.cardType + '-' + detail.number) for detail in vm.cardDetails | filter: {typeId: '42'}"
+                                ng-change="vm.resetCard()">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="eCheckOnFile">ECheck<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div class="text-danger" ng-show="eCheckOnFile_form.eCheckOnFile.$dirty && eCheckOnFile_form.eCheckOnFile.$invalid && eCheckOnFile_form.eCheckOnFile.$error.required">
+                        <span class="text-danger" ng-if="eCheckOnFile_form.eCheckOnFile.$error.required">Please Select ECheck.</span>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save(eCheckOnFile_form);" ng-disabled="eCheckOnFile_form.$invalid || vm.isProcessing == true">Submit</button>
+            </div>
+        </div>
+
+        <div ng-if="vm.paymentType == vm.instrumentType.OnFileChargeCard">
+            <form role="form" name="cardOnFile_form">
+                <div>
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control" id="cardsOnFile" ng-model="vm.selectedCard" ng-class="{'has-error' : cardOnFile_form.cardsOnFile.$error.required}"
+                                name="cardsOnFile" required
+                                ng-options="detail as (detail.cardType + '-' + detail.number) for detail in vm.cardDetails | filter: {typeId: '41'}"
+                                ng-change="vm.resetCard()">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="cardsOnFile">Cards<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div class="text-danger" ng-show="cardOnFile_form.cardsOnFile.$dirty && cardOnFile_form.cardsOnFile.$invalid && cardOnFile_form.cardsOnFile.$error.required">
+                        <span class="text-danger" ng-if="cardOnFile_form.cardsOnFile.$error.required">Please Select Card.</span>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save(cardOnFile_form);" ng-disabled="cardOnFile_form.$invalid || vm.isProcessing == true">Submit</button>
+            </div>
+        </div>
+        <div ng-if="vm.paymentType == vm.instrumentType.ChargeCard">
+
+            <div class="md-checkbox">
+                <input type="checkbox" id="saveCard" class="md-check" ng-model="vm.model.saveOnFile" ng-click="vm.isSaveCard(vm.model.saveOnFile)">
+                <label for="saveCard">
+                    <span></span>
+                    <span class="check"></span>
+                    <span class="box"></span>
+                    Keep Card On File
+                </label>
+            </div>
+
+            <form role="form" name="payment_form">
+                <div ng-include src="'/modules/sales/views/create-charge-card.client.view.html'"></div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save(payment_form);" ng-disabled="payment_form.$invalid || vm.inValidExpirydate != false || vm.isProcessing == true">Submit</button>
+            </div>
+        </div>
+
+        <div ng-if="vm.paymentType == vm.instrumentType.Check">
+            <form role="form" name="check_form">
+                <div class="invoice">
+                    <div class="row invoice-logo">
+                    </div>
+                    <hr>
+                    <div>
+                        <div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" id="name" name="name" ng-model="vm.checkModel.name">
+                                <label for="name">Account Holder Name</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : (check_form.checkNumber.$error.required && check_form.checkNumber.$error.dirty)}">
+                                <input type="text" class="form-control" id="checkNumber" name="checkNumber" ng-model="vm.checkModel.checkNumber" allow-Leading-Zero maxlength="16" required>
+                                <label for="checkNumber">Check Number<span class="required" aria-required="true"> * </span></label>
+                            </div>
+                            <div ng-show="check_form.checkNumber.$dirty && check_form.checkNumber.$invalid">
+                                <span class="text-danger" ng-if="check_form.checkNumber.$error.required">
+                                    Check Number is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : (check_form.accountNumber.$error.required && check_form.accountNumber.$error.dirty)}">
+                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" ng-model="vm.checkModel.accountNumber" allow-Leading-Zero maxlength="16" required>
+                                    <label for="accountNumber">Account Number<span class="required" aria-required="true"> * </span></label>
+                                </div>
+                                <div ng-show="check_form.accountNumber.$dirty && check_form.accountNumber.$invalid">
+                                    <span class="text-danger" ng-if="check_form.accountNumber.$error.required">
+                                        Account Number is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : (check_form.accountType.$error.required && check_form.accountType.$error.dirty)}">
+                                    <select class="form-control" id="accountType" ng-model="vm.checkModel.accountTypeId" name="accountType"
+                                            ng-options="type.value as type.display for type in vm.accountType" required>
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="accountType">Account Type<span class="required" aria-required="true"> * </span></label>
+                                </div>
+                                <div ng-show="check_form.accountType.$dirty && check_form.accountType.$invalid">
+                                    <span class="text-danger" ng-if="check_form.accountType.$error.required">
+                                        Account Type is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save(check_form);" ng-disabled="check_form.$invalid || vm.isProcessing == true">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

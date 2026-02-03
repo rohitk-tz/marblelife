@@ -1,0 +1,84 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Update Customer Address</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+    <form name="addressForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="customerName" name="customerName" ng-model="vm.customer.customerName" ng-disabled="true" ng-focus="true">
+                    <label for="customerName">Customer Name</label>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="addressLine1" name="addressLine1" ng-model="vm.customer.newAddressLine1" required>
+                    <label for="addressLine1">Address Line1<span class="required" aria-required="true"> * </span></label>
+                </div>
+                <div ng-show="addressForm.addressLine1.$dirty && addressForm.addressLine1.$invalid">
+                    <span class="text-danger" ng-if="addressForm.addressLine1.$error.required">
+                        AddressLine1 is required.
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="addressLine2" name="addressLine2" ng-model="vm.customer.newAddressLine2">
+                    <label for="addressLine2">Address Line2</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="country" name="addressLine1" ng-model="vm.customer.newCountry">
+                    <label for="country">Country</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="country" name="state" ng-model="vm.customer.newState">
+                    <label for="country">State</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="city" name="city" ng-model="vm.customer.newCity" required>
+                    <label for="city">City<span class="required" aria-required="true"> * </span></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="city" name="city" ng-model="vm.customer.newZip">
+                    <label for="city">Zip Code</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.customer.newphoneNumber">
+                    <label for="phoneNumber">Phone Number</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.customer.newemailId">
+                    <label for="phoneNumber">Email</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue" ng-disabled="addressForm.$invalid" ng-click="vm.save();">Save</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

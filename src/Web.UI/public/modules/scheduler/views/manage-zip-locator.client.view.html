@@ -1,0 +1,274 @@
+﻿<style>
+    ol {
+        counter-reset: foo;
+        display: table;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 999999;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+        /*.tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-right: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }*/
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record search-single" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-sm input-inline"
+                            ng-model="vm.query.pageSize" ng-change="vm.getBatchList();"
+                            ng-options="option.value as option.display for option in vm.pagingOptions">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isSuperAdmin == true && vm.searchOption == '1'">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getBatchList();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option disabled value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.searchOption == '2'">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.statusId"
+                                    ng-change="vm.getGeoList();"
+                                    ng-options="status.value as status.display for status in vm.uploadStatus">
+                                <option disabled value=''></option>
+                            </select>
+                            <label for="franchisee">Status</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '3'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: 6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getGeoList">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.getBatchList"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left tooltip" style="margin-top: 3% !important;margin-right: 2%;z-index:10!important">
+                        <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;font-size: 39px;margin-top: -7px;"></i>
+                        <span class="tooltiptext" style="color:white !important;background-color:#26327e !important;width:300px !important;padding:10px !important;">
+                            <p>Steps to Upload Zip Code File:</p>
+                            <p style="text-align:left !important">
+                                1. Click on <b>Download File</b> and make changes into your downloaded GeoCode file.
+                            </p>
+                            <p style="text-align:left !important">
+                                2. This file as 2 data tabs – a ZIP-to-COUNTY assignment tab and a FRANCHISE-to-COUNTY tab
+
+                            </p>
+                            <p style="text-align:left !important">
+                                3. Periodically we may need to add a NEW zip to the COUNTY, in which case that line ID should be set to 0 which will signify that this is a NEW and ADDED line.
+                            </p>
+                            <p style="text-align:left !important">
+                                4. Periodically we may need to change FRANCHISE assignments for the COUNTY.  Remember each franchise is a STATE-METRO AREA name.
+                            </p>
+                            <p style="text-align:left !important">
+                                5. PHONE number is updated on the FRANCHISE DASHBOARD via the TRANSFER PHONE check box on the list of phone numbers in the first column
+                            </p>
+                            <p style="text-align:left !important">
+                                6. EMAIL is updated via the MARKETING EMAIL box in the DASHBOARD
+                            </p>
+                            <p style="text-align:left !important">
+                                7. Those records that you want to edit, change there column <b>IsUpdated</b> to <b>1</b> and records that you want to delete, change column <b>IsDeleted</b> to <b>1</b>.
+                            </p>
+                            <p style="text-align:left !important">
+                                8. If there is any change in ZipCode need to make IsUpdated to 1 For its corresponding County in County Tab.
+                            </p>
+                        </span>
+                    </div>
+                    <div class="pull-left m-t-5 search-single">
+                        <button id="sample_editable_1_new" ng-click="vm.uploadNewFile()" class="btn btn-primary">
+                            Upload New
+                        </button>
+                    </div>
+
+                    <div class="pull-left m-t-5 search-single">
+                        <button id="sample_editable_1_new" class="btn btn-primary" ng-click="vm.downloadFiles()">
+                            Download File
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.batchList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.batchList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="table-scrollable table-mbl">
+            <div fix-height style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                style="width: 50px; min-width: 50px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.Id);">ID</th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Status }" style="width: 80px; min-width: 80px; max-width: 80px;"
+                                tabindex="0" aria-controls="sample_1" ng-click="vm.sorting(vm.SortColumns.Status);">
+                                Status
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadedDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadedDate }"
+                                tabindex="0" aria-controls="sample_1" aria-sort="ascending"
+                                aria-label="Name" ng-click="vm.sorting(vm.SortColumns.UploadedDate);" style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Uploaded On
+                            </th>
+                            <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Uploaded By</th>
+                            <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Notes</th>
+                            <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Total Counties Count</th>
+                            <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Total ZipCode Count</th>
+                            <th class="sorting_disabled" style="width: 150px; min-width: 150px; max-width: 150px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="batch in vm.batchList">
+                            <td style="width: 50px; min-width: 50px; max-width: 50px;">{{batch.id}}</td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span class="label label-sm" ng-class="{ 'label-danger': batch.statusId == vm.BatchStatus.Failed,
+                                  'label-success': batch.statusId == vm.BatchStatus.Parsed,
+                                  'label-info': batch.statusId == vm.BatchStatus.Uploaded,
+                                  'label-warning': batch.statusId == vm.BatchStatus.ParseInProgress }">{{batch.status}}</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">{{batch.uploadedOn | dateTimeFilter: 'd'}}</td>
+                            <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;"><a href="mailto:{{batch.uploadedBy}}">{{batch.uploadedBy}}</a></td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <div ng-if="batch.notes.length > 0">
+                                    {{batch.notes | limitTo: 50}}{{batch.notes.length > 50 ? '...' : ''}}<a href="javascript:void(0);" ng-if="batch.notes.length > 50" ng-click="vm.getNotes(batch.notes)">View All</a>
+                                    <!--<a class="col-md-4 glyphicon glyphicon-edit" data-ng-hide="editMode" data-ng-click="vm.updateBatchEditable(batch);"></a>-->
+                                </div>
+                            <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.countiesCount}}</td>
+                            <td class="break_word" style="width: 150px; min-width: 150px; max-width: 150px;">{{batch.zipCodeCount}}</td>
+
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <div class="btn-group">
+                                    <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                        Action <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="vm.downloadSalesData(batch.fileId)">Download file</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="vm.getLogs(batch.logFileId,batch.logForCountyFileId,batch.logForZipFileId)">View Logs</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="vm.reparse(batch.id)">Reparse File</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.batchList.length == 0">
+                        <td colspan="14" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.batchList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.batchList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

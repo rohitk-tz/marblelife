@@ -1,0 +1,95 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Documents</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body overflow-y-visible">
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-sm-12" ng-if="vm.isSuperAdmin">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <!--<div ng-dropdown-multiselect="" options="vm.franchiseeCollection" extra-settings="settings" translation-texts="translationTexts"
+                     selected-model="vm.franchiseeIds" checkboxes="true" events="yourEvents">
+                </div>-->
+                <select class="form-control input-medium resp-100" name="franchisee" id="franchisee" ng-model="vm.franchiseeIds"
+                        ng-options="type.value as type.display for type in vm.franchiseeCollection" ng-change="vm.getFranchiseeDocument(vm.franchiseeIds);" ng-disabled="vm.isEdit">
+                    <option value="Select Representative">Select Franchisee</option>
+
+                </select>
+                <label value="">Select Franchisee<span class="required" aria-required="true"> * </span></label>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12" style="width:100% !important"></div>
+    </div>
+    <div class="row" ng-if="vm.IsFranchiseeSelected">
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select class="form-control input-small" id="type" ng-model="vm.info.documentTypeId"
+                        ng-options="doc.value as doc.display for doc in vm.documentType" style="width:100% !important" required>
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="type">Type</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <date-picker-ts control-id="expiry-date" label="Expiry Date(MM/DD/YYYY)" model="vm.info.expiryDate" />
+            <strong>Note - </strong> System will start sending document expiring reminder 15 days prior to expiry date.
+        </div>
+
+        <div class="col-md-6 margin-top-10 clear-both">
+            <div class="md-checkbox">
+                <input type="checkbox" id="markImp" class="md-check" ng-model="vm.info.isImportant">
+                <label for="markImp">
+                    <span></span>
+                    <span class="check"></span>
+                    <span class="box"></span>
+                    Mark Important &nbsp;<i class="fa fa-question-circle-o icon_feedback_send" aria-hidden="true" title="Notification will be send for the documents marked as important!"></i>
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6 margin-top-10">
+            <div class="md-checkbox">
+                <input type="checkbox" id="showToUser" class="md-check" ng-model="vm.info.showToUser">
+                <label for="showToUser">
+                    <span></span>
+                    <span class="check"></span>
+                    <span class="box"></span>
+                    Show To User(s)&nbsp; <i class="fa fa-question-circle-o icon_feedback_send" aria-hidden="true" title="Document will be shared with all the users (i.e. Tech. & sales Rep)!"></i>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="margin-top-20" ng-if="!vm.isEdit" style="padding: 1%;">
+    <label>Media Uploader</label>
+    <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+         ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" ngf-pattern="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'"
+         ngf-accept="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'">
+        Drop files (.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg) to attach, or
+        <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'"
+           ngf-accept="'.xlsx,.pdf,.docx,.txt,.png,.jpeg,.gif,.jpg'">browse</a>.
+    </div>
+    <div ngf-no-file-drop>Media Drag/Drop is not supported for this browser</div>
+</div>
+
+<div class="margin-top-20" ng-if="vm.info.fileModel != null">
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+        </tr>
+        <tr>
+            <td>
+                {{vm.info.fileModel.caption}}
+            </td>
+            <td>
+                {{vm.info.fileModel.size}} Bytes
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+    <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="vm.isProcessing == true">Save</button>
+</div>

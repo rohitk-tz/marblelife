@@ -1,0 +1,341 @@
+﻿<style type="text/css">
+    @media (max-width: 767px) {
+        button#sample_editable_1_new, button#sample_editable_2_new {
+            padding: 5px !important;
+        }
+    }
+
+    #sample_1 thead .tableRow {
+        width: calc(100%/8);
+        text-align: center;
+    }
+
+    .form-group.form-md-line-input {
+        margin: 0px !important;
+    }
+
+    #sample_1 .tableRow td {
+        width: calc(100%/8);
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 999999;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            top: 17px !important;
+        }
+
+    .yellow {
+        background-color: yellow !important;
+    }
+
+    .customScroll-s {
+        width: 100%;
+        float: left;
+        height: 600px;
+        overflow-y: scroll;
+    }
+
+        .customScroll-s::-webkit-scrollbar {
+            width: 7px;
+        }
+
+
+
+        /* Track */
+        .customScroll-s::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        .customScroll-s::-webkit-scrollbar-thumb {
+            background: #000;
+            border-radius: 10px;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+
+
+<div class="row" style="margin-bottom:10px !important">
+    <div class="col-md-7">
+        <span title="Invoice In Queue"><b>Note: <i class="fa fa-file" aria-hidden="true"></i> :- Invoice is in Queue and will be generated in next Weekly upload.</b></span>
+    </div>
+    <div class="col-md-3 col-xs-6">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="pull-right search-single" style="margin-top:5px !important">
+                    <div class="form-group form-md-line-input" style="margin-top: -17px !important;">
+                        <select class="form-control input-small" id="tech" ng-model="vm.query.franchiseeId"
+                                ng-options="type.value as type.display for type in vm.franchiseeCollection">
+                            <option selected disabled hidden style='display: none' value=''>Choose Franchisee</option>
+                        </select>
+                        <label for="tech">Franchisee</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <div class="pull-right search-single" style="padding-top:5px">
+                    <a class="btn btn-default" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-1 col-xs-3">
+        <div class="pull-right m-t-5 ng-scope">
+            <button id="sample_editable_2_new" ng-click="vm.bulkUpdatePopUp()" class="btn btn-primary" ng-disabled="!vm.isBulkPossible">
+                Bulk Update
+            </button>
+        </div>
+    </div>
+    <div class="col-md-1 col-xs-3">
+        <div class="pull-right m-t-5 ng-scope">
+            <button id="sample_editable_1_new" ng-click="vm.viewHistry()" class="btn btn-primary">
+                View History
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12" style="overflow:auto">
+        <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+            <thead>
+                <tr class="tableRow" style="background-color: #dddddd !important;padding-left:28px">
+                    <!-- <td style="text-align:right !important;width:2% !important"></td>-->
+                    <td style="text-align:right !important;width:2% !important">
+                        <div class="md-checkbox" style="margin-left: 15px !important;position: absolute;margin-top: -9px;">
+                            <input type="checkbox" id="franchiseeIsAllActive" class="md-check" ng-model="vm.activeAll" ng-click="vm.changeFranchiseeActive()">
+                            <label for="franchiseeIsAllActive">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                            </label>
+                        </div>
+                    </td>
+                    <td style="padding-left: 40px;text-align:left"><span style="font-weight:bolder;">Franchisee</span></td>
+                    <td><span style="font-weight:bolder">Month,Year*</span></td>
+                    <td><span style="font-weight:bolder">Charges Of Calls(in $)</span></td>
+                    <td><span style="font-weight:bolder">No. Of Calls In a Month</span></td>
+                    <td><span style="font-weight:bolder">Total Cost(in $)</span></td>
+                    <td><span style="font-weight:bolder">Next Invoice generation date</span></td>
+                    <td><span style="font-weight:bolder;margin-left: -29px;">Generate Invoice</span></td>
+                    <td><span style="font-weight:bolder;margin-left: -29px;white-space: nowrap;">Add Bulk Bills</span></td>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="col-md-12 col-xs-12 " ng-if="vm.franchiseePhoneCall.length > 0">
+    <div class="customScroll-s">
+        <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info">
+            <tbody>
+                <tr class="tableRow" ng-repeat-start="item in vm.franchiseePhoneCall">
+                    <!--<td style="text-align: left !important; width: 2% !important">
+                        <span ng-if="item.phoneCallViewModel.isExpand"
+                              ng-click="item.phoneCallViewModel.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                        <span ng-if="!item.phoneCallViewModel.isExpand"
+                              ng-click="item.phoneCallViewModel.isExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                    </td>-->
+                    <td style="text-align: left !important; width: 2% !important">
+                        <div class="md-checkbox" ng-if="item.isActive" ng-click="vm.addingSelectedIdInList(item.phoneCallViewModel,false)">
+                            <input type="checkbox" id="franchiseeIsActive_{{$index}}" class="md-check" ng-model="item.isActive">
+                            <label for="franchiseeIsActive_{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                            </label>
+                        </div>
+                        <div class="md-checkbox" ng-if="!item.isActive" ng-click="vm.addingSelectedIdInList(item.phoneCallViewModel,true)">
+                            <input type="checkbox" id="franchiseeIsActive_{{$index}}" class="md-check" ng-model="item.isActive">
+                            <label for="franchiseeIsActive_{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                            </label>
+                        </div>
+                    </td>
+                    <td style="text-align:left !important;">
+                        {{item.franchiseeName}}
+                        <span ng-if="item.phoneCallViewModel.isInvoiceGenerated" title="Invoice Generated"><i class="fa fa-file" aria-hidden="true"></i></span>
+                        <span ng-if="item.phoneCallViewModel.isInvoiceInQueue" title="Invoice In Queue"><i class="fa fa-file" aria-hidden="true"></i></span>
+                        <!-- <span title="Add Phone Calls" style="float:right;text-align:right;font-size:10px;margin-right: -8px;"><a href="javascript:void(0);" ng-click="vm.addMultiplePhoneCalls(item,item.franchiseeName)">Add Phone Calls</a></span>-->
+                    </td>
+                    <td>
+                        <span ng-if="!item.isEditDate">
+                            {{item.phoneCallViewModel.month}}
+                            <a href="javascript:void(0);" ng-click="vm.editValue(item);item.isEditDate=true">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <span ng-if="item.isEditDate" style="justify-content: center; display: inline-flex" ng-click="vm.changeInPhoneCount(item)">
+                            <date-picker-year-ts control-id="registration-date" label="Call Date" format="MM/yyyy" model="item.phoneCallViewModel.dateOfChange" />
+                            <span style="margin-left:10px"><a href="javascript:void(0);" ng-click="vm.save(item);item.isEditDate=true;item.isInvoiceGenerated=false;item.phoneCallViewModel.dateOfChangeOld=item.phoneCallViewModel.dateOfChange" title="Save"><i class="fa fa-save" style="text-align: center;margin-top: 76%;"></i></a></span>
+
+                            <span style="margin-left:10px; margin-top:7px"><a href="javascript:void(0);" ng-click="item.isEditDate=false;item.phoneCallViewModel.dateOfChange=phoneCallViewModel.dateOfChangeOld" title="Remove"><i class="fa fa-remove"></i></a></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-if="!item.isEdit">
+                            $ {{item.phoneCallViewModel.chargesForPhone}}
+                            <a href="javascript:void(0);" ng-click="item.isEdit=true">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <span ng-if="item.isEdit" style="justify-content: center; display: inline-flex">
+                            <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="item.phoneCallViewModel.chargesForPhone"
+                                   style="text-transform:uppercase;width:40%" only-decimal dmin="0">
+                            <span style="margin-left:10px"><a href="javascript:void(0);" ng-click="vm.save(item);item.isEdit=true;item.isInvoiceGenerated=false;item.phoneCallViewModel.chargesForPhoneOld=item.phoneCallViewModel.chargesForPhone" title="Save"><i class="fa fa-save" style="text-align: center;margin-top: 76%;"></i></a></span>
+
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-if="!item.isEditCall">
+                            {{item.phoneCallViewModel.callCount}}
+                            <span>
+                                <a href="javascript:void(0);" ng-click="item.isEditCall=true">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </span>
+                        <span ng-if="item.isEditCall" style="justify-content: center; display: inline-flex">
+                            <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="item.phoneCallViewModel.callCount"
+                                   style="text-transform:uppercase;width:40%" only-decimal dmin="0">
+                            <span style="margin-left:10px"><a href="javascript:void(0);" ng-click="vm.save(item);item.isEditCall=true;item.isInvoiceGenerated=false;item.phoneCallViewModel.callCountOld=item.phoneCallViewModel.callCount" title="Save"><i class="fa fa-save" style="text-align: center;margin-top: 76%;"></i></a></span>
+                            <span style="margin-left:10px" ng-if="item.phoneCallViewModel.listOfCallIVR.length>0"><a href="javascript:void(0);" ng-click="vm.viewCalls(item.phoneCallViewModel);" title="View Calls"><i class="fa fa-phone" style="text-align: center;margin-top: 76%;"></i></a></span>
+
+                        </span>
+                    </td>
+                    <td>
+                        $ {{item.phoneCallViewModel.totalCost}}
+                    </td>
+                    <td>
+                        {{item.salesUpdationDate |date:'M/d/yyyy'}}
+                    </td>
+                    <td>
+                        <a id="sample_editable_1_new" ng-click="vm.generateInvoice(item)" class="m-t-5">
+                            Generate Invoice
+                        </a>
+                    </td>
+                    <td style="white-space: nowrap;">
+                        <a id="sample_editable_1_new" ng-click="vm.addMultiplePhoneCalls(item,item.franchiseeName)" class="m-t-5">
+                            Add Bulk Phone Bills
+                        </a>
+                    </td>
+                </tr>
+
+                <tr ng-if="item.phoneCallViewModel.isExpand">
+                    <td colspan="15" style="padding:0px">
+                        <table class="table" id="sample_2" role="grid" aria-describedby="sample_2_info">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:left !important;"><span style="font-weight:bolder;"></span></td>
+                                    <td style="text-align:left !important;"><span style="font-weight:bolder;"></span></td>
+                                    <td style="text-align:left !important;"><span style="font-weight:bolder;"></span></td>
+                                    <td style="text-align:left !important;"><span style="font-weight:bolder;"></span></td>
+                                    <td style="text-align:left !important"><span style="font-weight:bolder;">Total Amount</span></td>
+                                    <td><span style="font-weight:bolder">InvoiceItem#</span></td>
+                                    <td><span style="font-weight:bolder">Date Created</span></td>
+                                    <td><span style="font-weight:bolder">Action</span></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="items in item.invoiceLIst">
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td>
+                                        $ {{items.amount}}
+                                    </td>
+                                    <td>
+                                        {{items.invoiceItemId}}
+                                    </td>
+                                    <td>
+                                        {{items.dateCreated|date:'M/d/yyyy'}}
+                                    </td>
+                                    <td>
+                                        <span ng-if="!items.isInvoiceGenerated"><i class="fa fa-times" aria-hidden="true" style="color:red"></i></span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="item.invoiceLIst.length==0">
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td style="text-align:left !important;">
+                                    </td>
+                                    <td>
+                                        <b>   No Records Found</b>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+                <tr ng-if="item.phoneCallViewModel.isExpand" ng-repeat-end=""></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="col-md-12 col-xs-12 " ng-if="vm.franchiseePhoneCall.length== 0">
+    <div class="customScroll-s">
+        <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="overflow: hidden;">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>No Records Found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

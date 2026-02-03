@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html ng-app="makalu">
+<head>
+    <title ng-bind-html="title">MarbleLife </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- run `gulp wiredep` to automaticaly populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- inject:token -->
+    <!-- node env based auth token name will be inserted here -->
+    <!-- endinject -->
+    <!-- inject:head:js -->
+    <!-- only importantFile.js will be injected here -->
+    <!-- endinject -->
+    <!-- inject:head:css -->
+    <!-- only importantFile.css will be injected here -->
+    <!-- endinject -->
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <!-- css files will be automaticaly insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+</head>
+<body class="page-on-load page-md">
+
+    <div class="body-bg-overlay"></div>
+    <!-- BEGIN PAGE SPINNER -->
+    <div spinner-bar>
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <!-- END PAGE SPINNER -->
+
+    <div class="full-height" us-spinner="{top:'50%',color:'#5656a7',radius:42,lines:10,length:22,width: 10,Opacity:0}" spinner-key="secure-spinner" ui-view></div>
+    <div class="copyright"> {{vm.currentYear}} &copy; MARBLELIFE. All Rights Reserved. </div>
+
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
+    <!-- endbower -->
+    <!-- enqueue all translations for calendar (remove if you dont need multilanguage) -->
+    <!-- endbuild -->
+    <!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACLeVymugWL4ocMU7ZkH0IXWXuT61uCrs"></script>
+    <script src="//www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="//www.amcharts.com/lib/3/serial.js"></script>
+    <script src="/modules/app.module.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-img-crop/0.3.2/ng-img-crop.js" integrity="sha512-D6ATu+Fb3s3phu0p/I67/75Nd2dDinstCgA0/uSm0NW+QfqwluNmQtqL2daLFFJiGEHUTp8XNSzQrMAlObZvlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--<script src="/content/scripts/amcharts/dist/amcharts/amcharts.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/funnel.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/gantt.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/gauge.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/pie.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/radar.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/serial.js"></script>
+    <script src="/content/scripts/amcharts/dist/amcharts/xy.js"></script>
+    <link href="/content/scripts/amcharts/dist/images/style.css" rel="stylesheet" />-->
+
+    <script src="/modules/core/module.js"></script>
+    <script src="/modules/authentication/module.js"></script>
+
+    <script src="/modules/organizations/module.js"></script>
+    <script src="/modules/users/module.js"></script>
+    <script src="/modules/sales/module.js"></script>
+    <script src="/modules/reports/module.js"></script>
+    <script src="/modules/scheduler/module.js"></script>
+    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- inject:js -->
+    <!-- js files will be automaticaly insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+
+    <script type="text/javascript">
+        /* Init Metronic's core jquery plugins and layout scripts */
+        $(document).ready(function () {
+            Metronic.init(); // Run metronic theme
+            Metronic.setAssetsPath('assets/'); // Set the assets folder path
+            Layout.init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+﻿<style>
+    .dropdown-menu li span> a {
+        padding: 8px 14px;
+        color: #555;
+        text-decoration: none;
+        display: block;
+        clear: both;
+        font-weight: 300;
+        line-height: 18px;
+/*        white-space: nowrap;*/
+    }
+    .dropdown-menu li span > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover {
+        text-decoration: none;
+        background-image: none;
+        background-color: #f6f6f6;
+        color: #555;
+        filter: none;
+    }
+    ul.dropdown-menu.pull-right {
+        left: 0px !important;
+    }
+
+    button.btn.blue.dropdown-toggle {
+        width: 86% !important
+    }
+
+    .backgroundColors {
+        color: red !important;
+    }
+
+    .modal-dialog.modal-lg {
+        width: 1180px !important;
+    }
+
+    @media only screen and (min-width: 1250px) and (max-width: 1452px) {
+        .modal-dialog.modal-lg {
+            width: 1180px !important;
+        }
+    }
+
+    @media only screen and (max-width: 998px) {
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+
+    @media only screen and (max-width: 390px) {
+
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+
+
+        .modal-dialog.modal-lg {
+            width: 850px !important;
+        }
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getFranchiseeList();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '4'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.query.status"
+                                    ng-change="vm.getFranchiseeList()"
+                                    ng-options="item.value as item.display for item in vm.activeInActiveOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '1'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getFranchiseeList();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection ">
+                                <option disabled value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.email" key-stroke-action change="vm.getFranchiseeList">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '3' || vm.searchOption == ''" style="margin-top:-13px !important">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" style="margin-top: 6px;" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.text" key-stroke-action change="vm.getFranchiseeList">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.addNew()" class="btn btn-primary">
+                            Add New
+                        </button>
+                        <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+                        <button id="sample_editable_1_new" ng-click="vm.download()" class="btn btn-primary">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.franchiseeList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.franchiseeList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-scrollable table-mbl">
+            <div style="height: 700px; overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="width: 100px; min-width: 100px; max-width: 100px;text-align: center;">
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Account,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Account,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Account }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                style="width: 60px; min-width: 60px; max-width: 60px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Account);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Name);">
+                                Name
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Email }"
+                                rowspan="1" colspan="1" aria-label="Email" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Email);">
+                                Email
+                            </th>
+                            <th class="sorting_disabled"
+                                rowspan="1" colspan="1" aria-label="Phone" style="width: 140px; min-width: 140px; max-width: 140px;text-align: center;">
+                                Phone
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PrimaryContact,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PrimaryContact,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PrimaryContact }"
+                                rowspan="1" colspan="1" aria-label="Primary Contact" style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.PrimaryContact);">
+                                Primary Contact
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.StreetAddress,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.StreetAddress,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.StreetAddress }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Address" style="width: 250px; min-width: 250px; max-width: 250px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.StreetAddress);">
+                                Address
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Country }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Country" style="width: 80px; min-width: 80px; max-width: 80px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Country);">
+                                Country
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Status" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                Account Credit
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.BusinessId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.BusinessId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.BusinessId }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="BusinessId" style="width: 80px; min-width: 80px; max-width: 80px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.BusinessId);">
+                                Business Id
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;">
+                                Notes
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;">
+                                Deactivation Note
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;">
+                                Duration (in minutes)
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 270px; min-width: 270px; max-width: 270px;text-align: center;">
+                                Notes From Call Center/BackUp
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;">
+                                Notes From Owner
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{true: 'gradeX odd', false: 'gradeX even'}[$index % 2 == 1]" role="row" ng-repeat="franchisee in vm.franchiseeList">
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <div class="btn-group pull-right" style="width: 100px; min-width: 100px; max-width: 100px;word-break:break-word">
+                                    <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                        Action <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li>
+                                            <a ng-click="vm.editFranchisee(franchisee.id)">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a ng-click="vm.deleteFranchisee(franchisee.id)">Delete</a>
+                                        </li>
+                                        <li>
+                                            <a ng-click="vm.managePayment(franchisee.id)">Payment Profile</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin">
+                                            <a ng-click="vm.accountCredit(franchisee.id)">Account Credit</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin && franchisee.isActive">
+                                            <a ng-click="vm.deactivateFranchisee(franchisee.id)">Deactivate</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin && !franchisee.isActive">
+                                            <a ng-click="vm.activateFranchisee(franchisee.id)">Activate</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin && franchisee.isActive">
+                                            <a ng-click="vm.createLoan(franchisee)">Loan</a>
+                                        </li>
+                                        <li ng-if="vm.isSuperAdmin && franchisee.isActive">
+                                            <a ng-click="vm.oneTimeProjectFee(franchisee)">OneTime Project Fee</a>
+                                        </li>
+                                        <!--<li ng-if="franchisee.franchiseeDurationCount>0">
+                                            <span>
+                                                <a ng-click="vm.durationApproval(franchisee.id,franchisee.name)">Duration Approval Pending <b>({{franchisee.franchiseeDurationCount}})</b></a>
+                                            </span>
+                                               </li>-->
+                                        <li>
+                                            <a ui-sref="core.layout.scheduler.manage({ franchiseeId: franchisee.id })">Manage Scheduler</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="width: 60px; min-width: 60px; max-width: 60px;" class="sorting_1" ng-class="{'backgroundColors': !franchisee.isActive }">{{franchisee.id}}</td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <a ng-click="vm.editFranchisee(franchisee.id)" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                    {{franchisee.name}}
+                                </a>
+                            </td>
+                            <td class="break_word" style="width: 200px; min-width: 200px; max-width: 200px;" ng-class="{'backgroundColors': !franchisee.isActive }"><a ng-class="{'backgroundColors': !franchisee.isActive }" href="mailto:{{franchisee.email}}">{{franchisee.email}}</a></td>
+                            <td style="width: 140px; min-width: 160px; max-width: 140px;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-repeat="phoneNumber in franchisee.phoneNumbers">
+                                    {{phoneNumber.number | phonemask : franchisee.address.countryId}} ({{phoneNumber.name}}) <span ng-if="phoneNumber.isTransferable" class="glyphicon glyphicon-earphone"></span><span ng-if="!$last"><br /> </span>
+                                </span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;" ng-class="{'backgroundColors': !franchisee.isActive }">{{franchisee.ownerName}} </td>
+                            <td style="width: 250px; min-width: 250px; max-width: 250px;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.address != null && franchisee.address.city != null"> {{franchisee.address.addressLine1}}</span>
+                                <span ng-if="franchisee.address != null && franchisee.address.addressLine2 != null">, {{franchisee.address.addressLine2}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.city != null">, {{franchisee.address.city}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.state != null">, {{franchisee.address.state}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.zipCode != null">, {{franchisee.address.zipCode}} </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;" ng-class="{'backgroundColors': !franchisee.isActive }"> <span ng-if="franchisee.address != null && franchisee.address.country != null"> {{franchisee.address.country}} </span></td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.accountCredit > 0">${{franchisee.accountCredit.toFixed(2)}}</span>
+                                <span ng-if="franchisee.accountCredit == 0">{{franchisee.accountCredit}}</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;" ng-class="{'backgroundColors': !franchisee.isActive }">{{franchisee.businessId}}</td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.text!=null">
+                                    <span class="bold">{{franchisee.notesCreatedOn | dateTimeFilter : 'dt'}}</span>&nbsp;&nbsp;&nbsp;
+                                    <br />
+                                    {{franchisee.text | limitTo: 50}}{{franchisee.text.length > 50 ? '...' : ''}}
+                                    <a href="javascript:void(0);" ng-click="vm.getNotes(franchisee.id)" ng-if="franchisee.text.length > 50">View All</a>
+                                </span> <br />
+                            </td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;line-break: anywhere;text-align:center" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.deactivationNote!=null">
+                                    <span class="bold">
+                                        {{franchisee.deactivationNote | limitTo: 45}}{{franchisee.deactivationNote.length > 45 ? '...' : ''}}
+                                    </span>    <a href="javascript:void(0);" ng-click="vm.getDeactivationCode(franchisee.id)" ng-if="franchisee.deactivationNote.length > 45">View All</a>
+                                </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;text-align:center;" ng-class="{'backgroundColors': !franchisee.isActive }">{{franchisee.duration}}</td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;line-break: anywhere;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.noteFromCallCenter!=null">
+                                    <span class="bold">
+                                        {{franchisee.noteFromCallCenter | limitTo: 45}}{{franchisee.noteFromCallCenter.length > 45 ? '...' : ''}}
+                                    </span>    <a href="javascript:void(0);" ng-click="vm.getDescription(franchisee.noteFromCallCenter,'Notes From Call Center')" ng-if="franchisee.noteFromCallCenter.length > 45">View All</a>
+                                </span>
+                            </td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;line-break: anywhere;text-align:center;" ng-class="{'backgroundColors': !franchisee.isActive }">
+                                <span ng-if="franchisee.noteFromOwner!=null">
+                                    <span class="bold">
+                                        {{franchisee.noteFromOwner | limitTo: 45}}{{franchisee.noteFromOwner.length > 45 ? '...' : ''}}
+                                    </span>    <a href="javascript:void(0);" ng-click="vm.getDescription(franchisee.noteFromOwner,'Notes From Owner')" ng-if="franchisee.noteFromOwner.length > 45">View All</a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.franchiseeList.length == 0">
+                        <td colspan="11" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="printSection" class="print" style="display:none !important;">
+            <div>
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Account,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Account,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Account }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                style="width: 60px; min-width: 60px; max-width: 60px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Account);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Name);">
+                                Name
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Email,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Email }"
+                                rowspan="1" colspan="1" aria-label="Email" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Email);">
+                                Email
+                            </th>
+                            <th class="sorting_disabled"
+                                rowspan="1" colspan="1" aria-label="Phone" style="width: 140px; min-width: 140px; max-width: 140px;text-align: center;">
+                                Phone
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PrimaryContact,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PrimaryContact,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PrimaryContact }"
+                                rowspan="1" colspan="1" aria-label="Primary Contact" style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.PrimaryContact);">
+                                Primary Contact
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.StreetAddress,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.StreetAddress,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.StreetAddress }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Address" style="width: 250px; min-width: 250px; max-width: 250px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.StreetAddress);">
+                                Address
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Country,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Country }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Country" style="width: 80px; min-width: 80px; max-width: 80px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.Country);">
+                                Country
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Status" style="width: 100px; min-width: 100px; max-width: 100px;text-align: center;">
+                                Account Credit
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.BusinessId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.BusinessId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.BusinessId }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="BusinessId" style="width: 80px; min-width: 80px; max-width: 80px;text-align: center;" ng-click="vm.sorting(vm.SortColumns.BusinessId);">
+                                Business Id
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;">
+                                Notes
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Notes" style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;">
+                                Deactivation Note
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{true: 'gradeX odd', false: 'gradeX even'}[$index % 2 == 1]" role="row" ng-repeat="franchisee in vm.franchiseeListForPrint">
+                            <td style="width: 60px; min-width: 60px; max-width: 60px;" class="sorting_1">{{franchisee.id}}</td>
+                            <td style="width: 150px; min-width: 150px; max-width: 150px;"><a ng-click="vm.editFranchisee(franchisee.id)">{{franchisee.name}}</a></td>
+                            <td class="break_word" style="width: 200px; min-width: 200px; max-width: 200px;"><a href="mailto:{{franchisee.email}}">{{franchisee.email}}</a></td>
+                            <td style="width: 140px; min-width: 160px; max-width: 140px;">
+                                <span ng-repeat="phoneNumber in franchisee.phoneNumbers">
+                                    {{phoneNumber.number | phonemask : franchisee.address.countryId}} ({{phoneNumber.name}}) <span ng-if="phoneNumber.isTransferable" class="glyphicon glyphicon-earphone"></span><span ng-if="!$last"><br /> </span>
+                                </span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">{{franchisee.ownerName}} </td>
+                            <td style="width: 250px; min-width: 250px; max-width: 250px;">
+                                <span ng-if="franchisee.address != null && franchisee.address.city != null"> {{franchisee.address.addressLine1}}</span>
+                                <span ng-if="franchisee.address != null && franchisee.address.addressLine2 != null">, {{franchisee.address.addressLine2}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.city != null">, {{franchisee.address.city}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.state != null">, {{franchisee.address.state}} </span>
+                                <span ng-if="franchisee.address != null && franchisee.address.zipCode != null">, {{franchisee.address.zipCode}} </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;"> <span ng-if="franchisee.address != null && franchisee.address.country != null"> {{franchisee.address.country}} </span></td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="franchisee.accountCredit > 0">${{franchisee.accountCredit.toFixed(2)}}</span>
+                                <span ng-if="franchisee.accountCredit == 0">{{franchisee.accountCredit}}</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">{{franchisee.businessId}}</td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;">
+                                <span ng-if="franchisee.text!=null">
+                                    <span class="bold">{{franchisee.notesCreatedOn | dateTimeFilter : 'dt'}}</span>&nbsp;&nbsp;&nbsp;
+                                    <br />
+                                    {{franchisee.text | limitTo: 50}}{{franchisee.text.length > 50 ? '...' : ''}}
+                                    <a href="javascript:void(0);" ng-click="vm.getNotes(franchisee.id)">View All</a>
+                                </span> <br />
+                            </td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;">
+                                {{franchisee.deactivationNote}}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.franchiseeList.length == 0">
+                        <td colspan="11" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.franchiseeList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.franchiseeList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

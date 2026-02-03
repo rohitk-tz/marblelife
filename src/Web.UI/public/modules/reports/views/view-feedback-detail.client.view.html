@@ -1,0 +1,54 @@
+﻿<div class="modal-header">
+    <h2 class="pull-left">Feedback Detail</h2>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="invoice">
+        <div class="row">
+
+            <div class="col-xs-6">
+                <h3 class="modal-title">{{vm.feedback.customer}}</h3><br />
+                <b>Customer ID : </b>
+                <span ng-if="vm.feedback.customerId != 0">{{vm.feedback.customerId}}</span><br />
+                <span ng-if="vm.feedback.customerId == 0"></span><br />
+                <b>Email : </b>
+                <span>{{vm.feedback.customerEmail}}</span><br />
+                <span ng-if="vm.feedback.contactPerson">
+                    <b>Contact Person : </b>
+                    <span>{{vm.feedback.contactPerson}}</span><br />
+                </span>
+                <b>Franchisee : </b>
+                <span>{{vm.feedback.franchisee}}</span>
+            </div>
+
+            <div class="col-xs-6">
+                <p class="pull-right">
+                    <span><b>Response Received Date : </b>{{vm.feedback.responseReceivedDate | dateTimeFilter : 'd'}}</span> <br />
+                    <span><b>Response Syncing Date : </b>{{vm.feedback.responseSyncingDate | dateTimeFilter : 'd'}}</span> <br />
+                    <b ng-if="!isFromView">NPS <i class="fa fa-question-circle" title="Net Promoter Score"></i> : </b>
+                    <span ng-if="!isFromView">
+                        {{vm.feedback.recommend}}/10
+                    </span> <br /> <br />
+                    <b>Rating : </b>
+                    <span>
+                        <ng-rate-it ng-model="vm.feedback.rating" read-only="true"></ng-rate-it>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Feedback : </h2> <br />
+                <p>{{vm.feedback.responseContent}}</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

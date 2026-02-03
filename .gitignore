@@ -1,0 +1,16 @@
+src/*/bin
+src/*/obj
+src/*/*.user
+src/*.suo
+src/*.user
+src/.vs
+src/.vs/*
+src/packages
+src/packages/*
+src/Web.UI/node_modules
+src/Web.UI/public/lib
+src/Web.UI/client
+src/Web.UI/prod
+src/Web.UI/test
+src/DatabaseDeploy/*.bak
+src/api/logs

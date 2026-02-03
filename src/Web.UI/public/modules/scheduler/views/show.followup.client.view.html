@@ -1,0 +1,127 @@
+﻿<style>
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Follow-Up List</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+    
+
+</div>
+<div class="modal-body table-responsive">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered" ng-if="!vm.isFromScheduler">
+            <thead>
+                <tr>
+                    <td>Customer Name</td>
+                    <td>Email</td>
+                    <td>Phone</td>
+                    <td>Address</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{vm.customerInfo.customerName}}</td>
+                    <td> {{vm.customerInfo.email}}</td>
+                    <td>{{vm.customerInfo.phoneNumber |  phonemask}}</td>
+                    <td>
+                        {{vm.customerInfo.address.addressLine1}}, <span ng-if="vm.customerInfo.address.addressLine2">{{vm.customerInfo.address.addressLine2}},</span>
+                        {{vm.customerInfo.address.city}}, {{vm.customerInfo.address.state}} - {{vm.customerInfo.address.zipCode}},
+                        {{vm.customerInfo.address.country}}
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="margin-bottom:0px">
+            <thead>
+                <tr role="row" style="background-color: #dddddd !important">
+                    <th style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">
+                        Date
+                    </th>
+                    <th style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">
+                        Task To-Do
+                    </th>
+                    <th style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">
+                        Comment
+                    </th>
+                    <th style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;">
+                        Status
+                    </th>
+                    <th style="width: 100px; min-width: 100px; max-width: 100px;text-align: center;">
+                        User Name
+                    </th>
+                    <th style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;" ng-if="vm.isFromScheduler">
+                        Customer Name
+                    </th>
+                    <th style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="vm.isFromScheduler">
+                        Phone Number
+                    </th>
+                    <th style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;" ng-if="vm.isFromScheduler">
+                        Email
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.followUpList track by $index">
+                    <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{item.date |date:'M/d/yyyy'}}</td>
+                    <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{item.toDo}}</td>
+                    <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{item.comment}}</td>
+                    <td style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;">
+                        <div>
+                            <div class="status-edit" style="padding:0px">
+                                <div class="status-edit-item" data-ng-hide="editMode">
+                                    <span class="break_word">
+                                        {{item.status}}
+                                    </span>
+                                    <a class="glyphicon glyphicon-pencil" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                                </div>
+                                <div data-ng-show="editMode" class="form-md-line-input form-md-floating-label status-edit-item" style="position: relative;display: flex;">
+                                    <select class="form-control" id="class" ng-model="item.statusId" name="class"
+                                            ng-options="class.value as class.display for class in vm.statusOptions" data-ng-required style="display: inline-block;">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <div class="floating-btn">
+                                        <a class="btn-edit" data-ng-show="editMode" data-ng-click="vm.updateToDoByStatus(item);editMode=false">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </a>
+                                        <a class="btn-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{item.userName}}</td>
+                    <td style="width: 150px; min-width: 150px; max-width: 150px;text-align: center;" ng-if="vm.isFromScheduler">{{item.customerName}}</td>
+                    <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="vm.isFromScheduler">{{item.phoneNumber}}</td>
+                    <td style="width: 200px; min-width: 200px; max-width: 200px;text-align: center;" ng-if="vm.isFromScheduler"><Span class="break_word">{{item.email}}</Span></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

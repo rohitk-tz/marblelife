@@ -1,0 +1,5 @@
+﻿ALTER TABLE `franchisee` 
+ADD COLUMN `SetGeoCode` BIT(1) NOT NULL DEFAULT b'0' AFTER `WebLeadFranchiseeId`;
+
+ALTER TABLE `job` 
+ADD COLUMN `GeoCode` VARCHAR(128) NULL DEFAULT NULL AFTER `EstimateId`;

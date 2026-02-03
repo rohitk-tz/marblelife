@@ -1,0 +1,129 @@
+﻿<style type="text/css">
+    .md-checkbox {
+        position: relative;
+        margin-left: 25% !important;
+    }
+
+    .has-zero {
+        border: 2px solid #26327e !important;
+    }
+
+    table#sample_1 {
+        overflow: scroll !important;
+    }
+
+    .modal-body {
+        /*max-height: calc(100vh - 155px) !important;*/
+        overflow-y: inherit !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add Phone Calls For {{vm.franchiseeName}} </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="overflow: hidden;">
+                    <thead>
+                        <tr class="tableRow" style="background-color: #dddddd !important;padding-left:28px">
+                            <td><span style="font-weight:bolder">Month,Year</span></td>
+                            <td><span style="font-weight:bolder">Charges Of Call(in $)</span></td>
+                            <td><span style="font-weight:bolder">No. Of Calls In a Month</span></td>
+                            <td><span style="font-weight:bolder">Total Cost(in $)</span></td>
+                            <td><span style="font-weight:bolder;float:left">Generate Invoice</span></td>
+                            <td><span style="font-weight:bolder;float:left">Invoice In Queue</span></td>
+                            <td><span style="font-weight:bolder;float:left">Action</span></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <table class="table table-striped" id="sample_1" aria-describedby="sample_1_info" style="overflow: hidden;">
+                    <tbody>
+                        <tr class="tableRow" ng-repeat="item in vm.histry">
+                            <td style="padding-left: 30px !important;">
+                                <span ng-if="!item.isEditDate">
+                                    {{item.month}}
+                                    <a href="javascript:void(0);" ng-click="vm.editValue(item);item.isEditDate=true" ng-if="!item.isInvoiceGeneratedFromAPI">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                <span ng-if="item.isEditDate" style="justify-content: center; display: inline-flex">
+                                    <date-picker-ts-calls control-id="registration-date" label="Call Date" format="MM/yyyy" model="item.dateOfChange" datepicker-append-to-body="true" />
+                                  <!--  <span style="margin-left:10px"><a href="javascript:void(0);" ng-click="item.isEditDate=false;item.isInvoiceGenerated=false;item.dateOfChangeOld=item.dateOfChange" title="Save"><i class="fa fa-save"></i></a></span>-->
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="item.isInvoiceGeneratedFromAPI">
+                                    $ {{item.chargesForPhone}} 
+                                </span>
+                                <span ng-if="!item.isInvoiceGeneratedFromAPI" style="justify-content: center; display: inline-flex">
+                                    <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="item.chargesForPhone"
+                                           style="text-transform:uppercase;width:40%" only-decimal dmin="0">
+                                    <!--<span style="margin-left:10px"><a href="javascript:void(0);" ng-click="item.isEdit=false;item.isInvoiceGenerated=false;item.chargesForPhoneOld=item.chargesForPhone" title="Save"><i class="fa fa-save"></i></a></span>-->
+                                    <!-- <span style="margin-left:10px"><a href="javascript:void(0);" ng-click="item.isEdit=false;item.chargesForPhone=item.chargesForPhoneOld" title="Remove"><i class="fa fa-remove"></i></a></span>-->
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="item.isInvoiceGeneratedFromAPI">
+                                    {{item.callCount}} 
+                                    <span ng-if="!item.isInvoiceGeneratedFromAPI">
+                                        <a href="javascript:void(0);" ng-click="item.isEditCall=true">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </span>
+                                <span ng-if="!item.isInvoiceGeneratedFromAPI" style="justify-content: center; display: inline-flex">
+                                    <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="item.callCount"
+                                           style="text-transform:uppercase;width:40%" only-decimal dmin="0">
+                                    <!--<span ng-if="!item.isInvoiceGenerated">{{item.callCount}}</span>-->
+                                </span>
+                            </td>
+                            <td>
+                                $ {{item.callCount * item.chargesForPhone}}
+                            </td>
+                            <td>
+                               
+                                <div class="md-checkbox">
+                                    <input type="checkbox" id="item_{{$index}}" class="md-check" ng-model="item.isInvoiceGenerated" ng-disabled="item.isInvoiceGeneratedFromAPI">
+                                    <label for="item_{{$index}}">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="md-checkbox">
+                                    <input type="checkbox" id="item1_{{$index}}" class="md-check" ng-model="item.isInvoiceInQueue" disabled="disabled">
+                                    <label for="item1_{{$index}}">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" ng-click="vm.addSlab()" class="pull-right" style="float:left !important">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </a>
+                                <a ng-if="$index!=0 && !item.isInvoiceGeneratedFromAPI" href="javascript:void(0)" ng-click="vm.deleteSlab($index)" class="pull-right" style="float:left !important;margin-left:10px !important">
+                                    <i class="fa fa-minus" aria-hidden="true"></i> 
+                                </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="button" class="btn default" ng-click="vm.saveValue();">Save</button>
+</div>

@@ -1,0 +1,238 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getGrowthReport();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getGrowthReport();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="status" ng-model="vm.query.serviceTypeId"
+                                    ng-change="vm.getGrowthReport();"
+                                    ng-options="service.value as service.display for service in vm.serviceTypes">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label>Service Type</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="status" ng-model="vm.query.classTypeId"
+                                    ng-change="vm.getGrowthReport();"
+                                    ng-options="class.value as class.display for class in vm.marketingClass">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label>Marketing Class</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="month" ng-model="vm.query.month"
+                                    ng-change="vm.getGrowthReport();"
+                                    ng-options="month.value as month.display for month in vm.monthCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="month">Month</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                                    ng-change="vm.getGrowthReport();"
+                                    ng-options="year.value as year.display for year in vm.yearCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="year">Year</label>
+                        </div>
+                    </div>
+
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadGrowthReport()" class="btn btn-primary" ng-disabled="vm.franchiseeIds.length < 1 || vm.downloading == true">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.reportList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-left margin-left-15">
+                <div ng-if="vm.query.franchiseeId <= 0 && vm.query.classTypeId <= 0 && vm.query.serviceTypeId <= 0" class="dataTables_info">
+                    <b>Note- For default Growth Report, we are considering sales of last completed month.</b>
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.reportList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="table-scrollable table-mbl">
+            <div fix-height style="overflow: auto;">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th style="width: 50px; min-width: 50px; max-width: 50px;" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id">
+                                ID#
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 150px; min-width: 150px; max-width: 150px;">
+                                Franchisee
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Total Sales(Last Year)
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Sales(YTD Last Year)
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Sales(YTD Current Year)
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 120px; min-width: 120px; max-width: 120px;">
+                                Amount Difference
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 120px; min-width: 120px; max-width: 120px;">
+                                %age Difference
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 140px; min-width: 140px; max-width: 140px;">
+                                Average/Month(Last Year)
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 160px; min-width: 160px; max-width: 160px;">
+                                Average/Month(Current Year)
+                            </th>
+                            <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                style="width: 140px; min-width: 140px; max-width: 140px;">
+                                AverageGrowth/Month
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.reportList">
+                            <td style="width: 50px; min-width: 50px; max-width: 50px;">{{item.franchiseeId}}</td>
+                            <td style="width: 140px; min-width: 140px; max-width: 140px;"><a ng-click="vm.editFranchisee(item.franchiseeId)">{{item.franchisee}}</a></td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-if="vm.isSuperAdmin">$</span>{{item.totalSalesLastYear.toFixed(2)}}
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-if="vm.isSuperAdmin">$</span>{{item.ytdSalesLastYear.toFixed(2)}}
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;"><span ng-if="vm.isSuperAdmin">$</span>{{item.ytdSalesCurrentYear.toFixed(2)}}</td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span class="icon-green" ng-if="item.amountDifference > 0">
+                                    <span ng-if="vm.isSuperAdmin">$</span>{{item.amountToDisplay.toFixed(2)}}
+                                </span>
+                                <span ng-if="item.amountDifference == 0">
+                                    <span ng-if="vm.isSuperAdmin">$</span>{{item.amountToDisplay.toFixed(2)}}
+                                </span>
+                                <span class="icon-red" ng-if="item.amountDifference < 0">
+                                    <span ng-if="vm.isSuperAdmin">-$</span>{{item.amountToDisplay.toFixed(2)}}
+                                </span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+
+                                <span class="icon-green" ng-if="item.percentageDifference > 0">
+                                    {{item.percentageDifference}} % &nbsp;&nbsp;
+                                    <i class="fa fa-arrow-up icon-green"></i>
+                                </span>
+                                <span ng-if="item.percentageDifference == 0">
+                                    {{item.percentageDifference}} % &nbsp;&nbsp;
+                                </span>
+                                <span class="icon-red" ng-if="item.percentageDifference < 0">
+                                    {{item.percentageDifference}} % &nbsp;&nbsp;
+                                    <i class="fa fa-arrow-down icon-red"></i>
+                                </span>
+                            </td>
+                            <td style="width: 140px; min-width: 140px; max-width: 140px;">
+                                <span ng-if="vm.isSuperAdmin && item.lastYearAveragePerMonth >= 0">$</span>{{item.lastYearAveragePerMonth.toFixed(2)}}
+                            </td>
+                            <td style="width: 160px; min-width: 160px; max-width: 160px;">
+                                <span ng-if="vm.isSuperAdmin && item.currentYearAveragePerMonth >= 0">$</span>{{item.currentYearAveragePerMonth.toFixed(2)}}
+                            </td>
+                            <td style="width: 140px; min-width: 140px; max-width: 140px;">
+
+                                <span class="icon-green" ng-if="item.averageGrowth > 0">
+                                    <span ng-if="vm.isSuperAdmin">$</span>{{item.averageGrowthToDisplay.toFixed(2)}}
+                                    <i class="fa fa-arrow-up icon-green"></i>
+                                </span>
+                                <span ng-if="item.averageGrowth == 0">
+                                    <span ng-if="vm.isSuperAdmin">$</span>{{item.averageGrowthToDisplay.toFixed(2)}}
+                                </span>
+                                <span class="icon-red" ng-if="item.averageGrowth < 0">
+                                    <span ng-if="vm.isSuperAdmin">-$</span>{{item.averageGrowthToDisplay.toFixed(2)}}
+                                    <i class="fa fa-arrow-down icon-red"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.reportList.length == 0 || vm.reportList == null">
+                        <td colspan="9" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.reportList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="pull-right" ng-if="vm.reportList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

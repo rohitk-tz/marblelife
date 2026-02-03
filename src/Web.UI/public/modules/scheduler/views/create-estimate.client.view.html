@@ -1,0 +1,200 @@
+﻿<style type="text/css">
+    @media only screen and (max-width: 767px) {
+        .datetimepicker .datetimepicker-content.datetimepicker-absolute {
+            left: 7% !important;
+        }
+    }
+
+    .datetimepicker .datetimepicker-preview {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time:hover, .datetimepicker .time-circle-outer .time.selected {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-circle-hand {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-circle-center {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .active {
+        background-color: #349 !important;
+    }
+
+    .datetimepicker .time-circle-outer .time-meridian.selected {
+        color: #349 !important;
+    }
+
+    .datetimepicker .datetimepicker-content .datetimepicker-tabs .datetimepicker-tab {
+        color: #349 !important;
+    }
+
+        .datetimepicker .datetimepicker-content .datetimepicker-tabs .datetimepicker-tab.active {
+            color: white !important;
+        }
+
+    .datetimepicker .datetimepicker-content.datetimepicker-absolute {
+        border-bottom: #349 !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">
+        <span ng-if="vm.estimateInfo.id <= 0 && !vm.isCopy">Create Estimate:</span>
+        <span ng-if="vm.estimateInfo.id > 0 && !vm.isCopy">Edit Estimate:</span>
+        <span ng-if="vm.isCopy">Create/Duplicate Estimate:</span>{{vm.franchiseeName}}
+    </h4>
+    <!--<button style="margin-left:10%" class="btn btn-primary" ng-click="vm.openZipCodeModal();">Search Geo Code</button>-->
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="tab-content">
+        <form role="form" name="estimateForm">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" ng-blur="vm.changeZipCode()" id="geoCode" name="geoCode" ng-model="vm.estimateInfo.jobCustomer.address[0].zipCode" maxlength="128"
+                               style="text-transform:uppercase">
+                        <label for="geoCode">Validate Zip Code</label>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xs-12">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="title" name="title" ng-model="vm.estimateInfo.title"
+                               maxlength="128">
+                        <label for="title">Estimate Title</label>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row" ng-if="vm.isEdit">-->
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12">
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : estimateForm.customerName.$error.required}">
+                        <input type="text" class="form-control" id="name" name="customerName" ng-model="vm.estimateInfo.jobCustomer.customerName" required
+                               ng-keyup="vm.getCustomerInfo(vm.estimateInfo.jobCustomer.customerName)" maxlength="128">
+                        <label for="firstname">Customer Name<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                    <div ng-show="estimateForm.customerName.$dirty && estimateForm.customerName.$invalid && estimateForm.customerName.$error.required">
+                        <span class="text-danger" ng-if="userForm.customerName.$error.required">
+                            Customer Name is required.
+                        </span>
+                    </div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : estimateForm.email.$error.required}">
+                        <input type="email" class="form-control" id="email" name="email" maxlength="512"
+                               ng-model="vm.estimateInfo.jobCustomer.email">
+                        <label for="email">Email<span class="required" aria-required="true"></span></label>
+                    </div>
+                    <div ng-show="estimateForm.email.$dirty && estimateForm.email.$invalid">
+                        <span class="text-danger" ng-if="estimateForm.email.$error.email">
+                            Email not valid.
+                        </span>
+                    </div>
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.estimateInfo.jobCustomer.phoneNumber" mask-format="phone" ng-if="!vm.isMexico">
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" ng-model="vm.estimateInfo.jobCustomer.phoneNumber" mask-format="mexico-phone" ng-if="vm.isMexico">
+                        <label for="phoneNumber">Number<span class="required" aria-required="true">* </span></label>
+                    </div>
+
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="geoCode" name="geoCode" ng-model="vm.estimateInfo.geoCode" maxlength="128"
+                               style="text-transform:uppercase">
+                        <label for="geoCode">Geo Code</label>
+                    </div>
+                    <i>Please note that <b>Geo Code</b> can be required or not required as defined in Franchisee profile. </i>
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" class="form-control" id="hours"
+                               name="hours" ng-model="vm.estimateInfo.hours" only-digits>
+                        <label for="hours">Estimated Hour(s)</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <address-edit model="vm.estimateInfo.jobCustomer.address[0]"></address-edit>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xs-12">
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : estimateForm.jobType.$dirty && estimateForm.jobType.$error.requiredSelect}">
+                        <select class="form-control input-medium resp-100" name="jobType" id="jobType" ng-model="vm.estimateInfo.jobTypeId"
+                                ng-options="type.value as type.display for type in vm.marketingClass | orderBy:'display'" required-select></select>
+                        <label value="">Customer Class<span class="required" aria-required="true"> * </span></label>
+                        <div ng-show="estimateForm.jobType.$dirty && jobForm.jobType.$invalid">
+                            <span class="text-danger" ng-if="jobForm.jobType.$error.requiredSelect">
+                                Customer Class is required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <div class="row">
+                            <div>
+                                <div class="col-md-3 col-lg-3 col-xs-6">
+                                    <span style="vertical-align: -webkit-baseline-middle;"> <b>Start Date</b> </span>
+                                </div>
+                                <div class="col-md-9 col-lg-9 col-xs-6">
+                                    <circulartimepicker model="vm.estimateInfo.startDate" format="{momentFormat:'MM/DD/YYYY HH:mm'}" ng-click="vm.startDateClick()"></circulartimepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <div class="row" style="margin-bottom:10px !important;">
+                            <div>
+                                <div class="col-md-3 col-lg-3 col-xs-6">
+                                    <span style="vertical-align: -webkit-baseline-middle;"> <b>End Date</b> </span>
+                                </div>
+                                <div class="col-md-9 col-lg-9 col-xs-6">
+                                    <circulartimepicker model="vm.estimateInfo.endDate" format="{momentFormat:'MM/DD/YYYY HH:mm'}" ng-click="vm.endDateClick()"></circulartimepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <span><b>Note :</b> <i> Remember to edit “Repeat/Change Time” section.</i></span>
+                    </div>
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.isEdit">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-medium resp-100" name="franchisee" id="franchisee" ng-model="vm.estimateInfo.salesRepId"
+                                    ng-options="type.value as type.display for type in vm.salesRepList" ng-change="vm.validateSchedule();" ng-disabled="vm.isSalesRep">
+                                <option value="Select Representative">Select Representative</option>
+                            </select>
+                            <label value="">Select Representative<span class="required" aria-required="true"> * </span></label>
+                        </div>
+                        <span class="text-danger" ng-if="vm.isNotAvailable">{{vm.error}}</span>
+                    </div>
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input type="text" maxlength = "8" class="form-control" id="amount"
+                               name="amount" ng-model="vm.estimateInfo.amount" only-decimal maxlength="45">
+                        <label for="amount">Estimated Price($)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group form-md-line-input form-md-floating-label" ng-if="!vm.isTech">
+                        <textarea class="form-control" rows="5" id="Description" ng-model="vm.estimateInfo.description"
+                                  maxlength="1024" ng-keyup="vm.descriptionChange()"></textarea>
+                        <label for="Description">Description</label>
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-top:5% !important" ng-if="vm.estimateId>0 && vm.isDescriptionChanged">
+                    <div class="md-checkbox">
+                        <input type="checkbox" id="isUpdateForAllJobs" name="isRoyalityLateFeeApplicable" ng-value="true" class="md-check" ng-model="vm.estimateInfo.isDataToBeUpdateForAllJobs">
+                        <label for="isUpdateForAllJobs">
+                            <span></span>
+                            <span class="check"></span>
+                            <span class="box"></span>
+                            Update All Estimate
+                        </label>
+                    </div>
+                </div>
+                <p ng-if="vm.estimateId>0 && vm.isDescriptionChanged" class="m-t-5"><b>Note :</b> <i> Click to <b> Update All Estimate</b> to update Description of  all repeating Estimates.</i></p>
+            </div>
+            <div class="modal-footer clear-both">
+                <div class="col-md-12 col-lg-12 col-xs-5">
+                    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                    <button type="submit" class="btn default" ng-click="vm.validateModel(estimateForm);" ng-disabled="estimateForm.$invalid || vm.isProcessing == true">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

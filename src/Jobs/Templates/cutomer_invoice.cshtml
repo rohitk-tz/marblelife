@@ -1,0 +1,595 @@
+﻿@model Core.Sales.ViewModel.EstimateInvoiceEditMailModel
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .fontClass {
+            font-size: 16px !important;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            font-size: 11px;
+            font-family: none;
+            page-break-after: avoid;
+            page-break-before: avoid;
+        }
+
+        body, td, span, p, div {
+            white-space: normal !important;
+            word-spacing: 2px !important;
+        }
+
+        .emailtemplate {
+            max-width: 900px;
+            margin: 0 auto;
+            align-content: center;
+            align-items: center;
+        }
+
+        .emailheader {
+            display: flex;
+            align-items: center;
+            height: 100px;
+        }
+
+        .heading {
+            margin: 0;
+            padding: 0;
+            color: #808080;
+            font-size: 16px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .page {
+            width: 99.9% !important;
+            height: 99.9% !important;
+        }
+
+        html {
+            height: 0;
+        }
+
+        table {
+            page-break-after: avoid;
+            page-break-before: avoid;
+        }
+
+            table tr td {
+                padding: 5px 3px;
+            }
+
+        .widget {
+            border: 1px solid #333;
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 20px auto;
+        }
+
+            .widget p {
+                margin: 0;
+            }
+
+        .list-table tr th, .list-table tr td {
+            text-align: left;
+            vertical-align: top;
+            padding: 3px 10px;
+        }
+
+        .table-single tr td {
+            border-top: 1px solid #bec2c6;
+            border-right: 1px solid #dee2e6;
+            font-size: 9px;
+        }
+
+            .table-single tr td:last-child {
+                border-left: 1px solid #bec2c6;
+            }
+
+        .table-single tr:last-child td {
+            border-bottom: 1px solid #bec2c6;
+        }
+
+        .list-table tr th {
+            background: #f4f5f7;
+            border-top: 1px solid #dee2e6;
+            font-size: 9px;
+            height: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .list-table tr > th:first-child {
+            border-left: 1px solid #dee2e6;
+        }
+
+        .list-table tr > td:first-child {
+            border-left: 1px solid #dee2e6;
+        }
+
+        .list-table tr:last-child > td {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .list-table tr td {
+            border-top: 1px solid #dee2e6;
+            font-size: 9px;
+            height: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .shape-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 3px;
+        }
+
+            .shape-list li {
+                position: relative;
+            }
+
+
+        .flex-1 {
+            flex: 1;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+    <div class="emailtemplate">
+        <div class="emailheader">
+            <table style="width:100%;" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAlCAYAAABCgwtAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODI1QTkxQkM4NTQ4MTFFNjg0OUU5ODIxOUMyRDcxRTUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODI1QTkxQkQ4NTQ4MTFFNjg0OUU5ODIxOUMyRDcxRTUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MjVBOTFCQTg1NDgxMUU2ODQ5RTk4MjE5QzJENzFFNSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MjVBOTFCQjg1NDgxMUU2ODQ5RTk4MjE5QzJENzFFNSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQMgcsAABMOSURBVHja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" alt="logo" width="100" /></td>
+                    <td></td>
+                    <td>
+                        <div>
+                            <p style="margin:0;display:block;text-align:right;font-size:18px;">
+                                <img style="width:10px;height:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFESURBVEiJ7ZVNTsNADEbfoEpZsciy/yBK4Qaw7D16C27BqbqlRyhUoLZJewYWyCz4Ri3RJCnRtCsseTP296zM2I4zM05pFyeln6NAC8A59wg8AC4S14C5mb0AJMA9sFMghu/ETADmQBu4A7YR4Fux2mJjwALoRCji4R0xjYPgK9AFxkDeAJ5L2xXLigUMeAN6DYp4eE8MKytgwBLoA7dHFsmV25e2GA+K3oGBhFkFPFPOQJpQTqn4AxgCo5IimWJD5QY5tZNsZktgIqC3DJgoVmtVV3QFzPi53xR4kqc6mynnT1fkH/kaWLGfzClwKZ+yn/yVco96ZN+mN8A6kPwlL56vpalsUz9oI2BT8rlVvpE2OGh+VdS1ZZ37tv21Kvyya7oiQoM35mDZJcTbpN790ktaZvbpnEuBZ+JaamYL9//Tr7NvAnxBRDEIuboAAAAASUVORK5CYII=" /> @Model.CommunicationEmail
+                            </p>
+                        </div>
+                        <div>
+                            <p style="margin: 0; display: block; text-align: right; margin-right: 95px; font-size: 18px; margin-bottom: 20px !important">
+                                <img style="width:10px;height:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFjSURBVEiJrdU9S1xBFMbxH8uCQkC3ESFdSGHAD2BhrCQYixSpzJewsoitglhZiSn8ClZKikBIl1IEIUgIgQQEKwXXYhVUjoV3YVnv7L17rwOnmmee/7ycc0ZEiAgYxQZOcYC33bk60Wv+DdETN3hfG4CRHPNng8Bawrwb11ioA/hTAAhcYqIKoIFxxWMcsyV0T0YDhyV0dziuCvhZoDnDh4j4VwUAc9J3/wsv62RR9wRHCfjXiDirunNoxGMurSTmm3XMoTdf9z29ogu8qN0qMsAUbnMgm88CyCDLOYDAUkG1vsESJgcCMvGXHEAHnxLmH3Gf6a70tZW8BU18T5xkC2M92tc479Nc410SkC1s4XcC0sY2dvA/oelgPgnIIK8GQMpEBzNFrbaFHzUg+2X6eRO7FQEnw3wcKx676jCAz8MVDdPS32t/7KFZrTpZxEmR+cAsKvk2C1jPEqGNv1jtmkeEB2jdjHWn35EnAAAAAElFTkSuQmCC" /> @Model.PhoneNumber
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><h5 style="margin-top:-20px" class="heading">CUSTOMER SERVICE AGREEMENT / WORK ORDER / INVOICE</h5></td>
+                </tr>
+            </table>
+        </div>
+        <div class="emailbody">
+            <table style="width:100%;" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="padding: 0; vertical-align: top;">
+                            <table style="width:100%;" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <td class="fontClass"><b>Customer:</b></td>
+                                        <td class="fontClass"> @Model.CustomerName</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass"><b>Street Address:</b></td>
+                                        <td class="fontClass">@Model.Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass"><b>City, State, Zip:</b></td>
+                                        <td class="fontClass">@Model.City</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass"><b>Phone 1:</b></td>
+                                        <td class="fontClass">@Model.PhoneNumber1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass"><b>Email:</b></td>
+                                        <td class="fontClass">@Model.Email</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b>Technician Name:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.TechName</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="display: block;" class="fontClass">
+                                            <b>Office Address:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.OfficeName<br /> @Model.OfficeAddressLine1,@Model.OfficeAddressLine2<br />@Model.OfficeAddressCity, @Model.OfficeAddressState, @Model.OfficeAddressCountry - @Model.OfficeAddressZipCode</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="padding:0; vertical-align:top;">
+                            <table style="width:100%;" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b> Invoice Number:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.InvoiceNumber  </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b> Estimate Date:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.EstimateDate  </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b> Price for Service:</b>
+                                            <p style="padding: 0; font-size: 10px; margin: 0;"><b>Based on @Model.ChooseOption</b></p>
+                                        </td>
+                                        <td class="fontClass"> $ @Model.Price  </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b>Less Deposit:</b>
+                                            <p style="padding:0; font-size:8px; margin:0;"><b>@Model.LessDepositPer% at time of scheduling</b></p>
+                                        </td>
+                                        <td class="fontClass">$ @Model.LessDeposit</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b>Balance on Completion:</b>
+                                            <p style="padding: 0; font-size: 8px; margin: 0;"><b>Price effective for 30 days</b></p>
+                                        </td>
+                                        <td class="fontClass">$ @Model.Balance</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b>SalesRep Name:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.SalesRep</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fontClass">
+                                            <b>SalesRep Email:</b>
+                                        </td>
+                                        <td class="fontClass">@Model.SalesRepEmail</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="list-widget">
+                <table style="width:100%;" cellpadding="0" cellspacing="0" class="list-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="text-align:center; vertical-align:middle!important;">List of Service</th>
+                            <th rowspan="3" style="text-align:center; vertical-align:middle!important;">Description</th>
+                            <th colspan="3" style="text-align: center; height: auto;">Price (in $)</th>
+                            <th rowspan="3" style="text-align: center; vertical-align:middle !important;">Line Item Notes**</th>
+                        </tr>
+                        <tr style="">
+                            <th style="height:auto; text-align: center; border-left: none !important;">Option 1</th>
+                            <th style="height:auto; text-align: center;">Option 2</th>
+                            <th style="height:auto; text-align: center;">Option 3</th>
+                        </tr>
+                        @if (!String.IsNullOrEmpty(@Model.Option1) || !String.IsNullOrEmpty(@Model.Option2) || !String.IsNullOrEmpty(@Model.Option3))
+                        {
+                            <tr>
+                                <th style="height:auto;">
+                                    @if (!String.IsNullOrEmpty(@Model.Option1))
+                                    {
+                                        <div style="float:left;overflow-wrap:break-word;word-wrap: break-word;">@Model.Option1</div>
+                                    }
+                                </th>
+                                <th style="height:auto;">
+                                    @if (!String.IsNullOrEmpty(@Model.Option2))
+                                    {
+                                        <div style="float:left;overflow-wrap:break-word;word-wrap: break-word;">@Model.Option2</div>
+                                    }
+                                </th>
+                                <th style="height:auto;">
+                                    @if (!String.IsNullOrEmpty(@Model.Option3))
+                                    {
+                                        <div style="float:left;overflow-wrap:break-word;word-wrap: break-word;">@Model.Option3</div>
+                                    }
+                                </th>
+                            </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @{int notesIndex = 0;}
+                        @foreach (var model2 in Model.ServiceList)
+                        {
+                            if (model2.BackColor != "red")
+                            {
+                                <tr>
+                                    <td colspan="6">
+                                        <b>Invoice Line#:</b> @(i++) <b> | Location: </b>@model2.LocationName <b>| Surface Type:</b> @model2.TypeOfService <b>| Material Type:</b> @model2.typeOfStoneType3 <b>| Surface Color:</b> @model2.TypeOfStoneColor <b>| Surface Finish:</b> @model2.TypeOfStoneType <b>| Service Type:</b> @model2.ServiceType
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>@model2.ServiceIds</td>
+                                    <td>@Raw(@model2.Description)</td>
+                                    <td style="text-align: right;">@model2.Option1</td>
+                                    <td style="text-align: right;">@model2.Option2</td>
+                                    <td style="text-align: right;">@model2.Option3</td>
+                                    <td>P@(++notesIndex)</td>
+                                </tr>
+                            }
+                            if (model2.BackColor == "red")
+                            {
+                                <tr style="border: 10px solid;border-color:red;">
+                                    <td colspan="6">
+                                        <b>Invoice Line#:</b> @(i++) <b> | Location: </b>@model2.LocationName <b>| Surface Type:</b> @model2.TypeOfService <b>| Material Type:</b> @model2.typeOfStoneType3 <b>| Surface Color:</b> @model2.TypeOfStoneColor <b>| Surface Finish:</b> @model2.TypeOfStoneType <b>| Service Type:</b> @model2.ServiceType
+                                    </td>
+                                </tr>
+                                <tr style="border: 10px solid;border-color:red;">
+                                    <td style="text-decoration: line-through;">@model2.ServiceIds</td>
+                                    <td style="text-decoration: line-through;">@Raw(@model2.Description)</td>
+                                    <td style="text-align: right; text-decoration: line-through;">@model2.Option1</td>
+                                    <td style="text-align: right; text-decoration: line-through;">@model2.Option2</td>
+                                    <td style="text-align: right; text-decoration: line-through;">@model2.Option3</td>
+                                    <td style="text-decoration: line-through;">P@(++notesIndex)</td>
+                                </tr>
+                            }
+                            if (model2.SubItem.Count() > 0)
+                            {
+                                foreach (var subItem in model2.SubItem)
+                                {
+                                    if (subItem.BorderColor != "red")
+                                    {
+                                        <tr>
+                                            <td style="border-top: none !important;">@subItem.ServiceIds.Id</td>
+                                            <td style="border-top: none !important;">@Raw(@subItem.Description)</td>
+                                            <td style="border-top: none !important; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option1
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option2
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option3
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important;">P@(++notesIndex)</td>
+                                        </tr>
+                                    }
+                                    if (subItem.BorderColor == "red")
+                                    {
+                                        <tr>
+                                            <td style="border-top: none !important; text-decoration: line-through;">@subItem.ServiceIds.Id</td>
+                                            <td style="border-top: none !important; text-decoration: line-through;">@Raw(@subItem.Description)</td>
+                                            <td style="border-top: none !important; text-decoration: line-through; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option1
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important; text-decoration: line-through; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option2
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important; text-decoration: line-through; text-align: right;">
+                                                @if (@subItem.IsMainBundle == true || @subItem.IsBundle == false)
+                                                {
+                                                    @subItem.Option3
+                                                }
+                                            </td>
+                                            <td style="border-top: none !important; text-decoration: line-through;">P@(++notesIndex)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        }
+                        <tr>
+                            <td><b>Total (in $)</b></td>
+                            <td></td>
+                            <td style="text-align: right;">
+                                <b> @Model.Option1Total</b>
+                            </td>
+                            <td style="text-align: right;"><b>@Model.Option2Total</b></td>
+                            <td style="text-align: right;"><b>@Model.Option3Total</b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <br />
+            <br />
+            <div class="list-widget" style="margin-top:20px;">
+                <h5 style="font-size:18px; font-weight:bold;margin-top:20px;margin-bottom:0px;line-height:10px">Line Item Notes**</h5>
+
+                <table style="width:100%;margin-top:15px;border-left: 1px solid #bec2c6;" cellpadding="0" cellspacing="0" class="table-single">
+                    <thead>
+                        <tr>
+                            <td style="width:30px !important">Variable</td>
+                            <td style="width:150px !important">Notes</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int notesIndex2 = 0;}
+                        @foreach (var model2 in Model.ServiceList)
+                        {
+                            int pCount = ++notesIndex2;
+                            if (model2.Notes != "")
+                            {
+                                <tr>
+                                    <td style="width:20px !important">P@(pCount)</td>
+                                    <td style="width:150px !important;word-break: break-all;">
+                                        @model2.Notes
+                                    </td>
+                                </tr>
+                            }
+                            if (model2.SubItem.Count() > 0)
+                            {
+                                foreach (var subItem in model2.SubItem)
+                                {
+                                    pCount = ++pCount;
+                                    if (!string.IsNullOrEmpty(subItem.PriceNotes))
+                                    {
+                                        <tr>
+                                            <td style="width:20px !important">P@(pCount)</td>
+                                            <td style="width:150px !important;word-break: break-all;">
+                                                @subItem.PriceNotes
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            @if (@Model.InvoiceNote != "" && @Model.InvoiceNote != null)
+            {
+                <div class="list-widget" style="margin-top:30px;width:800px !important">
+                    <h5 style="font-size:18px; font-weight:bold;margin-top:20px;margin-bottom:10px;line-height:10px;">Invoice Notes</h5>
+                    <div style="border: 1px solid #bec2c6;width:800px !important">
+                        <p style="margin:0;margin-top:20px;margin-bottom:20px;padding:4px;overflow-wrap:break-word !important;word-wrap: break-word;">
+                            @Raw(Model.InvoiceNote)
+                        </p>
+                    </div>
+                </div>
+            }
+
+            @if (@Model.EstimateNote != "" && @Model.EstimateNote != null)
+            {
+                <div class="list-widget" style="margin-top:30px;width:800px">
+                    <h5 style="font-size:18px; font-weight:bold;margin-top:20px;margin-bottom:10px;line-height:10px;">General Notes</h5>
+                    <div style="border: 1px solid #bec2c6;width:800px !important">
+                        <p style="margin:0;margin-top:20px;margin-bottom:20px;padding:4px;overflow-wrap:break-word;word-wrap: break-word;">
+                            @Raw(Model.EstimateNote)
+                        </p>
+                    </div>
+                </div>
+            }
+
+            <div class="list-widget" style="margin-top: 20px; padding: 10px; border: 1px solid #bec2c6;">
+
+                <table style="width:100%;" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td style="width:180px!important"><b>Sales Representative</b></td>
+                            <td>@Model.SalesRep</td>
+                            <td><b> Customer Signature: <span style="font-size:10px">At time of sale</span>:</b></td>
+
+
+                            @if (@Model.CustomerSignature != "" && @Model.CustomerSignature != null)
+                            {
+                                <td style="max-width:40px !important;width:10px!important"><img style="margin:auto; height:100px;width:140px" src="@Model.CustomerSignature" /></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:40px !important;width:10px!important"></td>
+                                <td style="max-width:40px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+
+                            }
+                            @if (@Model.CustomerSignature == "" || @Model.CustomerSignature == null)
+                            {
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                                <td style="max-width:10px !important;width:10px!important"></td>
+                            }
+
+                            <td><b>Date:</b></td>
+                            <td style="width:80px !important">@Model.SignDateTime</td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div>
+                    <hr />
+                    Acceptance <b> by customer</b> of service provided by MARBLELIFE shall be deemed to constitute assent to MARBLELIFE's terms and conditions set forth herein.  This includes permission to take before and after images of project and work area for purposes of MARBLELIFE's service documentation and for use in MARBLELIFE's quality review process. MARBLELIFE reserves the right to improve its proprietary process at any time without notice.  Guarantee is valid only if payment for services are current.  A late charge of 1.5% per month will be imposed on past due accounts.
+                    <hr />
+                </div>
+                <div>
+                    <table style="width:100%;" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td style="width:180px!important"><b>Technician</b></td>
+                                <td>@Model.TechName</td>
+                                <td><b> Customer Signature: <span style="font-size:10px">On Completion</span>:</b></td>
+
+
+                                @if (@Model.CustomerPostSignature != "" && @Model.CustomerPostSignature != null)
+                                {
+                                    <td style="max-width:40px !important;width:10px!important"><img style="margin:auto; height:100px;width:140px" src="@Model.CustomerPostSignature" /></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:40px !important;width:10px!important"></td>
+                                    <td style="max-width:40px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+
+                                }
+                                @if (@Model.CustomerPostSignature == "" || @Model.CustomerPostSignature == null)
+                                {
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                    <td style="max-width:10px !important;width:10px!important"></td>
+                                }
+
+                                <td><b>Date:</b></td>
+                                <td style="width:80px !important">@Model.PostSignDateTime</td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <hr />
+            <h5 style="font-size:15px;margin-top:5px;margin-bottom:0px;line-height:10px;margin-left:10% !important"><i>"Restoring & Maintaining the Natural Health & Beauty of Your Stone, Tile & Grout Surfaces"</i></h5>
+            <div style="width:100%;page-break-before:always;page-break-after:avoid">
+                <h5 style="font-size:18px; font-weight:bold; margin:20px auto; text-align:center;"><u>Terms & Conditions</u></h5>
+                <span style="font-size:10px !important;">@Raw(Model.Template)</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

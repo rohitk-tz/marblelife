@@ -1,0 +1,21 @@
+SET SQL_SAFE_UPDATES = 0;
+Update `holiday` set IsDeleted=b'1';
+SET SQL_SAFE_UPDATES = 1;
+
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('26', 'New Year’s Day', '2020-01-01', '2020-01-01', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('27', 'M L LKing Day', '2019-01-20', '2019-01-20', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('28', 'Valentine’s Day', '2019-02-14', '2019-02-14', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('29', 'President’s Day', '2019-02-17', '2019-02-17', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('30', 'Good Friday', '2019-04-10', '2019-04-10', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('31', 'Easter Sunday', '2019-04-12', '2019-04-12', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('32', 'Mother’s Day', '2019-05-10', '2019-05-10', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('33', 'Memorial Day', '2019-05-25', '2019-05-25', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('34', 'Father’s Day', '2019-06-21', '2019-06-21', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('35', 'Independence Day', '2019-07-03', '2019-07-03', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('36', 'Labor Day', '2019-09-07', '2019-09-07', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('37', 'Columbus Day', '2019-10-12', '2019-10-12', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('38', 'Halloween', '2019-10-31', '2019-10-31', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('39', 'Veterans Day', '2019-11-11', '2019-11-11', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('40', 'Thanksgiving Day', '2019-11-26', '2019-11-26', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('41', 'Christmas Eve', '2019-12-24', '2019-12-24', b'0');
+INSERT INTO `holiday` (`Id`, `Title`, `StartDate`, `EndDate`, `IsDeleted`) VALUES ('42', 'Christmas Day', '2019-12-25', '2019-12-25', b'0');

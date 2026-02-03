@@ -1,0 +1,120 @@
+﻿<style>
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add/Edit Notes</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row" ng-if="vm.from=='notes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="notes" name="notes" ng-model="vm.serviceList.notes" required
+                              maxlength="1028" ng-keyup="$event.keyCode === 13 && vm.addBreak(vm.serviceList.notes)"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10 col-lg-10 col-xs-12" ng-if="!vm.isEditable">
+                <p style="overflow-wrap:break-word" ng-bind-html="vm.serviceList.notes"></p>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.from=='priceNotes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="priceNotes" name="priceNotes" ng-model="vm.serviceList.priceNotes" required
+                              maxlength="1028" ng-keyup="$event.keyCode === 13 && vm.addBreak(vm.serviceList.priceNotes)"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10 col-lg-10 col-xs-12" ng-if="!vm.isEditable">
+                <p style="overflow-wrap:break-word" ng-bind-html="vm.serviceList.priceNotes"></p>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.from=='invoiceNotes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="invoiceNotes" name="invoiceNotes" ng-model="vm.serviceList.notes" required
+                              maxlength="1028" ng-keyup="$event.keyCode === 13 && vm.addBreak(vm.serviceList.notes)"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10 col-lg-10 col-xs-12" ng-if="!vm.isEditable">
+                <p style="overflow-wrap:break-word" ng-bind-html="vm.serviceList.notes"></p>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.from=='option1Notes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option1Notes" name="invoiceNotes" ng-model="vm.serviceList.option1" required
+                              maxlength="20"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10" ng-if="!vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option1Notes" name="invoiceNotes" ng-model="vm.serviceList.option1" required
+                              maxlength="20" disabled="disabled"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.from=='option2Notes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option2Notes" name="invoiceNotes" ng-model="vm.serviceList.option2" required
+                              maxlength="20"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10" ng-if="!vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option2Notes" name="invoiceNotes" ng-model="vm.serviceList.option2" required
+                              maxlength="20" disabled="disabled"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.from=='option3Notes'">
+            <div class="col-md-10" ng-if="vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option3Notes" name="invoiceNotes" ng-model="vm.serviceList.option3" required
+                              maxlength="20" disabled="disabled"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="col-md-10" ng-if="!vm.isEditable">
+                <div class="form-group form-md-line-input">
+                    <textarea rows="3" class="form-control" id="option3Notes" name="invoiceNotes" ng-model="vm.serviceList.option3" required
+                              maxlength="20" disabled="disabled"></textarea>
+                    <label for="note">Note</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-if="vm.isEditable" ng-click="vm.save();">Save</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

@@ -1,0 +1,126 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Downloaded Invoices</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="col-md-12">
+        <span style="font-weight:bolder;" class="modal-title pull-left" ng-if="vm.downloadedInvoices.length > 0">
+            Please do not change CSV structure as it will affect the Webgility upload.
+        </span>
+        <br /><br />
+        <span class="modal-title pull-left" ng-if="vm.downloadedInvoices.length > 0">
+            Following is the list of downloaded invoice(s).
+        </span>
+        <br />
+        <div class="table-scrollable table-mbl" slimscroll="{height: '370px'}">
+            <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                <thead>
+                    <tr role="row">
+                        <th style="width: 65px; min-width: 65px; max-width: 65px;">
+                            ID#
+                        </th>
+                        <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                            ng-if="vm.currentRole == 1" style="width: 100px; min-width: 100px; max-width: 100px;">
+                            Franchisee
+                        </th>
+                        <th rowspan="1" colspan="1" aria-label="StartDate" style="width: 90px; min-width: 90px; max-width: 90px;">
+                            Start Date
+                        </th>
+                        <th rowspan="1" colspan="1" aria-label="EndDate" style="width: 90px; min-width: 90px; max-width: 90px;">
+                            End Date
+                        </th>
+                        <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PayableAmount"
+                            style="width: 100px; min-width: 100px; max-width: 100px;">
+                            Payable Amount
+                        </th>
+                        <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdFund"
+                            style="width: 60px; min-width: 60px; max-width: 60px;">
+                            AdFund
+                        </th>
+                        <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Royalty"
+                            style="width: 80px; min-width: 80px; max-width: 80px;">
+                            Royalty
+                        </th>
+                        <th class="sorting_disabled" style="width: 100px; min-width: 100px; max-width: 100px;">
+                            Late Fees
+                        </th>
+                        <th class="sorting_disabled" style="width: 100px; min-width: 100px; max-width: 100px;">
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in vm.downloadedInvoices">
+                        <td style="width: 65px; min-width: 65px; max-width: 65px;">
+                            {{item.invoiceId}}<i ng-if="vm.isSuperAdmin && item.isDownloaded" class="qb_Icon"></i>
+                        </td>
+                        <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="vm.isSuperAdmin">{{item.franchiseeName}}</td>
+                        <td style="width: 90px; min-width: 90px; max-width: 90px;">
+                            <span ng-if="item.startDate == null">&nbsp;</span>
+                            <span ng-if="item.startDate != null">{{item.startDate | dateTimeFilter}}</span>
+                        </td>
+                        <td style="width: 90px; min-width: 90px; max-width: 90px;">
+                            <span ng-if="item.endDate == null">&nbsp;</span>
+                            <span ng-if="item.endDate != null">{{item.endDate | dateTimeFilter}}</span>
+                        </td>
+                        <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                            <span ng-if="item.payableAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.payableAmount" from-Currency="item.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                            <span ng-if="item.adFund != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.adFund" from-Currency="item.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                            <span ng-if="item.royalty != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                  input="item.royalty" from-Currency="item.currencyCode">
+                            </span>
+                        </td>
+                        <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                            <span ng-if="item.royaltyLateFee > 0">
+                                Royalty : <span ng-if="item.royaltyLateFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                input="item.royaltyLateFee" from-Currency="item.currencyCode">
+                                </span>
+                                <br />
+                            </span>
+                            <span ng-if="item.salesDataLateFee > 0">
+                                SalesData : <span ng-if="item.salesDataLateFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                  input="item.salesDataLateFee" from-Currency="item.currencyCode">
+                                </span>
+                                <br />
+                            </span>
+                            <span ng-if="item.interestRate > 0">
+                                Interest Rate : <span ng-if="item.interestRate != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                      input="item.interestRate" from-Currency="item.currencyCode">
+                                </span>
+                            </span>
+                            <span ng-if="item.royaltyLateFee <= 0 && item.salesDataLateFee <= 0 && item.interestRate <= 0">N/A</span>
+                        </td>
+                        <td style="width: 100px; min-width: 100px; max-width: 100px;">{{item.status}}</td>
+                    </tr>
+                </tbody>
+                <tr ng-if="vm.downloadedInvoices.length == 0">
+                    <td colspan="15" class="text-center"><span> No Records Found</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clearfix">
+            <span class="modal-title pull-left margin-top-20" ng-if="vm.downloadedInvoiceIds.length <= 0">
+                <b>Above invoices has been already marked as QB uploaded.</b>
+            </span>
+            <span class="modal-title pull-left margin-top-20" ng-if="vm.downloadedInvoiceIds.length > 0">
+                <b>Please confirm if you want to mark above invoices as QB Uploaded? </b>
+            </span> <br />
+            <div class="modal-footer pull-right">
+                <button ng-if="vm.downloadedInvoiceIds.length <= 0" type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button ng-if="vm.downloadedInvoiceIds.length > 0" type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+                <button ng-if="vm.downloadedInvoiceIds.length > 0" type="submit" class="btn btn-primary" ng-click="vm.markAsDownloaded();" ng-disabled="vm.downloadedInvoiceIds.length <= 0 || vm.isProcessing">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

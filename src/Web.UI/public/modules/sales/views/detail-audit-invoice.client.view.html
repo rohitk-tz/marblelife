@@ -1,0 +1,527 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="clearfix page-controls margin-bottom-20">
+            <div class="search-box">
+                <div class="pull-right search-btn-wrap">
+                    <button id="sample_editable_1_new" ng-click="vm.goToList()" class="btn btn-primary">
+                        Back To List
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="row col-md-12 col-sm-12 col-xs-12" ng-if="{{vm.auditInvoice.reportName}}!=null">
+            <p style="font-size:14px !important"><b>Type Name:</b> {{vm.auditInvoice.reportName}}</p>
+        </div>
+        <div class="clearfix">
+            <div class="row col-md-6 col-sm-12 col-xs-12">
+                <div class="portlet light" style="height:1200px;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption">
+                            <span class="caption-subject font-blue-steel bold uppercase">Audit Invoice</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body slider" ng-if="vm.auditInvoiceId > 0 && vm.auditInvoice!=null">
+                        <div class="tab-content">
+                            <div class="invoice">
+                                <div class="row invoice-logo">
+                                    <div class="col-xs-6">
+                                        <p class="pull-left">
+                                            Invoice# - {{vm.auditInvoice.invoiceId}}
+                                            <br />
+                                            QB Invoice - {{vm.auditInvoice.qbInvoiceNumber}}
+                                            <br />
+                                            InvoiceDate - {{vm.auditInvoice.generatedOn | dateTimeFilter}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h4>Client:</h4>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                {{vm.auditInvoice.customer}}
+                                            </li>
+                                            <li>
+                                                {{vm.auditInvoice.contactPerson}}
+                                            </li>
+                                            <li ng-if="vm.auditInvoice.address.addressLine1 != null">
+                                                {{vm.auditInvoice.address.addressLine1}}, {{vm.auditInvoice.address.addressLine2}}
+                                            </li>
+                                            <li ng-if="vm.auditInvoice.address.city != null">
+                                                {{vm.auditInvoice.address.city}}, {{vm.auditInvoice.address.state}} - {{vm.auditInvoice.address.zipCode}}
+                                            </li>
+                                            <li>
+                                                {{vm.auditInvoice.phoneNumber | phonemask}}
+                                            </li>
+                                            <li>
+                                                <span ng-repeat="email in vm.auditInvoice.customerEmails">
+                                                    <a href="mailto:{{email.email}}"> {{email.email}}</a><br />
+                                                </span>
+                                                <span ng-if="vm.auditInvoice.email!=null">
+                                                    <a href="mailto:{{vm.auditInvoice.email}}"> {{vm.auditInvoice.email}}</a><br />
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Audit Invoice Item #
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        Description
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 80px;">
+                                                        Quantity
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 100px;">
+                                                        Unit Cost
+                                                    </th>
+                                                    <th style="width: 100px;">
+                                                        Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="invoiceItem in vm.auditInvoice.invoiceItems">
+                                                    <td>
+                                                        {{invoiceItem.id}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.description}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.quantity}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.rate" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.amount" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h4>Customer Payments</h4>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Audit Payment Item #
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="payment in vm.auditInvoice.payments">
+                                                    <td>
+                                                        {{payment.id}}
+                                                    </td>
+                                                    <td>
+                                                        {{payment.date | dateTimeFilter}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                              input="payment.amount" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                    </div>
+                                    <div class="col-xs-8 invoice-block">
+                                        <ul class="list-unstyled amounts pull-right">
+                                            <li>
+                                                <strong>Total amount:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.auditInvoice.totalAmount" from-Currency="vm.auditInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Payment:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.auditInvoice.totalPayment" from-Currency="vm.auditInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Grand Total:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.auditInvoice.grandTotal" from-Currency="vm.auditInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice text-danger text-center" ng-if="vm.auditInvoice==null || vm.auditInvoiceId <= 0">
+                        <h3>No Audit invoice Found For the QB Invoice Number!</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="portlet light" style="height:1200px;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption">
+                            <span class="caption-subject font-blue-steel bold uppercase">System Invoice</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body slider" ng-if="vm.invoiceId > 0 && vm.systemInvoice!=null">
+                        <div class="tab-content">
+                            <div class="invoice">
+                                <div class="row invoice-logo">
+                                    <div class="col-xs-6">
+                                        <p class="pull-left">
+                                            Invoice# - {{vm.systemInvoice.invoiceId}}
+                                            <br />
+                                            QB Invoice - {{vm.systemInvoice.qbInvoiceNumber}}
+                                            <br />
+                                            InvoiceDate - {{vm.systemInvoice.generatedOn | dateTimeFilter}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h4>Client:</h4>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                {{vm.systemInvoice.customer}}
+                                            </li>
+                                            <li>
+                                                {{vm.systemInvoice.contactPerson}}
+                                            </li>
+                                            <li ng-if="vm.systemInvoice.address.addressLine1 != null">
+                                                {{vm.systemInvoice.address.addressLine1}}, {{vm.systemInvoice.address.addressLine2}}
+                                            </li>
+                                            <li ng-if="vm.systemInvoice.address.city != null">
+                                                {{vm.systemInvoice.address.city}}, {{vm.systemInvoice.address.state}} - {{vm.systemInvoice.address.zipCode}}
+                                            </li>
+                                            <li>
+                                                {{vm.systemInvoice.phoneNumber | phonemask}}
+                                            </li>
+                                            <li>
+                                                <span ng-repeat="email in vm.systemInvoice.customerEmails">
+                                                    <a href="mailto:{{email.email}}"> {{email.email}}</a><br />
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Invoice Item #
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        Description
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 80px;">
+                                                        Quantity
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 100px;">
+                                                        Unit Cost
+                                                    </th>
+                                                    <th style="width: 100px;">
+                                                        Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="invoiceItem in vm.systemInvoice.invoiceItems">
+                                                    <td>
+                                                        {{invoiceItem.id}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.description}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.quantity}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.rate" from-Currency="vm.systemInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.amount" from-Currency="vm.systemInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h4>Customer Payments</h4>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Payment Item #
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="payment in vm.systemInvoice.payments">
+                                                    <td>
+                                                        {{payment.id}}
+                                                    </td>
+                                                    <td>
+                                                        {{payment.date | dateTimeFilter}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                              input="payment.amount" from-Currency="vm.systemInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                    </div>
+                                    <div class="col-xs-8 invoice-block">
+                                        <ul class="list-unstyled amounts pull-right">
+                                            <li>
+                                                <strong>Total amount:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.systemInvoice.totalAmount" from-Currency="vm.systemInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Payment:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.systemInvoice.totalPayment" from-Currency="vm.systemInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Grand Total:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="vm.systemInvoice.grandTotal" from-Currency="vm.systemInvoice.currencyCode">
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice text-danger text-center" ng-if="vm.systemInvoice==null || vm.invoiceId <= 0">
+                        <h3>No System invoice Found For the QB Invoice Number!</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-6 col-sm-12 col-xs-12" ng-repeat="item in vm.auditInvoiceType13">
+                <div class="portlet light" style="height:1200px;margin-left: 1%;">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption">
+                            <span class="caption-subject font-blue-steel bold uppercase">Splitted Audit Invoice</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body slider">
+                        <div class="tab-content">
+                            <div class="invoice">
+                                <div class="row invoice-logo">
+                                    <div class="col-xs-6">
+                                        <p class="pull-left">
+                                            Invoice# - {{item.invoiceId}}
+                                            <br />
+                                            QB Invoice - {{item.qbInvoiceNumber}}
+                                            <br />
+                                            InvoiceDate - {{item.generatedOn | dateTimeFilter}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h4>Client:</h4>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                {{item.customer}}
+                                            </li>
+                                            <li>
+                                                {{item.contactPerson}}
+                                            </li>
+                                            <li ng-if="item.address.addressLine1 != null">
+                                                {{item.address.addressLine1}}, {{item.address.addressLine2}}
+                                            </li>
+                                            <li ng-if="vm.auditInvoice.address.city != null">
+                                                {{item.address.city}}, {{item.address.state}} - {{item.address.zipCode}}
+                                            </li>
+                                            <li>
+                                                {{item.phoneNumber | phonemask}}
+                                            </li>
+                                            <li>
+                                                <span ng-repeat="email in item.customerEmails">
+                                                    <a href="mailto:{{email.email}}"> {{email.email}}</a><br />
+                                                </span>
+                                                <span ng-if="item.email!=null">
+                                                    <a href="mailto:{{vm.auditInvoice.email}}"> {{vm.auditInvoice.email}}</a><br />
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Audit Invoice Item #
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        Description
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 80px;">
+                                                        Quantity
+                                                    </th>
+                                                    <th class="hidden-480" style="width: 100px;">
+                                                        Unit Cost
+                                                    </th>
+                                                    <th style="width: 100px;">
+                                                        Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="invoiceItem in item.invoiceItems">
+                                                    <td>
+                                                        {{invoiceItem.id}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.description}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{invoiceItem.quantity}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.rate" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="invoiceItem.currencyRate"
+                                                              input="invoiceItem.amount" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h4>Customer Payments</h4>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Audit Payment Item #
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="payment in item.payments">
+                                                    <td>
+                                                        {{payment.id}}
+                                                    </td>
+                                                    <td>
+                                                        {{payment.date | dateTimeFilter}}
+                                                    </td>
+                                                    <td>
+                                                        <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                              input="payment.amount" from-Currency="vm.auditInvoice.currencyCode">
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                    </div>
+                                    <div class="col-xs-8 invoice-block">
+                                        <ul class="list-unstyled amounts pull-right">
+                                            <li>
+                                                <strong>Total amount:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="item.totalPayment" from-Currency="item.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Payment:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="item.totalAmount" from-Currency="item.currencyCode">
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <strong>Grand Total:</strong>
+                                                <span currency-Exchange conversion-Rate="vm.currencyRate"
+                                                      input="item.grandTotal" from-Currency="item.currencyCode">
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice text-danger text-center" ng-if="item==null || item <= 0">
+                        <h3>No Audit invoice Found For the QB Invoice Number!</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

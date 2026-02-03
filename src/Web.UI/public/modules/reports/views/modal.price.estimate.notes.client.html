@@ -1,0 +1,38 @@
+﻿<style type="text/css">
+    span.required {
+        display: none !important;
+    }
+
+    .has-zero {
+        border: 2px solid #26327e !important;
+    }
+
+    thead {
+        visibility: visible !important;
+    }
+</style>
+<div class="modal-header">
+    <h4 ng-if="vm.isSuperAdmin" class="modal-title pull-left">Add/View Price Notes</h4>
+    <h4 ng-if="vm.isFranchiseeAdmin" class="modal-title pull-left">View Price Notes</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <span style="font-size:12px;">
+                <b>List Of Service:</b> {{vm.service}} | <b>Service Type:</b> {{vm.serviceType}} | <b>Category:</b> {{vm.category}} | <b>Material Type:</b> {{vm.materialType}}
+            </span>
+        </div>
+    </div>
+    <br />
+    <textarea style="font-size:15px;" ng-if="vm.isSuperAdmin" class="form-control" rows="5" id="notes" ng-model="vm.note" maxlength="2000" placeholder="Price Estimate Notes" required></textarea>
+    <div ng-if="vm.isFranchiseeAdmin">
+        <span style="word-break:break-all !important; font-size: 15px;">
+            {{vm.note}}
+        </span>
+    </div>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button ng-if="vm.isSuperAdmin" type="button" class="btn btn-primary" ng-click="vm.save();">Save</button>
+</div>

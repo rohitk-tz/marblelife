@@ -1,0 +1,55 @@
+﻿<style type="text/css">
+    a[title='JavaScript charts'], .amcharts-export-menu {
+        display: block !important;
+    }
+
+    .amcharts-chart-div a {
+        visibility: hidden !important;
+    }
+
+    #sizer {
+        height: 0px !important;
+    }
+
+    .modal-dialog.modal-xl {
+        width: 1000px !important;
+    }
+
+    #legenddiv1 {
+        top: 25px !important;
+    }
+
+        #legenddiv1 svg g g g:nth-child(17) {
+            display: none !important;
+        }
+    /*#legenddiv1 svg g g g:nth-child(14)
+    {
+       display:none;
+    }*/
+</style>
+<div class="modal-header">
+    <h3 class="modal-title pull-left search-single margin-top-20"><strong> Sales By Product-Channel </strong></h3>
+    <div class="pull-right margin-top-10 margin-left-15">
+        <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+    </div>
+    <div class="pull-right ">
+        <div class="form-group form-md-line-input form-md-floating-label">
+            <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.generateChartData"
+                   start-date="vm.query.startDate" end-date="vm.query.endDate">
+            <label for="date-range">Date Range</label>
+        </div>
+    </div>
+</div>
+<div class="modal-body" id="printSection">
+    <h3 class="print-header" style="display:none;top:0px !important"><strong> Sales By Product-Channel </strong></h3> <div class="print-header" style="display:none;float:right">{{vm.query.startDate}} to {{vm.query.endDate}}</div>
+    <span><b><i>Note :</i></b> by default we are showing the data from start of the year to last completed month.</span>
+    <div class="tab-pane active m-t-15" id="portlet_tab1">
+        <div id="printdiv" class="legends-mul-col"></div>
+        <am-chart id="myFirstChart1" options="amChartOptions" height="500px" width="100%"></am-chart>
+        <div id="legenddiv1" class="legends-mul-col" ng-disabled="buttonEnabled"></div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+</div>

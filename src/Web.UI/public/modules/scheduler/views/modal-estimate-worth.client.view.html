@@ -1,0 +1,47 @@
+﻿<style>
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Estimate Worth</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div>
+                    <span style="font-size:17px !important">Enter Estimate Worth</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <input only-decimal type="text" class="form-control" id="name" name="worth" ng-model="vm.query.worth" required
+                       maxlength="8">
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.updateToDoByStatus();" ng-disabled="vm.query.worth == '' || vm.query.worth == undefined">Save</button>
+</div>

@@ -1,0 +1,670 @@
+﻿<style>
+    .table-mbl table thead tr th {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    div.dataTables_paginate {
+        float: right;
+        margin-top: 5px;
+    }
+
+    .btn {
+        padding: 10px;
+    }
+
+    @media only screen and (max-width: 767px) {
+        div.dataTables_paginate {
+            float: left;
+        }
+
+        .daterangepicker {
+            width: 92% !important;
+            margin-left: -19px !important;
+        }
+
+            .daterangepicker .calendar {
+                max-width: 100%;
+            }
+
+        .input-small {
+            width: 125px !important;
+        }
+    }
+
+    @media only screen and (max-width: 356px) {
+        .input-small {
+            width: 110px !important;
+        }
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" ng-class="{'hidden':showFilterBox}" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; margin-bottom: 3px;">
+            <div class="col-sm-2 m-t-15" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getInvoiceList();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-7 col-xs-12" style="display:flex">
+                        <div class="pull-left margin-right-10">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <select style="width: 175px !important;" class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                        ng-change="vm.resetSeachOption()"
+                                        ng-options="item.value as item.display for item in vm.searchOptions">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label for="search-option">Search Options</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.isSuperAdmin && vm.searchOption == '1'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                        ng-change="vm.changeFranchisee();"
+                                        ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label for="franchisee">Franchisee</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '2'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <select class="form-control input-small" id="status" ng-model="vm.query.statusId"
+                                        ng-change="vm.setFilters();"
+                                        ng-options="status.value as status.display for status in vm.invoiceStatus">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label>Status</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '2'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control  input-small" id="date-range" date-range-picker change="vm.setFilters"
+                                       start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                                <label for="date-range">Date Range</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '5'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <select class="form-control input-small" id="status" ng-model="vm.query.lateFeeTypeId"
+                                        ng-change="vm.setFilters();"
+                                        ng-options="type.value as type.display for type in vm.lateFeeType">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label>LateFee Type</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '6' || vm.searchOption == ''">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="search" class="form-control  input-small" placeholder="" style="margin-top: -11px;" aria-controls="sample_1"
+                                       ng-model="vm.query.text" key-stroke-action change="vm.setFilters">
+                                <label>Search</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '4'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control  input-small" id="due-date" date-range-picker change="vm.setFilters"
+                                       start-date="vm.query.dueDateStart" end-date="vm.query.dueDateEnd">
+                                <label for="due-date">Due Date</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.isSuperAdmin && vm.searchOption == '7'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control  input-small" id="payment-date" date-range-picker change="vm.setFilters"
+                                       start-date="vm.query.paymentDateStart" end-date="vm.query.paymentDateEnd">
+                                <label for="due-date">Payment Date</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '8'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.text" key-stroke-action change="vm.setFilters">
+                                <label>Id</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '9'" ng-change="vm.getInvoiceList();">
+
+                        </div>
+                        <!--<div class="pull-left margin-right-10" ng-if="vm.searchOption == '10'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.accounting" key-stroke-action change="vm.setFilters">
+                                <label>Accounting</label>
+                            </div>
+                        </div>-->
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '11'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.loanAndLoanInt" key-stroke-action change="vm.setFilters">
+                                <label>Loan & Loan Int</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '12'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.iSQFT" key-stroke-action change="vm.setFilters">
+                                <label>ISQFT</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '13'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.webSEO" key-stroke-action change="vm.setFilters">
+                                <label>WebSEO</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10" ng-if="vm.searchOption == '14'">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control  input-small" placeholder="" aria-controls="sample_1"
+                                       ng-model="vm.query.backUpCharges" key-stroke-action change="vm.setFilters">
+                                <label>Back Up Charges</label>
+                            </div>
+                        </div>
+                        <div class="pull-left margin-right-10">
+                            <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.searchOption == '3' || vm.searchOption == ''">
+                                <input type="text" class="form-control  input-small" id="date-range" date-range-picker change="vm.setFilters"
+                                       start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                                <label for="date-range">Date Range</label>
+                            </div>
+                        </div>
+                        <div ng-if="vm.searchOption == '9'" class="pull-left margin-right-10 m-t-15">
+                            <a class="btn" ng-click="vm.getDownloadedInvoice();">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="pull-left margin-right-10 m-t-15">
+                            <a class="btn" ng-click="vm.resetSearch();">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-5 col-xs-12">
+                        <div class="pull-right margin-right-10 m-t-15" ng-if="vm.isSuperAdmin == true && vm.selectedDownload" style="float:right">
+                            <button id="sample_editable_1_new" ng-click="vm.downloadQuickBooks()" class="btn btn-primary"
+                                    ng-disabled="vm.invoiceIds.length < 1 || vm.downloading == true">
+                                <i class="fa fa-download"></i>   QuickBooks Download
+                            </button>
+                        </div>
+                        <div class="pull-right margin-right-10 m-t-15 " ng-if="vm.isSuperAdmin == true && vm.selectedDownload">
+                            <button id="sample_editable_1_new" ng-click="vm.downloadInvoiceList()" class="btn btn-primary"
+                                    ng-disabled="vm.invoiceIds.length < 1 || vm.downloading == true">
+                                <i class="fa fa-cloud-download"></i>  Download
+                            </button>
+                        </div>
+                        <div class="pull-right margin-right-10  m-t-15" ng-if="vm.isSuperAdmin == true && vm.downloadAll">
+                            <button id="sample_editable_1_new" ng-click="vm.downloadQuickBooks()" class="btn btn-primary"
+                                    ng-disabled="vm.downloadInvoiceIds.length < 1 || vm.downloading == true">
+                                <i class="fa fa-download"></i>  QuickBooks Download
+                            </button>
+                        </div>
+                        <div class="pull-right margin-right-10 m-t-15" ng-if="vm.isSuperAdmin == true && vm.downloadAll">
+                            <button id="sample_editable_1_new" ng-click="vm.downloadAllInvoiceList()" class="btn btn-primary"
+                                    ng-disabled="vm.downloadInvoiceIds.length < 1 || vm.downloading == true">
+                                <i class="fa fa-cloud-download"></i> Download
+                            </button>
+                        </div>
+                        <div class="pull-right margin-right-10 m-t-15">
+                            <a class="btn btn-primary" ng-click="vm.refresh();">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; ">
+            <div class="col-sm-3" style="display:flex">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.InvoiceList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+
+                    <button class="btn btn-xs btn-primary pull-right hidden-lg hidden-md hidden-sm" ng-click="showfilterBox()"><i class="fa fa-filter"></i></button>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="pull-left" ng-if="vm.isFranchiseeChange">
+                    <div class="col-xs-12 invoice-logo-space">
+                        <b>Available Credit Amount (in AdFund):</b>
+                        <b>
+                            <span ng-if="vm.totalAmountByCategory.totalByAdFund==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </b>
+                    </div>
+                    <div class="col-xs-12 invoice-logo-space">
+                        <b>Available Credit Amount (in Royalty):</b>
+                        <b>
+                            <span ng-if="vm.totalAmountByCategory.totalByRoyality==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByRoyality" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </b>
+                    </div>
+                    <div class="col-xs-12 invoice-logo-space">
+                        <b>Available Credit Amount (Total Sales Amount):</b>
+                        <b>
+                            <span ng-if="vm.totalAmountByCategory.totalByTotalSales==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByTotalSales" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </b>
+                    </div>
+                    <div class="col-xs-12 invoice-logo-space">
+                        <b>Total Available Amount:</b>
+                        <b>
+                            <span ng-if="vm.totalAmountByCategory.totalByTotalSales==0">
+                                $
+                            </span>
+                            <span class="currency-nav" currency-Exchange conversion-Rate="vm.currencyRate"
+                                  input="vm.totalAmountByCategory.totalByTotalSales+vm.totalAmountByCategory.totalByRoyality+vm.totalAmountByCategory.totalByAdFund" from-Currency="vm.list.currencyCode">
+                            </span>
+                        </b>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="dataTables_info">
+                    <span class="dataTables_info bold" style="margin-top:5px !important;"> Unpaid Amount: ${{vm.totolUnpaidAmount}}</span>
+                </div>
+            </div>
+            <div class="col-sm-3" style="float:right !important">
+
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate" ng-if="vm.InvoiceList.length < vm.count">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="table-scrollable table-mbl">
+
+            <div fix-height style="overflow: auto;">
+                <div class="row">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    </table>
+                </div>
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead fix-head>
+                        <tr role="row">
+                            <th aria-controls="sample_1" rowspan="2" colspan="2" ng-if="vm.isSuperAdmin" style="width: 40px; min-width: 40px; max-width: 40px;">
+                                <div ng-if="vm.invoiceIds.length > 0" class="dataTables_info">
+                                    <span class="bold">Selected Records- {{vm.invoiceIds.length}}</span>
+                                </div>
+                            </th>
+                            <th ng-if="!vm.isSuperAdmin">
+
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Id,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Id }" style="width: 100px; min-width: 100px; max-width: 100px;    vertical-align: middle;"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id"
+                                ng-click="vm.sorting(vm.SortColumns.Id);">
+                                ID#
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.AdFundOrRoyalty,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.AdFundOrRoyalty,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.AdFundOrRoyalty }"
+                                rowspan="1" colspan="1" aria-label="AdFundOrRoyalty" ng-click="vm.sorting(vm.SortColumns.AdFundOrRoyalty);"
+                                style="width: 80px; min-width: 80px; max-width: 80px; vertical-align: middle; white-space: initial ">
+                                AdFund Or Royalty
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Status,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Status }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Status" style="width: 80px; min-width: 80px; max-width: 80px;vertical-align: middle;"
+                                ng-click="vm.sorting(vm.SortColumns.Status);">
+                                Status
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Name,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Name }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FranchiseeName"
+                                ng-click="vm.sorting(vm.SortColumns.Name);" ng-if="vm.currentRole == 1" style="width: 120px; min-width: 120px; max-width: 120px;    vertical-align: middle;">
+                                Franchisee Name
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.StartDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.StartDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.StartDate }"
+                                rowspan="1" colspan="1" aria-label="StartDate" ng-click="vm.sorting(vm.SortColumns.StartDate);" style="width: 90px; min-width: 90px; max-width: 90px;    vertical-align: middle;">
+                                Start Date
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.EndDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.EndDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.EndDate }"
+                                rowspan="1" colspan="1" aria-label="EndDate" ng-click="vm.sorting(vm.SortColumns.EndDate);" style="width: 90px; min-width: 90px; max-width: 90px;    vertical-align: middle;">
+                                End Date
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.DueDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.DueDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.DueDate }" style="width: 90px; min-width: 90px; max-width: 90px;    vertical-align: middle;"
+                                rowspan="1" colspan="1" aria-label="EndDate" ng-click="vm.sorting(vm.SortColumns.DueDate);">
+                                Due Date
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.UploadedOn,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.UploadedOn,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.UploadedOn }" style="width: 90px; min-width: 90px; max-width: 90px;    vertical-align: middle;"
+                                rowspan="1" colspan="1" aria-label="EndDate" ng-click="vm.sorting(vm.SortColumns.UploadedOn);">
+                                Uploaded On
+                            </th>
+                            <th ng-if="vm.isSuperAdmin" ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PaymentDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PaymentDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PaymentDate }"
+                                rowspan="1" colspan="1" aria-label="PaymentDate" ng-click="vm.sorting(vm.SortColumns.PaymentDate);" style="width: 100px; min-width: 100px; max-width: 100px;vertical-align: middle;">
+                                Payment Date
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Status" style="width: 100px; min-width: 100px; max-width: 100px;vertical-align: middle;">
+                                Payment Mode
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PaidAmount" style="width: 160px; min-width: 160px; max-width: 160px;    vertical-align: middle;">
+                                Amount
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="AdFund"
+                                style="width: 110px; min-width: 110px; max-width: 110px;white-space:initial;vertical-align: middle;">
+                                AdFund<span style="margin-left:47% !important"></span>      <span style="font-size:12px !important">( Total ${{vm.adfundForTotal| number : 2}} )</span>
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Royalty"
+                                style="width: 110px; min-width: 110px; max-width: 110px;white-space:initial;vertical-align: middle;">
+                                Royalty<span style="margin-left:48% !important"></span> <span style="font-size:12px !important"> ( Total ${{vm.royalityForTotal| number : 2}} )</span>
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Royalty"
+                                style="width: 139px; min-width: 139px; max-width: 80px;white-space:initial;vertical-align: middle;">
+                                Min Royalty Amount <span style="font-size:12px !important;margin-left:3% !important">( Total ${{vm.minAmountForTotal| number : 2}} )</span>
+                            </th>
+                            <th class="sorting_disabled" style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                Late Fees
+                            </th>
+                            <th style="width: 100px; min-width: 100px; max-width: 100px; vertical-align: middle; white-space: inherit;">
+                                Fixed Accounting
+                            </th>
+                            <th style="width: 100px; min-width: 100px; max-width: 100px; vertical-align: middle; white-space: inherit;">
+                                Variable Accounting
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px; vertical-align: middle;">
+                                Loan & Loan Int
+                            </th>
+                            <th style="width: 70px; min-width: 70px; max-width: 70px; vertical-align: middle;">
+                                ISQFT
+                            </th>
+                            <th style="width: 80px; min-width: 80px; max-width: 80px; vertical-align: middle;">
+                                WEBSEO
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                BACK-UP PHONE
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                One Time Charges
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                Recruiting Fee
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                Payroll Processing
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                National Charges
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px; vertical-align: middle; white-space: inherit;">
+                                Franchisee Email Fee
+                            </th>
+                            <th class="sorting_disabled" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="PayableAmount"
+                                style="width: 110px; min-width: 110px; max-width: 110px;white-space:initial;vertical-align: middle;">
+                                Payable Amount <span style="font-size:12px !important">( Total ${{vm.payableForTotal| number : 2}} )</span>
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.SEOCost,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.SEOCost,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.SEOCost }"
+                                rowspan="1" colspan="1" aria-label="SEOCost" ng-click="vm.sorting(vm.SortColumns.SEOCost);"
+                                style="width: 80px !important; min-width:80px !important; max-width:80px !important; vertical-align: middle; ">
+                                SEO Cost
+                            </th>
+                            <th style="width: 120px; min-width: 120px; max-width: 120px;vertical-align: middle;">
+                                Check Sum
+                            </th>
+                            <th style="width: 100px; min-width: 100px; max-width: 100px; vertical-align: middle; white-space: inherit; ">
+                                One Time Notes
+                            </th>
+                            <th style="width: 100px; min-width: 100px; max-width: 100px; vertical-align: middle; white-space: inherit; ">
+                                Reconciliation Notes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.InvoiceList" ng-init="vm.payableForTotal=vm.payableForTotal+item.payableAmount;
+                            vm.adfundForTotal=vm.adfundForTotal+item.adFund;vm.royalityForTotal=vm.royalityForTotal+item.royalty;
+                            vm.minAmountForTotal=vm.minAmountForTotal+item.minRoyaltyAmount;">
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <a ng-click="vm.viewInvoice(item.invoiceId)">View Invoice </a><br />
+                                <span ng-if="item.payableAmount> 0 && (item.status == 'Unpaid' || item.status == 'Partial Paid') "><a ng-click="vm.makePayment(item.franchiseeId,item.invoiceId,item.currencyRate,item.accountTypeId)">Pay Now</a></span>
+                            </td>
+                            <td ng-if="vm.isSuperAdmin == true" style="width: 40px; min-width: 40px; max-width: 40px;">
+                                <div class="md-checkbox">
+                                    <input type="checkbox" id="invoice{{$index
+                                }}" class="md-check" ng-checked="item.selected" ng-click="vm.addInvoiceToList(item)">
+                                    <label for="invoice{{$index}}">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">
+                                {{item.invoiceId}}<i ng-if="vm.isSuperAdmin && item.isDownloaded" class="qb_Icon" title="Uploaded in QuickBooks."></i>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span>
+                                    {{item.royalityOrAddFund}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;"><b>{{item.status}}</b></td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;" ng-if="vm.isSuperAdmin">
+                                <a ng-click="vm.editFranchisee(item.franchiseeId)">{{item.franchiseeName}}</a>
+                            </td>
+                            <td style="width: 90px; min-width: 90px; max-width: 90px;">
+                                <span ng-if="item.startDate == null">&nbsp;</span>
+                                <span ng-if="item.startDate != null">{{item.startDate | dateTimeFilter}}</span>
+                            </td>
+                            <td style="width: 90px; min-width: 90px; max-width: 90px;">
+                                <span ng-if="item.endDate == null">&nbsp;{{item.dueDate}}</span>
+                                <span ng-if="item.endDate != null">{{item.endDate | dateTimeFilter}}</span>
+                            </td>
+                            <td style="width: 90px; min-width: 90px; max-width: 90px;">{{item.dueDate| dateTimeFilter}}</td>
+                            <td style="width: 90px; min-width: 90px; max-width: 90px;" ng-if="item.uploadedOn==null">N/A</td>
+                            <td style="width: 90px; min-width: 90px; max-width: 90px;" ng-if="item.uploadedOn!=null">{{item.uploadedOn| dateTimeFilter}}</td>
+                            <td ng-if="vm.isSuperAdmin" style="width: 100px; min-width: 100px; max-width: 100px;">{{item.paymentDate}}</td>
+                            <td style="width: 100px; min-width: 100px; max-width: 100px;">{{item.paymentMode}}</td>
+                            <td style="width: 160px; min-width: 160px; max-width: 160px;">
+                                Total sales :
+                                <span ng-if="item.totalSales != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.totalSales" from-Currency="item.currencyCode">
+                                </span><br />
+                                Paid : <span ng-if="item.paidAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                             input="item.paidAmount" from-Currency="item.currencyCode">
+                                </span> <br />
+                                Accrued : <span ng-if="item.accruedAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                input="item.accruedAmount" from-Currency="item.currencyCode">
+                                </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.adFund != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.adFund" from-Currency="item.currencyCode">
+                                </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.royalty != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.royalty" from-Currency="item.currencyCode">
+                                </span>
+                            </td>
+                            <td style="width: 139px; min-width: 139px; max-width: 80px;">
+                                <span ng-if="item.minRoyaltyAmount != null && item.minRoyaltyAmount > 0 " currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.minRoyaltyAmount" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.minRoyaltyAmount == null || item.minRoyaltyAmount == 0">
+                                    0
+                                </span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                <span ng-if="item.royaltyLateFee > 0">
+                                    Royalty : <span ng-if="item.royaltyLateFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                    input="item.royaltyLateFee" from-Currency="item.currencyCode">
+                                    </span>
+                                    <br />
+                                </span>
+                                <span ng-if="item.salesDataLateFee > 0">
+                                    SalesData : <span ng-if="item.salesDataLateFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                      input="item.salesDataLateFee" from-Currency="item.currencyCode">
+                                    </span>
+                                    <br />
+                                </span>
+                                <span ng-if="item.interestRate > 0">
+                                    Interest Rate : <span ng-if="item.interestRate != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                                          input="item.interestRate" from-Currency="item.currencyCode">
+                                    </span>
+                                </span>
+                                <span ng-if="item.royaltyLateFee <= 0 && item.salesDataLateFee <= 0 && item.interestRate <= 0">N/A</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.fixedAccountingCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.fixedAccountingCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.fixedAccountingCharges == null">0</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.variableAccountingCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.variableAccountingCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.variableAccountingCharges == null">0</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.loanAndLoanIntCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.loanAndLoanIntCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.loanAndLoanIntCharges == null">0</span>
+                            </td>
+                            <td style="width: 70px; min-width: 70px; max-width: 70px; ">
+                                <span ng-if="item.isqftCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.isqftCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.isqftCharges == null">0</span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.webSEOCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.webSEOCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.webSEOCharges == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.backUpPhoneNumber != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.backUpPhoneNumber" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.backUpPhoneNumber == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.oneTimeCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.oneTimeCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.oneTimeCharges == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.recruitingFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.recruitingFee" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.recruitingFee == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.payrollProcessing != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.payrollProcessing" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.payrollProcessing == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.nationalCharges != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.nationalCharges" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.nationalCharges == null">0</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <span ng-if="item.franchiseeEmailFee != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.franchiseeEmailFee" from-Currency="item.currencyCode">
+                                </span>
+                                <span ng-if="item.franchiseeEmailFee == null">0</span>
+                            </td>
+                            <td style="width: 110px; min-width: 110px; max-width: 110px;">
+                                <span ng-if="item.payableAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.payableAmount" from-Currency="item.currencyCode">
+                                </span>
+                            </td>
+                            <td style="width: 80px; min-width: 80px; max-width: 80px;">
+                                <span ng-if="item.isSEOCostApplied == true">Yes</span>
+                                <span ng-if="item.isSEOCostApplied != true">No</span>
+                            </td>
+                            <td style="width: 120px; min-width: 120px; max-width: 120px; ">
+                                <!--CheckSum-->
+                                <span currency-Exchange conversion-Rate="item.currencyRate"
+                                      input="item.adFund + item.royalty + item.minRoyaltyAmount + item.royaltyLateFee + item.salesDataLateFee + item.interestRate + item.fixedAccountingCharges + item.variableAccountingCharges + item.loanAndLoanIntCharges + item.isqftCharges + item.webSEOCharges + item.backUpPhoneNumber + item.oneTimeCharges + item.recruitingFee + item.payrollProcessing + item.nationalCharges + item.franchiseeEmailFee" from-Currency="item.currencyCode">
+                                </span>
+                            </td>
+                            <td ng-if="item.oneTimeNote != null" style="cursor: pointer; width: 100px; min-width: 100px; max-width: 100px; ">
+                                <span ng-if="item.oneTimeNote != null" style="word-wrap: break-word;">
+                                    {{item.oneTimeNote | limitTo: 25}}{{item.oneTimeNote.length > 25 ? '...' : ''}}
+                                    <a ng-if="item.oneTimeNote.length > 25" href="javascript:void(0);" ng-click="vm.addViewNotes(item.oneTimeNote)">View</a>
+                                </span>
+                            </td>
+                            <td style="text-align: center; width: 100px; min-width: 100px; max-width: 100px;">
+                                <span ng-if="item.reconciliationNotes != '' && item.reconciliationNotes != undefined">
+                                    <span style="word-break:break-all" ng-title={{item.reconciliationNotes}}>
+                                        {{item.reconciliationNotes| limitTo: 35}}{{item.reconciliationNotes.length > 35 ? '...' : ''}}
+                                    </span>
+                                    <a href="javascript:void(0);" title={{item.reconciliationNotes}} ng-click="vm.addViewReconciliationNotes(item.reconciliationNotes, item.invoiceId)" ng-if="item.reconciliationNotes.length > 35"></a>
+                                    <a class="input-group-text fa fa-pencil" title={{item.reconciliationNotes}} ng-click="vm.addViewReconciliationNotes(item.reconciliationNotes, item.invoiceId)"></a>
+                                </span>
+                                <a ng-if="item.reconciliationNotes=='' || item.reconciliationNotes==undefined" href="javascript:void(0);" ng-click="vm.addViewReconciliationNotes(item.reconciliationNotes, item.invoiceId)">Add</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr ng-if="vm.InvoiceList.length == 0">
+                        <td colspan="20" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.InvoiceList.length > 0">
+                    Showing
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                    <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                    records
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="vm.InvoiceList.length < vm.count">
+                <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                    <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                        ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                        last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿
+<script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script data-require="angular.js@*" data-semver="1.3.0-beta.5" src="https://code.angularjs.org/1.3.0-beta.5/angular.js"></script>
+<script data-require="bootstrap@*" data-semver="3.1.1" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<!-- Font Aweomse 4 CSS -->
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Email Template</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<style>
+    .modal-body.ng-scope {
+        max-height: unset;
+    }
+
+   /* html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }*/
+</style>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input">
+                <input type="text" class="form-control" id="vacationTitle" name="vacationTitle" ng-model="vm.query.subject"
+                       maxlength="128">
+                <label for="vacationTitle"> Subject</label>
+            </div>
+        </div>
+    </div>
+    <div >
+        <wysiwyg textarea-id="question" textarea-class="form-control" textarea-height="180px" textarea-name="textareaQuestion" textarea-required ng-model="vm.query.body" enable-bootstrap-title="true"> </wysiwyg>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-8" style="float:left">
+            <span> *Please do not delete or edit the variables mentioned with '@' in the template.</span> <br />
+            <span> *No elimine ni edite las variables mencionadas con '@' en la plantilla</span> <br />
+        </div>
+        <div class="col-md-6" style="float:right">
+            <button type="button" class="btn default" ng-click="vm.saveEmailTemplate();"> Save</button>
+            <button type="button" class="btn default" ng-click="vm.close();"> Close</button>
+        </div>
+    </div>
+</div>

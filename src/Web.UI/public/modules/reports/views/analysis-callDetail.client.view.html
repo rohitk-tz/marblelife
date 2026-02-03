@@ -1,0 +1,947 @@
+﻿<style type="text/css">
+    /*.spinner {
+        margin-top: 40% !important;
+    }*/
+
+    body{
+        overflow-x:hidden !important;
+    }
+    .nav-active > a {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    .nav-inactve > a {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+
+    #myFirstChart11 {
+        width: 100%;
+        height: 100%;
+    }
+
+    .path.amcharts-graph-stroke {
+        stroke-dasharray: 10, 5, 10;
+    }
+
+    .copyright {
+        position: relative;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getReport();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getReport();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection" ng-selected="vm.query.franchiseeId">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+
+                    <div class="pull-left search-single" ng-show="vm.isManagementVsLocalDataActive || vm.isManagementDataActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="month" ng-model="vm.query.month"
+                                    ng-change="vm.getReport();"
+                                    ng-options="month.value as month.display for month in vm.monthOptions" ng-selected="vm.query.month">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="month">Month</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="vm.isManagementVsLocalDataActive || vm.isManagementDataActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                                    ng-change="vm.getReport();"
+                                    ng-options="year.value as year.display for year in vm.yearOptions" ng-selected="vm.query.year">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="year">Year</label>
+                        </div>
+                    </div>
+
+                    <div class="pull-left search-single" ng-show="!vm.isManagementVsLocalDataActive && !vm.isManagementDataActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.query.viewTypeId"
+                                    ng-change="vm.getReport();"
+                                    ng-options="item.value as item.display for item in vm.viewTypes">
+                                <option ng-option value="Default">Select</option>
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+
+                    <div class="pull-left search-single" ng-show="!vm.isManagementVsLocalDataActive && !vm.isManagementDataActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="phoneLabel" ng-model="vm.query.text"
+                                    ng-change="vm.getReport();"
+                                    ng-options="label.display as label.display for label in vm.phoneLabelList">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="phoneLabel">Phone Label</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="!vm.isManagementVsLocalDataActive && !vm.isManagementDataActive">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="phoneLabel" ng-model="vm.query.url"
+                                    ng-change="vm.getReport()"
+                                    ng-options="url.display as url.display for url in vm.urlList">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="url">URL</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-show="!vm.isManagementVsLocalDataActive && !vm.isManagementDataActive">
+                        <date-picker-ts control-id="start-date" label="Date" model="vm.query.startDate" change="vm.getReport" />
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-left:1% !important">
+            <ul class="nav nav-tabs">
+                <li ng-click="vm.isGraphData(1);" ng-class="{'nav-active' : vm.isGraphsActive , 'nav-inactve' : !vm.isGraphsActive }"><a>Graphs</a></li>
+                <li ng-click="vm.isGraphData(2);" ng-class="{'nav-active' : vm.isRawVsAdjustedActive , 'nav-inactve' : !vm.isRawVsAdjustedActive }"><a>Raw And Adjusted Data</a></li>
+                <li ng-click="vm.isGraphData(3);" ng-class="{'nav-active' : vm.isManagementVsLocalDataActive , 'nav-inactve' : !vm.isManagementVsLocalDataActive }"><a>PHONE CALL LOAD MAP</a></li>
+                <li ng-click="vm.isGraphData(4);" ng-class="{'nav-active' : vm.isManagementDataActive , 'nav-inactve' : !vm.isManagementDataActive }"><a>LOCAL OFFICE GRAPH</a></li>
+            </ul>
+        </div>
+        <div ng-show="vm.isGraphsActive">
+            <h3 class="page-title">Adjusted Data Summary</h3>
+            <div class="row">
+                <div class="col-sm-12" style="overflow-x: auto;overflow-y:hidden;">
+                    <div class="table-scrollable margin-bottom-15">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer margin-bottom-15" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                            <thead>
+                                <tr role="row" class="info">
+                                    <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                        style="width: 70px; min-width: 70px; max-width: 70px; height:35px; min-height:35px; max-height:35px;">
+                                        Summary
+                                    </th>
+                                    <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GrandTotal"
+                                        style="width: 60px; min-width: 60px; max-width: 60px; height:35px; min-height:35px; max-height:35px;">
+                                        Total
+                                    </th>
+                                    <th ng-repeat="item in vm.summaryHeaderList" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TotalSales"
+                                        style="width: 100px; min-width: 100px; max-width: 100px; height:35px; min-height:35px; max-height:35px;">
+                                        <span ng-if="vm.query.viewTypeId == 1">{{item.headerMonth}}/{{item.headerYear}}</span>
+                                        <span ng-if="vm.query.viewTypeId == 2">({{item.start | dateTimeFilter}} - <br />{{item.end | dateTimeFilter}})</span>
+                                        <span ng-if="vm.query.viewTypeId == 3">{{item.start | dateTimeFilter}}</span>
+                                        <span ng-if="vm.query.viewTypeId == 4">{{item.headerYear}}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Phone Leads</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.phoneLeadTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.callLead}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">AutoDialer</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.autoDailerTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.autoDailerCount}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">CORP Data</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.corpsTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.corpsCount}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">CC Data</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.ccTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.ccCount}}</td>
+                                </tr>
+                                <tr style="background-color:lightgray">
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Total Calls</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.totalCallsDetailsTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.totalCallsDetailsCount}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="page-title">Raw Data Summary</h3>
+            <div class="row">
+                <div class="col-sm-12" style="overflow-x: auto;overflow-y:hidden;">
+                    <div class="table-scrollable margin-bottom-15">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer margin-bottom-15" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                            <thead>
+                                <tr role="row" class="info">
+                                    <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                        style="width: 70px; min-width: 70px; max-width: 70px; height:35px; min-height:35px; max-height:35px;">
+                                        Summary
+                                    </th>
+                                    <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GrandTotal"
+                                        style="width: 60px; min-width: 60px; max-width: 60px; height:35px; min-height:35px; max-height:35px;">
+                                        Total
+                                    </th>
+                                    <th ng-repeat="item in vm.summaryHeaderList" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TotalSales"
+                                        style="width: 100px; min-width: 100px; max-width: 100px; height:35px; min-height:35px; max-height:35px;">
+                                        <span ng-if="vm.query.viewTypeId == 1">{{item.headerMonth}}/{{item.headerYear}}</span>
+                                        <span ng-if="vm.query.viewTypeId == 2">({{item.start | dateTimeFilter}} - <br />{{item.end | dateTimeFilter}})</span>
+                                        <span ng-if="vm.query.viewTypeId == 3">{{item.start | dateTimeFilter}}</span>
+                                        <span ng-if="vm.query.viewTypeId == 4">{{item.headerYear}}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Direct response to AD calls</td>
+
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.directResponseDetailsTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.directResponseDetailsCount}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Business directory calls </td>
+
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.busneissTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.businessCount}}</td>
+                                </tr>
+                                <tr style="background-color:lightgray">
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Total Phone Lead</td>
+
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.phoneLeadTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.callLead}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Web Leads</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.webLeadTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.webLead}}</td>
+                                </tr>
+                                <tr style="background-color:lightgray">
+                                    <td style="width: 70px; min-width: 70px; max-width: 70px;">Total Lead</td>
+                                    <td style="width: 60px; min-width: 60px; max-width: 60px;">{{vm.summary.phoneLeadTotal+vm.summary.webLeadTotal}}</td>
+                                    <td ng-repeat="lead in vm.summaryHeaderList" style="width: 100px; min-width: 100px; max-width: 100px;">{{lead.callLead + lead.webLead}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 m-t-15">
+                    <div class="portlet blue-hoki box" id="printSection11">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Comparison Chart
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection11" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart6" options="amChartOptionsforSeason" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv6" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    The comparison note compares CALLS and WEB leads after removing CALLCENTER transfers and CORPORATE calls from the totals so that we are comparing 
+                                    TOTAL LEADS between CURRENT period, PRIOR YEAR and PRIOR 3-YR Average.  This allows you to quickly see how things are doing across the prior periods
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 m-t-15">
+                    <div class="portlet blue-hoki box" id="printSection11">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Local Site Performance
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection11" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart10" options="amChartOptionsforLocalPerformance" height="506px" width="100%"></am-chart>
+                                <div id="legenddiv10" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    Expectation is that we should see web leads below $25/lead. This chart is designed to report your LOCAL WEB PHONE & WEB leads
+                                    so you can quickly assess how your local site is performing. If you have opted to surge leads with an additional PPC investment
+                                    you can see this in the top stack of your bar chart. Performance last year can be seen in the red line, with the average of the
+                                    past three years appearing as a green line. In this manner you can quickly assess how things are going on your local site.
+                                    (KEEP IN MIND: Your website is your base marketing tool where every other marketing tool will reference to learn about you.
+                                    It is not your only marketing, but is your core element where most all your marketing will wind up)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 m-t-15">
+                    <div class="portlet blue-hoki box" id="printSection">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Autodialer impact on lead counts
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart3" options="amChartOptionsforSpam" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv3" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    AUTODIALERS (SPAM) are a relatively new development.  They can represent as much as 20-25% of your calls being received.
+                                    Our zip-code entry requirement blocks the vast majorities of the time sucking calls, reducing the time wasted in the local office trying to avoid these salespeople.
+                                    That said, we must still account for them in order to understand the true results we expect to get from each marketing tool,
+                                    AND to properly evaluate whether what we are paying is a good value.
+                                    This data can be used when speaking with an advertiser to attack their valuation numbers but only if you actually have an understand the data.
+                                    <div style="visibility:hidden">dfsfsdfsdfsdfsdfsdfsdfsdfsdfdshfhghgh</div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 m-t-15">
+                    <div class="portlet blue-hoki box" id="printSection3">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Call Distribution by day of the week
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection3" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart4" options="amChartOptionsforWeeklyReport" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv4" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    Recent study of closure rates on customers that called during the week versus on a weekend showed that 70% of those that
+                                    called did not appear the following week as an estimate or job.  Theory is that if your office is not covering weekends they call
+                                    someone else until they reach a one-man-a-truck who answers his phones on the weekend.  This can amount to a loss of 70% on the 15%
+                                    of calls coming in over the weekend.  In the study done covering 3 offices this amounted to 70 calls lost worth $35,000 if you are closing
+                                    50% and averaging $1000.  Assuming 50% gross margin these offices lost $17500 in income, more than enough to pay someone to cover weekend phones.
+                                    At even $20/call they would have spent $1400 and netted $16100.  Front Office provides weekend coverage with the ability to schedule via the
+                                    MARBLELIFE INFORMATION SYSTEM with GEOCODE anywhere in the country.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="portlet blue-hoki box" id="printSection4">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Call Distribution by Time (Average Data For {{vm.startDateFormat}} - {{vm.endDateFormat}})
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection4" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;padding-bottom: 2%;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart5" options="amChartOptionsforDailyReport" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv5" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    Do you have a team member covering the phones when you need them?  As much as 15% of calls come in after-hours or after-5pm.  Generally between 5
+                                    and 8pm as people are getting home from work and hitting their to do list.  This means you could potentially boost sales by 15% x 40% = 6% by arranging for
+                                    someone to handle these calls and book these additional estimates.  Today, people are more likely to call the next name on the list until they reach that
+                                    hungry one-man-and-a-truck independent than what for a return call when they are involved in something else.  A scheduling service may cost $20 per call but
+                                    is substantially less than the $1000 job you may be landing.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                    <div class="portlet blue-hoki box" id="printSection5">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Phone vs Web Sources
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection5" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart" options="amChartOptions" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>  This graph compares your ratio of phone leads to total leads received.
+                                    Total leads are split into <b>PHONE</b> or <b>WEB</b> received.  This graph allows you to see if your market is tracking with the national trend.
+                                    This also allows you to see changes in the market over time.
+                                    <div style="visibility:hidden">
+                                        <b>NOTE:</b>  This shows how trends in search results are changing over time, and the importance of local search over national search results.  <b>MARBLELIFE</b> manages a national and local search campaigns.
+                                        You should expect to see your graph moving in tandem with the national trends.  Sharp shifts would signal either a test being run locally, or an issue worth reviewing with to understand and address or take advantage of.
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="portlet blue-hoki box" id="printSection51">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Web Lead (Local vs National)
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection51" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart2" options="amChartOptionsforWebReview" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv2" class="legends-mul-col"></div>
+                            </div>
+                            <p>
+                                <b>NOTE:</b>  This shows how trends in search results are changing over time, and the importance of local search over national search results.  <b>MARBLELIFE</b> manages a national and local search campaigns.
+                                You should expect to see your graph moving in tandem with the national trends.  Sharp shifts would signal either a test being run locally, or an issue worth reviewing with to understand and address or take advantage of.
+                                The general trend over the past few years has been in favor of local over national search.
+                                <div style="visibility:hidden">
+                                    <b>NOTE:</b>  This shows how trends in search results are changing over time, and the importance of local search over national search results
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="portlet blue-hoki box" id="printSection6">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Bus Reviews vs Direct Calls
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection6" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart1" options="amChartOptionsforBusReview" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv1" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>  Advertising drives calls.  However over the past few years we are seeing customer behavior change.
+                                    Instead of calling the number on the marketing they are instead first researching the company,
+                                    checking reviews and THEN calling the tracking number on the review site or business directory.
+                                    This has significant implications as a substantial portion of calls are being diverted away from the number tracking the marketing,
+                                    and therefore an adjustment must be made before one can assess the true performance of the marketing piece.
+                                    This is done by dividing the raw tracking phone calls received by the % of calls going through the review system.
+                                    So if you had 6 calls and 50% of your leads are coming in through the business directory phone number than it is safe to assume you really drove not 6 but rather 6/50% = 12 calls.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 m-t-15">
+                    <div class="portlet blue-hoki box" id="printSection">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Local Call Management
+                            </div>
+                            <div class="pull-right margin-top-10 margin-left-15">
+                                <button class="btn btn-primary" ng-print-amchart print-element-id="printSection" title="print"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="min-height: 460px;">
+                            <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                                <am-chart id="myFirstChart7" options="amChartOptionsforCall" height="460px" width="100%"></am-chart>
+                                <div id="legenddiv7" class="legends-mul-col"></div>
+                                <p>
+                                    <b>NOTE:</b>
+                                    MARBLELIFE Sales Funnel studies show that while our franchise partners close 70% of their estimates, lead closes in 2018 after
+                                    removing Autodialers was only 40%.  The difference was traced to locations that were not answering the phone but rather calling
+                                    back the next morning OR when they were available.  Our clients are more time sensitive than money sensitive.  Once they decide
+                                    to do something the plan is to get it done.  If the phone is not answered they will go to the next available supplier –
+                                    our competitor.  A study of MARBLELIFE offices answering practices found that offices committed to answering the phone with
+                                    scheduling capability so no loss in closure, 10% was lost by those who answered but had no back-up, 20% was lost by those that
+                                    called back later once free from job or meeting, 30% was lost by those that called back the next day.  This means that the
+                                    single most important factor of any marketing plan is simply making sure you have a plan to answer the phone.  Marketing results
+                                    can be improved by 75% with this simple practice.  This is why having a phone back-up service AND using MARBLELIFE scheduling is
+                                    not a franchise requirement.  Calls that are less than 2 minutes in length are deemed to be unanswered, as it will take this
+                                    long to cycle through call forwards, voicemail message and leaving a message, but calls longer than 2 minutes are deemed to have
+                                    been answered and engaged.  (NOTE – Weekend calls represent 5% of all calls, and can be covered through Front Office Back-Up
+                                    services).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="vm.isManagementVsLocalDataActive && !vm.ManagementGraphValueNull" ng-if="vm.isManagementVsLocalDataActive && !vm.ManagementGraphValueNull">
+
+            <div class="portlet blue-hoki box" id="printSection12">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-list-ul"></i> PHONE CALL LOAD MAP
+                    </div>
+                </div>
+                <div class="portlet-body" style="min-height: 1060px;">
+                    <div class="row" style="margin-right:0px !important;padding:1% !important">
+                        <span style="padding:1% !important"><b>Note- For default PHONE CALL LOAD MAP, we are considering data of last month.</b></span>
+                    </div>
+                    <div style="margin-right:0px !important;padding:1% !important;overflow: auto;z-index: 9999;top: 0;">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" style="padding:0;margin:0">
+                            <tr>
+                                <td style="padding:0;width: 200px;margin:0">
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" style="padding:0;margin:0">
+                                        <tr style="width: 102px;min-width: 1px;max-width: 200px;height: 52px;min-height: 35px;max-height: 35px;" align="center" valign="top">
+                                            <td></td>
+                                        </tr>
+                                        <tr style="width: 102px;min-width: 1px;max-width: 200px;height: 52px;min-height: 35px;max-height: 35px;" align="center" valign="top">
+                                            <td style="width:100% !important;height:260px;vertical-align: middle;"><span style="font-size: 22px;">Closed</span></td>
+                                        </tr>
+                                        <tr style="width: 102px;min-width: 1px;max-width: 200px;height: 52px;min-height: 35px;max-height: 35px;" align="center" valign="top"><td style="width:100% !important;height:300px;vertical-align: middle;"><span style="font-size: 22px;">Business Hours</span></td></tr>
+                                        <tr style="width: 102px;min-width: 1px;max-width: 200px;height: 52px;min-height: 35px;max-height: 35px;" align="center" valign="top"><td style="width:100% !important;height:228px;vertical-align: middle;"><span style="font-size: 22px;">Closed</span></td></tr>
+                                    </table>
+                                </td>
+                                <td style="padding:0">
+                                    <div>
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info" style="padding:0;margin:0">
+                                            <tr style="margin-left:2%!important;text-align:center;">
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Hours</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Monday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Tuesday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Wednesday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Thursday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Friday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Saturday</th>
+                                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Sunday</th>
+                                            </tr>
+                                            <tr ng-repeat="items in vm.managementAndLocalDetailReportList" style="background-color:{{items.rowcolor}};text-align:center">
+                                                <td><b>{{items.hour}}</b></td>
+                                                <td ng-style="{'background-color':(({{items.hour}}=='8') || ({{items.hour}}=='12') || ({{items.hour}}=='16'))?'yellow':{{item.columnColor=='LightBlue' }}?'lightBlue':'white'}" ng-repeat="item in items.chartData"><span ng-if="item.totalMissedCalls!=0">{{item.totalMissedCalls}}</span><span ng-if="item.totalMissedCalls0=0"></span></td>
+                                                <td style="width: 11%;font-size: 18px;padding:0"> <span style=""><b>{{items.timeStatus}}</b></span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                <td style="padding:0">
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info" style="padding:0;margin:0">
+                                        <tr style="text-align:center"> <th style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Total Call%</th><th style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center">Missed Call%</th></tr>
+                                        <tr style="text-align:center" ng-repeat="items in vm.managementAndLocalDetailReportList">
+                                            <td ng-style="{'background-color':(({{items.hour}}=='8') || ({{items.hour}}=='12') || ({{items.hour}}=='16'))?'yellow':{{item.columnColor=='LightBlue' }}?'lightBlue':'white'}">{{items.totalCallsReceivedAParticularHour/vm.totalCallsForMonth * 100| number : 0}} </td>
+                                            <td ng-style="{'background-color':(({{items.hour}}=='8') || ({{items.hour}}=='12') || ({{items.hour}}=='16'))?'yellow':{{item.columnColor=='LightBlue' }}?'lightBlue':'white'}">{{items.totalMissedCallsParticularHour/vm.totalMissedCallsForMonth * 100| number : 0}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding:0;">
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info" style="padding:0;margin:0;width:auto;">
+                                        <tr style="margin-left:2%!important;text-align:center">
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 142px; min-width: 142px; max-width: 142px; height:35px; min-height:35px; max-height:35px;text-align:center"></th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 142px; min-width: 142px; max-width: 142px; height:35px; min-height:35px; max-height:35px;text-align:center">Average</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 138px; min-width: 138px; max-width: 138px; height:35px; min-height:35px; max-height:35px;text-align:center">Monday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 136px; min-width: 136px; max-width: 136px; height:35px; min-height:35px; max-height:35px;text-align:center">Tuesday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 134px; min-width: 134px; max-width: 134px; height:35px; min-height:35px; max-height:35px;text-align:center">Wednesday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 137px; min-width: 137px; max-width: 137px; height:35px; min-height:35px; max-height:35px;text-align:center">Thursday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 139px; min-width: 139px; max-width: 139px; height:35px; min-height:35px; max-height:35px;text-align:center">Friday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 131px; min-width: 131px; max-width: 131px; height:35px; min-height:35px; max-height:35px;text-align:center">Saturday</th>
+                                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                                style="width: 131px; min-width: 131px; max-width: 131px; height:35px; min-height:35px; max-height:35px;text-align:center">Sunday</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>Average/Typical Calls (For Day)</b></td>
+                                            <td style="text-align:center !important">
+                                                <b>{{vm.averageOfAverageCalls| number : 0}}</b>
+                                            </td>
+                                            <td style="text-align:center !important" class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfAverageCalls=vm.averageOfAverageCalls+((items.totalCallsForDay/items.occurance)/vm.totalCallsForDayForZeros)">{{items.totalCallsForDay/items.occurance| number : 0}}</td>
+                                        </tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 1px;min-height: 35px;max-height: 35px;text-align:center"></td><td></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfSum1=vm.averageOfSum+(items.totalMissedCallsForTheDay)/vm.totalMissedCallsForTheDayForZeros"></td></tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>Sum(Missed Calls)(For Month)</b></td><td><b>{{vm.averageOfSum| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfSum=vm.averageOfSum+(items.totalMissedCallsForTheDay)/vm.totalMissedCallsForTheDayForZeros">{{items.totalMissedCallsForTheDay}}</td></tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>Calls per Day(For Month)</b></td><td><b>{{vm.averageOfCallsPerDay| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfCallsPerDay=vm.averageOfCallsPerDay+items.totalCallsForDay/vm.totalCallsForDayForZeros">{{items.totalCallsForDay}}</td></tr>
+                                        <tr style="text-align: center;"> <td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>Answered Calls(For Month)</b></td><td><b>{{vm.averageOfAnsweredCalls| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfAnsweredCalls=vm.averageOfAnsweredCalls+items.totalCallsReceivedForDay/vm.totalCallsForDayForZeros">{{items.totalCallsReceivedForDay}}</td></tr>
+                                        
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 1px;min-height: 35px;max-height: 35px;text-align:center"></td><td></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfSum1=vm.averageOfSum+(items.totalMissedCallsForTheDay)/vm.totalMissedCallsForTheDayForZeros"></td></tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>% Missed Calls(For Month)</b></td><td><b>{{vm.averageOfPerMissedCalls/vm.totalMissedCallsForTheDayForZeros| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData"><span ng-if="items.totalCallsForDay!=0" ng-init="vm.averageOfPerMissedCalls=vm.averageOfPerMissedCalls+(items.totalMissedCallsForTheDay/items.totalCallsForDay * 100)"></span><span ng-if="items.totalMissedCallsForTheDay!=0">{{items.totalMissedCallsForTheDay/items.totalCallsForDay * 100 | number : 0}}</span><span ng-if="items.totalMissedCallsForTheDay==0">0</span></td></tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>% All Calls(For Month)</b></td><td><b>{{vm.averageOfPerCalls| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData" ng-init="vm.averageOfPerCalls=vm.averageOfPerCalls+(items.totalCallsForDay/vm.totalCallsForMonth * 100)/vm.totalCallsForDayForZeros">{{items.totalCallsForDay/vm.totalCallsForMonth * 100| number : 0}} </td></tr>
+                                        <tr style="text-align: center;"><td class="ng-binding ng-scope" style="width: 180px;min-width: 180px;max-width: 180px;height: 52px;min-height: 35px;max-height: 35px;text-align:center"><b>% Calls Answered(For Month)</b></td><td><b>{{vm.averageOfPerCallsAnswered| number : 0}}</b></td><td class="ng-binding ng-scope" ng-repeat="items in vm.managementDetailReportForAverageData"><span ng-if="items.totalCallsForDay!=0"><span ng-init="vm.averageOfPerCallsAnswered=vm.averageOfPerCallsAnswered+(items.totalCallsReceivedForDay/items.totalCallsForDay  * 100)/vm.totalCallsReceivedForDayForZeros"></span></span><span ng-if="items.totalCallsReceivedForDay!=0"><span>{{items.totalCallsReceivedForDay * 100/items.totalCallsForDay  | number : 0}}</span></span><span ng-if="items.totalCallsReceivedForDay==0 || items.totalCallsForDay==0">0</span></td></tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <p style="margin-top:1%;padding:1%!important">
+                                <b> NOTE: </b> Failure to answer the phone can reduce your closure rate by 30%.  Said another way, by simply shifting from “returning-calls” to a commitment to
+                                “answer-calls” one can increase closure rate by 75% from 40% to 70% per data used at the time of our study.
+                                <br /> The PHONE CALL LOAD MAP shows you when people are calling so you can plan your phone-coverage, and can understand how many calls are coming in on any given
+                                day – including weekends.  Our study found that 5% of all calls came in on the weekends, and that 70% of these leads were lost even if we returned their calls
+                                first thing Monday morning.  As such, weekend coverage can boost sales by 5% without any further marketing investment.
+                                <br /> As an office may not have a lot of data when first starting out, the NATIONAL data is provided to enable to see what you should expect and need to plan for.
+                                Your LOCAL data can also be reviewed to see how your team is doing in managing calls and managing your marketing investment.
+                                MARBLELIFE has set-up a service designed to provide weekend coverage in order to ensure these leads are not lost, and we maintain an efficient marketing lead costs.   Calls auto-roll to a corporate answering service who will seek to schedule the client on your MARBLELIFE calendar.  This will trigger an email to the local office.  In this manner we can halt the clients search.  If the time is not suitable it takes the same call back call to reschedule, but this time the client has not booked elsewhere.  Charges for the service run $12/call and are billed via the royalty reporting system.  It is less expensive to manage the existing marketing leads well, then to invest in additional marketing.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="vm.isManagementDataActive" ng-if="vm.isManagementDataActive">
+            <div class="portlet blue-hoki box">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-list-ul"></i> LOCAL OFFICE GRAPH (For <span>{{vm.franchiseeName}}</span>)
+                    </div>
+                </div>
+                <div class="portlet-body" style="min-height: auto;" id="printSection13">
+                    <div class="row" style="margin-right:0px !important;padding:1% !important">
+                        <span style="padding:1% !important"><b>Note- For default LOCAL OFFICE GRAPH, we are considering data of past 12 months.</b></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <am-chart id="myFirstChart11" options="amChartOptionsforManagementChart" height="460px" width="100%"></am-chart>
+                        </div>
+                    </div>
+                    <div style="margin-right:0px !important;padding:0% !important;overflow-y: auto;z-index: 9999;top: 0;max-height:500px !important;margin-top: 3%;" ng-show="vm.isSuperAdmin">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info" style="padding:0;margin:0;max-height: 900px;overflow-y:auto">
+                            <tr style="margin-left:2%!important;text-align:center">
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center;position:sticky;background-color:#fff;top:0"></th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center;position:sticky;background-color:#fff;top:0"></th>
+                                <th tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                    style="width: 102px; min-width: 1px; max-width: 200px; height:35px; min-height:35px; max-height:35px;text-align:center;position:sticky;background-color:#fff;top:0" ng-repeat="month in vm.monthCollection">{{month}}</th>
+                            </tr>
+                            <tr style="background-color:darkgreen;color:white;text-align:center" ng-show="vm.frontOffice.length>0">
+                                <td style="width: 13% !important;">MULTI-PERSON (MULTI LEVEL COVERAGE)</td>
+                                <td></td>
+                                <td ng-repeat="item1 in vm.frontOfficeAverage track by $index">{{item1/(vm.frontOffice.length - vm.frontOfficeCount[$index])| number : 0}} %</td>
+                            </tr>
+                            <tr style="text-align:center;font-size:15px" ng-show="vm.frontOffice.length>0" ng-repeat="items in vm.frontOffice" >
+                                <td></td>
+                                <td style="width: 7%;"><b>{{items.franchiseeName}}</b></td>
+                                <td ng-repeat="item in items.managementChartViewModel"  ng-init="vm.frontOfficeAverage[$index]=vm.frontOfficeAverage[$index]+item.perTotalReceivedCalls"><span ng-if="item.perTotalReceivedCalls==0" ng-init="vm.frontOfficeCount[$index]=vm.frontOfficeCount[$index]+1"> </span><span ng-if="item.perTotalReceivedCalls>0">{{item.perTotalReceivedCalls| number :0}} %</span></td>
+                            </tr>
+
+                            <tr style="background-color:lightgreen;color:white;text-align:center" ng-show="vm.officePerson.length>0">
+                                <td style="width: 7%;">OFFICE PERSON</td>
+                                <td></td>
+                                <td ng-repeat="item1 in vm.officePersonAverage track by $index">{{item1/(vm.officePerson.length-vm.officePersonCount[$index])| number : 0}} %</td>
+                            </tr>
+                            <tr ng-show="vm.officePerson.length>0" ng-repeat="items in vm.officePerson" style="text-align:center;font-size: 15px;">
+                                <td></td>
+                                <td style="width: 7%;"><b>{{items.franchiseeName}}</b></td>
+                                <td style="text-align:center" ng-repeat="item in items.managementChartViewModel" ng-init="vm.officePersonAverage[$index]=vm.officePersonAverage[$index]+item.perTotalReceivedCalls"><span ng-if="item.perTotalReceivedCalls==0" ng-init="vm.officePersonCount[$index]=vm.officePersonCount[$index]+1"> </span><span ng-if="item.perTotalReceivedCalls>0">{{item.perTotalReceivedCalls| number : 0}} %</span></td>
+                            </tr>
+
+                            <tr style="text-align:center;background-color:#ffad60;color:white" ng-show="vm.respondWhenAvailable.length>0">
+                                <td style="width: 13% !important;">RESPOND WHEN AVAILABLE</td>
+                                <td></td>
+                                <td ng-repeat="item1 in vm.responseWhenAvailableAverage track by $index"><span ng-if="item1/vm.respondWhenAvailable.length>0"><span ng-if="item1/vm.respondWhenAvailable.length>0">{{item1/(vm.respondWhenAvailable.length-vm.responseWhenAvailableCount[$index]) | number : 0}} %</span></span></td>
+                            </tr>
+                            <tr ng-show="vm.respondWhenAvailable.length>0" ng-repeat="items in vm.respondWhenAvailable" style="text-align:center;font-size: 15px;">
+                                <td></td>
+                                <td style="width: 7%;"><b>{{items.franchiseeName}}</b></td>
+                                <td style="text-align:center" ng-repeat="item in items.managementChartViewModel" ng-init="vm.responseWhenAvailableAverage[$index]=vm.responseWhenAvailableAverage[$index]+item.perTotalReceivedCalls"><span ng-if="item.perTotalReceivedCalls==0" ng-init="vm.responseWhenAvailableCount[$index]=vm.responseWhenAvailableCount[$index]+1"> </span><span ng-if="item.perTotalReceivedCalls>0">{{item.perTotalReceivedCalls| number : 0}} %</span></td>
+                            </tr>
+
+                            <tr style="text-align:center;background-color:red;color:white" ng-show="vm.respondsNextDay.length>0">
+                                <td>RESPONDS NEXT DAY</td>
+                                <td></td>
+                                <td ng-repeat="item1 in vm.responseNextDayAverage track by $index"><span ng-if="item1/vm.respondsNextDay.length>0">{{item1/(vm.respondsNextDay.length-vm.responseNextDayCount[$index])| number : 0}}%</span></td>
+                            </tr>
+                            <tr ng-show="vm.respondsNextDay.length>0" ng-repeat="items in vm.respondsNextDay" style="text-align:center;font-size: 15px;">
+                                <td></td>
+                                <td style="width: 7%;"><b>{{items.franchiseeName}}</b></td>
+                                <td style="text-align:center" ng-repeat="item in items.managementChartViewModel" ng-init="vm.responseNextDayAverage[$index]=vm.responseNextDayAverage[$index]+item.perTotalReceivedCalls"><span ng-if="item.perTotalReceivedCalls==0" ng-init="vm.responseNextDayCount[$index]=vm.responseNextDayCount[$index]+1"> </span><span ng-if="item.perTotalReceivedCalls>0">{{item.perTotalReceivedCalls| number : 0}} %</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="vm.managementDetailReportList.length==0">
+                        <p style="font-size: 19px;text-align: center;"> No Result Found</p>
+                    </div>
+                    <div class="row">
+                        <p style="margin-top:1%;padding:1%!important">
+                            <b> NOTE: </b> Your marketing results will be heavily impacted by your success in managing your phones, and your ability to ensure phones are answered immediately,
+                            versus being allowed to roll to voicemail.  MARBLELIFE studies show a 10% drop in lead-to-job closure rate from 70% to 40% based on how the office manages their phones.
+                            The graph communicates how we are doing system wide based on the different strategies (1) Multiple Cover – Immediate Answer (2) Single Office Person (3) Call as soon as available (4) Return calls the next day).
+                            This is the single largest variable that will determine your marketing efficiency, return on marketing dollars, and total sales.  This can enhance marketing returns by
+                            75%.  Your goal should be to exceed the national average and be on par with the CLASS 1 double coverage offices.  This is the MARBLELIFE standard.
+                            As such, MARBLELIFE leads will run through a call system that will forward leads to MARBLELIFE assigned call center if not answered at a cost of $12/call.
+                            This service is avoidable by either arranging to cover phones or providing an acceptable alternative phone response strategy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.ManagementGraphValueNull">
+            <p style="font-size: 19px;text-align: center;"> No Result Found</p>
+        </div>
+        <div ng-show="vm.isRawVsAdjustedActive">
+            <ul class="nav nav-tabs" style="float:right !important">
+                <li ng-click="vm.adjuctedData();" ng-class="{'nav-active' : vm.adjuststedclass , 'nav-inactve' : !vm.adjuststedclass }"><a>Adjusted Data</a></li>
+                <li ng-click="vm.rawData();" ng-class="{'nav-active' : !vm.adjuststedclass , 'nav-inactve' : vm.adjuststedclass }"><a>Raw Data</a></li>
+            </ul>
+            <h3 class="page-title clear-both" ng-show="vm.adjuststedclass">Adjusted Data</h3>
+            <h3 class="page-title clear-both" ng-show="!vm.adjuststedclass">Phone Lead Analysis</h3>
+            <div class="clearfix clear-both">
+                <div class="pull-left">
+                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.callDetailReportList.length > 0">
+                        Showing
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+                        <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                        records
+                    </div>
+                </div>
+                <div class="pull-right" ng-if="vm.callDetailReportList.length < vm.count">
+                    <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                        <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                            ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                            last-text="&raquo;"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-scrollable">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                    <thead>
+                        <tr role="row">
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.PhoneLabel,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.PhoneLabel }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PhoneLabel"
+                                style="width: 200px; min-width: 200px; max-width: 200px; height:35px; min-height:35px; max-height:35px;"
+                                ng-click="vm.sortingForAdjustedData(vm.SortColumns.PhoneLabel);">
+                                Phone label
+                            </th>
+                            <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.GrandTotal,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.GrandTotal,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.GrandTotal }"
+                                tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="GrandTotal"
+                                style="width: 60px; min-width: 60px; max-width: 60px; height:35px; min-height:35px; max-height:35px;" ng-click="vm.sortingForAdjustedData(vm.SortColumns.GrandTotal);">
+                                Total
+                            </th>
+                            <th ng-repeat="item in vm.headerList" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="TotalSales"
+                                style="width: 100px; min-width: 100px; max-width: 100px; height:35px; min-height:35px; max-height:35px;">
+                                <span ng-if="vm.query.viewTypeId == 1">{{item.headerMonth}}/{{item.headerYear}}</span>
+                                <span ng-if="vm.query.viewTypeId == 2">({{item.start | dateTimeFilter}} - <br />{{item.end | dateTimeFilter}})</span>
+                                <span ng-if="vm.query.viewTypeId == 3">{{item.start | dateTimeFilter}}</span>
+                                <span ng-if="vm.query.viewTypeId == 4">{{item.headerYear}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.callDetailReportList">
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;" ng-show="!vm.adjuststedclass">{{item.phoneLabel}} (<b>{{item.phoneNumber | phonemask}}</b>)</td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;" ng-if="(item.phoneLabel=='Main Site US'||  item.phoneLabel =='Marblelife Local - All Referral')  && vm.adjuststedclass">{{item.phoneLabel}}</td>
+                            <td style="width: 200px; min-width: 200px; max-width: 200px;" ng-if="(item.phoneLabel !='Main Site US' &&  item.phoneLabel !='Marblelife Local - All Referral') && vm.adjuststedclass">{{item.phoneLabel}}(<b>{{item.phoneNumber | phonemask}}</b>)</td>
+                            <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                                <span>{{item.grandTotal}}</span>
+                            </td>
+                            <td ng-repeat="header in item.lstHeader" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                <span>{{header.count}} </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                    <tr ng-if="vm.callDetailReportList.length <= 0">
+                        <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                    </tr>
+                </table>
+                <p ng-show="vm.adjuststedclass" style="margin-top:1%">
+                    <b> NOTE: </b> ADJUSTED DATA has been derived from phone, web and business review directory data in a manner to estimate the total impact each advertising program provided.  Since the inception of business reviews customer buying behavior has radically changed.  In the past, clients called the tracking number on the advertisement.  Today, the advertisement raises interest and triggers a check of reviews, and a call to the review system or local directory tracking number.  This has become the predominant buying pattern.  As such, you will see a graph that measure the share of calls represented by local business directories in your market and nationally, this provide a sense as to how large an adjustment must be applied to the direct phone tracking results before we can make ROI decisions on the program.  Similarly, we must also account for web leads in a similar fashion.  As such, it is not unexpected to see an advertisement that returned 10 direct tracked calls actually generated close to 25 contacts, 150% of the originally reported values.
+                    While this addresses the numbers, we must also factor in factors such as (1) did the advertising begin running mid-month; (2) recognizing that we do not reach a stable response rate until the 3rd appearance of an ad how many ad appearances is this measuring; (3) is the response a reflection of the advertising tool, the message or the ad location within the tool.  With all that said, the adjusted data provides you a better starting point in your advertising ROI analysis.
+                    The next buildout will begin to link sales data to lead data allowing us to measure impact of closure rate and invoice values to complete ROI calculations at the office, user, and advertising source levels.
+                </p>
+            </div>
+            <div>
+                <h3 class="page-title" ng-show="!vm.adjuststedclass">Web Lead Analysis</h3>
+
+                <div class="table-scrollable clear-both" ng-show="!vm.adjuststedclass">
+                    <table id="sample_2" class="table table-striped table-bordered table-hover dataTable footer" role="grid" aria-describedby="sample_2_info">
+                        <thead>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Url,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Url,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Url }"
+                                    tabindex="0" aria-controls="sample_2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Url"
+                                    style="width: 200px; min-width: 200px; max-width: 200px; height:35px; min-height:35px; max-height:35px;"
+                                    ng-click="vm.sortingLead(vm.SortColumns.Url);">
+                                    URL
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.Count,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.Count,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.Count }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="Count"
+                                    style="width: 60px; min-width: 60px; max-width: 60px; height:35px; min-height:35px; max-height:35px;" ng-click="vm.sortingLead(vm.SortColumns.Count);">
+                                    Total
+                                </th>
+                                <th ng-repeat="lead in vm.headerWebLeadList" tabindex="0" aria-controls="sample_2" rowspan="1" colspan="1" aria-label="Count"
+                                    style="width: 100px; min-width: 100px; max-width: 100px; height:35px; min-height:35px; max-height:35px;">
+                                    <span ng-if="vm.query.viewTypeId == 1">{{lead.headerMonth}}/{{lead.headerYear}}</span>
+                                    <span ng-if="vm.query.viewTypeId == 2">({{lead.startOfWeek | dateTimeFilter}} - <br />{{lead.endOfWeek | dateTimeFilter}})</span>
+                                    <span ng-if="vm.query.viewTypeId == 3">{{lead.startOfWeek | dateTimeFilter}}</span>
+                                    <span ng-if="vm.query.viewTypeId == 4">{{lead.headerYear}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lead in vm.webLeadReportList">
+                                <td style="width: 200px; min-width: 200px; max-width: 200px;">{{lead.url}}</td>
+                                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                                    <span>{{lead.grandTotal}}</span>
+                                </td>
+                                <td ng-repeat="head in lead.lstHeader" style="width: 100px; min-width: 100px; max-width: 100px;">
+                                    <span>{{head.count}} </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tr ng-if="vm.webLeadReportList.length <= 0">
+                            <td colspan="12" class="text-center"><span> No Records Found</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <div class="dataTables_info" id="sample_2_info" role="status" ng-if="vm.webLeadReportList.length > 0">
+                            Showing
+                            <span ng-if="(vm.query.webPageNumber * vm.query.pageSize) <= vm.leadCount">{{((vm.query.webPageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.webPageNumber * vm.query.pageSize}} of {{vm.leadCount}} </span>
+                            <span ng-if="(vm.query.webPageNumber * vm.query.pageSize) > vm.leadCount">{{((vm.query.webPageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.leadCount}} of {{vm.leadCount}} </span>
+                            records
+                        </div>
+                    </div>
+                    <div class="pull-right" ng-if="vm.webLeadReportList.length < vm.leadCount">
+                        <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                            <ul uib-pagination boundary-links="true" total-items="vm.leadCount" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                                ng-model="vm.query.webPageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                                last-text="&raquo;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

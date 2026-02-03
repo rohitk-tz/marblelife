@@ -1,0 +1,25 @@
+ CREATE TABLE `homeAdvisor` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `FranchiseeId` bigint(20) NULL,
+  `FrachiseeId` bigint(20)  NULL,
+  `NetLeadDollar` decimal NULL,
+  `HAAccount` varchar(512) NOT NULL,
+  `CompanyName` varchar(512) NOT NULL,
+  `SRID` varchar(512) DEFAULT NULL,
+  `Task` varchar(512) DEFAULT NULL,
+  `StateId` bigint(20)  NULL,a
+  `CityId` bigint(20)  NULL,
+  `ZipCode` varchar(512) DEFAULT NULL,
+   `LeadType` varchar(512) DEFAULT NULL,
+   `CityName` varchar(512) DEFAULT NULL,
+   `StateName` varchar(512) DEFAULT NULL,
+`IsDeleted` bit(1) NOT NULL DEFAULT b'0',
+ `SRSubmittedDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `fk_homeAdvisor_franchisee1_idx` (`FranchiseeId`),
+  KEY `fk_homeAdvisor_city_idx` (`CityId`),
+  KEY `fk_homeAdvisor_state_idx` (`StateId`),
+  CONSTRAINT `fk_homeAdvisor_city` FOREIGN KEY (`CityId`) REFERENCES `city` (`Id`),
+  CONSTRAINT `fk_homeAdvisor_state` FOREIGN KEY (`StateId`) REFERENCES `state` (`Id`),
+  CONSTRAINT `fk_homeAdvisor_franchisee1` FOREIGN KEY (`FranchiseeId`) REFERENCES `franchisee` (`Id`)
+);

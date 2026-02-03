@@ -1,0 +1,47 @@
+﻿<style>
+    .box-align-s button {
+        float:left
+    }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Scheduler</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="row modal-body">
+    <div ng-show="(vm.isTech) && !vm.isFromPast">
+        <div class="col-xs-12 text-center">
+            <button id="sample_editable_1_new" ng-click="vm.markVacation()" class="btn btn-primary">
+                Personal
+            </button>
+            <button class="btn btn-link" style="font-size: 24px; margin: 0px 6px 0px 14px; font-weight: bold; padding: 0px 10px; text-decoration:none; cursor: default;"><span>/</span></button>
+            <button id="sample_editable_1_new" ng-click="vm.markMeeting()" class="btn btn-primary">
+                Meeting
+            </button>
+            <hr />
+        </div>
+    </div>
+    <div ng-show="!vm.isTech">
+        <div class="col-xs-12  text-center">
+            <button id="sample_editable_1_new" ng-click="vm.createJob()" class="btn btn-primary">
+                Create Job
+            </button>
+        </div>
+        <div class="col-xs-12   text-center">
+            <hr />
+            <button id="sample_editable_1_new" ng-click="vm.createEstimate()" class="btn btn-primary">
+                Create Estimate
+            </button>
+        </div>
+        <div class="col-xs-12 text-center" ng-show="!vm.isFromPast">
+            <hr />
+            <button id="sample_editable_1_new" ng-click="vm.markVacation()" class="btn btn-primary">
+                Personal
+            </button>
+            <button class="btn btn-link" style="font-size: 24px; margin: 0px 6px 0px 14px; font-weight: bold; padding: 0px 10px; text-decoration:none; cursor: default;"><span>/</span></button>
+            <button id="sample_editable_1_new" ng-click="vm.markMeeting()" class="btn btn-primary">
+                Meeting
+            </button>
+        </div>
+    </div>
+</div>

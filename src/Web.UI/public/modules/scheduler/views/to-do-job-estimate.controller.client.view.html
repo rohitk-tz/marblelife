@@ -1,0 +1,673 @@
+﻿<style>
+    /*.daterangepicker.dropdown-menu ltr.show-calendar.opensright {
+        margin: 0 !Important;
+    }*/
+    table.todo thead th {
+        position: sticky;
+        top: 0;
+        z-index: 9;
+        background: #ddd;
+    }
+
+    @media(max-width:768px) {
+        .flex-1 {
+            width: 100% !important;
+            margin-bottom: 10px !important;
+        }
+
+        .d-flex {
+            display: flex !important;
+            flex-direction: column;
+        }
+
+        .input-small {
+            width: 100% !important;
+        }
+
+        input#date-range {
+            width: 100% !important;
+        }
+    }
+
+    .ml-auto {
+        margin-left: auto;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .customScroll-s {
+        width: 100%;
+        float: left;
+        /*height: 500px;*/
+        overflow-y: scroll;
+    }
+
+        .customScroll-s::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        .customScroll-s::-webkit-scrollbar-track {
+            /*  box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;*/
+            background: #f1f1f1;
+        }
+
+        .customScroll-s::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Handle */
+        .customScroll-s::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .add-more, .delete-more {
+        background-color: #26327e;
+        color: #fff !important;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        width: 24px;
+    }
+
+    .status-edit-item {
+        display: inline-block;
+    }
+
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+
+<div class="d-flex">
+    <div class="flex-1" style="float:left">
+        <h3 class="page-title">Manage To Do </h3>
+    </div>
+    <div class="flex-1 ml-auto">
+        <div class="d-flex" style="align-items:center">
+            <div class="flex-1" style="margin-left:10px">
+                <div class="form-group form-md-line-input">
+                    <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.getToDo"
+                           start-date="vm.query.startDate" end-date="vm.query.endDate">
+                    <label for="date-range">Date Range</label>
+                </div>
+            </div>
+            <div class="flex-1" style="margin-left:10px">
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    <select class="form-control input-small" id="search-option" ng-model="vm.query.statusId"
+                            ng-change="vm.getToDo();"
+                            ng-options="item.value as item.display for item in vm.statusOptions">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select>
+                    <label for="search-option">To Do Status</label>
+                </div>
+            </div>
+            <div class="flex-1" style="margin-left:10px">
+                <a class="btn " ng-click="vm.resetSearch();">
+                    <i class="fa fa-remove"></i>
+                </a>
+            </div>
+            <div class="flex-1 search-single" style="float: right;margin-left:10px" ng-show="!vm.isAddingNew">
+                <button id="sample_editable_1_new" ng-click="vm.isAddingNew=true;vm.processing=true;vm.editAddToDo = 'Add To-Do';vm.customerName = ''" class="btn btn-primary">
+                    Add To-Do
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div ng-show="vm.isAddingNew" style="padding:2% !important">
+    <fieldset class="the-fieldset">
+        <legend class="the-legend" style="margin-bottom: 0px;">{{vm.editAddToDo}}</legend>
+        <form role="form" name="todoForm">
+            <div class="row" style="margin-left:10px !important">
+                <div class="col-md-2 col-lg-2 col-xs-12">
+                    <div class="form-group form-md-line-input" id="taskList">
+                        <textarea style="min-width: 300px !important; max-width: 300px !important; max-height: 300px !important; min-height: 52px !important;" id="todTaskList" class="form-control" label="todTaskList" name="todTaskList" type="text" autocomplete="off" ng-model="vm.todoInfo.task" uib-typeahead="todTaskList.name as todTaskList.name for todTaskList in vm.toDoList($viewValue)"
+                                  typeahead-loading="loadingToDo" typeahead-min-length="2" maxlength="256"></textarea>
+                        <label for="todTaskList">Task To Do <span class="required" aria-required="true"> * </span></label>
+                        <i ng-show="loadingToDos" class="fa fa-refresh"></i>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12" style="margin-left: 20px; margin-right: 20px;">
+                    <div class="form-group form-md-line-input" style="width:48% !important;padding-top:34px !important">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.todoInfo.statusId"
+                                ng-options="item.value as item.display for item in vm.statusOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">To Do Status<span class="required" aria-required="true"> * </span></label>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12" style="margin-left:-163px !important">
+                    <div class="form-group form-md-line-input">
+                        <textarea style="max-height: 300px !important; min-height: 53px !important; min-width: 300px !important; max-width: 300px !important; " type="text" class="form-control" id="comment" name="comment" ng-model="vm.todoInfo.comment"
+                                  maxlength="5000"></textarea>
+                        <label for="firstname">Comments<span class="required" aria-required="true"> </span></label>
+                    </div>
+                    <div ng-show="todoForm.comment.$dirty && todoForm.comment.$invalid && todoForm.comment.$error.required">
+                        <span class="text-danger" ng-if="todoForm.comment.$error.required">
+                            Comment is required.
+                        </span>
+                    </div>
+
+                </div>
+                <div class="col-md-1 col-lg-1 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input" style="padding-top:19px !important">
+                        <date-picker-ts control-id="start-date" label="Date*" model="vm.todoInfo.date" format="{momentFormat:'MM/DD/YYYY HH:mm'}" datespicker-append-to-body="true" />
+                    </div>
+
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input" style="padding-top:34px !important">
+                        <select ng-disabled="vm.isFranchiseeAdmin == true" style="width: 300px !important; min-width: 300px !important; max-width: 300px !important;" class="form-control input-small" id="search-option" ng-model="vm.franchiseeId"
+                                ng-options="item.value as item.display for item in vm.FranchiseeCollectionList">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Franchisee</label>
+                    </div>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input" style="padding-top:34px !important">
+                        <select style="width: 140px !important; min-width: 140px !important; max-width: 140px !important; " class="form-control input-small" id="search-option" ng-model="vm.isJobEsimate"
+                                ng-options="item.value as item.display for item in vm.jobEstimateList">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Job/Estimate</label>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input" style="padding-top:34px !important">
+                        <input id="customer" class="form-control" label="customer" name="customer" type="text" autocomplete="off" style="min-width: 300px !important; max-width: 300px !important;" ng-model="vm.customerName" uib-typeahead="customer.name as customer.name for customer in vm.customerList($viewValue)"
+                               typeahead-loading="loadingCustomer" typeahead-min-length="2" maxlength="256"
+                               ng-blur="vm.getScheduler();"/>
+                        <label for="customer">Customer Name <!--<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span>--></label>
+                        <i ng-show="loadingCustomers" class="fa fa-refresh"></i>
+                    </div>
+                </div>
+            </div>
+            <!--<span style="margin-left:2% !important"><label>Add Customer's Information: <input type="checkbox" ng-model="vm.todoInfo.isCustomerUse"></label><br /></span>-->
+            <div class="row" style="margin-left:10px !important">
+                <div class="col-md-3 col-lg-3 col-xs-12" style="margin-right: 20px;">
+                    <div class="form-group form-md-line-input">
+                        <select style="width: 473px !important; min-width: 473px !important; max-width: 473px !important; " class="form-control input-small" id="search-option" ng-model="vm.schedulerTitle"
+                                ng-options="item.id as item.title + '  # ' + item.schedulerDateTime | date:'MM/dd/yyyy h:mm a' for item in vm.schedulerList">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Job/Estimate Title</label>
+                    </div>
+                </div>
+                <!--<div class="col-md-2 col-lg-2 col-xs-12">
+                    <div class="form-group form-md-line-input" style="width:48% !important;">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.todoInfo.taskChoiceId"
+                                ng-options="item.value as item.display for item in vm.taskOptions">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Task Choice</label>
+                    </div>
+                </div>-->
+                <div class="col-md-3 col-lg-3 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input">
+                        <input type="text" class="form-control" id="phoneName" name="phoneName" ng-model="vm.todoInfo.phoneNumber"
+                               maxlength="128" mask-format="phone" />
+                        <label for="firstname">Phone Number<span class="required" aria-required="true"> </span></label>
+                    </div>
+
+                </div>
+                <div class="col-md-3 col-lg-3 col-xs-12" style="margin-left:20px;">
+                    <div class="form-group form-md-line-input" ng-class="{'has-error' : todoForm.email.$error.required}">
+                        <input type="email" class="form-control" id="email" name="email" ng-model="vm.todoInfo.email"
+                               maxlength="128" />
+                        <label for="firstname">Email<span class="required" aria-required="true"> </span></label>
+                    </div>
+                </div>
+                <div ng-show="todoForm.email.$dirty && todoForm.email.$invalid">
+                    <span class="text-danger" ng-if="todoForm.email.$error.email">
+                        Email not valid.
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer clear-both">
+                <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+                <button type="submit" class="btn default" ng-click="vm.save();" ng-disabled="todoForm.$invalid || vm.isProcessing == true">Save</button>
+            </div>
+        </form>
+    </fieldset>
+</div>
+
+<div class="customScroll-s table-responsive" ng-if="vm.todoInfoListForToday.length>0">
+
+    <table class="table table-striped todo" id="sample_1" aria-describedby="sample_1_info">
+        <thead style="height:auto !important">
+            <tr role="row" style="background-color: #dddddd !important">
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    Date
+                </th>
+                <th style="width: 110px; min-width: 110px; max-width: 110px; ">
+                    Job/Estimate Title
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 150px;">
+                    Task To-Do
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    To-Do Status
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Comment
+                </th>
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    Date Created
+                </th>
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    Date Modified
+                </th>
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    User Name
+                </th>
+                <th style="width: 140px; min-width: 140px; max-width: 140px;" ng-if="!vm.isFromFranchiseeLevel">
+                    Franchisee Name
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Customer Name
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                    Phone Number
+                </th>
+                <th style="width: 160px; min-width: 160px; max-width: 160px;">
+                    Email
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="vm.todoInfoListForToday.length>0">
+                <td colspan="6">
+                    <span><b>Today's To Do List</b></span>
+                    <span ng-if="vm.isTodayDataExpand"
+                          ng-click="vm.isTodayDataExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                    <span ng-if="!vm.isTodayDataExpand"
+                          ng-click="vm.isTodayDataExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                </td>
+
+                <td style="width: 60px; min-width: 60px; max-width: 60px;" ng-if="!vm.isFromFranchiseeLevel"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+            </tr>
+
+            <tr ng-if="vm.isAllDataExpand && vm.todoInfoListForToday.length==0 && !vm.processing">
+                <td colspan="12" style="text-align:center;font-size:14px"><b>No Result Found</b></td>
+            </tr>
+            <tr ng-if="vm.isTodayDataExpand && vm.todoInfoListForToday.length>0" ng-repeat-start="item in vm.todoInfoListForToday track by $index">
+                <td style="width: 100px; min-width: 100px; max-width: 100px;">{{item.date |date:'M/d/yyyy'}}</td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL !==''"><a href="{{item.redirectURL}}" target="_blank">{{item.linkedEstimateTitle}}</a></td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL ==''"></td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;" title="{{item.task}}"><span class="break_word">{{item.task| limitTo: 20}}{{item.task.length > 20 ? '...' : ''}}</span></td>
+                <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                    <div>
+                        <div class="status-edit" style="padding:0px">
+                            <div class="status-edit-item" data-ng-hide="editMode">
+                                <span class="break_word">
+                                    {{item.statusName}}
+                                </span>
+                                <a class="glyphicon glyphicon-pencil" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                            </div>
+                            <div data-ng-show="editMode" class="form-md-line-input form-md-floating-label status-edit-item" style="position: relative;display: flex;">
+                                <select class="form-control" id="class" ng-model="item.statusId" name="class"
+                                        ng-options="class.value as class.display for class in vm.statusOptions" data-ng-required style="display: inline-block;">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <div class="floating-btn">
+                                    <a class="btn-edit" data-ng-show="editMode" data-ng-click="vm.updateToDoByStatus(item);">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                    <a class="btn-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </td>
+                <td style="width: 90px; min-width: 90px; max-width: 90px;">
+
+                    <span class="break_word"> {{item.comment| limitTo: 50}}{{item.comment.length > 50 ? '...' : ''}}</span>
+
+                    <div style="text-align:left;margin-top:5px">
+                        <a style="font-size:10px!important; text-decoration:underline; margin-right:5px;" ng-click="vm.openCommentModel(item)" title="Add New Note">Add Note</a>
+                        <a style="font-size:10px !important; text-decoration:underline;" ng-click="vm.openViewCommentModel(item)" title="View Notes">View Notes</a>
+                    </div>
+                </td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{item.dateCreated |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{item.dateModified |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{item.personName}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;" ng-if="!vm.isFromFranchiseeLevel">{{item.franchiseeName}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{item.customerName}}</td>
+                <td style="width: 100px; min-width: 60px; max-width: 60px;"><a href="tel:{{item.phoneNumber}}">{{item.phoneNumber}}</a></td>
+                <td style="width: 160px; min-width: 160px; max-width: 160px;"><a href="mailto::{{item.email}}"><span class="break_word">{{item.email}}</span></a></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                    <span> <a ng-click="vm.getToDoListById(item.id)">  <i class="fa fa-edit"></i></a></span>
+                    <span> <a ng-click="vm.deleteToDo(item.id)">  <i class="fa fa-trash"></i></a></span>
+                </td>
+
+            </tr>
+            <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="col-xs-12" style="border-top:1px solid #f1f1f1; padding-top:50px;" ng-if="vm.todoInfoList.length>0">
+    <div class="pull-left" id="sample_1_length">
+        <label>
+            Show
+            <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                    ng-model="vm.query.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                    ng-change="vm.pageChange();">
+                <option selected disabled hidden style='display: none' value=''></option>
+            </select> records
+        </label>
+    </div>
+
+    <div class="pull-right margin-left-15">
+        <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.jobs.length > 0">
+            Showing
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) <= vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.query.pageNumber * vm.query.pageSize}} of {{vm.count}} </span>
+            <span ng-if="(vm.query.pageNumber * vm.query.pageSize) > vm.count">{{((vm.query.pageNumber - 1) * vm.query.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+            records
+        </div>
+    </div>
+    <div class="pull-right margin-left-15" ng-if="vm.todoInfoList.length < vm.count">
+        <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+            <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.query.pageSize"
+                ng-model="vm.query.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                last-text="&raquo;"></ul>
+        </div>
+    </div>
+</div>
+<div class="customScroll-s table-responsive" ng-if="vm.todoInfoList.length>0">
+    <table class="table table-striped todo" id="sample_1" aria-describedby="sample_1_info">
+        <thead style="height:auto !important">
+            <tr role="row" style="background-color: #dddddd !important">
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    Date
+                </th>
+                <th style="width: 110px; min-width: 110px; max-width: 110px; ">
+                    Job/Estimate Title
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                    Task To-Do
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    To-Do Status
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Comment
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Date Created
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Date Modified
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    User Name
+                </th>
+                <th style="width: 140px; min-width: 140px; max-width: 140px;" ng-if="!vm.isFromFranchiseeLevel">
+                    Franchisee Name
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Customer Name
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                    Phone Number
+                </th>
+                <th style="width: 160px; min-width: 160px; max-width: 160px;">
+                    Email
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if=" vm.todoInfoList.length>0">
+                <td colspan="6">
+                    <span><b>All To Do List</b></span>
+                    <span ng-if="vm.isAllDataExpand"
+                          ng-click="vm.isAllDataExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                    <span ng-if="!vm.isAllDataExpand"
+                          ng-click="vm.isAllDataExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                </td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;" ng-if="!vm.isFromFranchiseeLevel"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+            </tr>
+
+            <tr ng-if="vm.isAllDataExpand && vm.todoInfoList.length==0 && !vm.processing">
+                <td colspan="12" style="text-align:center;font-size:14px">No Result Found</td>
+            </tr>
+            <tr ng-if="vm.isAllDataExpand && vm.todoInfoList.length>0" ng-repeat-start="item in vm.todoInfoList track by $index">
+                <td style="width: 100px; min-width: 100px; max-width: 100px;">{{item.date |date:'M/d/yyyy'}}</td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL !==''"><a href="{{item.redirectURL}}" target="_blank">{{item.linkedEstimateTitle}}</a></td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL ==''"></td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;" title="{{item.task}}"><span class="break_word">{{item.task| limitTo: 20}}{{item.task.length > 20 ? '...' : ''}}</span></td>
+                <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                    <div>
+                        <div class="status-edit" style="padding:0px">
+                            <div class="status-edit-item" data-ng-hide="editMode">
+                                <span class="break_word">
+                                    {{item.statusName}}
+                                </span>
+                                <a class="glyphicon glyphicon-pencil" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                            </div>
+                            <div data-ng-show="editMode" class="form-md-line-input form-md-floating-label status-edit-item" style="position: relative;display: flex;">
+                                <select class="form-control" id="class" ng-model="item.statusId" name="class"
+                                        ng-options="class.value as class.display for class in vm.statusOptions" data-ng-required style="display: inline-block;">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <div class="floating-btn">
+                                    <a class="btn-edit" data-ng-show="editMode" data-ng-click="vm.updateToDoByStatus(item);">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                    <a class="btn-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                    <span class="break_word">{{item.comment| limitTo: 50}}{{item.comment.length > 50 ? '...' : ''}}</span>
+                    <div style="text-align:left;margin-top:5px">
+                        <a style="font-size:10px!important; text-decoration:underline; margin-right:5px;" ng-click="vm.openCommentModel(item)" title="Add New Note">Add Note</a>
+                        <a style="font-size:10px !important; text-decoration:underline;" ng-click="vm.openViewCommentModel(item)" title="View Notes">View Notes</a>
+                    </div>
+                </td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.dateCreated |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.dateModified |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.personName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;" ng-if="!vm.isFromFranchiseeLevel">{{item.franchiseeName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">{{item.customerName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"><a href="tel:{{item.phoneNumber}}">{{item.phoneNumber}}</a></td>
+                <td style="width: 160px; min-width: 160px; max-width: 160px;"><a href="mailto::{{item.email}}"><span class="break_word">{{item.email}}</span></a></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                    <span> <a ng-click="vm.getToDoListById(item.id)">  <i class="fa fa-edit"></i></a></span>
+                    <span> <a ng-click="vm.deleteToDo(item.id)">  <i class="fa fa-trash"></i></a></span>
+                </td>
+
+            </tr>
+            <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+        </tbody>
+    </table>
+</div>
+
+<!--Expired To Do List-->
+<div class="customScroll-s table-responsive" ng-if="vm.todoInfoListExpired.length>0">
+    <table class="table table-striped todo" id="sample_1" aria-describedby="sample_1_info">
+        <thead style="height:auto !important">
+            <tr role="row" style="background-color: #dddddd !important">
+                <th style="width: 100px; min-width: 100px; max-width: 100px;">
+                    Date
+                </th>
+                <th style="width: 110px; min-width: 110px; max-width: 110px; ">
+                    Job/Estimate Title
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                    Task To-Do
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    To-Do Status
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Comment
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Date Created
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Date Modified
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    User Name
+                </th>
+                <th style="width: 140px; min-width: 140px; max-width: 140px;" ng-if="!vm.isFromFranchiseeLevel">
+                    Franchisee Name
+                </th>
+                <th style="width: 150px; min-width: 150px; max-width: 150px;">
+                    Customer Name
+                </th>
+                <th style="width: 120px; min-width: 120px; max-width: 120px;">
+                    Phone Number
+                </th>
+                <th style="width: 160px; min-width: 160px; max-width: 160px;">
+                    Email
+                </th>
+                <th style="width: 60px; min-width: 60px; max-width: 60px;">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if=" vm.todoInfoListExpired.length>0">
+                <td colspan="6">
+                    <span><b style="color:red">Expired To Do List</b></span>
+                    <span ng-if="vm.isExpiredDataExpand"
+                          ng-click="vm.isExpiredDataExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                    <span ng-if="!vm.isExpiredDataExpand"
+                          ng-click="vm.isExpiredDataExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                </td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;" ng-if="!vm.isFromFranchiseeLevel"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"></td>
+            </tr>
+
+            <tr ng-if="vm.isExpiredDataExpand && vm.todoInfoListExpired.length==0 && !vm.processing">
+                <td colspan="12" style="text-align:center;font-size:14px">No Result Found</td>
+            </tr>
+            <tr ng-if="vm.isExpiredDataExpand && vm.todoInfoListExpired.length>0" ng-repeat-start="item in vm.todoInfoListExpired track by $index">
+                <td style="width: 100px; min-width: 100px; max-width: 100px;">{{item.date |date:'M/d/yyyy'}}</td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL !==''"><a href="{{item.redirectURL}}" target="_blank">{{item.linkedEstimateTitle}}</a></td>
+                <td style="width: 100px; min-width: 100px; max-width: 100px;" ng-if="item.redirectURL ==''"></td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;" title="{{item.task}}"><span class="break_word">{{item.task| limitTo: 20}}{{item.task.length > 20 ? '...' : ''}}</span></td>
+                <td style="width: 150px; min-width: 150px; max-width: 150px;">
+                    <div>
+                        <div class="status-edit" style="padding:0px">
+                            <div class="status-edit-item" data-ng-hide="editMode">
+                                <span class="break_word">
+                                    {{item.statusName}}
+                                </span>
+                                <a class="glyphicon glyphicon-pencil" data-ng-hide="editMode" data-ng-click="editMode = !editMode"></a>
+                            </div>
+                            <div data-ng-show="editMode" class="form-md-line-input form-md-floating-label status-edit-item" style="position: relative;display: flex;">
+                                <select class="form-control" id="class" ng-model="item.statusId" name="class"
+                                        ng-options="class.value as class.display for class in vm.statusOptions" data-ng-required style="display: inline-block;">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <div class="floating-btn">
+                                    <a class="btn-edit" data-ng-show="editMode" data-ng-click="vm.updateToDoByStatus(item);">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                    <a class="btn-remove" data-ng-show="editMode" data-ng-click="editMode = !editMode">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                    <span class="break_word">{{item.comment| limitTo: 50}}{{item.comment.length > 50 ? '...' : ''}}</span>
+                    <div style="text-align:left;margin-top:5px">
+                        <a style="font-size:10px!important; text-decoration:underline; margin-right:5px;" ng-click="vm.openCommentModel(item)" title="Add New Note">Add Note</a>
+                        <a style="font-size:10px !important; text-decoration:underline;" ng-click="vm.openViewCommentModel(item)" title="View Notes">View Notes</a>
+                    </div>
+                </td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.dateCreated |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.dateModified |date:'M/d/yyyy hh:mm:ss'}}</td>
+                <td style="width: 120px; min-width: 120px; max-width: 0px;">{{item.personName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;" ng-if="!vm.isFromFranchiseeLevel">{{item.franchiseeName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">{{item.customerName}}</td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;"><a href="tel:{{item.phoneNumber}}">{{item.phoneNumber}}</a></td>
+                <td style="width: 160px; min-width: 160px; max-width: 160px;"><a href="mailto::{{item.email}}"><span class="break_word">{{item.email}}</span></a></td>
+                <td style="width: 60px; min-width: 60px; max-width: 60px;">
+                    <span> <a ng-click="vm.getToDoListById(item.id)">  <i class="fa fa-edit"></i></a></span>
+                    <span> <a ng-click="vm.deleteToDo(item.id)">  <i class="fa fa-trash"></i></a></span>
+                </td>
+
+            </tr>
+            <tr ng-if="item.expanded" ng-repeat-end=""></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="" ng-if="vm.todoInfoListForToday.length==0 && vm.todoInfoList.length==0 && vm.todoInfoListExpired.length==0 && !vm.processing" style="text-align:center">
+    <span style="text-align:center;font-size:14px;"><b>No Records Found</b></span>
+</div>

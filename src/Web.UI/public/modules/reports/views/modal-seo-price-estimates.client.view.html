@@ -1,0 +1,223 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">{{vm.searchText}} Price History </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<style>
+    .modal-dialog.modal-lg {
+        width: 60% !important;
+    }
+
+    .modal-body.ng-scope {
+        max-height: unset;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        border: 1px solid transparent;
+        padding: 10px 10px 40px 10px;
+        position: relative;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        margin-left: 0px !important;
+    }
+
+        .container .signature {
+            border: 1px solid white;
+            /*margin: 0 auto;*/
+            cursor: pointer;
+        }
+
+            .container .signature canvas {
+                border: 1px solid #999;
+                /*margin: 0 auto;*/
+                cursor: pointer;
+            }
+
+        .container .buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .container .sizes {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+            .container .sizes input {
+                width: 4em;
+                text-align: center;
+            }
+
+    .result {
+        border: 1px solid blue;
+        margin: 30px auto 0 auto;
+        height: 220px;
+        width: 568px;
+    }
+
+    /*.customScroll-s {
+        width: 100%;
+        float: left;
+        height: 430px;
+        overflow-y: scroll;
+    }
+
+        .customScroll-s::-webkit-scrollbar {
+            width: 7px;
+        }*/
+        /* Track */
+        /*.customScroll-s::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }*/
+        /* Handle */
+        /*.customScroll-s::-webkit-scrollbar-thumb {
+            background: #000;
+            border-radius: 10px;
+        }*/
+</style>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="dataTables_length pull-left m-t-15 showing-record" id="sample_1_length">
+                <label>
+                    Show
+                    <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                            ng-model="vm.seoSearchFilter.pageSize" ng-options="option.value as option.display for option in vm.pagingOptions"
+                            ng-change="vm.getSeoHistry();">
+                        <option selected disabled hidden style='display: none' value=''></option>
+                    </select> records
+                </label>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="dataTables_info pull-right" id="sample_1_info" role="status" aria-live="polite" ng-if="vm.seoHistryList.length > 0">
+                Showing
+                <span ng-if="(vm.seoSearchFilter.pageNumber * vm.seoSearchFilter.pageSize) <= vm.count">{{((vm.seoSearchFilter.pageNumber - 1) * vm.seoSearchFilter.pageSize)+ 1}} to {{vm.seoSearchFilter.pageNumber * vm.seoSearchFilter.pageSize}} of {{vm.count}} </span>
+                <span ng-if="(vm.seoSearchFilter.pageNumber * vm.seoSearchFilter.pageSize) > vm.count">{{((vm.seoSearchFilter.pageNumber - 1) * vm.seoSearchFilter.pageSize)+ 1}} to {{vm.count}} of {{vm.count}} </span>
+                records
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <div class="pull-right" ng-if="vm.seoHistryList.length < vm.count">
+                    <div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate">
+                        <ul uib-pagination boundary-links="true" total-items="vm.count" ng-change="vm.pageChange()" items-per-page="vm.seoSearchFilter.pageSize"
+                            ng-model="vm.seoSearchFilter.pageNumber" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" max-size="'5'"
+                            last-text="&raquo;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class= "row">
+        <div class="col-md-12" style="border-color:black !important;" ng-style="{'max-width': boundingBox.width + 'px', 'max-height': boundingBox.height + 'px'}">
+            <table class="table table-hover table-striped table-bordered dataTable no-footer" id="sample_1" aria-describedby="sample_1_info">
+                <thead>
+                    <tr style="background-color:#dddddd !important">
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Price<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Franchisee name<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Added By<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Added On<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Scheduler<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Notes<br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;" ng-if="vm.isSuperAdmin">
+                            <span style="font-weight: bolder; ">
+                                Notes Added By <br />
+                            </span>
+                        </td>
+                        <td style="text-align: center !important; width: 10%;">
+                            <span style="font-weight: bolder; ">
+                                Action <br />
+                            </span>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.seoHistryList.length > 0" ng-repeat="item in vm.seoHistryList">
+                        <td style="padding-left: 33px; width: 10%;">
+                            <span>{{item.price}}</span>
+                        </td>
+                        <td style="width:10%;">
+                            <div style="padding: 0 0px; display: inline-flex; margin-right: 30px; ">
+                                <span> {{item.franchiseeName}}</span>
+                            </div>
+                        </td>
+                        <td style="padding-left: 33px; width: 8%;">
+                            <span>{{item.userName}}</span>
+                        </td>
+                        <td style="width:10%;">
+                            <span>{{item.addedOn |date:'M/d/yyyy'}}</span>
+                        </td>
+                        <td style="width: 8%;">
+                            <span><a ng-click="vm.goToEstimate(item)">Go to Estimate</a></span>
+                        </td>
+                        <td style="width: 20%;">
+                            <div class="form-group form-md-line-input">
+                                <textarea maxlength="1024" class="form-control" rows="3" id="jobDescription" ng-model="item.notes" ng-keyup="vm.descriptionChange()"></textarea>
+                                <label for="jobDescription">Notes</label>
+                            </div>
+                        </td>
+                        <td style="width: 10%;" ng-if="vm.isSuperAdmin">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <span>{{item.notesAddedBy}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <a><span class="btn btn-primary" ng-click="vm.save(item)"><i class="fa fa-save" aria-hidden="true"></i></span></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.seoHistryList.length == 0">
+                        <td colspan="8" style="text-align:center;">
+                            <b>
+                                No Records Found!!
+                            </b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <br />
+
+        </div>
+    </div>
+    </div>
+<div class="modal-footer">
+    <!-- <button class="btn btn-primary" ng-click="vm.save()">Save</button>-->
+    <button class="btn" ng-click="vm.close()">Close</button>
+</div>

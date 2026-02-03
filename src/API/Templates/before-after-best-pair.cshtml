@@ -1,0 +1,51 @@
+﻿@model Core.Notification.ViewModel.BeforeAfterBestPairListModel
+<style>
+    .row{
+        width:100% !important;
+    }
+    .col-md-3
+    {
+        width:25% !important;
+    }
+    .col-md-2 {
+        width: 16.66666667% !important;
+    }
+</style>
+<html>
+
+<head>
+    <title>Best Before-After Pair of Job/Estimate</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-3">Before Image</div>
+        <div class="col-md-3">After Image</div>
+        <div class="col-md-2">Marked By</div>
+        <div class="col-md-2">Marked On</div>
+        <div class="col-md-2">Franchisee Name</div>
+    </div>
+
+    @foreach (var model in Model.BeforeAfterBestPairViewModel)
+    {
+<div class="row">
+    <div class="col-md-3">
+        <img src=@model.BeforeImageUrl style="margin:auto; height:150px;width:150px">
+    </div>
+    <div class="col-md-3">
+        <img src=@model.AfterImageUrl style="margin:auto; height:150px;width:150px">
+    </div>
+    <div class="col-md-2">
+        <p>@model.PersonName</p>
+        
+    </div>
+    <div class="col-md-2">
+        <p>@model.BestImageMarkedOn</p>
+    </div>
+    <div class="col-md-2">
+        <p>@model.FranchiseeName</p>
+    </div>
+</div>
+    }
+
+</body>
+</html>

@@ -1,0 +1,815 @@
+﻿<style type="text/css">
+    .portlet {
+        margin-bottom: 0px
+    }
+
+    .sticky-header-table thead tr th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: white;
+    }
+    /*.spinner {
+        margin-top: 40% !important;
+    }*/
+    .print-header {
+        display: none;
+        font-size: 30px !important;
+    }
+
+    body {
+        overflow-x: hidden !important;
+    }
+
+    .nav-active > a {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    .nav-inactve > a {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        background-color: #26327e !important;
+        color: white !important;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+
+    #myFirstChart11 {
+        width: 100%;
+        height: 100%;
+    }
+
+    .path.amcharts-graph-stroke {
+        stroke-dasharray: 10, 5, 10;
+    }
+
+    #page-wrap {
+        width: 600px;
+        margin: 15px auto;
+        position: relative;
+    }
+
+    #sidebar {
+        width: 27px;
+        position: fixed;
+        writing-mode: vertical-rl;
+        color: white;
+        background-color: #26327e;
+        padding: 6px;
+    }
+
+        #sidebar a:hover {
+            text-decoration: none;
+        }
+</style>
+
+<div class="row">
+
+    <div id="sidebar" style="z-index:9999">
+        <a ng-click="vm.moveToTop()" style="color:white;z-index:9999"> {{vm.sideMenuText}}</a>
+    </div>
+</div>
+<div class="row" style="padding-left:1% !important">
+    <div class="col-md-8">
+        <ul class="nav nav-tabs">
+            <li ng-click="vm.getMlfsData(1);" ng-class="{'nav-active' : vm.purchase , 'nav-inactve' : !vm.purchase }"><a>Purchase Data</a></li>
+            <li ng-click="vm.getMlfsData(2);" ng-class="{'nav-active' : vm.sales , 'nav-inactve' : !vm.sales }"><a>Sales Data</a></li>
+            <li ng-click="vm.getMlfsData(3);" ng-class="{'nav-active' : vm.perData , 'nav-inactve' : !vm.perData }"><a>% Data(Purchase/Sales)</a></li>
+        </ul>
+    </div>
+
+    <div class="col-md-1">
+        <div class="pull-left">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                        ng-model="vm.query.startDate" ng-options="option.value as option.display for option in vm.yearList">
+                </select>
+                <label for="franchisee">Start Year</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="pull-left">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"
+                        ng-model="vm.query.endDate" ng-options="option.value as option.display for option in vm.yearList">
+                </select>
+                <label for="franchisee">End Year</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2" style="margin: 0px;padding: 0px;">
+
+        <div class="pull-left">
+            <a class="btn btn-icon-only mbl" ng-click="vm.getMlfsReport();">
+                <i class="fa fa-refresh"></i>
+            </a>
+            <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                <i class="fa fa-remove"></i>
+            </a>
+            <button class="btn btn-primary" ng-print-amchart print-element-id="printSection11" title="print">
+                <i class="fa fa-print"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top:1% !important;margin-left:1% !important">
+    <div class="col-md-5">
+        <b style="font-size:15px">  Note- <span ng-if="vm.isFromLoad">By default</span> Data  from {{vm.startYear | date :  "MM/dd/y"}} to {{ vm.endYear | date :  "MM/dd/y"}}  is appearing.</b>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-6" ng-if="vm.purchase" style="float:right !important">
+        <b style="font-size:15px;float:right !important" ng-if="vm.endDate!=null">0-Franchise Sourcing Upload End date = {{vm.endDate}}</b>
+    </div>
+</div>
+
+<div class="row" ng-if="vm.purchase && vm.purchaseData.length != 0">
+    <div class="portlet blue-hoki box">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-list-ul"></i> Purchase Data
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="" id="printSection11" style="margin-right:0px !important; overflow: auto; z-index: 9999;top: 0; height:calc(100vh); overflow-y:auto;">
+                <div class="print-header">
+                    <div class="row" style="margin-left:1px">
+                        <div class="col-md-2">
+                            Purchase Data
+                        </div>
+                        <div class="col-md-5">
+                            <b style="font-size:15px">  Note- <span ng-if="vm.isFromLoad">By default</span> Data  from {{vm.startYear | date :  "MM/dd/y"}} to {{ vm.endYear | date :  "MM/dd/y"}}  is appearing.</b>
+                        </div>
+
+                        <div class="col-md-5" ng-if="vm.purchase">
+                            <b style="font-size:15px" ng-if="vm.endDate!=null">0-Franchise Sourcing Upload End date = {{vm.endDate}}</b>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row" class="red">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="GROUP" style="width:10%">
+                                <span>GROUP</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="FIRST YEAR" style="width:10%">
+                                <span>FIRST YEAR</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="STATUS" style="width:5.5%">
+                                <span>STATUS</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Year" style="width:10%">
+                                <span>Year</span><br />
+                                <span>Quarter</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-label="Quarter"
+                                ng-repeat="item in vm.quarterData" style="width:4.95%">
+                                <span>
+                                    <b> {{item.year}} </b><span style="text-align: center;"><br /><b>{{item.quarter}}</b></span>
+                                </span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="TOT.LIFE"
+                                style="width:4.95%">
+                                <span>
+                                    <b>TOTAL</b>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="item in vm.purchaseData">
+                        <tr ng-repeat-start="items in item.franchiseeModel" style="margin-bottom:10px">
+                            <td> {{item.groupName}}</td>
+                            <td ng-if="items.firstYear!=0">{{items.firstYear}}  </td>
+                            <td ng-if="items.firstYear==0"></td>
+                            <td>{{items.status}}  </td>
+                            <td>
+                                <span ng-if="items.isExpand"
+                                      ng-click="items.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                                <span ng-if="!items.isExpand"
+                                      ng-click="items.isExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                                {{items.franchiseeName}}
+                            </td>
+                            <td ng-repeat="purchase in items.purchasePriceModel">${{purchase.totalSum | number:0}}</td>
+                            <td>
+                                ${{items.totalSumPerFranchisee.price | number:0}}
+                            </td>
+                        </tr>
+                        <tr ng-if="items.isExpand"><td colspan="17"></td></tr>
+                        <tr ng-if="items.isExpand" ng-repeat="service in vm.serviceList">
+
+                            <td colspan="4" style="text-align:right;width:35.3%"><span><b>{{service}}</b></span></td>
+                            <td style="width:4.98%" ng-repeat="purchase in items.purchasePriceModel track by $index">
+                                ${{items.purchasePriceModel[$index].priceModel[$parent.$index].price | number:0}}
+                            </td>
+                            <td>${{items.yearlyServiceWiseSum[$index] | number:0}}</td>
+                        </tr>
+                        <tr ng-if="items.isExpand"><td colspan="17"></td></tr>
+                        <tr ng-if="items.isExpand" ng-repeat-end=""></tr>
+                        <tr style="border-top: solid 3px;">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b>  {{item.groupName}} Total</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in item.quarterWiseSum track by $index">
+                                ${{purchase.price | number:0}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in vm.purchaseData[0].franchiseeModel[0].purchasePriceModel">
+                            </td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in vm.purchaseData[0].franchiseeModel[0].purchasePriceModel">
+                            </td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForPurchase  track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Franchisee Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForLocalForPurchase  track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total International Franchisee Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForInternaltionlForPurchase track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Active Franchisee (With New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeLocalFranchiseeSumWithNewForPurchase track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Active Franchisee (Without New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeLocalFranchiseeSumWithOutsNewForPurchase track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Active Franchisee (With New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeFranchiseeSumWithNewForPurchase track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.purchaseData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Active Franchisee (Without New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum1 in vm.activeFranchiseeSumWithOutsNewForPurchase track by $index">
+                                ${{sum1 | number:0}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row" class="red">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" style="width:10%;text-align:right !important">
+                                <span>Service Name</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" ng-repeat="year in vm.yearData track by $index" style="width:10%">
+                                <span>{{year}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="service in vm.serviceList track by $index">
+                            <td style="text-align:right !important"><b>{{service}}</b></td>
+                            <td ng-repeat="year in vm.yearData track by $index">
+                                ${{vm.totalSumForServicesForPurchase[$parent.$index][$index] | number:0}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="vm.sales && vm.salesData.length != 0">
+    <div class="portlet blue-hoki box">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-list-ul"></i> Sales Data
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="" id="printSection11" style="margin-right:0px !important; overflow: auto; z-index: 9999;top: 0; height:calc(100vh); overflow-y:auto;">
+                <div class="print-header">
+                    <div class="row" style="margin-left:1px">
+                        <div class="col-md-2">
+                            Sales Data
+                        </div>
+                        <div class="col-md-5">
+                            <b style="font-size:15px">  Note- <span ng-if="vm.isFromLoad">By default</span> Data  from {{vm.startYear | date :  "MM/dd/y"}} to {{ vm.endYear | date :  "MM/dd/y"}}  is appearing.</b>
+                        </div>
+
+                        <div class="col-md-5" ng-if="vm.purchase">
+                            <b style="font-size:15px" ng-if="vm.endDate!=null">0-Franchise Sourcing Upload End date = {{vm.endDate}}</b>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="GROUP" style="width:10%">
+                                <span>GROUP</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="FIRST YEAR" style="width:10%">
+                                <span>FIRST YEAR</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="STATUS" style="width:5.5%">
+                                <span>STATUS</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Year" style="width:10%">
+                                <span>Year</span><br />
+                                <span>Quarter</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Quarter"
+                                ng-repeat="item in vm.quarterData" style="width:4.95%">
+                                <span>
+                                    <b> {{item.year}} </b><span style="text-align: center;"><br /><b>{{item.quarter}}</b></span>
+                                </span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="TOT.LIFE"
+                                style="width:4.95%">
+                                <span>
+                                    <b>TOTAL</b>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="item in vm.salesData">
+                        <tr ng-repeat-start="items in item.franchiseeModel" style="margin-bottom:10px">
+                            <td> {{item.groupName}}</td>
+                            <td ng-if="items.firstYear!=0">{{items.firstYear}}  </td>
+                            <td ng-if="items.firstYear==0"></td>
+                            <td>{{items.status}}  </td>
+                            <td>
+                                <span ng-if="items.isExpand"
+                                      ng-click="items.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                                <span ng-if="!items.isExpand"
+                                      ng-click="items.isExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                                {{items.franchiseeName}}
+                            </td>
+                            <td ng-repeat="purchase in items.purchasePriceModel">${{purchase.totalSum | number:0}}</td>
+                            <td>
+                                ${{items.totalSumPerFranchisee.price | number:0}}
+                            </td>
+                        </tr>
+                        <tr ng-if="items.isExpand"><td colspan="17"></td></tr>
+                        <tr ng-if="items.isExpand" ng-repeat="service in vm.serviceList">
+                            <td colspan="4" style="text-align:right;width:35.3%"><span><b>{{service}}</b></span></td>
+                            <td style="width:4.98%" ng-repeat="purchase in items.purchasePriceModel track by $index">${{items.purchasePriceModel[$index].priceModel[$parent.$index].price | number:0}}</td>
+                            <td style="width:4.98%">${{items.yearlyServiceWiseSum[$index] | number:0}}</td>
+                        </tr>
+                        <tr ng-if="items.isExpand"><td colspan="17"></td></tr>
+                        <tr ng-if="items.isExpand" ng-repeat-end=""></tr>
+                        <tr style="border-top: solid 3px;">
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);">
+                                <b>  {{item.groupName}} Total</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sales in item.quarterWiseSum track by $index">
+                                ${{sales.price | number:0}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border: none;border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in vm.salesData[0].franchiseeModel[0].purchasePriceModel">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="background-color:white;border: none;border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in vm.salesData[0].franchiseeModel[0].purchasePriceModel">
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Franchisee Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForLocalForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total International Franchisee Sum</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.totalSumForInternaltionlForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Active Franchisee (With New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeLocalFranchiseeSumWithNewForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Local Active Franchisee (Withuut New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeLocalFranchiseeSumWithOutsNewForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Active Franchisee (With New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum in vm.activeFranchiseeSumWithNewForSales track by $index">
+                                ${{sum | number:0}}
+                            </td>
+                        </tr>
+                        <tr style="border-top: solid 3px;" ng-if="(vm.salesData.length - 1)  == $index">
+                            <td colspan="3" style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td>
+                                <b> Total Active Franchisee (Without New)</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="sum1 in vm.activeFranchiseeSumWithOutsNewForSales">
+                                ${{sum1 | number:0}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row" class="red">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" style="width:10%;text-align:right !important">
+                                <span>Service Name</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" ng-repeat="year in vm.yearData track by $index" style="width:10%">
+                                <span>{{year}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="service in vm.serviceList track by $index">
+                            <td style="text-align:right !important"><b>{{service}}</b></td>
+                            <td ng-repeat="year in vm.yearData track by $index">
+                                ${{vm.totalSumForServicesForSales[$parent.$index][$index] | number:0}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="vm.perData && vm.salesData.length != 0 && vm.purchaseData.length != 0">
+    <div class="portlet blue-hoki box">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-list-ul"></i> Calculated Data
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="" id="printSection11" style="margin-right:0px !important; overflow: auto; z-index: 9999;top: 0; height:calc(100vh); overflow-y:auto;">
+                <div class="print-header">
+                    <div class="row" style="margin-left:1px">
+                        <div class="col-md-2">
+                            Calculated Data
+                        </div>
+                        <div class="col-md-5">
+                            <b style="font-size:15px">  Note- <span ng-if="vm.isFromLoad">By default</span> Data  from {{vm.startYear | date :  "MM/dd/y"}} to {{ vm.endYear | date :  "MM/dd/y"}}  is appearing.</b>
+                        </div>
+
+                        <div class="col-md-5" ng-if="vm.purchase">
+                            <b style="font-size:15px" ng-if="vm.endDate!=null">0-Franchise Sourcing Upload End date = {{vm.endDate}}</b>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="GROUP" style="width:20px">
+                                <span>GROUP</span>
+                            </th>
+
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="STATUS" style="width:2% !important">
+                                <span>STATUS</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Year" style="width:30px">
+                                <span>Year</span><br />
+                                <span>Quarter</span>
+                            </th>
+
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Quarter"
+                                ng-repeat="item in vm.quarterData" style="width:3% !important">
+                                <span>
+                                    <b> {{item.year}} </b><br />
+                                    <span style="text-align: center;margin-left: 33%;">
+                                        <b>{{item.quarter}}</b>
+                                    </span>
+                                </span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="TOT.LIFE"
+                                style="width:2% !important">
+                                <span>
+                                    <b>TOTAL</b>
+                                </span>
+                            </th>
+                            <th style="width:3% !important"></th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="Quarter"
+                                ng-repeat="item in vm.yearData" style="width:3% !important">
+                                <span>
+                                    <b> {{item}} </b><span style="text-align: center"></span>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="item in vm.salesData track by $index">
+                        <tr ng-repeat-start="items in item.franchiseeModel track by $index" style="margin-bottom:10px" ng-init="mainLoop =$parent.$index">
+                            <td> {{item.groupName}}</td>
+                            <td>{{items.status}}  </td>
+                            <td>
+                                <span ng-if="items.isExpand"
+                                      ng-click="items.isExpand = false"><i class="fa fa-minus-circle icon-red" style="cursor:pointer;"></i></span>
+                                <span ng-if="!items.isExpand"
+                                      ng-click="items.isExpand = true"><i class="fa fa-plus-circle icon-green" style="cursor:pointer;"></i></span>
+                                {{items.franchiseeName}}
+                            </td>
+                            <td ng-repeat="purchase in items.purchasePriceModel track by $index" ng-init="innerLoop =$parent.$index;isParsed=false" ng-style="{'background-color':purchase.backColor,'color':purchase.color}">
+                                <span ng-if="vm.purchaseData[mainLoop].franchiseeModel[$parent.$index].purchasePriceModel[$index].totalSum != 0 && purchase.totalSum != 0">
+                                    <span ng-init="outterLoop =$parent.$index;calculatedValue=vm.purchaseData[mainLoop].franchiseeModel[innerLoop].purchasePriceModel[outterLoop].totalSum">
+                                        <span ng-repeat="status in vm.statusList track by $index"
+                                              ng-if="(((calculatedValue / purchase.totalSum ) * 100)| number:1) >= status.minValue &&  ((( calculatedValue / purchase.totalSum) * 100 )| number:1) <= status.maxValue"
+                                              ng-init="purchase.backColor=status.colorCode;purchase.color=white;purchase.isParsed=true" style="color:white">
+                                            {{ (calculatedValue/ purchase.totalSum  ) * 100 | number:1}}%
+                                        </span>
+                                    </span>
+                                    <span ng-if="!purchase.isParsed">
+                                        {{(vm.purchaseData[mainLoop].franchiseeModel[innerLoop].purchasePriceModel[$index].totalSum / purchase.totalSum ) * 100 | number:1}}%
+                                    </span>
+                                </span>
+                                <span ng-if="vm.purchaseData[mainLoop].franchiseeModel[$parent.$index].purchasePriceModel[$index].totalSum == 0 || purchase.totalSum==0">
+                                    0
+                                </span>
+                            </td>
+                            <td ng-init="index1=$index" ng-style="{'background-color':items.totalSumPerFranchisee.backGroundColor,'color':items.totalSumPerFranchisee.color}">
+                                <span ng-if="vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price != 0 && items.totalSumPerFranchisee.price != 0">
+                                    <span>
+                                        <span ng-repeat="status in vm.statusList track by $index"
+                                              ng-if="(((vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price / items.totalSumPerFranchisee.price  ) * 100)| number:1) >= status.minValue &&  ((( vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price / items.totalSumPerFranchisee.price ) * 100 )| number:1) <= status.maxValue"
+                                              ng-init="items.totalSumPerFranchisee.backGroundColor=status.colorCode;items.totalSumPerFranchisee.color=white;items.totalSumPerFranchisee.isParsed=true"  style="color:white">
+                                             {{(vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price / items.totalSumPerFranchisee.price ) * 100 | number:1}}%
+                                        </span>
+                                    </span>
+                                    <span ng-if="!items.totalSumPerFranchisee.isParsed">
+                                       {{(vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price / items.totalSumPerFranchisee.price ) * 100 | number:1}}%
+                                    </span>
+                                </span>
+
+                                <span ng-if="vm.purchaseData[mainLoop].franchiseeModel[index1].totalSumPerFranchisee.price == 0 || items.totalSumPerFranchisee.price == 0">
+                                    0
+                                </span>
+                            </td>
+                            <td></td>
+                            <td ng-repeat="year in items.yearWiseTotalSum track by $index" ng-init="innerLoop =$parent.$index"
+                                ng-style="{'background-color':year.backGroundColor,'color':year.color}">
+                                <span ng-if="year.value != 0 && vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[$index].value != 0"
+                                      ng-init="outterLoop =$parent.$index">
+                                    <span ng-repeat="status in vm.statusList track by $index"
+                                          ng-if="(((vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[outterLoop].value / year.value  ) * 100)| number:1) >= status.minValue &&  (((vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[outterLoop].value / year.value ) * 100 )| number:1) <= status.maxValue"
+                                          ng-init="year.backGroundColor=status.colorCode;year.color=white;year.isParsed=true" style="color:white">
+                                        {{(vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[outterLoop].value / year.value ) * 100 | number:1}}%
+                                    </span>
+                                    <span ng-if="!year.isParsed">
+                                        {{(vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[outterLoop].value / year.value ) * 100 | number:1}}%
+                                    </span>
+                                </span>
+
+                                <span ng-if="year.value == 0 || vm.purchaseData[mainLoop].franchiseeModel[innerLoop].yearWiseTotalSum[$index].value == 0">
+                                    0
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-if="items.isExpand" ng-repeat="service in vm.serviceList  track by $index" ng-init="mainLoops =$parent.$index;item1=item.index;items1=items.index">
+                            <td colspan="3" style="text-align:right;width:35.3%"><span><b>{{service}}</b></span></td>
+                            <td style="width:4.98%" ng-repeat="purchase in items.purchasePriceModel track by $index" ng-init="item1=item.index;items1=items.index;parentItems=$parent.$index">
+                                <span ng-if="vm.purchaseData[item.index].franchiseeModel[items.index].purchasePriceModel[$index].priceModel[parentItems].price != 0 && items.purchasePriceModel[$index].priceModel[parentItems].price != 0 ">
+                                    {{((vm.purchaseData[item1].franchiseeModel[items1].purchasePriceModel[$index].priceModel[parentItems].price * 100) / items.purchasePriceModel[$index].priceModel[parentItems].price ) | number:1}}%
+                                </span>
+                                <span ng-if="vm.purchaseData[item1].franchiseeModel[items1].purchasePriceModel[$index].priceModel[parentItems].price == 0 || items.purchasePriceModel[$index].priceModel[parentItems].price == 0 ">
+                                    0
+                                </span>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);">
+                                <span ng-if="vm.purchaseData[item1].franchiseeModel[items1].yearlyServiceWiseSum[$index] !=0 && items.yearlyServiceWiseSum[$index] != 0">
+                                    {{(( vm.purchaseData[item1].franchiseeModel[items1].yearlyServiceWiseSum[$index] * 100) / items.yearlyServiceWiseSum[$index] ) | number:1}}%
+                                </span>
+                                <span ng-if=" vm.purchaseData[item1].franchiseeModel[items1].yearlyServiceWiseSum[$index] ==0 || items.yearlyServiceWiseSum[$index] == 0">
+                                    0
+                                </span>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);" ng-repeat="year in vm.yearData track by $index" ng-init="item1=item.index;items1=items.index;parentItems=$parent.$index">
+                                <span ng-if="vm.purchaseData[item1].franchiseeModel[items1].serviceWiseSum[$parent.$index][$index] != 0 && items.serviceWiseSum[$parent.$index][$index] != 0">
+                                    {{((vm.purchaseData[item1].franchiseeModel[items1].serviceWiseSum[parentItems][$index] * 100) / items.serviceWiseSum[parentItems][$index] ) | number:1}}%
+                                </span>
+                                <span ng-if="vm.purchaseData[item1].franchiseeModel[items1].serviceWiseSum[$parent.$index][$index] == 0 || items.serviceWiseSum[$parent.$index][$index] == 0">
+                                    0
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-if="items.isExpand" ng-repeat-end=""></tr>
+                        <tr style="border-top: solid 3px;">
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);">
+                                <b>  {{item.groupName}} Total</b>
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in item.quarterWiseSum track by $index" ng-init="mainLoop =$parent.$index;index1=$index" ng-style="{'background-color':purchase.backGroundColor,'color':purchase.color}">
+                                <span ng-repeat="status in vm.statusList track by $index"
+                                      ng-if="(((vm.purchaseData[mainLoop].quarterWiseSum[index1].price /  purchase.price  ) * 100)| number:1) >= status.minValue &&  (((vm.purchaseData[mainLoop].quarterWiseSum[index1].price /  purchase.price ) * 100 )| number:1) <= status.maxValue"
+                                      ng-init="purchase.backGroundColor=status.colorCode;purchase.color=white;purchase.isParsed=true;index = $index" style="color:white">
+                                    {{(vm.purchaseData[mainLoop].quarterWiseSum[index1].price /  purchase.price) * 100 | number:1}}%
+                                </span>
+                                <span ng-if="!purchase.isParsed">
+                                    <span ng-if="vm.purchaseData[$parent.$index].quarterWiseSum[index1].price != 0 && purchase.price != 0">
+                                        {{(vm.purchaseData[mainLoop].quarterWiseSum[index1].price / purchase.price ) * 100 | number:1}}%
+                                    </span>
+                                    <span ng-if="vm.purchaseData[$parent.$index].quarterWiseSum[index1].price ==0 || purchase.price == 0">
+                                        0
+                                    </span>
+                                </span>
+
+                                <!--<span ng-if="vm.purchaseData[$parent.$index].quarterWiseSum[$index].price != 0 && purchase.price != 0">
+                                    {{(  vm.purchaseData[mainLoop].quarterWiseSum[$index].price / purchase.price) * 100 | number:1}}%
+                                </span>
+                                <span ng-if="vm.purchaseData[$parent.$index].quarterWiseSum[$index].price ==0 || purchase == 0">
+                                    0
+                                </span>-->
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="items in vm.yearData track by $index" ng-init="innerLoop =$parent.$index;index1=$index"
+                                ng-style="{'background-color':item.yearWiseSum[index1].backGroundColor,'color':item.yearWiseSum[index1].color}">
+                                <span ng-repeat="status in vm.statusList track by $index"
+                                      ng-if="(((vm.purchaseData[innerLoop].yearWiseSum[index1].price / item.yearWiseSum[index1].price ) * 100)| number:1) >= status.minValue &&  (((vm.purchaseData[innerLoop].yearWiseSum[index1].price / item.yearWiseSum[index1].price ) * 100 )| number:1) <= status.maxValue"
+                                      ng-init="item.yearWiseSum[index1].backGroundColor=status.colorCode;item.yearWiseSum[index1].color=white;item.yearWiseSum[index1].isParsed=true" style="color:white">
+                                    {{(vm.purchaseData[innerLoop].yearWiseSum[index1].price / item.yearWiseSum[index1].price ) * 100 | number:1}}%
+                                </span>
+                                <span ng-if="!item.yearWiseSum[index1].isParsed">
+                                    <span ng-if="vm.purchaseData[innerLoop].yearWiseSum[index1].price !=0 &&  item.yearWiseSum[index1].price!=0">
+                                        {{(vm.purchaseData[innerLoop].yearWiseSum[index1].price / item.yearWiseSum[index1].price ) * 100 | number:1}}%
+                                    </span>
+                                    <span ng-if="vm.purchaseData[innerLoop].yearWiseSum[index1].price ==0 ||  item.yearWiseSum[index1].price== 0">
+                                        0
+                                    </span>
+                                </span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"> </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);">
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="purchase in vm.salesData[0].franchiseeModel[0].purchasePriceModel">
+                            </td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"></td>
+                            <td style="border-top: solid 1px rgb(221, 221, 221);"
+                                ng-repeat="item in vm.yearData track by $index">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-striped table-bordered table-hover dataTable no-footer sticky-header-table" style="padding:0;margin:0">
+                    <thead>
+                        <tr role="row" class="red">
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" style="width:10%;text-align:right !important">
+                                <span>Service Name</span>
+                            </th>
+                            <th rowspan="1" colspan="1" aria-sort="ascending" aria-label="ServiceName" ng-repeat="year in vm.yearData track by $index" style="width:10%">
+                                <span>{{year}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="service in vm.serviceList track by $index">
+                            <td style="text-align:right !important"><b>{{service}}</b></td>
+                            <td ng-repeat="year in vm.yearData track by $index" ng-init="innerLoop=$parent.$index">
+                                <span ng-if="vm.totalSumForServicesForPurchase[innerLoop][$index] != 0 && vm.totalSumForServicesForSales[innerLoop][$index] != 0">
+                                    {{( vm.totalSumForServicesForPurchase[innerLoop][$index] * 100) / vm.totalSumForServicesForSales[innerLoop][$index] | number:1}}%
+                                </span>
+
+                                <span ng-if="vm.totalSumForServicesForPurchase[innerLoop][$index] == 0 || vm.totalSumForServicesForSales[innerLoop][$index] == 0">
+                                    0
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

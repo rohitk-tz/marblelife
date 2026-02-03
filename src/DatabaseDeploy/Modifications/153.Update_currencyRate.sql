@@ -1,0 +1,1 @@
+﻿update currencyexchangerate set rate = 0.2718 where countryId = 6 and rate = 0;

@@ -1,0 +1,26 @@
+﻿<div class="portlet light">
+    <div class="portlet-body form">
+        <form role="form" name="franchiseeForm">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-lg-offset-1">
+                    <h3 class="section-header">Franchisee Deactivation Note</h3>
+                    <div class="row margin-top-10">
+                        <div class="col-md-10 pull-left">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <textarea class="form-control" rows="3" id="notes" ng-model="vm.query.deactivateNote" maxlength="512" placeholder="Deactivation Note" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12">
+                    <div class="form-actions noborder text-right">
+                        <button type="button" class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
+                        <button type="button" class="btn btn-primary" ng-click="vm.save()" ng-disabled="franchiseeForm.$invalid">Submit</button>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+

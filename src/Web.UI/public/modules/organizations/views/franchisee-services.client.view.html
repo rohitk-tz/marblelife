@@ -1,0 +1,165 @@
+﻿<style type="text/css">
+    .mbl-switch-for-certification {
+        display: none;
+    }
+
+        .mbl-switch-for-certification + label {
+            position: relative;
+            width: 52px;
+            border: 1px solid #b9b9b9;
+            border-radius: 4px;
+            margin: 0;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mbl-switch-for-certification:checked + label:after {
+            content: 'Yes';
+            background-color: #26327e;
+            left: 1px;
+        }
+
+        .mbl-switch-for-certification + label:after {
+            position: absolute;
+            width: 20px;
+            content: 'No';
+            background-color: #909090;
+            top: 1px;
+            color: #fff;
+            font-size: 12px;
+            height: 18px;
+            text-align: center;
+            border-radius: 3px;
+            left: auto;
+            right: 1px;
+        }
+</style>
+<div>
+    <h3 class="section-header">Services Offered</h3>
+    <div class="clearfix service-offered">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>
+                    Restoration <span style="font-size: 13px;font-weight: 100;margin-left:45px !important">Certified</span>
+                    <span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span>
+                </h4>
+            </div>
+            <div class="col-sm-6">
+                <h4>
+                    Restoration<span style="font-size: 13px;font-weight: 100;margin-left:45px !important">Certified</span>
+                    <span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" ng-repeat="type in services | filter:{categoryId: '101'}">
+                <div class="single-service clearfix" style="margin-bottom: 0px;">
+                    <div class="pull-left" style="width:165px;word-break:break-all">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="restoration{{$index}}" class="md-check" ng-model="type.isActive">
+                            <label for="restoration{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                {{type.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pull-left" ng-if="type.isActive">
+                        <input type="checkbox" checked id="certified{{$index}}" ng-model="type.isCertified" ng-disabled="!type.isActive">
+                        <label for="certified{{$index}}">&nbsp;</label>
+                    </div>
+                    <!--showing hidden div if isActive is false -->
+                    <div class="pull-left" ng-if="!type.isActive">
+                        <input style="visibility:hidden" type="checkbox" checked id="certified{{$index}}" ng-model="type.isCertified" ng-disabled="!type.isActive">
+                        <label style="visibility:hidden" for="certified{{$index}}">&nbsp;</label>
+                    </div>
+                    <!--showing hidden div if isActive is false -->
+                    <div class="pull-right" ng-if="!type.isActive">
+                        <input style="visibility:hidden" type="checkbox" checked id="certified{{$index}}" ng-model="type.isCertified" ng-disabled="!type.isActive">
+                        <label style="visibility:hidden" for="certified{{$index}}">&nbsp;</label>
+                    </div>
+                    <!--visible only if checked -->
+                    <div class="pull-right" ng-if="type.isActive">
+                        <input type="checkbox" checked class="mbl-switch" id="calculateRoyaltyRes{{$index}}" ng-model="type.calculateRoyalty">
+                        <label for="calculateRoyaltyRes{{$index}}">&nbsp;</label>
+                    </div>
+                </div>
+                <!--<div class="single-service clearfix" style="margin-top: -10px;">
+                <div class="pull-left">
+                    <div class="md-checkbox">
+                        <label for="restoration{{$index}}">
+                            <span></span>
+                            <i> Certified</i>
+                        </label>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <input type="checkbox" checked class="mbl-switch" id="certified{{$index}}" ng-model="type.isCertified" ng-disabled="!type.isActive">
+                    <label for="certified{{$index}}">&nbsp;</label>
+                </div>
+            </div>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Maintenance <span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span></h4>
+            </div>
+            <div class="col-sm-6">
+                <h4>Maintenance<span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" ng-repeat="type in services | filter:{categoryId: '102'}">
+                <div class="single-service clearfix">
+                    <div class="pull-left">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="maintenance{{$index}}" ng-model="type.isActive" class="md-check">
+                            <label for="maintenance{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                {{type.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <!--visible only if checked -->
+                    <div class="pull-right" ng-if="type.isActive">
+                        <input type="checkbox" checked class="mbl-switch" id="calculateRoyaltyMain{{$index}}" ng-model="type.calculateRoyalty">
+                        <label for="calculateRoyaltyMain{{$index}}">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Call Center <span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span></h4>
+            </div>
+            <div class="col-sm-6">
+                <h4>Call Center<span class="pull-right" style="font-size: 13px;font-weight: 100;">Calculate Royalty</span></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" ng-repeat="type in services | filter:{categoryId: '254'}">
+                <div class="single-service clearfix">
+                    <div class="pull-left">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="fRONTOFFICECALLMANAGEMENT{{$index}}" ng-model="type.isActive" class="md-check">
+                            <label for="fRONTOFFICECALLMANAGEMENT{{$index}}">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                {{type.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <!--visible only if checked -->
+                    <div class="pull-right" ng-if="type.isActive">
+                        <input type="checkbox" checked class="mbl-switch" id="calculateRoyaltyFrontOffice{{$index}}" ng-model="type.calculateRoyalty">
+                        <label for="calculateRoyaltyFrontOffice{{$index}}">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

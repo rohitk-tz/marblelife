@@ -1,0 +1,20 @@
+﻿
+<div class="modal-header">
+    <h5 class="modal-title">Validations</h5>
+</div>
+<div class="modal-body">
+    <div ng-if="vm.messages.length > 1">
+        <ol>
+            <li ng-repeat="message in vm.messages">{{::message}}</li>
+        </ol>
+    </div>
+    <div ng-if="vm.messages.length == 1">
+        <span>{{::vm.messages[0]}}</span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="blue btn" ng-click="vm.cancel()">Got it!</button>
+</div>
+
+
+

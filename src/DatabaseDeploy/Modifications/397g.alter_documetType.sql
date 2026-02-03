@@ -1,0 +1,10 @@
+UPDATE `makalu`.`documenttype` SET `Name` = 'Employee Handbook' WHERE (`Id` = '6');
+UPDATE `makalu`.`documenttype` SET `Name` = 'Hazom Manual' WHERE (`Id` = '7');
+UPDATE `makalu`.`documenttype` SET `Name` = 'License' WHERE (`Id` = '8');
+UPDATE `makalu`.`documenttype` SET `Name` = 'Upload Taxes' WHERE (`Id` = '9');
+UPDATE `makalu`.`documenttype` SET `Name` = 'Franchisee Agrrements - Renewals' WHERE (`Id` = '10');
+UPDATE `makalu`.`documenttype` SET `Name` = 'Resale Certificate' WHERE (`Id` = '11');
+UPDATE `makalu`.`documenttype` SET `Name` = 'Annual P&L - Profit & Loss Statement' WHERE (`Id` = '15');
+UPDATE `makalu`.`documenttype` SET `order` = '19' WHERE (`Id` = '8');
+UPDATE `makalu`.`documenttype` SET `order` = '10' WHERE (`Id` = '11');
+UPDATE `makalu`.`documenttype` SET `order` = '11' WHERE (`Id` = '1');

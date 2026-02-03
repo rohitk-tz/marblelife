@@ -1,0 +1,408 @@
+﻿<div>
+    <style type="text/css">
+        .upload-btn-wrapper .btn {
+            border: 1px solid #818181;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            display: inline-block;
+            padding: 0;
+            line-height: 28px;
+            position: absolute;
+            bottom: 10px;
+            right: 6px;
+        }
+
+        img.logo-image {
+            min-height: 100px;
+            max-width: 279px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+            .upload-btn-wrapper input[type=file] {
+                font-size: 100px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                height: 100%;
+            }
+
+        .upload-section {
+            border: 3px dashed #ccc;
+            border-radius: 5px;
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+            .upload-section > p {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+
+            .upload-section .btn-link {
+                margin: 0 auto;
+                text-align: center;
+                width: 100%;
+                text-transform: uppercase;
+            }
+
+            .upload-section div {
+                margin: 0 auto;
+                text-align: center;
+            }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            z-index: 99999 !important;
+            opacity: unset !important;
+        }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                position: absolute;
+                z-index: 999999;
+                margin-left: -60px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                top: 17px !important;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
+
+        /*.tooltiptext > ul > li > span {
+            position: relative;
+            left: -40px;
+        }*/
+    </style>
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+    <div class="portlet light">
+        <div class="portlet-body form">
+            <form role="form" name="userForm" novalidate>
+                <div class="row">
+                    <div class="col-md-8 col-lg-7">
+                        <h3 class="section-header">Basic Information</h3>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-xs-12">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.firstname.$error.required}">
+                                        <input type="text" class="form-control" id="firstname" name="firstname" ng-model="vm.user.personEditModel.name.firstName" required
+                                               maxlength="128">
+                                        <label for="firstname">First Name<span class="required" aria-required="true"> * </span></label>
+                                    </div>
+                                    <div ng-show="userForm.firstname.$dirty && userForm.firstname.$invalid && userForm.firstname.$error.required">
+                                        <span class="text-danger" ng-if="userForm.firstname.$error.required">
+                                            First Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="text" class="form-control" id="middleName" ng-model="vm.user.personEditModel.name.middleName" maxlength="128">
+                                    <label for="name">Middle Name</label>
+                                </div>
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.lastname.$error.required}">
+                                        <input type="text" class="form-control" id="lastname" name="lastname" ng-model="vm.user.personEditModel.name.lastName" maxlength="128" ng-required="isEquipment">
+                                        <label for="name">Last Name<span class="required" aria-required="true"> * </span></label>
+                                    </div>
+                                    <div ng-show="userForm.lastname.$dirty && userForm.lastname.$invalid && userForm.lastname.$error.required">
+                                        <span class="text-danger" ng-if="userForm.lastname.$error.required">
+                                            Last Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.email.$error.required}" ng-if="!isEquipment">
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="512"
+                                               validate-email user-id="vm.user.personEditModel.personId" ng-model="vm.user.personEditModel.email"
+                                               ng-blur="vm.setDefaultUserName(vm.user.personEditModel.email)" ng-required="isEquipment">
+                                        <label for="email">Email <span class="required" aria-required="true"> * </span></label>
+                                    </div>
+                                    <div ng-show="userForm.email.$dirty && userForm.email.$invalid">
+                                        <span class="text-danger" ng-if="userForm.email.$error.required">
+                                            Email is required.
+                                        </span>
+                                        <span class="text-danger" ng-if="userForm.email.$error.email">
+                                            Email not valid.
+                                        </span>
+                                        <span class="text-danger" ng-if="userForm.email.$error.alreadyExist">
+                                            Email already exist.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div ng-if="!isEquipment">
+                                    <multiple-phone phone-numbers="vm.user.personEditModel.phoneNumbers" is-user-phone="true"> </multiple-phone>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <address-edit model="vm.user.personEditModel.address[0]"></address-edit>
+                                <div style="display:flex">
+                                    <div ng-show="isOperationManager">
+                                        <div class="form-group form-md-line-input form-md">
+                                            <input autocomplete="off" type="text" colorpicker name="usercolor" ng-model="vm.user.personEditModel.Color" class="form-control" style="padding-left: 2%;" ng-required="isOperationManager" ng-show="vm.isEdit" />
+                                            <input autocomplete="off" type="text" name="usercolor" ng-model="vm.user.personEditModel.Color" class="form-control" style="padding-left: 2%;width: 96%;" ng-required="isOperationManager" ng-show="!vm.isEdit" disabled />
+                                            <label for="usercolor">Color For Technician<span class="required" aria-required="true"> * </span></label>
+                                            <div ng-style="{'background-color':vm.user.personEditModel.Color}" style="height:20px; width:10%; float:right; margin-top:-21px "></div>
+
+                                        </div>
+                                        <div ng-show="userForm.Color.$dirty && userForm.Color.$invalid && userForm.Color.$error.required">
+                                            <span class="text-danger" ng-if="userForm.Color.$error.required">
+                                                User Color is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div ng-show="isSalesPresentForColor">
+                                        <div class="form-group form-md-line-input form-md" style="margin-left:13px !important">
+                                            <input autocomplete="off" type="text" colorpicker name="usercolor" ng-model="vm.user.personEditModel.colorCodeSale" class="form-control" style="padding-left: 2%;" ng-required="isSalesPresentForColor" ng-show="vm.isEdit" />
+                                            <input autocomplete="off" type="text" name="usercolor" ng-model="vm.user.personEditModel.colorCodeSale" class="form-control" style="padding-left: 2%;width: 96%;" ng-required="isSalesPresentForColor" ng-show="!vm.isEdit" disabled />
+                                            <label for="usercolor">Color For SalesRep<span class="required" aria-required="true"> * </span></label>
+                                            <div ng-style="{'background-color':vm.user.personEditModel.colorCodeSale}" style="height:20px; width:10%; float:right; margin-top:-21px "></div>
+
+                                        </div>
+                                        <div ng-show="userForm.colorCodeSale.$dirty && userForm.colorCodeSale.$invalid && userForm.colorCodeSale.$error.required">
+                                            <span class="text-danger" ng-if="userForm.colorCodeSale.$error.required">
+                                                User Color Sales is required.
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <span ng-if="vm.isEdit"><b><i>Note : </i></b> Please do not select WHITE color, as calendar is also white, hence resulting in a white-on-white posting which cannot be seen.</span>
+                                <span ng-if="!vm.isEdit"><b><i>Note : </i></b> You can change the color after your profile has been set up.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-lg-offset-1">
+                        <h3 class="section-header">User Role(s)</h3>
+                        <div class="clearfix">
+                            <div class="md-radio-inline" ng-if="vm.isSuperAdmin">
+                                <div class="md-radio">
+                                    <input type="radio" id="role" name="role" class="md-radiobtn" ng-model="vm.user.isExecutive" ng-value="false"
+                                           ng-disabled="vm.isEdit && vm.user.isExecutive">
+                                    <label for="role">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Other Role(s)
+                                    </label>
+                                </div>
+                                <div class="md-radio" ng-if="vm.user.roleId != vm.Roles.SuperAdmin">
+                                    <input type="radio" id="roleEx" name="roleEx" class="md-radiobtn" ng-model="vm.user.isExecutive" ng-value="true"
+                                           ng-disabled="vm.isEdit && !vm.user.isExecutive">
+                                    <label for="roleEx">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Front Office Executive
+                                    </label>
+                                </div>
+                            </div>
+                            <span><b><i>Note : </i></b> Selection of Technician role is a must for creating Operations Manager user.</span>
+                            <div style="display:inline-flex !important;" class="form-group form-md-line-input form-md-floating-label" ng-if="!vm.user.isExecutive">
+                                <div ng-dropdown-multiselect="" options="vm.roles" extra-settings="settings" translation-texts="translationTexts"
+                                     selected-model="vm.roleIds" checkboxes="true" events="yourEvents">
+                                </div>
+                                <div class="tooltip form-group form-md-line-input form-md-floating-label" ng-if="vm.user.rolePermissions.length>0" style="margin-left:20px !important;">
+                                    <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;
+                                    font-size: 32px;margin-top: -7px;"></i>
+                                    <span class="tooltiptext" style="color:white !important;background-color:#26327e !important;
+                                        width:300px !important;z-index:100; font-size: 15px; padding:10px !important; margin-top:20px !important;">
+                                        <p style="text-align: left !important;" ng-repeat="permission in vm.user.rolePermissions">
+                                            <i class="fa fa-circle" style="font-size: 10px;" aria-hidden="true"></i> &nbsp;&nbsp;{{permission}}
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label clear-both"
+                                 ng-if="vm.user.roleId != vm.Roles.SuperAdmin && vm.currentRole != vm.Roles.FranchiseeAdmin
+                                 && vm.currentRole != vm.Roles.FrontOfficeExecutive && !vm.user.isExecutive && !vm.roleHasSuperAdmin">
+                                <select class="form-control" id="franchisee" ng-model="vm.user.organizationId" ng-disabled="vm.isEdit"
+                                        ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection" required>
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label for="franchisee">Select Franchisee<span class="required" aria-required="true"> * </span></label>
+                                <label for="franchisee" ng-if="vm.user.roleId == vm.Roles.FranchiseeAdmin">Select Franchisee<span class="required" aria-required="true"> * </span></label>
+                            </div>
+
+                            <div class="form-group form-md-line-input form-md-floating-label" ng-if="vm.user.isExecutive">
+                                <div ng-dropdown-multiselect="" options="vm.franchiseeCollection" extra-settings="settingsFR" translation-texts="translationTextsFR"
+                                     selected-model="vm.franchiseeIds" checkboxes="true">
+                                </div>
+                            </div>
+
+
+                            <div ng-if="vm.user.roleId == vm.Roles.SalesRep">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="text" class="form-control" id="name" ng-model="vm.user.alias" maxlength="5">
+                                    <label for="name">Alias</label>
+                                </div>
+                            </div>
+                            <!--<div ng-if="vm.user.roleId != vm.Roles.SalesRep && vm.user.roleId != vm.Roles.Technician">-->
+                            <div class="margin-top-10 clear-both">
+                                <div class="md-radio-inline" ng-if="(!vm.isEdit) && (!vm.WasEquipment) && !isEquipment">
+                                    <div class="md-radio">
+                                        <input type="radio" id="radio6" name="radio2" class="md-radiobtn" ng-model="vm.user.userLoginEditModel.sendUserLoginViaEmail" ng-value="true">
+                                        <label for="radio6">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            Send Login Credentials Via Email
+                                        </label>
+                                    </div>
+                                    <div class="md-radio">
+                                        <input type="radio" id="radio7" name="radio2" class="md-radiobtn" ng-model="vm.user.userLoginEditModel.sendUserLoginViaEmail" ng-value="false">
+                                        <label for="radio7">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            Set Password Manually
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!--<div ng-if="vm.user.roleId != vm.Roles.SalesRep && vm.user.roleId != vm.Roles.Technician && vm.user.userLoginEditModel.sendUserLoginViaEmail == false">-->
+                                <div ng-if="(vm.user.userLoginEditModel.sendUserLoginViaEmail!=null && vm.user.userLoginEditModel.sendUserLoginViaEmail == false && !isEquipment) || (vm.user.userLoginEditModel==null && !isEquipment) || vm.showUserName">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.username.$error.required}">
+                                        <input type="text" class="form-control" id="username" name="username" maxlength="512"
+                                               validate-username user-id="vm.user.personEditModel.personId" ng-model="vm.user.userLoginEditModel.userName" ng-keypress="vm.myFunc()" ng-paste="vm.myFunc()" required>
+                                        <label for="username">Username<span class="required" aria-required="true"> * </span></label>
+                                    </div>
+                                    <div ng-show="userForm.username.$dirty && userForm.username.$invalid">
+                                        <span class="text-danger" ng-if="userForm.username.$error.required">
+                                            Username is required.
+                                        </span>
+                                        <span class="text-danger" ng-if="userForm.username.$error.alreadyExist">
+                                            User Name already exist.
+                                        </span>
+
+                                    </div>
+                                    <span class="text-danger" ng-if="vm.showError">
+                                        User Name already exist.
+                                    </span>
+                                </div>
+                                <div class="md-checkbox" ng-if="vm.isEdit == true && (!isEquipment) ">
+                                    <input type="checkbox" id="checkbox1" class="md-check" ng-model="vm.user.userLoginEditModel.changePassword"
+                                           ng-click="vm.clearPassword()">
+                                    <label for="checkbox1">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Change Password
+                                    </label>
+                                </div>
+                                <div ng-if="(vm.user.userLoginEditModel.sendUserLoginViaEmail == false && !vm.isEdit  && !isEquipment)  || (vm.user.userLoginEditModel.changePassword == true && (!isEquipment))">
+                                    <div>
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.password.$error.required }">
+
+                                            <input type="password" class="form-control" id="password" name="password" maxlength="32"
+                                                   ng-model="vm.user.userLoginEditModel.password" required>
+                                            <label for="password">Password<span class="required" aria-required="true"> * </span></label>
+                                        </div>
+                                        <div class="text-danger" ng-show="userForm.password.$dirty && userForm.password.$invalid && userForm.password.$error.required">
+                                            <span class="text-danger" ng-if="userForm.password.$error.required">Please enter new password.</span>
+                                        </div>
+                                        <div class="text-danger" ng-show="userForm.$error.pattern && userForm.password.$dirty">
+                                            Blank spaces are not allowed. Please enter a valid password.
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : userForm.confirmpassword.$error.required || userForm.confirmpassword.$error.match}">
+                                            <input type="password" class="form-control" id="confirm-password" name="confirmpassword" match-input="vm.user.userLoginEditModel.password"
+                                                   ng-model="vm.user.userLoginEditModel.confirmPassword" required maxlength="32">
+                                            <label for="confirm-password">Confirm Password<span class="required" aria-required="true"> * </span></label>
+                                        </div>
+                                        <div class="text-danger" ng-show="userForm.confirmpassword.$dirty && userForm.confirmpassword.$invalid && userForm.confirmpassword.$error.required">
+                                            <span ng-if="userForm.confirmpassword.$error.required" class="red-text">Please enter confirm password.</span>
+                                        </div>
+                                        <div class="text-danger" ng-show="userForm.$error.match && userForm.confirmpassword.$dirty">
+                                            Password and confirm password do not match.
+                                        </div>
+                                        <div class="text-danger" ng-show="userForm.$error.pattern && userForm.confirmpassword.$dirty">
+                                            Blank spaces are not allowed. Please enter a valid password.
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="!isEquipment">
+                    <div class="col-md-8 col-lg-7">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="upload-btn-wrapper">
+                                            <img id="logo-image" class="logo-image" ng-src="{{vm.imagesrc}}" alt="Priofile image" />
+                                            <input id="file_input" type="file" style="width: 100%;" file-model-image="tempFile.attachTempImageFile" onchange="angular.element(this).scope().readUrl(this, 'logo-image');" name="pic" accept="image/*" />
+                                            <button ng-show="!vm.isImageEmpty" ng-click="vm.delete();" class="btn" style="top:50%;right:0px"><i class="fa fa-trash"></i> </button>
+                                            <button ng-click="vm.upload();" class="btn" style="top:20%;right:0px" translate-attr="{ title: 'label_choose_file' }"><i class="fa fa-pencil"></i> </button>
+                                            <button ng-show="!vm.isImageEmpty" ng-click="vm.rotate();" class="btn" style="top:80%;right:0px"><i class="fa fa-shield fa-rotate-90"></i> </button>
+                                            <button ng-if="vm.user.fileId !=null" ng-click="vm.downloadUserImage(vm.user.fileId);" class="btn" style="bottom:2%;left:0px"><i class="fa fa-download"></i> </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="vm.isEdit" style="margin-top: 20px;">
+                                <div class="nca-document">
+                                    <div class="clearfix margin-bottom-10">
+                                        <p class="inline-block"><b> NCA Document Uploaded</b></p>
+                                        <input type="checkbox" checked class="mbl-switch" id="chk_upload" ng-model="vm.isUploaded" ng-disabled="true">
+                                        <label for="chk_upload">&nbsp;</label>
+                                    </div>
+                                    <div class="upload-section">
+                                        <p ng-show="vm.isUploaded">{{vm.user.fileName}}</p>
+                                        <p ng-show="!vm.isUploaded">Browse to Upload</p>
+                                        <button id="sample_editable_1_new" ng-click="vm.uploadDoc()" class="btn btn-link">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>  Upload
+                                        </button>
+                                        <div class="" ng-show="vm.isUploaded">
+                                            <button id="sample_editable_1_new" ng-click="vm.download()" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-download" aria-hidden="true"></i>  Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="!isEquipment">
+                    <div class="col-md-6">
+                        <span><b><i>Note : </i></b>Please upload JPEG, GIF, PNG, TIFF, RAW, PSD format images. The system will allow you great freedom in the image you upload, however in order to avoid distortion it is recommended that you upload an image that has been cropped such that the width=length. Image file size has not been limited here at this time, however a small file that looks good online, may distort when printed as such you might consider using a file with a minimum size of 100K. The uploaded image will be displayed as profile image. You can update your image by clicking on the image, and selected a new photo file.</span>
+                    </div>
+                </div>
+                <div class="form-actions noborder text-right">
+                    <button type="button" class="btn btn-link" ng-click="vm.cancel();" ng-disabled="vm.isProcessing == true">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="userForm.$invalid || vm.isProcessing == true" ng-click="vm.save();">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,223 @@
+﻿<style>
+    .nav-certified {
+        font-weight: bolder !important;
+    }
+
+    .visibility-hidden {
+        visibility: hidden;
+    }
+
+    .padding-left-8 {
+        padding-left: 8px;
+    }
+
+    .padding-left-31 {
+        padding-left: 31px;
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .padding-0 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .d-flex {
+        display: flex;
+        align-items: top;
+    }
+
+    .zip-code {
+        max-width: fit-content;
+        margin-right: 5px;
+    }
+
+    .text-toogle[aria-expanded=false] .text-expanded {
+        display: none;
+    }
+
+    .text-toogle[aria-expanded=true] .text-collapsed {
+        display: none;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left"><span>Search Geo Code</span> : {{vm.franchisee}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div class="tab-content">
+        <form role="form" name="geoCodeForm">
+            <div class="row">
+                <div class="d-flex col-md-4">
+                    <div class="zip-code padding-0 col-xs-12">
+                        <span style="font-size:17px !important;">Enter Zip Code </span>
+                    </div>
+                    <div class="padding-0 col-md-8 col-lg-8 col-xs-12">
+                        <input type="text" class="form-control" id="name" name="customerName" ng-model="vm.query.zipCode" required
+                               maxlength="6" ng-keypress="vm.keypress($event)">
+                        <span style="font-size:11px !important">US= 5 digits,Canada=3 letter-number-letter</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-6 col-lg-6 col-xs-12">
+                        <span style="font-size:17px !important;float:right">Choose Country</span>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xs-12" style="margin-top: -4%;">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control" id="country" ng-model="vm.query.countryId"
+                                    ng-options="country.value as country.display for country in vm.allCountries">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <button type="submit" id="btn_submit" class="btn btn-primary" ng-click="vm.search(geoCodeForm);" ng-init="vm.isFromSearch = false" ng-disabled="geoCodeForm.$invalid">Search</button>
+                    <button ng-if="vm.canSchedule && !vm.isSchedulerHidden" ng-disabled="vm.franchiseeIdFromAPI <= 0 || vm.franchiseeIdFromAPI == null || (vm.franchiseeIdFromAPI == vm.franchiseeId)"
+                            ng-click="vm.Scheduler(vm.franchiseeIdFromAPI)" type="submit" class="btn btn-primary">
+                        Manage Schedule
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.close();">Close</button>
+                </div>
+            </div>
+            <div ng-repeat="info in vm.geoCodeList">
+                <div class="row m-t-15">
+                    <div class="col-md-4">
+                        <table class="table table-hover table-striped table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>Franchisee</td>
+                                    <td>{{info.franchiseeName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Direction Code</td>
+                                    <td>{{info.directionCode}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone Number</td>
+                                    <td>{{info.phoneNumber}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email Id</td>
+                                    <td>{{info.emailId}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Area Code</th>
+                                    <th>County</th>
+                                    <th>Contracted Territory</th>
+                                    <th>Franchisee Max Acceptable Travel Time (Hr)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{info.country}}</td>
+                                    <td>{{info.city}}</td>
+                                    <td>{{info.state}}</td>
+                                    <td>{{info.areaCode}}</td>
+                                    <td>{{info.county}}</td>
+                                    <td>{{info.contractedTeritory}}</td>
+                                    <td>{{info.duration}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12 justify-content-between">
+                    <span><img src="/Content/images/crownIcon.png" /> The Service is Certified.</span>
+                    <button id="serviceButton" class="btn btn-primary text-toogle" data-toggle="collapse" data-target="#demo" aria-expanded="true">
+                        <span class="text-collapsed">Expand</span>
+                        <span class="text-expanded">Collapse</span>
+                    </button>
+                </div>
+                <div id="demo" class="collapse in">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4>
+                                Services
+                                <span class="pull-right" style="font-size: 13px;font-weight: 100;">Is-Active</span>
+                            </h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>
+                                Services
+                                <span class="pull-right" style="font-size: 13px;font-weight: 100;">Is-Active</span>
+                            </h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>
+                                Services
+                                <span class="pull-right" style="font-size: 13px;font-weight: 100;">Is-Active</span>
+                            </h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>
+                                Services
+                                <span class="pull-right" style="font-size: 13px;font-weight: 100;">Is-Active</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" ng-repeat="serviceList in info.servicesList">
+                            <span ng-class="{'nav-certified' : serviceList.isCertified , 'nav-inactve' : !serviceList.isCertified }">
+                                <img ng-class="{'visibility-hidden' : !serviceList.isCertified}" style="margin-top:-10px" src="/Content/images/crownIcon.png" alt="This Service is Certified" />
+                                {{serviceList.serviceName}}
+                            </span>
+                            <span class="pull-right" style="font-size: 13px;font-weight: 100;">
+                                <span ng-if="serviceList.isActive">Yes</span>
+                                <span ng-if="!serviceList.isActive">No</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12" style="margin-top:10px !important">
+                    <b>For Travel Time :</b>
+                    This field is the MAXIMUM TRAVEL DISTANCE the franchise will go.  BACKUP can set an estimate up for any call that is within this time frame without consulting the franchise.  The minimum this value can be is 1.5 hours, the expected default time should be 2 hours.
+                    <br />
+                    <br />
+                    <b>NOTE to Users : </b>
+                    The reason for the minimum allowed is that this prevents an office from blocking BACKUP usage but putting a 0 in the their travel time.
+                </div>
+                <div class="row col-md-12" style="margin-top:15px !important">
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input">
+                            <textarea class="form-control" rows="2" id="notes" ng-model="info.notesFromOwner" maxlength="2056" disabled></textarea>
+                            <label for="notes">Notes from Owner</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input">
+                            <textarea class="form-control" rows="2" id="notes" ng-model="info.notesFromCallCenter" maxlength="2056" disabled></textarea>
+                            <label for="notes">Notes from Call Center</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer clear-both">
+                    <span class="pull-left text-warning" style="font-size:15px;" ng-if="info.franchiseeId <= 0 || info.franchiseeId == null">Unable to map franchisee with the zipCode info!</span>
+                    <span class="pull-left text-info" style="font-size:15px;" ng-if="info.franchiseeId == vm.franchiseeId">Zipcode is of same franchisee!</span>
+                </div>
+            </div>
+            <div ng-if="vm.geoCodeList <= 0">
+                <div class="row m-t-15 text-danger">
+                    <span style="text-align:center;font-size:15px;padding-left:40%;margin-top:20%!important">No Records Found!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+</div>

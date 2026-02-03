@@ -1,0 +1,1263 @@
+﻿<style type="text/css">
+    @media (max-width: 767px) {
+        button#sample_editable_1_new, button#sample_editable_2_new {
+            padding: 5px !important;
+        }
+    }
+
+    .pointer {
+        cursor: pointer
+    }
+
+    .overheight {
+        width: 100%;
+        height: 59vh;
+        overflow: auto;
+    }
+
+    #sample_1 thead .tableRow th {
+        position: sticky !important;
+        top: 0px !important;
+        vertical-align: middle;
+        min-width: 100px;
+    }
+
+        #sample_1 thead .tableRow th:first-child, #sample_1 thead .tableRow th:last-child {
+            min-width: 20px;
+        }
+
+    #sample_1 thead .tableRow {
+        text-align: center;
+        /*word-wrap: break-word !important;*/
+    }
+
+    button, input, select, textarea {
+        vertical-align: middle;
+    }
+
+    .form-group.form-md-line-input {
+        margin: 0px !important;
+    }
+
+    #sample_1 .tableRow td {
+        vertical-align: middle !important;
+        min-width: 100px !important;
+        word-break: break-word;
+    }
+
+        #sample_1 .tableRow td:first-child, #sample_1 .tableRow td:last-child {
+            min-width: 20px !important;
+        }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        z-index: 99999 !important;
+        opacity: unset !important;
+    }
+
+    .tab_table {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 0px;
+        height: 62.5vh;
+    }
+
+        .tab_table table thead tr:first-child th {
+            background-color: #eff3f8;
+            z-index: 999;
+            position: sticky !important;
+            top: 0 !important;
+        }
+
+        .tab_table table thead tr:nth-child(2) th {
+            background-color: #eff3f8;
+            z-index: 999;
+            position: sticky !important;
+            top: 36px !important;
+        }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 999999;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        top: 17px !important;
+    }
+
+    .yellow {
+        background-color: yellow !important;
+    }
+
+    .customScroll-s {
+        width: 100%;
+        float: left;
+        height: 430px;
+        overflow-y: scroll;
+    }
+
+        .customScroll-s::-webkit-scrollbar {
+            width: 7px;
+        }
+
+
+
+        /* Track */
+        .customScroll-s::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        .customScroll-s::-webkit-scrollbar-thumb {
+            background: #000;
+            border-radius: 10px;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .radioButton {
+        height: 15px;
+        width: 15px;
+    }
+
+    .fontclass {
+        font-size: 14px;
+        font-weight: bold;
+        margin-left: 2px;
+    }
+</style>
+<div class="col-xs-12 row">
+    <ul class="nav nav-tabs" id="sideTablable">
+        <li id="priceEstimate" class="active"><a ng-click="vm.changeTab(1)" data-toggle="tab" href="~/#tab1">Manage Price Estimate</a></li>
+        <li id="timeEstimate"><a ng-click="vm.changeTab(2)" data-toggle="tab" href="~/#tab2">Manage Time Estimate</a></li>
+    </ul>
+</div>
+<div class="tabbable">
+    <div class="tab-contents">
+        <div class="row tab-pane fade in " id="tab1" ng-if="vm.isPriceEstimateTab">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <b>Note: </b>
+                    <i>For entering separate price for each franchisee click on the checkboxes infront of the List of Services!</i>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:20px !important;">
+                <div class="col-md-7 col-xs-7" style="padding-left:0px;">
+                    <div class="col-md-12" style="margin-bottom:10px !important; padding-right: 0px;" ng-if="vm.isSuperAdmin">
+                        <button id="sample_editable_1_new" ng-click="vm.save()" class="btn btn-primary btn-m pull-right" ng-disabled="vm.idList.length>0 || vm.disableSaveButton">
+                            Save
+                        </button>
+                        <button id="sample_editable_1_new" ng-click="vm.openBulkUpdatePopUp(true)" class="btn btn-primary btn-m pull-right" style="margin-right:1%" ng-if="vm.idList.length>0">
+                            Bulk Update
+                        </button>
+                        <button title="Download File" id="sample_editable_1_new" class="pull-right" style=" background: none; border: none;" ng-click="vm.exportExcel()">
+                            <img src="/Content/images/downloadIcon.png" />
+                        </button>
+                        <button title="Upload File" id="sample_editable_1_new" class="pull-right" style=" background: none; border: none;" ng-click="vm.uploadExcel()">
+                            <img src="/Content/images/uploadIcon.png" />
+                        </button>
+                        <button title="View History" id="sample_editable_1_new" class="pull-right" style=" background: none; border: none;" ng-click="vm.getUploadHistory()">
+                            <img src="/Content/images/historyIcon.png" />
+                        </button>
+                        <button id="sample_editable_1_new" class="tooltip pull-right" style=" background: none; border: none; z-index: 11 !important; cursor: auto;">
+                            <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;font-size: 35px;margin-top: 12px;"></i>
+                            <span class="tooltiptext" style=" top: 38px !important; color: white !important; background-color: #26327e !important; width: 300px !important; padding: 10px !important;">
+                                <p>
+                                    Steps to Upload Price Estimate File:
+                                </p>
+                                <p style="text-align:left !important">
+                                    1. Click on Download File and make changes to your downloaded PriceEstimate file.
+                                </p>
+                                <p style="text-align:left !important">
+                                    2. This file contains all the services irrespective of price is updated or not.
+                                </p>
+                                <p style="text-align:left !important">
+                                    3. Super Admin can add/update the price and notes in Columns K, L or M only.
+                                </p>
+                                <p style="text-align:left !important">
+                                    4. To update the Corporate Price of a service change column IsUpdated to 1.
+                                </p>
+                                <p style="text-align:left !important">
+                                    5. If you want to delete Corporate Prices for service, change column IsDeleted to 1.
+                                </p>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom:10px !important; padding-right: 0px;" ng-if="vm.isFranchiseeAdmin">
+                        <button title="Download File" id="sample_editable_1_new" class="pull-right" style="background: none; border: none;" ng-click="vm.exportExcel()">
+                            <img src="/Content/images/downloadIcon.png" />
+                        </button>
+                        <button title="Upload File" id="sample_editable_1_new" class="pull-right" style=" background: none; border: none;" ng-click="vm.uploadExcel()">
+                            <img src="/Content/images/uploadIcon.png" />
+                        </button>
+                        <button title="View History" id="sample_editable_1_new" class="pull-right" style=" background: none; border: none;" ng-click="vm.getUploadHistory()">
+                            <img src="/Content/images/historyIcon.png" />
+                        </button>
+                        <button id="sample_editable_1_new" class="tooltip pull-right" style="cursor: auto; background: none; border: none; z-index: 11 !important; cursor: auto;">
+                            <i class="fa fa-info-circle" aria-hidden="true" style="color:#26327e !important;font-size: 35px;margin-top: 12px;"></i>
+                            <span class="tooltiptext" style="top: 38px !important; color: white !important; background-color: #26327e !important; width: 300px !important; padding: 10px !important;">
+                                <p>
+                                    Steps to Upload Price Estimate File:
+                                </p>
+                                <p style="text-align:left !important">
+                                    1. Click on Download File and make changes to your downloaded PriceEstimate file.
+                                </p>
+                                <p style="text-align:left !important">
+                                    2. This file contains all the services irrespective of price is updated by the franchisee or not.
+                                </p>
+                                <p style="text-align:left !important">
+                                    3. Franchisee Admin can add/update the price in Columns P or Q only.
+                                </p>
+                                <p style="text-align:left !important">
+                                    4. To update the Franchisee Price of a service change column IsUpdated to 1.
+                                </p>
+                                <p style="text-align:left !important">
+                                    5. The Id of the rows in the downloaded excel is 0, for services whose prices are not added by corporate till now.
+                                </p>
+                                <p style="text-align:left !important">
+                                    6. To add the price for a service use value 0 for the Id, and add the prices in columns O or P. Do not forget to add Franchisee Name for new data.
+                                </p>
+                                <p style="text-align:left !important">
+                                    7. If you want to delete Franchisee Prices for service, change column IsDeleted to 1.
+                                </p>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="overheight">
+                        <table class="table table-striped over_table dataTable" id="sample_1" aria-describedby="sample_1_info">
+                            <thead class="thead" style="background-color: #fff !important; position: sticky; top: 0px; z-index:10">
+                                <tr class="tableRow">
+                                    <th>
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="allServiceIsAllActive" class="md-check" ng-model="vm.activeAllServices" ng-click="vm.changeServiceActive()" ng-disabled="!vm.isCategorySelected">
+                                            <label for="allServiceIsAllActive">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <div class="form-group form-md-line-input" style="padding-top:0px !important;">
+                                                <span style="text-align: center !important;">List Of Service</span>
+                                                <div ng-dropdown-multiselect="" options="vm.listOfServiceList" extra-settings="settings" translation-texts="translationTextsListOfServices"
+                                                     checkboxes="true" events="selectEventsListOfService" selected-model="vm.listOfServiceIds">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <div class="form-group form-md-line-input" style="padding-top:0px !important;">
+                                                <span style="text-align: center !important;">Service Type</span>
+                                                <div ng-dropdown-multiselect="" options="vm.serviceTypeList" extra-settings="settings" translation-texts="translationTexts"
+                                                     checkboxes="true" events="selectEvents" selected-model="vm.serviceTypeIds">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th style="text-align: left !important;">
+                                        <div class="pull-left" style="width:78%">
+                                            <div class="form-group form-md-line-input">
+                                                <select class="form-control input-small" id="serviceTagCategory"
+                                                        ng-model="vm.getPriceEstimateQuery.categoryId" ng-change="vm.resetDropdowns(vm.getPriceEstimateQuery)"
+                                                        ng-options="class.value as class.display for class in vm.categories| orderBy:'display':reverse "
+                                                        style="width:100% !important;">
+                                                    <option selected="selected" disabled="" hidden="" style="display: none" value="" class=""></option>
+                                                </select>
+                                                <label for="serviceTagCategory" style="color: #000000; font-weight: 600">Category</label>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th style="text-align: left !important; min-width:50px !important">Unit</th>
+                                    <th ng-class="{'sorting_desc': vm.getPriceEstimateQuery.sortingOrder == 1 && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.Material,
+                                                   'sorting_asc' : vm.getPriceEstimateQuery.sortingOrder == 0  && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.Material,
+                                                   'sorting': vm.getPriceEstimateQuery.sortingColumn != vm.SortColumns.Material}"
+                                        style="text-align: left !important; min-width: 80px !important"
+                                        ng-click="vm.sorting(vm.SortColumns.Material);">Material</th>
+                                    <th ng-class="{'sorting_desc': vm.getPriceEstimateQuery.sortingOrder == 1 && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.CorporatePrice,
+                                                   'sorting_asc' : vm.getPriceEstimateQuery.sortingOrder == 0  && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.CorporatePrice,
+                                                   'sorting': vm.getPriceEstimateQuery.sortingColumn != vm.SortColumns.CorporatePrice}"
+                                        style="text-align: left !important; min-width: 170px !important;"
+                                        ng-click="vm.sorting(vm.SortColumns.CorporatePrice);">Corporate Price</th>
+                                    <th ng-class="{'sorting_desc': vm.getPriceEstimateQuery.sortingOrder == 1 && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.AverageFranchiseePrice,
+                                                   'sorting_asc' : vm.getPriceEstimateQuery.sortingOrder == 0  && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.AverageFranchiseePrice,
+                                                   'sorting': vm.getPriceEstimateQuery.sortingColumn != vm.SortColumns.AverageFranchiseePrice}"
+                                        style="text-align: left !important; min-width:90px !important"
+                                        ng-click="vm.sorting(vm.SortColumns.AverageFranchiseePrice);">Average Franchisee Price</th>
+                                    <th ng-class="{'sorting_desc': vm.getPriceEstimateQuery.sortingOrder == 1 && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.MaximumFranchiseePrice,
+                                                   'sorting_asc' : vm.getPriceEstimateQuery.sortingOrder == 0  && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.MaximumFranchiseePrice,
+                                                   'sorting': vm.getPriceEstimateQuery.sortingColumn != vm.SortColumns.MaximumFranchiseePrice}"
+                                        style="text-align: left !important; min-width: 90px !important"
+                                        ng-click="vm.sorting(vm.SortColumns.MaximumFranchiseePrice);">Maximum Franchisee Price</th>
+                                    <th ng-class="{'sorting_desc': vm.getPriceEstimateQuery.sortingOrder == 1 && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.FranchiseeName,
+                                                   'sorting_asc' : vm.getPriceEstimateQuery.sortingOrder == 0  && vm.getPriceEstimateQuery.sortingColumn == vm.SortColumns.FranchiseeName,
+                                                   'sorting': vm.getPriceEstimateQuery.sortingColumn != vm.SortColumns.FranchiseeName}"
+                                        style="text-align: left !important;"
+                                        ng-click="vm.sorting(vm.SortColumns.FranchiseeName);">Franchisee Name (Max Price)</th>
+                                    <th style="text-align: left !important;"></th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="vm.priceEstimateCollection !=undefined">
+                                <tr class="tableRow" ng-if="vm.priceEstimateCollection.length > 0" ng-repeat="item in vm.priceEstimateCollection track by $index">
+                                    <td style="text-align: left !important;">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="serviceIsActive_{{$index}}" class="md-check" ng-model="item.isActiveService" ng-click="vm.disableOtherCategories(item)" ng-disabled="item.isDisabledService || item.categoryType">
+                                            <label for="serviceIsActive_{{$index}}">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: left !important;">
+                                        <span>{{item.service}}</span>
+                                    </td>
+                                    <td style="text-align: left !important;">
+                                        {{item.serviceType}}
+                                    </td>
+                                    <td style="text-align: left !important;">
+                                        {{item.category}}
+                                    </td>
+                                    <td style="text-align: left !important; min-width:50px !important">
+                                        {{item.unit}}
+                                    </td>
+                                    <td style="text-align: left !important; min-width: 80px !important">
+                                        {{item.materialType}}
+                                    </td>
+                                    <td>
+                                        <div ng-if="!vm.disableCoorporatePrice" style="display:inline-block;width:40%">
+                                            <input ng-disabled="item.categoryType" disabled="disabled" style="padding:2%; text-align:right" type="text" class="form-control" name="bulkCorporatePrice" ng-model="item.bulkCorporatePrice" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.corporateValueChanged($index)">
+                                        </div>
+                                        <div ng-if="!vm.disableCoorporatePrice && item.hasTwoPriceColumns" style="display:inline-block;width:40%">
+                                            <input style="padding: 2%; text-align: right" type="text" class="form-control" name="bulkCorporateAdditionalPrice" ng-model="item.bulkCorporateAdditionalPrice" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.corporateValueChanged($index)">
+                                        </div>
+                                        <div title="Add/View Notes" ng-if="!vm.disableCoorporatePrice" style="display:inline-block;width:15%; cursor:pointer;">
+                                            <img src="/Content/images/notesIcon.png" ng-click="vm.addViewNotes(item)" />
+                                        </div>
+                                        <div ng-if="vm.disableCoorporatePrice" style="display: inline-block; width: 40%; word-break: break-all;">
+                                            {{item.bulkCorporatePrice| number: 2}}
+                                        </div>
+                                        <div ng-if="vm.disableCoorporatePrice && item.hasTwoPriceColumns" style="display: inline-block; width: 40%; word-break: break-all; ">
+                                            {{item.bulkCorporateAdditionalPrice| number: 2}}
+                                        </div>
+                                        <div title="View Notes" ng-if="vm.disableCoorporatePrice" style="display: inline-block; width: 15%; cursor: pointer;">
+                                            <img src="/Content/images/notesIcon.png" ng-click="vm.addViewNotes(item)" />
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right !important;padding:0px; min-width:90px !important">
+                                        <div style="display: inline-block; width: 45%; word-break: break-all; text-align: left !important;">
+                                            {{item.averageFranchiseePrice| number: 2}}
+                                        </div>
+                                        <div style="display: inline-block; width: 45%; text-align: right; word-break: break-all;" ng-if="item.hasTwoPriceColumns">
+                                            {{item.averageFranchiseeAdditionalPrice| number: 2}}
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right !important; min-width: 90px !important">
+                                        <div class="pointer" style="display: inline-block; width: 45%; word-break: break-all; text-align: left !important;" title="{{item.maximumFranchiseePriceName}}">
+                                            {{item.maximumFranchiseePrice| number: 2}}
+                                        </div>
+                                        <div class="pointer" style="display: inline-block; width: 45%; text-align: right; word-break: break-all" ng-if="item.hasTwoPriceColumns" title="{{item.maximumAdditionalFranchiseePriceName}}">
+                                            {{item.maximumFranchiseeAdditionalPrice| number: 2}}
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center !important;">
+                                        {{item.maximumFranchiseePriceName}}
+                                    </td>
+                                    <td>
+                                        <a ng-if="item.hasPriceValues && vm.isSuperAdmin" href="" ng-click="vm.showPriceEstimates(item.serviceTagId)"> <span class=""><i class="fa fa-lg fa-eye" aria-hidden="true"></i></span></a>
+                                    </td>
+                                </tr>
+                                <tr class="tableRow" ng-if="vm.priceEstimateCollection.length == 0">
+                                    <td width="100%" colspan="12" style="text-align:center; font-weight:bold;">No records Found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-5 col-xs-5" ng-if="vm.idList.length > 0">
+                    <div class="col-md-12" style="margin-bottom:10px !important; padding-right: 0px;">
+                        <button id="sample_editable_1_new" ng-click="vm.savePriceOfFranchisee()" class="btn btn-primary btn-m pull-right" style="margin-right:1%" ng-if="vm.idList.length>0" ng-disabled="vm.franchiseeIdList.length>0">
+                            Save Price of Franchisee
+                        </button>
+                        <button id="sample_editable_1_new" ng-click="vm.openBulkUpdatePopUp()" class="btn btn-primary btn-m pull-right" style="margin-right:1%" ng-if="vm.franchiseeIdList.length>0">
+                            Bulk Update Franchisee Price
+                        </button>
+                    </div>
+                    <div class="overheight">
+                        <table class="table table-striped over_table" id="sample_1" aria-describedby="sample_1_info" !important">
+                            <thead class="thead" style="background-color: #ddd !important; position: sticky; top: 0px; z-index: 10; ">
+                                <tr class="tableRow">
+                                    <th style="width:2% !important">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="allFranchiseeIsAllActive" class="md-check" ng-model="vm.activeAllFranchisee" ng-click="vm.changeFranchiseeActive()" ng-disabled="!vm.isCategorySelected">
+                                            <label for="allFranchiseeIsAllActive">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th style="text-align: left !important; width: 20% !important"><span>Franchisee</span></th>
+                                    <th style="text-align: left !important; width:20%;">
+                                        <span>
+                                            Corporate Price<br /> (in $)
+                                        </span>
+                                    </th>
+                                    <th style="text-align: left !important; width: 20%;">
+                                        <span>
+                                            Franchisee Price<br /> (in $)
+                                        </span>
+                                    </th>
+                                    <th style="text-align: center !important; width: 21%;">
+                                        <span>Alternative Solution</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="vm.priceEstimateServices!=undefined">
+                                <tr ng-if="vm.priceEstimateServices.length > 0" ng-repeat="subitem in vm.priceEstimateServices">
+                                    <td style="text-align: left !important; width: 2% !important">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="franchiseeIsActive_{{$index}}" class="md-check" ng-model="subitem.isActiveFranchisee" ng-click="vm.checkuncheckAllFranchisee(subitem)">
+                                            <label for="franchiseeIsActive_{{$index}}">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        {{subitem.franchisee}}
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: -7px; margin-right: 2px;">
+                                            <!--<input ng-disabled="subitem.categoryType" style="text-align: right;" type="text" class="form-control" name="corporatePrice" ng-model="subitem.corporatePrice" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.disableCoorporatePrice" ng-keyup="vm.getFranchiseePrice(subitem)">-->
+                                            <input style="text-align: right;" type="text" class="form-control" name="corporatePrice" ng-model="subitem.corporatePrice" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.disableCoorporatePrice || subitem.categoryType" ng-keyup="vm.getFranchiseePrice(subitem)">
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: 5px;" ng-if="vm.hasTwoPriceColumns">
+                                            <input style="text-align: right;" type="text" class="form-control" name="corporateAdditionalPrice" ng-model="subitem.corporateAdditionalPrice" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.disableCoorporatePrice" ng-keyup="vm.getFranchiseePrice(subitem)">
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left:-7px; margin-right: 2px;">
+                                            <input style="text-align: right;" type="text" class="form-control" name="franchiseePrice" ng-model="subitem.franchiseePrice" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.disableFranchiseePrice">
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 0px; display: inline-flex !important; margin-left: 5px;" ng-if="vm.hasTwoPriceColumns">
+                                            <input style="text-align: right;" type="text" class="form-control" name="franchiseeAdditionalPrice" ng-model="subitem.franchiseeAdditionalPrice" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.disableFranchiseePrice">
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <textarea type="text" class="form-control" name="alternativeSolution" ng-model="subitem.alternativeSolution" maxlength="255"></textarea>
+                                    </td>
+                                </tr>
+                                <tr class="tableRow" ng-if="vm.priceEstimateServices.length == 0">
+                                    <td></td>
+                                    <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade in " id="tab2" ng-if="vm.isTimeEstimateTab">
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs" id="sideTablable">
+                    <li id="timeEstimateShiftCharges" class="active"><a ng-click="vm.changeTimeEstimateTab(1)" data-toggle="tab" href="~/#tab1">Day/ Night Shift Rates</a></li>
+                    <li id="timeEstimateReplacementCharges"><a ng-click="vm.changeTimeEstimateTab(2)" data-toggle="tab" href="~/#tab2">Replacement Rates</a></li>
+                    <li id="timeEstimateMaintenanceCharges"><a ng-click="vm.changeTimeEstimateTab(3)" data-toggle="tab" href="~/#tab3">Maintenance Cost</a></li>
+                    <li id="timeEstimateFloorGrindingAdjustment"><a ng-click="vm.changeTimeEstimateTab(4)" data-toggle="tab" href="~/#tab4">Floor Grinding Adjustment</a></li>
+                    <li class="pull-right">
+                        <button id="sample_editable_1_new" ng-click="vm.saveAndNext()" ng-if="vm.isTimeEstimateTab && (vm.isTimeEstimateShiftChargesTab || vm.isTimeEstimateReplacementChargesTab || vm.isTimeEstimateMaintenanceChargesTab)" class="btn btn-primary btn-m pull-right" style="margin-left:10px;">
+                            Save & Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                        <button id="sample_editable_1_new" ng-click="vm.finish()" ng-if="vm.isTimeEstimateTab && vm.timeEstimateFloorGrindingAdjustment" class="btn btn-primary btn-m pull-right" style="margin-left:10px;">
+                            Finish <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="tabbable">
+                <div class="tab-contents">
+                    <div class="tab-pane fade in " id="tab1" ng-if="vm.isTimeEstimateTab && vm.isTimeEstimateShiftChargesTab">
+                        <div class="col-md-9" ng-if="vm.isSuperAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+                                <thead class="thead">
+                                    <tr class="tableRow">
+                                        <th style="text-align: left !important; width: 25%"></th>
+                                        <th style="text-align: left !important; width: 14%">Corporate Price($)</th>
+                                        <th style="text-align: center !important; width: 20%">Average Franchisee Price($)</th>
+                                        <th style="text-align: center !important; width: 21%">Maximum Franchisee Price($)</th>
+                                        <th style="text-align: center !important; width: 20%">Franchisee Name(Max Price)</th>
+                                        <th style="text-align: center !important; width: 20%">History</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.shiftCharges != undefined">
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Tech Day-Shift Price
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:75%; text-align:right" class="form-control" name="techDayShiftPrice" ng-model="vm.shiftCharges.techDayShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break:keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageTechDayShiftPrice!=0">
+                                                {{vm.shiftCharges.averageTechDayShiftPrice | number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice}}">
+                                                {{vm.shiftCharges.maximumTechDayShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumTechDayShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <i title="History for Tech Day-Shift Price" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Tech Day-Shift')"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Commercial Restoration Price
+
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:75%; text-align:right" class="form-control" name="commercialRestorationShiftPrice" ng-model="vm.shiftCharges.commercialRestorationShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageCommercialRestorationShiftPrice!=0">
+                                                {{vm.shiftCharges.averageCommercialRestorationShiftPrice| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice}}">
+                                                {{vm.shiftCharges.maximumCommercialRestorationShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumCommercialRestorationShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <i title="History for Commercial Restoration Price" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Commercial Restoration Shift')"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Maintenance Tech Night-Shift Price
+
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:75%; text-align:right" class="form-control" name="maintenanceTechNightShiftPrice" ng-model="vm.shiftCharges.maintenanceTechNightShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageMaintenanceTechNightShiftPrice!=0">
+                                                {{vm.shiftCharges.averageMaintenanceTechNightShiftPrice| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice}}">
+                                                {{vm.shiftCharges.maximumMaintenanceTechNightShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumMaintenanceTechNightShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span style="font-weight:100"><i title="History for Maintenance Tech Night-Shift Price" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Maintenance Tech-Night Shift')"></i></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-11" ng-if="vm.isFranchiseeAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+                                <thead class="thead">
+                                    <tr class="tableRow">
+                                        <th style="text-align: left !important; width: 20%"></th>
+                                        <th style="text-align: left !important; width: 10%">Corporate Price($)</th>
+                                        <th style="text-align: left !important; width: 10%">Franchisee Price($)</th>
+                                        <th style="text-align: center !important; width: 20%">Average Franchisee Price($)</th>
+                                        <th style="text-align: center !important; width: 20%">Maximum Franchisee Price($)</th>
+                                        <th style="text-align: center !important; width: 20%">Franchisee Name(Max Price)</th>
+                                        <th style="text-align: center !important; width: 20%">History</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.shiftCharges != undefined">
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Tech Day-Shift Price
+                                        </td>
+                                        <td>
+                                            <input style="width:75%; text-align:right" type="text" class="form-control" name="corporateTechDayShiftPrice" ng-model="vm.shiftCharges.techDayShiftPriceCorporate" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td>
+                                            <input style="width: 75%; text-align: right" type="text" class="form-control" name="techDayShiftPrice" ng-model="vm.shiftCharges.techDayShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break:keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageTechDayShiftPrice!=0">
+                                                {{vm.shiftCharges.averageTechDayShiftPrice| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice}}">
+                                                {{vm.shiftCharges.maximumTechDayShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumTechDayShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumTechDayShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <i title="History for SEO Cost" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Tech Day-Shift')"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Commercial Restoration Price
+                                        </td>
+                                        <td>
+                                            <input style="width: 75%; text-align:right" type="text" class="form-control" name="corporateCommercialRestorationShiftPrice" ng-model="vm.shiftCharges.commercialRestorationShiftPriceCorporate" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td>
+                                            <input style="width: 75%; text-align: right" type="text" class="form-control" name="commercialRestorationShiftPrice" ng-model="vm.shiftCharges.commercialRestorationShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageCommercialRestorationShiftPrice!=0">
+                                                {{vm.shiftCharges.averageCommercialRestorationShiftPrice| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice}}">
+                                                {{vm.shiftCharges.maximumCommercialRestorationShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumCommercialRestorationShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumCommercialRestorationShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <i title="History for SEO Cost" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Commercial Restoration Shift')"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <td class="fontclass" style="text-align: left !important;">
+                                            Maintenance Tech Night-Shift Price
+                                        </td>
+                                        <td>
+                                            <input style="width: 75%; text-align: right" type="text" class="form-control" name="corporateMaintenanceTechNightShiftPrice" ng-model="vm.shiftCharges.maintenanceTechNightShiftPriceCorporate" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td>
+                                            <input style="width: 75%; text-align: right" type="text" class="form-control" name="maintenanceTechNightShiftPrice" ng-model="vm.shiftCharges.maintenanceTechNightShiftPrice" only-decimal dmin="0" dmax="100000000">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <span ng-if="vm.shiftCharges.averageMaintenanceTechNightShiftPrice!=0">
+                                                {{vm.shiftCharges.averageMaintenanceTechNightShiftPrice| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice!=null" class="pointer" title="{{vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice}}">
+                                                {{vm.shiftCharges.maximumMaintenanceTechNightShiftPrice| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <span ng-if="vm.shiftCharges.maximumMaintenanceTechNightShiftPrice!=null">
+                                                {{vm.shiftCharges.franchiseeNameForMaximumMaintenanceTechNightShiftPrice}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <i title="History for SEO Cost" class="fa fa-history" aria-hidden="true" style="font-size:13px !important;cursor:pointer" ng-click="vm.seoHistry('Maintenance Tech-Night Shift')"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in " id="tab2" ng-if="vm.isTimeEstimateTab && vm.isTimeEstimateReplacementChargesTab">
+                        <div class="col-md-12 tab_table" ng-if="vm.isSuperAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info">
+                                <thead class="thead" style="background-color: #eff3f8">
+                                    <tr class="tableRow">
+                                        <th rowspan="2" style="text-align: left !important; width: 10%; position: sticky !important; top: 0px !important;">Material Type</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">Cost of removing existing tile($)</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">Cost of the tile material($)</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">Cost of Installing new tile($)</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">Total Replacement Cost($)</th>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <th style="text-align: center !important; width: 4.625%; position: sticky !important; top: 36px !important;">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important;width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 10.625%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 4.625%; position: sticky !important; top: 36px !important; ">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 10.625%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 4.625%; position: sticky !important; top: 36px !important;">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 10.625%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 4.625%; position: sticky !important; top: 36px !important;">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 10.625%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.replacementCharges != undefined">
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length > 0" ng-repeat="item in vm.replacementCharges | orderBy: 'order' track by $index">
+                                        <td style="text-align: left !important;">
+                                            {{item.material}}
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <input style="text-align:right" type="text" class="form-control form-control-sm" name="costOfRemovingTile" ng-model="item.costOfRemovingTile" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfRemovingTile!=0">
+                                                {{item.averageCostOfRemovingTile| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfRemovingTile!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfRemovingTile}}>
+                                                {{item.maximumCostOfRemovingTile| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfRemovingTile!=null">
+                                                {{item.franchiseeNameForMaximumCostOfRemovingTile}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <input style="text-align:right" type="text" class="form-control form-control-sm" name="costOfInstallingTile" ng-model="item.costOfInstallingTile" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfInstallingTile!=0">
+                                                {{item.averageCostOfInstallingTile| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfInstallingTile!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfInstallingTile}}>
+                                                {{item.maximumCostOfInstallingTile| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfInstallingTile!=null">
+                                                {{item.franchiseeNameForMaximumCostOfInstallingTile}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <input style="text-align:right" type="text" class="form-control" name="costOfTileMaterial" ng-model="item.costOfTileMaterial" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfTileMaterial!=0">
+                                                {{item.averageCostOfTileMaterial | number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfTileMaterial!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfTileMaterial}}>
+                                                {{item.maximumCostOfTileMaterial| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfTileMaterial!=null">
+                                                {{item.franchiseeNameForMaximumCostOfTileMaterial}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            {{item.totalReplacementCost| number: 2}}
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageTotalReplacementCost!=0">
+                                                {{item.averageTotalReplacementCost| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumTotalReplacementCost!=null" class="pointer" title={{item.franchiseeNameForMaximumTotalReplacementCost}}>
+                                                {{item.maximumTotalReplacementCost| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumTotalReplacementCost!=null">
+                                                {{item.franchiseeNameForMaximumTotalReplacementCost}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 tab_table" ng-if="vm.isFranchiseeAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info">
+                                <thead class="thead" style="background-color: #eff3f8">
+                                    <tr class="tableRow">
+                                        <th rowspan="2" style="text-align: left !important; width: 10%; position: sticky !important; top: 0px !important;">Material Type</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">Cost of removing existing tile($)</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">Cost of the tile material($)</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">Cost of Installing new tile($)</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">Total Replacement Cost($)</th>
+                                    </tr>
+                                    <tr class="tableRow">
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important;">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 12.5%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 12.5%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important;">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 12.5%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Corporate
+                                        </th>
+                                        <th style="text-align: center !important; width: 2.5%; position: sticky !important; top: 36px !important; ">
+                                            Franchisee
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Avg
+                                        </th>
+                                        <th style="text-align: center !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important; position: sticky !important; top: 36px !important; ">
+                                            Max
+                                        </th>
+                                        <th style="text-align: center !important; width: 12.5%; position: sticky !important; top: 36px !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.replacementCharges != undefined">
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length > 0" ng-repeat="item in vm.replacementCharges | orderBy: 'order' track by $index">
+                                        <td style="text-align: left !important;">
+                                            {{item.material}}
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="costOfRemovingTile" ng-model="item.corporateCostOfRemovingTile" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+
+                                        </td>
+                                        <td style="text-align: right !important;">
+                                            <input style="text-align:right" type="text" class="form-control" name="costOfRemovingTile" ng-model="item.costOfRemovingTile" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfRemovingTile!=0">
+                                                {{item.averageCostOfRemovingTile| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfRemovingTile!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfRemovingTile}}>
+                                                {{item.maximumCostOfRemovingTile| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfRemovingTile!=null">
+                                                {{item.franchiseeNameForMaximumCostOfRemovingTile}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="costOfRemovingTile" ng-model="item.corporateCostOfInstallingTile" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td style="text-align: right !important;">
+                                            <input style="text-align: right" type="text" class="form-control" name="costOfInstallingTile" ng-model="item.costOfInstallingTile" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfInstallingTile!=0">
+                                                {{item.averageCostOfInstallingTile| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfInstallingTile!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfInstallingTile}}>
+                                                {{item.maximumCostOfInstallingTile| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfInstallingTile!=null">
+                                                {{item.franchiseeNameForMaximumCostOfInstallingTile}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input style="text-align: right" type="text" class="form-control" name="costOfRemovingTile" ng-model="item.corporateCostOfTileMaterial" only-decimal dmin="0" dmax="100000000" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td style="text-align: center !important;">
+                                            <input style="text-align: right" type="text" class="form-control" name="costOfTileMaterial" ng-model="item.costOfTileMaterial" only-decimal dmin="0" dmax="100000000" ng-keyup="vm.calculateTotalReplacementCost($index)">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageCostOfTileMaterial!=0">
+                                                {{item.averageCostOfTileMaterial| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumCostOfTileMaterial!=null" class="pointer" title={{item.franchiseeNameForMaximumCostOfTileMaterial}}>
+                                                {{item.maximumCostOfTileMaterial| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumCostOfTileMaterial!=null">
+                                                {{item.franchiseeNameForMaximumCostOfTileMaterial}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            {{item.corporateTotalReplacementCost| number: 2}}
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            {{item.totalReplacementCost| number: 2}}
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <span ng-if="item.averageTotalReplacementCost!=0">
+                                                {{item.averageTotalReplacementCost| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; min-width: 60px !important; width: 60px !important; max-width: 60px !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumTotalReplacementCost!=null" class="pointer" title={{item.franchiseeNameForMaximumTotalReplacementCost}}>
+                                                {{item.maximumTotalReplacementCost| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important">
+                                            <span ng-if="item.maximumTotalReplacementCost!=null">
+                                                {{item.franchiseeNameForMaximumTotalReplacementCost}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.replacementCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in " id="tab3" ng-if="vm.isTimeEstimateTab && vm.isTimeEstimateMaintenanceChargesTab">
+                        <div class="col-md-11 tab_table" ng-if="vm.isSuperAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+                                <thead class="thead">
+                                    <tr class="tableRow">
+                                        <th rowspan="2" style="text-align: left !important; width: 10%">Material Type</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">High</th>
+                                        <th colspan="4" style="text-align: center !important; border: 1px solid #ddd;">Low</th>
+                                        <th rowspan="2" style="text-align: center !important; border: 1px solid #ddd; width: 15%">Notes</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center !important; width: 8.5%;">
+                                            Corporate (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important;">
+                                            Avg (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important;">
+                                            Max (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 8.5%;">
+                                            Corporate (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 5.5%;">
+                                            Avg (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 5.5%;">
+                                            Max (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 10.5%;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.maintenanceCharges != undefined">
+                                    <tr class="tableRow" ng-if="vm.maintenanceCharges.length > 0" ng-repeat="item in vm.maintenanceCharges track by $index">
+                                        <td style="text-align: left !important;">{{item.material}}</td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="high" ng-model="item.high" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important; ">
+                                            <span ng-if="item.averageHigh != 0">
+                                                {{item.averageHigh| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumHigh!=null" class="pointer" title="{{item.franchiseeNameForMaximumHigh}}">
+                                                {{item.maximumHigh| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span ng-if="item.maximumHigh!=null">
+                                                {{item.franchiseeNameForMaximumHigh}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="low" ng-model="item.low" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true">
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <span ng-if="item.averageLow!=0">
+                                                {{item.averageLow| number: 2}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumLow!=null" class="pointer" title="{{item.franchiseeNameForMaximumLow}}">
+                                                {{item.maximumLow| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span ng-if="item.maximumLow!=null">
+                                                {{item.franchiseeNameForMaximumLow}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <textarea type="text" class="form-control" name="notes" ng-model="item.notes" maxlength="255" ng-keyup="item.isChanged= true"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.maintenanceCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-11" ng-if="vm.isFranchiseeAdmin">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+                                <thead class="thead">
+                                    <tr class="tableRow">
+                                        <th rowspan="2" style="text-align: left !important; width: 10%">Material Type</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">High</th>
+                                        <th colspan="5" style="text-align: center !important; border: 1px solid #ddd;">Low</th>
+                                        <th rowspan="2" style="text-align: center !important; border: 1px solid #ddd; width: 20%">Notes</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center !important; width:8%;">
+                                            Corporate (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 8%;">
+                                            Franchisee (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 3%;">
+                                            Avg (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 3%;">
+                                            Max (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 12%;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                        <th style="text-align: center !important; width: 8%;">
+                                            Corporate (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 8%;">
+                                            Franchisee (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 3%;">
+                                            Avg (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 3%;">
+                                            Max (sqft/night-shift)
+                                        </th>
+                                        <th style="text-align: center !important; width: 12%;">
+                                            Franchisee Name (Max Price)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.maintenanceCharges != undefined">
+                                    <tr class="tableRow" ng-if="vm.maintenanceCharges.length > 0" ng-repeat="item in vm.maintenanceCharges track by $index">
+                                        <td style="text-align: left !important;">{{item.material}}</td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="high" ng-model="item.corporateHigh" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="high" ng-model="item.high" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true">
+                                        </td>
+                                        <td style="word-break: keep-all !important; text-align: right !important;">
+                                            <span ng-if="item.averageHigh != 0">{{item.averageHigh| number: 2}}</span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumHigh!=null" class="pointer" title="{{item.franchiseeNameForMaximumHigh}}">
+                                                {{item.maximumHigh| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center !important;">
+                                            <span ng-if="item.maximumHigh!=null">
+                                                {{item.franchiseeNameForMaximumHigh}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="low" ng-model="item.corporateLow" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true" ng-disabled="vm.isFranchiseeAdmin">
+                                        </td>
+                                        <td>
+                                            <input style="text-align:right" type="text" class="form-control" name="low" ng-model="item.low" only-decimal dmin="0" dmax="100000000" ng-keyup="item.isChanged= true">
+                                        </td>
+                                        <td style="word-break: keep-all !important; text-align: right !important;">
+                                            <span ng-if="item.averageLow!=0">{{item.averageLow| number: 2}}</span>
+                                        </td>
+                                        <td style="text-align: right !important; word-break: keep-all !important;">
+                                            <div ng-if="item.franchiseeNameForMaximumLow!=null" class="pointer" title="{{item.franchiseeNameForMaximumLow}}">
+                                                {{item.maximumLow| number: 2}}
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span ng-if="item.maximumLow!=null">
+                                                {{item.franchiseeNameForMaximumLow}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <textarea type="text" class="form-control" name="notes" ng-model="item.notes" maxlength="255" ng-keyup="item.isChanged= true"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.maintenanceCharges.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in " id="tab4" ng-if="vm.isTimeEstimateTab && vm.timeEstimateFloorGrindingAdjustment">
+                        <div class="col-md-6">
+                            <table class="table table-striped table-bordered" id="sample_1" aria-describedby="sample_1_info" style="overflow:hidden !important">
+                                <thead class="thead">
+                                    <tr class="tableRow">
+                                        <th style="text-align: left !important; width: 40%">DIAMETER OF GRINDING PLATE (INCHES)</th>
+                                        <th style="text-align: left !important; width: 20%">AREA (IN^2)</th>
+                                        <th style="text-align: left !important; width: 40%">ADJUSTMENT FACTOR FOR EQUIPMENT SIZE</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="vm.floorGrindingAdjustment != undefined">
+                                    <tr class="tableRow" ng-if="vm.floorGrindingAdjustment.floorGrindingAdjustmentList.length > 0" ng-repeat="item in vm.floorGrindingAdjustment.floorGrindingAdjustmentList track by $index">
+                                        <td style="text-align: right !important;">
+                                            {{item.diameterOfGrindingPlate}}
+                                        </td>
+                                        <td style="text-align:right">
+                                            {{item.area}}
+                                        </td>
+                                        <td style="text-align:right">
+                                            {{item.adjustmentFactor}}
+                                        </td>
+                                    </tr>
+                                    <tr class="tableRow" ng-if="vm.floorGrindingAdjustment.list.length == 0">
+                                        <td></td>
+                                        <td width="100%" style="text-align:center; font-weight:bold;">No records Found</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-12">
+                                <label class="fontclass" style="font-size:17px!important; margin-right:20px;">
+                                    Note
+                                </label>
+                                <textarea rows="7" cols="85" ng-model="vm.floorGrindingAdjustment.note" ng-keyup="vm.floorGrindingAdjustmentIsChanged=true" maxlength="500">
+                                    </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

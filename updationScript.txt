@@ -1,0 +1,108 @@
+SET SQL_SAFE_UPDATES = 0;
+UPDATE   franchisee
+SET      ContactEMail = CONCAT(LEFT(ContactEMail, INSTR(ContactEMail, '@')), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE   jobcustomer
+SET      Email = CONCAT(LEFT(Email, INSTR(Email, '@')), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE   customeremail
+SET      Email = CONCAT(LEFT(Email, INSTR(Email, '@')), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE   organization
+SET      Email = CONCAT(LEFT(Email, INSTR(Email, '@')), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE   auditaddress
+SET      Email = CONCAT(LEFT(Email, INSTR(Email, '@')), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+
+SET SQL_SAFE_UPDATES = 0;
+update person set email = CONCAT(SUBSTRING(email, 1, locate('@',email)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+SET SQL_SAFE_UPDATES = 0;
+update organization set email = CONCAT(SUBSTRING(email, 1, locate('@',email)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+SET SQL_SAFE_UPDATES = 0;
+update notificationemailrecipient set recipientEmail = CONCAT(SUBSTRING(recipientEmail, 1, locate('@',recipientEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+
+SET SQL_SAFE_UPDATES = 0;
+update customerfeedbackrequest set customerEmail = CONCAT(SUBSTRING(customerEmail, 1, locate('@',customerEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+
+SET SQL_SAFE_UPDATES = 0;
+update customeremailapirecord set customerEmail = CONCAT(SUBSTRING(customerEmail, 1, locate('@',customerEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+
+SET SQL_SAFE_UPDATES = 0;
+update customeremail set email = CONCAT(SUBSTRING(email, 1, locate('@',email)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+ 
+
+UPDATE `authorizenetapimaster` SET `ApiLoginID`='6aTb6993EkM', `ApiTransactionKey`='8sE94qZ95f9YX9q2' WHERE `Id`='1';
+UPDATE `authorizenetapimaster` SET `ApiLoginID`='9Ekt39v5U6', `ApiTransactionKey`='2S3M6U44SpvRX3dj' WHERE `Id`='2';
+
+ 
+
+update franchisee set businessid =  null where id > 0;
+
+ 
+
+SET SQL_SAFE_UPDATES = 0;
+update weblead set email = CONCAT(SUBSTRING(email, 1, locate('@',email)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+ 
+ 
+ SET SQL_SAFE_UPDATES = 0;
+update jobcustomer set Email = CONCAT(SUBSTRING(Email, 1, locate('@',Email)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+
+SET SQL_SAFE_UPDATES = 0;
+update franchisee set ContactEmail = CONCAT(SUBSTRING(ContactEmail, 1, locate('@',ContactEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+update notificationemail set FromEmail = CONCAT(SUBSTRING(FromEmail, 1, locate('@',FromEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+update franchisee set AccountPersonEmail = CONCAT(SUBSTRING(AccountPersonEmail, 1, locate('@',AccountPersonEmail)), 'yopmail.com');
+SET SQL_SAFE_UPDATES = 1;
+
+
+SET SQL_SAFE_UPDATES = 0;
+update franchisee set MarketingPersonEmail = CONCAT(SUBSTRING(MarketingPersonEmail, 1, locate('@',MarketingPersonEmail)), 'yopmail.com'); 
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+update franchisee set SchedulerEmail = CONCAT(SUBSTRING(SchedulerEmail, 1, locate('@',SchedulerEmail)), 'yopmail.com'); 
+SET SQL_SAFE_UPDATES = 1;
+
+SET SQL_SAFE_UPDATES = 0;
+update calldetailsreportnotes set CreatedBy = CONCAT(SUBSTRING(CreatedBy, 1, locate('@',CreatedBy)), 'yopmail.com'); 
+SET SQL_SAFE_UPDATES = 1;

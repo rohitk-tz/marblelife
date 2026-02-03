@@ -1,0 +1,47 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left"> Franchisee Notes: {{vm.franchiseeName}} </h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover table-striped table-bordered dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                <thead>
+                    <tr>
+                        <td style="font-weight:bolder; width:70%">
+                            Note
+                        </td>
+                        <td style="font-weight: bolder; width:15%;">
+                            Created By
+                        </td>
+                        <td style="font-weight: bolder; width: 15%;">
+                            Created On
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.franchiseeNotes.length>0" ng-repeat="item in vm.franchiseeNotes">
+                        <td style="word-break:break-word !important;">
+                            {{item.text}}
+                        </td>
+                        <td>
+                            {{item.createdByName}}
+                        </td>
+                        <td>
+                            {{item.createdOn | date:'M/d/yyyy'}}
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.franchiseeNotes.length==0">
+                        <td colspan="3">
+                            <b>No Records Found</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="vm.close()">Close</button>
+</div>

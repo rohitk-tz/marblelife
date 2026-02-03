@@ -1,0 +1,44 @@
+{
+  "name": "makalu.ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://sraheja@bitbucket.org/taazaainc/makalu-web.git"
+  },
+  "author": "Taazaa Inc",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/taazaainc/makalu-web#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "eslint": "^3.7.1",
+    "gulp": "^3.9.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-order": "^1.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-size": "^2.1.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.9",
+    "main-bower-files": "^2.13.1",
+    "uglify-save-license": "^0.4.1"
+  },
+  "dependencies": {
+    "angular-circular-timepicker": "^0.3.0",
+    "angular-star-rating": "^3.0.0",
+    "angularjs-bootstrap-datetimepicker": "^1.1.4",
+    "bower": "^1.8.4",
+    "gulp-git": "^2.8.0",
+    "gulp-install": "^1.1.0"
+  }
+}

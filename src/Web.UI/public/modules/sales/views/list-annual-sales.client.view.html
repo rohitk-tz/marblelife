@@ -1,0 +1,292 @@
+﻿<style>
+    th {
+        /*min-width:120px !important;*/
+        text-align: center;
+    }
+
+    tbody tr {
+        /*min-width:140px !important;*/
+        text-align: center;
+    }
+
+    .group-header {
+
+        background-color: deepskyblue;
+        padding: 15px !important;
+        color: white;
+        font-size: 20px;
+    }
+
+    .div-header {
+         max-width: 100%;
+        max-height: 450px !important;
+        overflow:auto;
+
+    }
+
+    .table-mbl {
+        padding: 0px;
+        margin: 0px !important;
+    }
+</style>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="pull-left">
+            <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">
+                Total
+                <span>
+                    {{vm.count}}
+                </span>
+                records
+            </div>
+        </div>
+        <div class="clearfix page-controls">
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+                    <div class="pull-left search-single">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="search-option" ng-model="vm.searchOption"
+                                    ng-change="vm.resetSeachOption()"
+                                    ng-options="item.value as item.display for item in vm.searchOptions">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="search-option">Search Options</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '1'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.getRecords();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.qbInvoiceNumber" key-stroke-action change="vm.getRecords">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadAnnualData()" class="btn btn-primary">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-bottom:2% !important" ng-repeat="mainItem in vm.salesDataListGroupedValues">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">
+                        Showing
+                        <span ng-if="(mainItem.groupedCollection.length > 0)">1 to {{mainItem.groupedCollection.length}} of {{mainItem.groupedCollection.length}} </span>
+                        <span ng-if="(mainItem.groupedCollection.length == 0)">0 to 0 of 0 </span>
+                        records
+                    </div>
+                </div>
+            </div>
+            <div class="group-header">
+                {{mainItem.reportTypeDescription}}
+
+                <span style="float:right" ng-if="mainItem.totalSum != 0" currency-Exchange conversion-Rate="mainItem.currencyRate"
+                      input="mainItem.totalSum" from-Currency="mainItem.currencyCode">
+                </span>
+            </div>
+            <div class="table-scrollable table-mbl">
+                <div ng-class="{'div-header':mainItem.groupedCollection.length != 0}">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceId }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Invoice#" style="width: 100px; min-width: 50px; max-width: 100px;"
+                                    ng-click="vm.sorting(vm.SortColumns.InvoiceId,mainItem.reportTypeId);">
+                                    QbInvoice#
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceId }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Invoice#" style="width: 100px; min-width: 50px; max-width: 100px;"
+                                    ng-click="vm.sorting(vm.SortColumns.InvoiceId,mainItem.reportTypeId);">
+                                    Invoice#
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceId,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceId }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="CustomerName" style="width: 100px; min-width: 100px; max-width: 100px;"
+                                    ng-click="vm.sorting(vm.SortColumns.CustomerName,mainItem.reportTypeId);">
+                                    Customer Name
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="InvoiceDate"
+                                    style="width: 120px; min-width: 50px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.InvoiceDate,mainItem.reportTypeId);">
+                                    Invoice Date
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="AnnualSalesAmount"
+                                    style="width: 140px; min-width: 160px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.AnnualSalesAmount,mainItem.reportTypeId);">
+                                    (A)<br /> Annual Sales Amount
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="AnnualPaidAmount"
+                                    style="width: 120px; min-width: 160px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.AnnualPaidAmount,mainItem.reportTypeId);">
+                                    (B)<br />  Annual Paid Amount
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="WeeklySalesAmount"
+                                    style="width: 120px; min-width: 160px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.WeeklySalesAmount,mainItem.reportTypeId);">
+                                    (C)<br />   Weekly Sales Amount
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 160px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.WeeklyPaidAmount,mainItem.reportTypeId);">
+                                    (D) <br /> Weekly  Paid Amount
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.QBInvoice }"
+                                    rowspan="1" colspan="1" aria-label="A-B" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sorting(vm.SortColumns.AnnuallyDifferent,mainItem.reportTypeId);">
+                                    A-B
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.QBInvoice }"
+                                    rowspan="1" colspan="1" aria-label="C-D" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sorting(vm.SortColumns.WeeklyDifferent,mainItem.reportTypeId);">
+                                    C-D
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.QBInvoice }"
+                                    rowspan="1" colspan="1" aria-label="A-C" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sorting(vm.SortColumns.AnnuallySalesDifferent,mainItem.reportTypeId);">
+                                    A-C
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.QBInvoice,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.QBInvoice }"
+                                    rowspan="1" colspan="1" aria-label="B-D" style="width: 40px; min-width: 40px; max-width: 40px;"
+                                    ng-click="vm.sorting(vm.SortColumns.AnnuallyPaidDifferent,mainItem.reportTypeId);">
+                                    B-D
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.sort.order == 1 && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting_asc' : vm.query.sort.order == 0  && vm.query.sort.propName == vm.SortColumns.InvoiceDate,
+                                                        'sorting': vm.query.sort.propName != vm.SortColumns.InvoiceDate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 200px; min-width: 200px; max-width: 50px;" ng-click="vm.sorting(vm.SortColumns.AnnualReportStatus,mainItem.reportTypeId);">
+                                    Annual Report Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="mainItem.groupedCollection.length == 0">
+                                <td colspan="9" class="text-center"><span> No Records Found</span></td>
+                            </tr>
+                            <tr ng-repeat="item in mainItem.groupedCollection">
+                                <td style="width: 60px; min-width: 60px; max-width: 60px;">{{item.qbInvoice}}</td>
+                                <td style="width: 40px; min-width: 40px; max-width: 40px;">
+                                    {{item.invoiceId}} &nbsp;
+                                </td>
+                                <td style="width: 120px; min-width: 200px; max-width: 100px;">
+                                    {{item.customerName}} &nbsp;
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">{{item.invoiceDate | dateTimeFilter}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    <span ng-if="item.annualSalesAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.annualSalesAmount" from-Currency="item.currencyCode">
+                                    </span>
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    <span ng-if="item.annualPaidAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.annualPaidAmount" from-Currency="item.currencyCode">
+                                    </span>
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    <span ng-if="item.weeklySalesAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.weeklySalesAmount" from-Currency="item.currencyCode">
+                                    </span>
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    <span ng-if="item.weeklyPaidAmount != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.weeklyPaidAmount" from-Currency="item.currencyCode">
+                                    </span>
+                                </td>
+                                <td style="width: 120px; min-width: 40px; max-width: 40px;">
+                                    <span ng-if="item.annuallyDifference != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.annuallyDifference" from-Currency="item.currencyCode">
+                                    </span>
+
+                                </td>
+                                <td style="width: 120px; min-width: 40px; max-width: 40px;">
+                                    <span ng-if="item.weeklyDifference != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.weeklyDifference" from-Currency="item.currencyCode">
+                                    </span>
+
+                                </td>
+                                <td style="width: 120px; min-width: 40px; max-width: 40px;">
+                                    <span ng-if="item.annuallySalesDifference != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.annuallySalesDifference" from-Currency="item.currencyCode">
+                                    </span>
+
+                                </td>
+                                <td style="width: 120px; min-width: 40px; max-width: 40px;">
+                                    <span ng-if="item.annuallyPaidDifference != null" currency-Exchange conversion-Rate="item.currencyRate"
+                                          input="item.annuallyPaidDifference" from-Currency="item.currencyCode">
+                                    </span>
+
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    {{item.reportTypeDescription}}
+                                </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;">
+                                    <div class="btn-group pull-right">
+                                        <button class="btn blue dropdown-toggle" data-toggle="dropdown">
+                                            Action <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a ui-sref="core.layout.sales.audit({ invoiceId: item.invoiceId,auditInvoiceId:item.auditInvoiceId,annualUploadId:item.annualUploadId})">
+                                                    View Difference
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

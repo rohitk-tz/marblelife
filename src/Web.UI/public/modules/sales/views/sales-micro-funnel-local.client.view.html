@@ -1,0 +1,458 @@
+﻿<style type="text/css">
+    .table.table-bordered thead > tr > th {
+        vertical-align: text-bottom;
+    }
+
+    p.text-center.margin-bottom-0 {
+        margin-bottom: 0 !important;
+    }
+    #thead
+    {
+        height:auto !important;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix page-controls">
+            <div class="pull-right search-btn-wrap">
+                <div class="search-box">
+
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin == true && vm.searchOption == '3'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.marketingClassId"
+                                    ng-change="vm.getRecords();"
+                                    ng-options="marketingClass.value as marketingClass.display for marketingClass in vm.marketingClass">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">MarketingClass</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.isSuperAdmin">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                    ng-change="vm.refresh();"
+                                    ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                                <option selected disabled hidden style='display: none' value=''></option>
+                            </select>
+                            <label for="franchisee">Franchisee</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" ng-if="vm.searchOption == '2'">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="search" class="form-control input-sm" placeholder="" aria-controls="sample_1"
+                                   ng-model="vm.query.qbInvoiceNumber" key-stroke-action change="vm.getRecords">
+                            <label>Search</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single" style="margin-left: 14px !important;">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input type="text" class="form-control input-small" id="date-range" date-range-picker change="vm.refresh"
+                                   start-date="vm.query.periodStartDate" end-date="vm.query.periodEndDate">
+                            <label for="date-range">Date Range</label>
+                        </div>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left search-single m-t-5">
+                        <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                    <div class="pull-left m-t-5">
+                        <button id="sample_editable_1_new" ng-click="vm.downloadAnnualData()" class="btn btn-primary" ng-disabled="vm.salesFunnelNationalList.length == 0">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="pull-left margin-left-15" ng-if="vm.isvisible">
+            <div class="dataTables_info">
+                <b> We are considering Data from  {{vm.startDate | dateTimeFilter}} to  {{vm.endDate| dateTimeFilter }}.</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 m-t-15">
+                <div class="portlet blue-hoki box" id="printSection11">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-list-ul"></i> Sales Funnel :{{vm.FranchiseeName}}
+                        </div>
+                        <!--<div class="pull-right margin-top-10 margin-left-15">
+                            <button class="btn btn-primary" ng-print-amchart print-element-id="printSection11" title="print"><i class="fa fa-print"></i></button>
+                        </div>-->
+                    </div>
+                    <div class="portlet-body" style="min-height: 460px;">
+                        <div class="tab-pane active margin-top-20" id="portlet_tab1">
+                            <am-chart id="myFirstChart6" options="amChartOptionsforSalesFunnelLocalGraph" height="460px" width="100%"></am-chart>
+                            <div id="legenddiv6" class="legends-mul-col"></div>
+                            <p>
+                                <b>NOTE:</b>
+                                The MACRO Sales funnel looks at your conversions by total figures across the month.  This provides a good quick snapshot at your sales funnel efficiencies
+                                and where you might improve your efficiencies and reduce your marketing costs by improving step-by-step conversions.  In 2018, MARBLELIFE identified that only
+                                55% of all calls were being answered, and that 70% of calls not answered were lost.  By 2019, this figure had improved to 70% resulting in a 12% improvement in
+                                total sales across the system.  This is the power of studying and understanding your conversions through your sales funnel.
+
+                            <p>
+                                A MACRO SALES FUNNEL compares monthly LEADS, CALLS ANSWERED, ESTIMATES and JOBS and looks at the percent conversion between values.  The downside of a MACRO
+                                study is that it is susceptible to changes in marketing levels, such that if LEADS are high in one month they will drive estimate and jobs in the second month.
+                                If the LEADS fall in the second month it is possible to have greater than 100% conversions.  As such, when working with a MACRO salesfunnel it is best to
+                                look at data over a year OR in a stable marketing environment.
+                            </p>
+                            <p>
+                                The MICRO SALES FUNNEL links the lead-to-the-call-to-the-estimate-and-to-the job, so as to remove the fluctuations associated with marketing lead counts.  
+                                The month the lead was generated gets credit for the full conversion all the way through to Jobs.  This creates a more accurate view.  
+                                That said, it also results in a conversion values that will drop in the more recent months, as the older leads get the benefit of the late closers.  
+                                As such, one is looking at the older months to see full conversion and in the earlier months to look at quick conversions.
+                            </p>
+                            <p>
+                                Generally, there is a place for both sets of evaluations as you seek to get the most out of our marketing dollars.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" style="margin-top:2% !important">
+            <div class="table-scrollable table-mbl">
+                <div id="thead" fix-height style="overflow: auto;">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                        <thead fix-head>
+                            <tr role="row">
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.FranchiseeName,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.FranchiseeName,
+                                                        'sorting': vm.query.propName != vm .SortColumns.FranchiseeName }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Invoice#" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                    ng-click="vm.sorting(vm .SortColumns.FranchiseeName);">
+                                    <p class="text-center margin-bottom-0" style="visibility:hidden">(AB)</p>
+                                    <p class="text-center margin-bottom-0">    Month</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.FranchiseeName,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.SortColumns.FranchiseeName,
+                                                        'sorting': vm.query.propName != vm.SortColumns.FranchiseeName }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Invoice#" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                    ng-click="vm.sorting(vm .SortColumns.FranchiseeName);">
+                                    <p class="text-center margin-bottom-0" style="visibility:hidden">(AB)</p>
+                                    <p class="text-center margin-bottom-0"> Franchisee Name</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.TechCount,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm.Sort.SortColumns.TechCount,
+                                                        'sorting': vm.query.propName != vm.SortColumns.TechCount }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Invoice#" style="width: 140px; min-width: 140px; max-width: 140px;"
+                                    ng-click="vm.sorting(vm .SortColumns.TechCount);">
+                                    <p class="text-center margin-bottom-0">(A)</p>
+                                    <p class="text-center margin-bottom-0">  Number of Tech Users</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.SalesCount,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm .SortColumns.SalesCount,
+                                                        'sorting': vm.query.propName != vm.SortColumns.SalesCount }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="CustomerName" style="width: 140px; min-width: 140px; max-width: 140px;"
+                                    ng-click="vm.sorting(vm .SortColumns.SalesCount);">
+                                    <p class="text-center margin-bottom-0">(B)</p>
+                                    <p class="text-center margin-bottom-0">Number of Sales Users</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.WebCount,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.WebCount,
+                                                        'sorting': vm.query .propName != vm.SortColumns.WebCount }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="InvoiceDate"
+                                    style="width: 140px; min-width: 140px; max-width: 140px;" ng-click="vm.sorting(vm .SortColumns.WebCount);">
+                                    <p class="text-center margin-bottom-0">(C)</p>
+                                    <p class="text-center margin-bottom-0">     Number of Web Leads</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.PhoneLeads,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.PhoneLeads,
+                                                        'sorting': vm.query .propName != vm.SortColumns.PhoneLeads }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="AnnualSalesAmount"
+                                    style="width: 140px; min-width: 140px; max-width: 140px;" ng-click="vm.sorting(vm .SortColumns.PhoneLeads);">
+                                    <p class="text-center margin-bottom-0">(D)</p>
+                                    <p class="text-center margin-bottom-0">   Number of Phone Leads</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query .order == 1 && vm.query .propName == vm .SortColumns.PhoneLeadsOverTwoMIn,
+                                                        'sorting_asc' : vm.query .order == 0  && vm.query .propName == vm .SortColumns.PhoneLeadsOverTwoMIn,
+                                                        'sorting': vm.query .propName != vm.SortColumns.PhoneLeadsOverTwoMIn }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="AnnualPaidAmount"
+                                    style="width: 120px; min-width: 220px; max-width: 220px;" ng-click="vm.sorting(vm .SortColumns.PhoneLeadsOverTwoMIn);">
+                                    <p class="text-center margin-bottom-0">(E)</p>
+                                    <p class="text-center margin-bottom-0">  Number Of Phone Leads Over 2 min</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query .order == 1 && vm.query .propName == vm .SortColumns.EstimateCount,
+                                                        'sorting_asc' : vm.query .order == 0  && vm.query .propName == vm .SortColumns.EstimateCount,
+                                                        'sorting': vm.query .propName != vm .SortColumns.EstimateCount }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="WeeklySalesAmount"
+                                    style="width: 220px; min-width: 220px; max-width: 220px;" ng-click="vm.sorting(vm.SortColumns.EstimateCount);">
+                                    <p class="text-center margin-bottom-0">(F)</p>
+                                    <p class="text-center margin-bottom-0">Number Of Estimates on Schedule</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.JobCount,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.JobCount,
+                                                        'sorting': vm.query .propName != vm .SortColumns.JobCount }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 220px; min-width: 220px; max-width: 220px;" ng-click="vm.sorting(vm.SortColumns.JobCount);">
+                                    <p class="text-center margin-bottom-0">(G)</p>
+                                    <p class="text-center margin-bottom-0">  Number Of Jobs on Schedule</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.RoyalityJobs,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.RoyalityJobs,
+                                                        'sorting': vm.query .propName != vm .SortColumns.RoyalityJobs }"
+                                    rowspan="1" colspan="1" aria-label="A-B" style="width: 220px; min-width: 220px; max-width: 220px;"
+                                    ng-click="vm.sorting(vm .SortColumns.RoyalityJobs);">
+                                    <p class="text-center margin-bottom-0">(H)</p>
+                                    <p class="text-center margin-bottom-0"> Number Of Royalty Jobs Reported</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.Sales,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.Sales,
+                                                        'sorting': vm.query .propName != vm .SortColumns.Sales }"
+                                    rowspan="1" colspan="1" aria-label="C-D" style="width: 220px; min-width: 220px; max-width: 220px;"
+                                    ng-click="vm.sorting(vm .SortColumns.Sales);">
+                                    <p class="text-center margin-bottom-0">(I)</p>
+                                    <p class="text-center margin-bottom-0">   Sales(in $)</p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.AveTicket,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.AveTicket,
+                                                        'sorting': vm.query .propName != vm .SortColumns.AveTicket }"
+                                    rowspan="1" colspan="1" aria-label="A-C" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                    ng-click="vm.sorting(vm .SortColumns.AveTicket);">
+                                    <p class="text-center margin-bottom-0">(J)</p>
+                                    <p class="text-center margin-bottom-0">  Ave Ticket</p><p class="text-center margin-bottom-0">
+                                        (I/H)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.SalesPerTech,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.SalesPerTech,
+                                                        'sorting': vm.query .propName != vm .SortColumns.SalesPerTech }"
+                                    rowspan="1" colspan="1" aria-label="B-D" style="width: 120px; min-width: 120px; max-width: 120px;"
+                                    ng-click="vm.sorting(vm .SortColumns.SalesPerTechPermonths);">
+                                    <p class="text-center margin-bottom-0">(K)</p>
+                                    <p class="text-center margin-bottom-0"> Sales/Tech</p>
+                                    <p class="text-center margin-bottom-0">
+                                        (I/A)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.PhoneAnsweredOverTwoMinPerPhone,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.PhoneAnsweredOverTwoMinPerPhone,
+                                                        'sorting': vm.query .propName != vm .SortColumns.PhoneAnsweredOverTwoMinPerPhone }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.PhoneAnsweredOverTwoMinPerPhone);">
+                                    <p class="text-center margin-bottom-0">(L)</p>
+                                    <p class="text-center margin-bottom-0">Sales/(Tech* months)</p> <p class="text-center margin-bottom-0">
+                                        (K/(months))
+                                    </p>
+
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query .order == 1 && vm.query .propName == vm .SortColumns.phoneAnswerPer,
+                                                        'sorting_asc' : vm.query .order == 0  && vm.query .propName == vm .SortColumns.phoneAnswerPer,
+                                                        'sorting': vm.query .propName != vm .SortColumns.phoneAnswerPer }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 300px; min-width: 300px; max-width: 300px;" ng-click="vm.sorting(vm .SortColumns.phoneAnswerPer);">
+                                    <p class="text-center margin-bottom-0">(M)</p>
+                                    <p class="text-center margin-bottom-0"> % Phone Answered(Over 2 min)/Total Phone</p> <p class="text-center margin-bottom-0">
+                                        (E/D)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.EstimatePer,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.InvoiceDate,
+                                                        'sorting': vm.query .propName != vm .SortColumns.EstimatePer }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm .SortColumns.EstimatePer);">
+                                    <p class="text-center margin-bottom-0">(N)</p>
+                                    <p class="text-center margin-bottom-0">  % convert to Estimate </p><p class="text-center margin-bottom-0">
+                                    <p class="text-center margin-bottom-0">(F/E)</p>
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.JobPer,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.JobPer,
+                                                        'sorting': vm.query .propName != vm .SortColumns.JobPer }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.JobPer);">
+                                    <p class="text-center margin-bottom-0">(O)</p>
+                                    <p class="text-center margin-bottom-0"> % convert to Job </p><p class="text-center margin-bottom-0">
+                                        (G/F)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.ConvertToInvoice,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.ConvertToInvoice,
+                                                        'sorting': vm.query .propName != vm .SortColumns.ConvertToInvoice }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm .SortColumns.ConvertToInvoice);">
+                                    <p class="text-center margin-bottom-0">(P)</p>
+                                    <p class="text-center margin-bottom-0">  % convert to Invoice </p><p class="text-center margin-bottom-0">
+                                        (H/F)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query .order == 1 && vm.query .propName == vm .SortColumns.SalesCloseRate,
+                                                        'sorting_asc' : vm.query .order == 0  && vm.query .propName == vm .SortColumns.SalesCloseRate,
+                                                        'sorting': vm.query .propName != vm .SortColumns.SalesCloseRate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.SalesCloseRate);">
+                                    <p class="text-center margin-bottom-0">(Q)</p>
+                                    <p class="text-center margin-bottom-0">   Sales Close Rate </p><p class="text-center margin-bottom-0">
+                                        (H/(C+D))
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.MissedCalls,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.MissedCalls,
+                                                        'sorting': vm.query .propName != vm .SortColumns.MissedCalls }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.MissedCalls);">
+                                    <p class="text-center margin-bottom-0">(R)</p>
+                                    <p class="text-center margin-bottom-0"> Missed Calls </p> <p class="text-center margin-bottom-0">
+                                        (D-E)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.LostEstimate,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query.propName == vm .SortColumns.LostEstimate,
+                                                        'sorting': vm.query .propName != vm .SortColumns.LostEstimate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.LostEstimate);">
+                                    <p class="text-center margin-bottom-0">(S)</p>
+                                    <p class="text-center margin-bottom-0">  Lost Estimate </p><p class="text-center margin-bottom-0">
+                                        (E-F)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.LostJobs,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.LostJobs,
+                                                        'sorting': vm.query .propName != vm .SortColumns.LostJobs }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm .SortColumns.LostJobs);">
+                                    <p class="text-center margin-bottom-0">(T)</p>
+                                    Lost Jobs<p class="text-center margin-bottom-0">
+                                        (F-G)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query.order == 1 && vm.query .propName == vm .SortColumns.TotalJobs,
+                                                        'sorting_asc' : vm.query.order == 0  && vm.query .propName == vm .SortColumns.TotalJobs,
+                                                        'sorting': vm.query .propName != vm .SortColumns.SalesCloseRate }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.TotalJobs);">
+                                    <p class="text-center margin-bottom-0">(U)</p>
+                                    <p class="text-center margin-bottom-0">Total Jobs</p><p class="text-center margin-bottom-0">
+                                        (H)
+                                    </p>
+                                </th>
+                                <th ng-class="{'sorting_desc': vm.query .order == 1 && vm.query .propName == vm .SortColumns.TotalCalls,
+                                                        'sorting_asc' : vm.query .order == 0  && vm.query .propName == vm .SortColumns.TotalCalls,
+                                                        'sorting': vm.query .propName != vm .SortColumns.TotalCalls }"
+                                    tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name"
+                                    style="width: 120px; min-width: 120px; max-width: 120px;" ng-click="vm.sorting(vm.SortColumns.TotalCalls);">
+                                    <p class="text-center margin-bottom-0">(V)</p>
+                                    <p class="text-center margin-bottom-0"> Total Calls</p> <p class="text-center margin-bottom-0">
+                                        (R+S+T+U)
+                                    </p>
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-if="vm.salesFunnelNationalList.length == 0">
+                                <td colspan="9" class="text-center"><span> No Records Found</span></td>
+                            </tr>
+                            <tr ng-repeat="item in vm.salesFunnelNationalList">
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;" ng-if="item.franchiseeName!='National' && item.franchiseeName!='Best' && item.franchiseeName!='Average'">{{item.month}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;" ng-if="item.franchiseeName=='National' || item.franchiseeName=='Best' || item.franchiseeName=='Average'"></td>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;" ng-if="item.franchiseeName!='National' && item.franchiseeName!='Best' && item.franchiseeName!='Average'">{{item.franchiseeName}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;font-size:13px;text-align: center;" ng-if="item.franchiseeName=='National' || item.franchiseeName=='Best' || item.franchiseeName=='Average'"><b>{{item.franchiseeName}}</b></td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.techCount | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.techCount}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 40px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.saleCount | number : 2}} </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.saleCount}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.webLeadCount | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.webLeadCount}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.phoneLeadCount | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.phoneLeadCount}}</td>
+
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.phoneLeadCountOverTwoMin | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.phoneLeadCountOverTwoMin}}</td>
+
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.estimatesCount | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.estimatesCount}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.jobsCount | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.jobsCount}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.royalityJobs | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.royalityJobs }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{item.sales | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.avgTicket | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.avgTicket | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.salesPerTech | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.salesPerTech | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.salesPerTechPerMonth | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.salesPerTechPerMonth | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.phoneAnswerPer | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.phoneAnswerPer | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.estimateConvertion | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.estimateConvertion | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.jobConvertion | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.jobConvertion | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.invoicePer | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.invoicePer | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.salesCloseRate | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.salesCloseRate | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.missedCalls | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.missedCalls}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.lostEstimate | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.lostEstimate }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.lostJobs | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.lostJobs}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.totalJobs | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.totalJobs}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName=='Average'">{{item.totalCalls | number : 2}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;" ng-if="item.franchiseeName!='Average'">{{item.totalCalls}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;"></td>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;"></td>
+                                <td style="width: 120px; min-width: 120px; max-width: 60px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.techCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 40px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.saleCountFranchisee}} </td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.webLeadCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.phoneLeadCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.phoneLeadCountOverTwoMinCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.estimatesCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.jobsCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.royalityJobsCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.salesCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.avgTicketCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.salesPerTechCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.salesPerTechPerMonthCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.phoneAnswerPerCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.estimateConvertionCountFranchisee }}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.jobConvertionCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.invoicePerCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.salesCloseRateCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.missedCallsCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.lostEstimateCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.lostJobsCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.totalJobsCountFranchisee}}</td>
+                                <td style="width: 120px; min-width: 120px; max-width: 120px;text-align: center;">{{vm.salesFunnelNationalBestFranchisee.totalCallsCountFranchisee}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="invoice text-danger text-center" ng-if="vm.salesDataCustomerList.length == 0">
+            <h3 ng-if="vm.query.statusId == '1'" {">No Records Found!</h3>
+            <h3 ng-if="vm.query.statusId == '2'" {">No Records Found!</h3>
+        </div>
+    </div>
+</div>
+
+
+
+<b>NOTE:</b>
+<p>
+    THIS IS A MACRO SALES FUNNEL THAT PRESENTS THE RAW NUMBERS BY MONTH FOR CALLS, ANSWERED CALLS, ESTIMATES AND JOBS BY TOTALING EACH WITHIN THIS CATEGORY FOR THE MONTH.  In comparison a micro sales funnel (which is presently in development) will seek to match sale-to-lead so that we can also see the ROI and closure rate differences based on the advertising tool employed.
+</p>
+<p style="padding-top:1% !important"></p>
+<p>
+    AS SUCH THIS WILL PROVIDE A ROUGH SENSE OF OUR CONVERSIONS THROUGH OUR SALES FUNNEL.  THAT SAID, IT WILL BE SUSCEPTIBLE TO LARGE CHANGES IN LEADS IN ONE MONTH VERSUS ANOTHER SUCH THAT IT IS POSSIBLE TO RUN A CARD, SPIKE LEADS, AND ESTIMATES IN MONTH 1, KNOWING SALES WILL MATERIALIZE IN MONTH 2 WHEN SCHEDULED.  IN THIS CASE ONE COULD SEE A LOW CONVERSION TO SALES THIS MONTH, FOLLOWING BY A CONVERSION GREATER THAN 100%.
+</p>
+<p style="padding-top:1% !important"></p>
+<p>
+    As such on a MACRO basis the data is best viewed as a rolling average over time as it flattens out these situations, but this makes your adjustments such as the difference between answering immediately versus going to voice mail more difficult to see in the short-term, whereas the micro-sales funnel can show changes within 1 day.  Much more useful, but much more complicated.  As such we will start with the MACRO to see the broad picture of how we are doing and where we could improve to increase sales and reduced marketing costs.
+</p>
+
+<!-- END EXAMPLE TABLE PORTLET-->

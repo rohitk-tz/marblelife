@@ -1,0 +1,23 @@
+﻿<style type="text/css">
+  .modal-body.ng-scope {
+    width: 81%;
+    overflow-wrap: break-word;
+}
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Geo Code Notes</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <div ng-bind-html="vm.notes"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

@@ -1,0 +1,1 @@
+INSERT INTO `documenttype` (`Id`, `Name`, `CategoryId`, `IsDeleted`) VALUES ('13', 'National Account Agreement', '202', b'0');

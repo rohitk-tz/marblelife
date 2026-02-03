@@ -1,0 +1,5 @@
+ALTER TABLE `jobscheduler` 
+ADD COLUMN `Offset` INT NULL DEFAULT NULL AFTER `MeetingId`;
+
+ALTER TABLE  `jobscheduler` 
+CHANGE COLUMN `Offset` `Offset` DOUBLE NULL DEFAULT NULL ;

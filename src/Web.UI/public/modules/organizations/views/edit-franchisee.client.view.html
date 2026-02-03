@@ -1,0 +1,1214 @@
+﻿<div>
+    <style type="text/css">
+        /*@media screen and (max-width: 1607px) {
+            .page-container {
+                margin-top: 14%;
+            }
+        }*/
+
+        .upload-btn-wrapper .btn {
+            border: 1px solid #818181;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            display: inline-block;
+            padding: 0;
+            line-height: 28px;
+            position: absolute;
+            bottom: 10px;
+            right: 6px;
+        }
+
+        img.logo-image {
+            min-height: 100px;
+            max-width: 279px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+            .upload-btn-wrapper input[type=file] {
+                font-size: 100px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                height: 100%;
+            }
+
+
+        .upload-section {
+            border: 3px dashed #ccc;
+            border-radius: 5px;
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+
+            .upload-section > p {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+
+            .upload-section .btn-link {
+                margin: 0 auto;
+                text-align: center;
+                width: 100%;
+                text-transform: uppercase;
+            }
+
+            .upload-section div {
+                margin: 0 auto;
+                text-align: center;
+            }
+
+        .section-sub-header {
+            font-weight: 600;
+            font-size: 14px;
+            color: #26327e;
+            margin: 20px 0;
+        }
+
+        .red-color {
+            border-bottom: 2px !important;
+            border-bottom-color: red !important;
+        }
+
+        .normal-color {
+            border-bottom: 2px !important;
+            border-bottom-color: black !important;
+        }
+    #inline{
+        width:auto;
+        height:auto;
+        display:flex;
+
+    } 
+    .one,.two{
+        height:auto;
+        margin-top:10px;
+    }
+    </style>
+
+    <div class="portlet light">
+        <div class="portlet-body form">
+            <form role="form" name="franchiseeForm">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h3 class="section-header">Basic Information</h3>
+                        <div class="row" ng-if="vm.isFranchiseeIdVisible">
+                            <div class="col-md-8">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.franchiseename.$error.required}">
+                                        <input type="text" class="form-control" id="name" name="franchiseename" ng-model="vm.franchisee.name" required maxlength="128">
+                                        <label for="name">Franchisee Name (Territory)<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.reviewId.$error.required}">
+                                        <input type="text" class="form-control" id="reviewId" name="reviewId" ng-model="vm.franchisee.id" maxlength="128" disabled>
+                                        <label for="name">Review Id</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!vm.isFranchiseeIdVisible">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.franchiseename.$error.required}">
+                                        <input type="text" class="form-control" id="name" name="franchiseename" ng-model="vm.franchisee.name" required maxlength="128">
+                                        <label for="name">Franchisee Name (Territory)<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.webSite.$error.required}">
+                                        <input type="url" ng-pattern="regex" class="form-control" id="webSite" name="webSite" ng-model="vm.franchisee.webSite" maxlength="128">
+                                        <label for="name">Franchisee WebSite</label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.webSite.$dirty && franchiseeForm.webSite.$invalid">
+                                        <span class="text-danger">
+                                            Sorry Not a Valid URL, Don't Forget to Use http://
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div>
+                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                        <input type="text" class="form-control" id="displayName" name="displayName" ng-model="vm.franchisee.displayName" maxlength="512">
+                                        <label for="displayName">Display Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset class="the-fieldset">
+                            <legend class="the-legend" style="margin-bottom: 0px;">Owner's Information</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.ownerFirstName.$error.required}">
+                                        <input type="text" class="form-control" id="owner-first-name" name="ownerFirstName" ng-model="vm.franchisee.organizationOwner.ownerFirstName" required
+                                               maxlength="128">
+                                        <label for="owner-first-name">Owner - First Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.ownerFirstName.$dirty && franchiseeForm.ownerFirstName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.ownerFirstName.$error.required">
+                                            First Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.ownerLastName.$error.required}">
+                                        <input type="text" class="form-control" id="owner-last-name" name="ownerLastName" ng-model="vm.franchisee.organizationOwner.ownerLastName" required
+                                               maxlength="128">
+                                        <label for="owner-last-name">Owner - Last Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.ownerLastName.$dirty && franchiseeForm.ownerLastName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.ownerLastName.$error.required">
+                                            Last Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.email.$error.required}">
+                                    <input type="email" class="form-control" id="owner-email" name="email" ng-model="vm.franchisee.email" validate-email required
+                                           user-id="vm.franchisee.organizationOwner.ownerId" maxlength="512">
+                                    <label for="owner-email">Email<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                </div>
+                                <div ng-show="franchiseeForm.email.$dirty && franchiseeForm.email.$invalid">
+                                    <span class="text-danger" ng-if="franchiseeForm.email.$error.required">
+                                        Email is required.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.email.$error.email">
+                                        Email not valid.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.email.$error.alreadyExist">
+                                        Email already exist.
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="the-fieldset">
+                            <legend class="the-legend" style="margin-bottom: 0px;">Contact Person's Information</legend>
+                            <label>Same as Owner's Information: <input type="checkbox" ng-model="vm.isSame"></label><br />
+                            <div class="row" ng-show="!vm.isSame">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.contactFirstName.$error.required}">
+                                        <input type="text" class="form-control" id="contact-first-name" name="contactFirstName" ng-model="vm.franchisee.contactFirstName" ng-required="!vm.isSame"
+                                               maxlength="128">
+                                        <label for="contact-first-name">First Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.contactFirstName.$dirty && franchiseeForm.contactFirstName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.contactFirstName.$error.required">
+                                            First Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.contactLastName.$error.required}">
+                                        <input type="text" class="form-control" id="contact-last-name" name="contactLastName" ng-model="vm.franchisee.contactLastName" ng-required="!vm.isSame"
+                                               maxlength="128" only-alphabets>
+                                        <label for="contact-last-name">Last Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.contactLastName.$dirty && franchiseeForm.contactLastName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.contactLastName.$error.required">
+                                            Last Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="!vm.isSame">
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.contactEmail.$error.required}">
+                                    <input type="email" class="form-control" id="contactEmail" name="contactEmail" ng-model="vm.franchisee.contactEmail" validate-email ng-required="!vm.isSame"
+                                           user-id="vm.franchisee.organizationOwner.ownerId" maxlength="512">
+                                    <label for="contactEmail">Email<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> * </span></label>
+                                </div>
+                                <div ng-show="franchiseeForm.contactEmail.$dirty && franchiseeForm.contactEmail.$invalid">
+                                    <span class="text-danger" ng-if="franchiseeForm.contactEmail.$error.required">
+                                        Email is required.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.contactEmail.$error.email">
+                                        Email not valid.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.contactEmail.$error.alreadyExist">
+                                        Email already exist.
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+                        <fieldset class="the-fieldset">
+                            <legend class="the-legend" style="margin-bottom: 0px;">Franchisee's Preferred Language</legend>
+                            <div class="row">
+                                <div class="col-md-4 form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control" id="language" ng-model="vm.languageId"
+                                            ng-options="option.value as option.display for option in  vm.languageList">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="language">Choose Language <span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+
+                        <fieldset class="the-fieldset">
+
+                            <legend class="the-legend" style="margin-bottom: 0px;">Marketing Person's Information</legend>
+                            <label>Same as Owner's Information: <input type="checkbox" ng-model="vm.isSameForMarketing"></label><br />
+                            <div class="row" ng-show="!vm.isSameForMarketing">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.marketingPersonFirstName.$error.required}">
+                                        <input type="text" class="form-control" id="marketingPersonFirstName" name="marketingPersonFirstName" ng-model="vm.franchisee.marketingPersonFirstName" ng-required="!vm.isSameForMarketing"
+                                               maxlength="128">
+                                        <label for="contact-first-name">First Name <span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.marketingPersonlFirstName.$dirty && franchiseeForm.marketingPersonFirstName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.marketingPersonFirstName.$error.required">
+                                            First Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.marketingPersonLastName.$error.required}">
+                                        <input type="text" class="form-control" id="marketingPersonLastName" name="marketingPersonLastName" ng-model="vm.franchisee.marketingPersonLastName" ng-required="!vm.isSameForMarketing"
+                                               maxlength="128">
+                                        <label for="contact-last-name">Last Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.marketingPersonLastName.$dirty && franchiseeForm.marketingPersonLastName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.marketingPersonalLastName.$error.required">
+                                            Last Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="!vm.isSameForMarketing">
+                                <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.marketingPersonEmail.$error.required}">
+                                    <input type="email" class="form-control" id="marketingPersonEmail" name="marketingPersonEmail" ng-model="vm.franchisee.marketingPersonEmail" validate-email ng-required="!vm.isSameForMarketing"
+                                           user-id="vm.franchisee.organizationOwner.ownerId" maxlength="512">
+                                    <label for="contactEmail">Email<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> * </span></label>
+                                </div>
+                                <div ng-show="franchiseeForm.marketingPersonEmail.$dirty && franchiseeForm.marketingPersonEmail.$invalid">
+                                    <span class="text-danger" ng-if="franchiseeForm.marketingPersonEmail.$error.required">
+                                        Email is required.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.marketingPersonEmail.$error.email">
+                                        Email not valid.
+                                    </span>
+                                    <span class="text-danger" ng-if="franchiseeForm.marketingPersonEmail.$error.alreadyExist">
+                                        Email already exist.
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+                        <fieldset class="the-fieldset">
+                            <span><b>Note: Email will be used on the Invoice</b> </span><br /><br />
+                            <label>Same as Owner's Information: <input type="checkbox" ng-model="vm.isSchedulerSame"></label><br />
+                            <legend class="the-legend" style="margin-bottom: 0px;">Scheduler's Information</legend>
+                            <div class="row" ng-show="!vm.isSchedulerSame">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.schedulerFirstName.$error.required}">
+                                        <input type="text" class="form-control" id="schedulerFirstName" name="schedulerFirstName" ng-model="vm.franchisee.schedulerFirstName" required
+                                               maxlength="128">
+                                        <label for="schedulerFirstName">Scheduler - First Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.schedulerFirstName.$dirty && franchiseeForm.schedulerFirstName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.schedulerFirstName.$error.required">
+                                            First Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.schedulerLastName.$error.required}">
+                                        <input type="text" class="form-control" id="schedulerLastName" name="schedulerLastName" ng-model="vm.franchisee.schedulerLastName" required
+                                               maxlength="128">
+                                        <label for="schedulerLastName">Scheduler - Last Name<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.schedulerLastName.$dirty && franchiseeForm.schedulerLastName.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.schedulerLastName.$error.required">
+                                            Last Name is required.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.schedulerEmail.$error.required}">
+                                        <input type="email" class="form-control" id="schedulerEmail" name="schedulerEmail" ng-model="vm.franchisee.schedulerEmail" validate-email required
+                                               user-id="vm.franchisee.organizationOwner.ownerId" maxlength="512">
+                                        <label for="schedulerEmail">Email<span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>*</b> </span></label>
+                                    </div>
+                                    <div ng-show="franchiseeForm.schedulerEmail.$dirty && franchiseeForm.schedulerEmail.$invalid">
+                                        <span class="text-danger" ng-if="franchiseeForm.schedulerEmail.$error.required">
+                                            Email is required.
+                                        </span>
+                                        <span class="text-danger" ng-if="franchiseeForm.schedulerEmail.$error.email">
+                                            Email not valid.
+                                        </span>
+                                        <!--<span class="text-danger" ng-if="franchiseeForm.schedulerEmail.$error.alreadyExist">
+                                            Email already exist.
+                                        </span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </fieldset>
+
+
+                        <multiple-phone-organization phone-numbers="vm.franchisee.phoneNumbers" id="phone" ng-if="!vm.isMexico"> </multiple-phone-organization>
+                        <multiple-phone-mexico-organization phone-numbers="vm.franchisee.phoneNumbers" id="phone" ng-if="vm.isMexico"> </multiple-phone-mexico-organization>
+                        <address-edit-franchisee model="vm.franchisee.address[0]" tabindex="0" currency="vm.franchisee.currency"></address-edit-franchisee>
+                        <div>
+                            <h3 class="section-header">Late Fee Information</h3>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="isRoyalityLateFeeApplicable" name="isRoyalityLateFeeApplicable" ng-value="true" class="md-check" ng-click="vm.isRoyalityLateFeeApplicable()" ng-model="vm.franchisee.lateFee.isRoyalityLateFeeApplicable">
+                                            <label for="isRoyalityLateFeeApplicable">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                Late Fee Applicable on no Royalty Fee submission
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.royalityLateFee.$error.required}">
+                                        <span class="margin-right-10">Late Fee</span>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control" id="late-fees" ng-disabled="!vm.franchisee.lateFee.isRoyalityLateFeeApplicable"
+                                                   name="royalityLateFee" ng-model="vm.franchisee.lateFee.royalityLateFee" only-decimal dmin="0" dmax="1000" required>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.royalityWaitPeriodInDays1.$error.required}">
+                                        <span class="margin-right-10">Wait Period</span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="wait-period" ng-disabled="!vm.franchisee.lateFee.isRoyalityLateFeeApplicable"
+                                                   name="royalityWaitPeriodInDays1" ng-model="vm.franchisee.lateFee.royalityWaitPeriodInDays" only-digits dmin="0" dmax="100" required>
+                                            <span class="input-group-addon">days</span>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="margin-top: -16px;">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.royalityInterestRate.$error.required}">
+                                        <span class="margin-right-10">Royalty Interest Rate(p.a.)</span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="p-a" ng-disabled="!vm.franchisee.lateFee.isRoyalityLateFeeApplicable"
+                                                   name="royalityInterestRate" ng-model="vm.franchisee.lateFee.royalityInterestRate" only-decimal dmin="0" dmax="100" required>
+                                            <span class="input-group-addon">%</span>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="isSalesDateLateFeeApplicable" name="isSalesDateLateFeeApplicable" class="md-check" ng-value="true" ng-click="vm.isSalesDateLateFeeApplicable()" ng-model="vm.franchisee.lateFee.isSalesDateLateFeeApplicable">
+                                            <label for="isSalesDateLateFeeApplicable">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                Late fee Applicable on no sales data uploaded
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.salesDataLateFee.$error.required}">
+                                        <span class="margin-right-10">Late Fee</span>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control" id="sales-data-late-fees" ng-disabled="!vm.franchisee.lateFee.isSalesDateLateFeeApplicable"
+                                                   name="salesDataLateFee" ng-model="vm.franchisee.lateFee.salesDataLateFee" only-decimal dmin="0" dmax="1000" required>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.salesDataWaitPeriodInDays.$error.required}">
+                                        <span class="margin-right-10">Wait Period</span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="sales-data-wait-period" ng-disabled="!vm.franchisee.lateFee.isSalesDateLateFeeApplicable"
+                                                   name="salesDataWaitPeriodInDays" ng-model="vm.franchisee.lateFee.salesDataWaitPeriodInDays" only-digits dmin="0" dmax="100" required>
+                                            <span class="input-group-addon">days</span>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="section-header">Service Fee Information</h3>
+                            <div ng-repeat="fee in vm.franchisee.serviceFees">
+                                <div class="row margin-top-10">
+                                    <div class="col-md-12">
+                                        <div class="pull-left">
+                                            <div class="md-checkbox">
+                                                <input type="checkbox" id="fee{{$index}}" name="isApplicable" ng-value="true" class="md-check"
+                                                       ng-click="vm.isApplicable(fee);" ng-model="fee.isApplicable">
+                                                <label for="fee{{$index}}">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span>
+                                                    Signed-in for  {{fee.serviceName}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3" ng-if="fee.typeId != vm.serviceFeeType.NationalCharge">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <span class="margin-right-10">Amount <span style="font-weight: bolder !important;color: black;">*</span></span>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">$</span>
+                                                <input type="text" class="form-control" id="{{fee.serviceName}}-amount"
+                                                       ng-disabled="!fee.isApplicable" name="{{fee.serviceName}}amount" ng-model="fee.amount" only-decimal dmin="0" dmax="100000000">
+                                                <div class="form-control-focus"></div>
+                                            </div>
+                                            <div ng-show="franchiseeForm.amount.$dirty && franchiseeForm.amount.$error.required">
+                                                <span class="text-danger" ng-if="franchiseeForm.amount.$error.required">
+                                                    Amount is required.
+                                                </span>
+                                                <span class="text-danger" ng-if="franchiseeForm.amount.$error.min">
+                                                    Positive value is required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" ng-if="fee.typeId == vm.serviceFeeType.Bookkeeping">
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.royalityWaitPeriodInDays.$error.required}">
+                                            <span class="margin-right-10" ng-if="fee.typeId == vm.serviceFeeType.Bookkeeping">% of Sales Reported</span>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="{{fee.serviceName}}-name" ng-disabled="!fee.isApplicable"
+                                                       name="royalityWaitPeriodInDays" ng-model="fee.percentage" only-decimal dmin="0" dmax="1000">
+                                                <span class="input-group-addon">%</span>
+                                                <div class="form-control-focus"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" ng-if="fee.typeId == vm.serviceFeeType.NationalCharge">
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.royalityWaitPeriodInDays.$error.required}">
+                                            <span class="margin-right-10" ng-if="fee.typeId == vm.serviceFeeType.NationalCharge">% of National Sales Reported</span>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="{{fee.serviceName}}-wait-period" ng-disabled="!fee.isApplicable"
+                                                       name="royalityWaitPeriodInDays" ng-model="fee.percentage" only-decimal dmin="0" dmax="1000">
+                                                <span class="input-group-addon">%</span>
+                                                <div class="form-control-focus"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 margin-top-15" ng-if="fee.typeId == vm.serviceFeeType.Bookkeeping">
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.frequency.$error.requiredSelect}">
+                                            <select class="form-control input-medium" name="frequency" id="{{fee.serviceName}}-frequency" ng-model="fee.frequencyId"
+                                                    ng-options="type.value as type.display for type in vm.paymentFrequency" ng-disabled="!fee.isApplicable" style="width:50%"></select>
+                                            <div ng-show="franchiseeForm.frequency.$dirty && franchiseeForm.frequency.$invalid">
+                                                <span class="text-danger" ng-if="franchiseeForm.frequency.$error.requiredSelect">
+                                                    Frequency is Required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 margin-top-15" ng-if="fee.typeId == vm.serviceFeeType.PayRollProcessing">
+                                        <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.payrollFrequency.$error.requiredSelect}">
+                                            <select class="form-control input-medium" name="payrollFrequency" id="{{fee.serviceName}}-payrollFrequency" ng-model="fee.frequencyId"
+                                                    ng-options="type.value as type.display for type in vm.payRollFrequency" ng-disabled="!fee.isApplicable" style="width:80%"></select>
+                                            <div ng-show="franchiseeForm.payrollFrequency.$dirty && franchiseeForm.payrollFrequency.$invalid">
+                                                <span class="text-danger" ng-if="franchiseeForm.payrollFrequency.$error.requiredSelect">
+                                                    Frequency is Required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!vm.franchisee.isActive && vm.franchiseeId > 0">
+                            <h3 class="section-header">Franchisee Deactivation Note</h3>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12 pull-left">
+                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                        <textarea class="form-control" rows="3" id="notes" ng-model="vm.franchisee.deactivationNote" maxlength="512" placeholder="Franchisee Deactivation Note"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <h3 class="section-header">Charges for Email</h3>
+                                    <div class="row margin-top-10">
+                                        <div class="col-md-12 pull-left">
+                                            <div class="col-md-5">
+                                                <div class="md-checkbox">
+                                                    <input type="checkbox" id="isGeneric" name="isGeneric" ng-value="vm.franchisee.franchiseeEmailEditModel.isGeneric" class="md-check"
+                                                           ng-click="vm.isGeneric(true)" ng-model="vm.franchisee.franchiseeEmailEditModel.isGeneric">
+                                                    <label for="isGeneric">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        Generic Fee
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="md-checkbox">
+                                                    <input type="checkbox" id="techEmailFees" name="techEmailFees" ng-value="vm.franchisee.franchiseeEmailEditModel.isTechMailFees" class="md-check"
+                                                           ng-click="vm.isGeneric(false)" ng-model="vm.franchisee.franchiseeEmailEditModel.isTechMailFees">
+                                                    <label for="techEmailFees">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        Tech Email Fees
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4" ng-show="vm.franchisee.franchiseeEmailEditModel.isTechMailFees">
+                                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                                        <span class="margin-right-10">Technician <span style="font-weight: bolder !important;color: black;">*</span></span>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control" id="techCount" ng-class="{'has-error' : franchiseeForm.technianCount.$error.required}"
+                                                                   name="technianCount" ng-model="vm.franchisee.franchiseeEmailEditModel.technianCount" only-decimal dmin="1"
+                                                                   dmax="1000" ng-required="vm.franchisee.franchiseeEmailEditModel.isTechMailFees"
+                                                                   ng-keyup="vm.techCountChanges()">
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                        <div ng-show="franchiseeForm.technianCount.$dirty && franchiseeForm.technianCount.$error.required">
+                                                            <span class="text-danger" ng-if="franchiseeForm.technianCount.$error.required">
+                                                                Technician Count is required greater than 0.
+                                                            </span>
+                                                            <span class="text-danger" ng-if="franchiseeForm.technianCount.$error.min">
+                                                                Positive value is required.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" ng-show="vm.franchisee.franchiseeEmailEditModel.isTechMailFees" style="margin-top: -14px">
+                                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                                        <span class="margin-right-10">Multiplication Factor <span style="font-weight: bolder !important;color: black;">*</span></span>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="multiplicationFactor" ng-class="{'has-error' : franchiseeForm.franchiseeMailAmount.$error.required}"
+                                                                   name="multiplicationFactor" ng-model="vm.franchisee.franchiseeEmailEditModel.multiplacationFactor"
+                                                                   only-decimal dmin="1" dmax="1000" ng-keyup="vm.techCountChanges()" required>
+                                                            <div class="form-control-focus"></div>
+
+                                                        </div>
+                                                        <div ng-show="franchiseeForm.multiplicationFactor.$dirty && franchiseeForm.multiplicationFactor.$error.required">
+                                                            <span class="text-danger" ng-if="franchiseeForm.multiplicationFactor.$error.required">
+                                                                Multiplication Factor is required greater than 0.
+                                                            </span>
+                                                            <span class="text-danger" ng-if="franchiseeForm.multiplicationFactor.$error.min">
+                                                                Positive value greater than 0 is required.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" ng-show="vm.franchisee.franchiseeEmailEditModel.isGeneric || vm.franchisee.franchiseeEmailEditModel.isTechMailFees">
+                                                    <div class="form-group form-md-line-input form-md-floating-label">
+                                                        <span class="margin-right-10">Amount <span style="font-weight: bolder !important;color: black;">*</span></span>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">$</span>
+                                                            <input type="text" class="form-control" id="franchiseeMailAmount" ng-class="{'has-error' : franchiseeForm.franchiseeMailAmount.$error.required}"
+                                                                   name="franchiseeMailAmount" ng-model="vm.franchisee.franchiseeEmailEditModel.amount"
+                                                                   only-decimal dmin="1" dmax="100000000" required ng-disabled="vm.franchisee.franchiseeEmailEditModel.isTechMailFees">
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                        <div ng-show="franchiseeForm.franchiseeMailAmount.$dirty && franchiseeForm.franchiseeMailAmount.$error.required">
+                                                            <span class="text-danger" ng-if="franchiseeForm.franchiseeMailAmount.$error.required">
+                                                                Amount is required greater than 0.
+                                                            </span>
+                                                            <span class="text-danger" ng-if="franchiseeForm.franchiseeMailAmount.$error.min">
+                                                                Positive value greater than 0 is required.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-show="vm.franchisee.franchiseeEmailEditModel.isTechMailFees">
+                                                <div class="col-md-12">
+                                                    <div class="clear-both">
+                                                        <strong>Note - </strong><br />
+                                                        <i>
+                                                            Total= [Number of Technician * Multiplication Factor] + 3
+                                                        </i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <h3 class="section-header">Loan Amount Adjustment</h3>
+                                    <div class="row margin-top-10">
+                                        <div class="col-md-12 pull-left">
+                                            <div class="col-md-6">
+                                                <div class="md-checkbox">
+                                                    <input type="checkbox" id="isLoanRoyality" name="isLoanRoyality" ng-value="true" class="md-check"
+                                                           ng-click="vm.isRoyality(true);" ng-model="vm.franchisee.isRoyality">
+                                                    <label for="isLoanRoyality">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        Royalty
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="md-checkbox">
+                                                    <input type="checkbox" id="isLoanAdfund" name="isLoanAdfund" ng-value="false" class="md-check"
+                                                           ng-click="vm.isRoyality(false)" ng-model="vm.franchisee.IsAdfund">
+                                                    <label for="isLoanAdfund">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        Adfund
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <h3 class="section-header">Charges for Phone</h3>
+                                    <div class="row margin-top-10">
+                                        <div class="col-md-12 pull-left">
+                                            <div class="form-group form-md-line-input">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="registrationNumber" name="registrationNumber" ng-model="vm.franchisee.franchiseeEmailEditModel.chargesForPhone" only-decimal dmin="0" dmax="100" maxlength="3">
+                                                    <label for="registrationNumber">Charges for Phone</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="section-header">Franchisee Category</h3>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12 pull-left">
+                                    <div class="col-md-6">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="IsFrontOffice" name="IsFrontOffice" class="md-check"
+                                                   ng-click="vm.isCategoryChange(vm.franchiseeCategoryType.FRONTOFFICE);" ng-model="vm.IsFrontOffice">
+                                            <label for="IsFrontOffice">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                MULTI-PERSON(MULTI LEVEL COVERAGE)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="IsOfficePerson" name="IsOfficePerson" ng-value="false" class="md-check"
+                                                   ng-click="vm.isCategoryChange(vm.franchiseeCategoryType.OFFICEPERSON);" ng-model="vm.IsOfficePerson">
+                                            <label for="IsOfficePerson">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                OFFICE PERSON
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12 pull-left">
+                                    <div class="col-md-6">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="IsResponseWhenAvailable" name="IsResponseWhenAvailable" ng-value="false" class="md-check"
+                                                   ng-click="vm.isCategoryChange(vm.franchiseeCategoryType.RESPONDWHENAVAILABLE);" ng-model="vm.IsResponseWhenAvailable">
+                                            <label for="IsResponseWhenAvailable">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                RESPOND WHEN AVAILABLE
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="IsResponseNextDay" name="IsResponseNextDay" class="md-check"
+                                                   ng-click="vm.isCategoryChange(vm.franchiseeCategoryType.RESPONDSNEXTDAY);" ng-model="vm.IsResponseNextDay">
+                                            <label for="IsResponseNextDay">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                RESPONDS NEXT DAY
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-10  margin-left-15" ng-show="vm.ShowCategoryText">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <textarea class="form-control" rows="3" id="notes" ng-model="vm.franchisee.categoryNotes" maxlength="512" placeholder="Category Reason"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="section-header">Franchisee Team Image</h3>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12 pull-left">
+                                    <div class="pull-left">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <div class="upload-btn-wrapper">
+                                                            <img id="logo-image" class="logo-image" ng-src="{{vm.imagesrc}}" alt="Franchisee Team Image" />
+                                                            <input id="file_input" type="file" style="width: 100%;" file-model-image="tempFile.attachTempImageFile" onchange="angular.element(this).scope().readUrl(this, 'logo-image');" name="pic" accept="image/*" />
+                                                            <button type="button" ng-click="vm.delete();" class="btn" style="top:50%;right:0px" translate-attr="{ title: 'label_choose_file' }" ng-if="isImage"><i class="fa fa-trash"></i> </button>
+                                                            <button type="button" ng-click="vm.upload();" class="btn" style="top:20%;right:0px" translate-attr="{ title: 'label_choose_file' }"><i class="fa fa-pencil"></i> </button>
+                                                            <button type="button" ng-if="vm.franchisee.fileId !=null" ng-click="vm.downloadUserImage(vm.franchisee.fileId);" class="btn" style="bottom:2%;right:0px" translate-attr="{ title: 'label_choose_file' }"><i class="fa fa-download"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <h3 class="section-header">Lead performance Parameter</h3>
+                            <div class="row">
+                                <div class="col-md-5" style="min-width: 325px !important">
+                                    <h3 style="display:inline-block; width:101%" class="section-sub-header">
+                                        Website SEO Cost (Monthly)*
+                                        <input type="checkbox" id="isseoActiveEnabled" class="mbl-switch" ng-model="vm.franchisee.isSEOActive" />
+                                        <label for="isseoActiveEnabled">&nbsp;</label>
+                                    </h3>
+                                    <div ng-hide="!vm.franchisee.isSEOActive" id="inline">
+                                        <div class="one form-group form-md-line-input margin-right-10 margin-right-10">
+                                            <div class="col-md-7 input-group" style="min-width: 100px; max-width: 100px">
+                                                <span class="input-group-addon">$</span>
+                                                <input type="text" ng-disabled="!vm.franchisee.isSEOActive" class="form-control input-medium" id="min-seo" placeholder="SEO Amount ($)" only-Digits
+                                                       ng-model="vm.franchisee.leadPerformanceEditModel.seoCost" min="0" maxlength="5" ng-keyup="vm.totalSum()" required />
+                                                <div class="form-control-focus"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <select ng-if="vm.franchisee.feeProfile.paymentFrequencyId != 32" style="width: 100px; min-width: 100px; margin-right: 10px !important;" class="two form-control" id="option" ng-model="vm.franchisee.leadPerformanceEditModel.seoCostBillingPeriodId"
+                                                    ng-options="option.value as option.display for option in vm.seoCostBillingPeriod">
+                                                <option selected disabled hidden style='display: none' value=''></option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select style="width:100px; min-width: 100px;" class="two form-control" id="option" ng-model="vm.franchisee.isSEOInRoyalty"
+                                                    ng-options="option.value as option.display for option in vm.seoCostStatus" ng-change="vm.changeAdFundRoyalityForSEOCharges(vm.franchisee.isSEOInRoyalty, vm.franchisee.id)">
+                                                <option selected disabled hidden style='display: none' value=''></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1" style="margin-top:12% !important;" ng-if="vm.isEdit">
+                                    <i title="History for SEO Cost" class="fa fa-history" aria-hidden="true" style="font-size:20px !important;cursor:pointer" ng-click="vm.performanceHistry(vm.performanceParameter.ppsspend)"></i>
+                                </div>
+
+                                <div class="col-md-5" style="min-width: 250px !important">
+                                    <h3 class="section-sub-header">PPC Spend (Monthly)*</h3>
+                                    <div class="form-group form-md-line-input margin-right-10">
+                                        <div class="input-group" style="min-width: 100px !important;">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control input-medium" id="min-royalty" placeholder="PPC Amount ($)" only-Digits
+                                                   ng-model="vm.franchisee.leadPerformanceEditModel.ppcSpend" min="0" maxlength="5" ng-keyup="vm.totalSum()" required />
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1" style="margin-top: 12% !important;" ng-if="vm.isEdit">
+                                    <i title="History For PPS Spend" class="fa fa-history" aria-hidden="true" style="font-size:20px !important;cursor:pointer" ng-click="vm.performanceHistry(vm.performanceParameter.seocost)"></i>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <franchisee-services services="vm.franchisee.franchiseeServices" is-edit="vm.isEdit"></franchisee-services>
+                        <div class="clearfix">
+                            <h3 class="section-header">Franchisee Registration Date</h3>
+                        </div>
+                        <div class="col-md-4" style="margin-top:1% !important">
+                            <date-picker-ts control-id="registration-date" label="Registration Date" model="vm.franchisee.registrationDate" ng-keyup="vm.timeClicked(vm.franchisee.registrationDate)" />
+
+                        </div>
+                        <div class="col-md-1" style="margin-top:5% !important" ng-if="vm.isEdit">
+                            <i title="Histry for Franchisee Registration" class="fa fa-history" aria-hidden="true" style="font-size:20px !important;cursor:pointer" ng-click="vm.registrationHistry(vm.franchisee.franchisieeHistryViewModel)"></i>
+                        </div>
+                        <div class="col-md-7" style="margin-top:18px !important">
+                            <span style="font-size: 12px;">
+                                (Date should be in <b>MM/DD/YYYY</b> Format )
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="clearfix">
+                            <h3 class="section-header">Fee Structure</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="md-radio-inline margin-bottom-15">
+                                <div class="md-radio">
+                                    <input type="radio" id="opt-fixed-amount" name="fee-mode" class="md-radiobtn"
+                                           ng-model="vm.franchisee.feeProfile.salesBasedRoyalty" ng-value="false" ng-change="vm.resetFeeProfileModel()">
+                                    <label for="opt-fixed-amount">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Fixed Amount Per Month*
+                                    </label>
+                                </div>
+                                <div class="md-radio">
+                                    <input type="radio" id="opt-based-sales" name="fee-mode" class="md-radiobtn"
+                                           ng-model="vm.franchisee.feeProfile.salesBasedRoyalty" ng-value="true" ng-change="vm.resetFeeProfileModel()">
+                                    <label for="opt-based-sales">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Based on Sales Report*
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                                <div class="padding-left-30">
+
+                                    <div class="form-group form-md-line-input form-md-floating-label col-md-6" ng-if="!vm.franchisee.feeProfile.salesBasedRoyalty" ng-class="{'has-error' : franchiseeForm.fixedAmount1.$error.required}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control" id="fixed-amount" name="fixedAmount1" only-Digits ng-model="vm.franchisee.feeProfile.fixedAmount" maxlength="10" ng-if="vm.is0Franchisee" required>
+                                            <input type="text" class="form-control" id="fixed-amount" name="fixedAmount" only-Digits ng-model="vm.franchisee.feeProfile.fixedAmount" min="0" maxlength="10" ng-if="!vm.is0Franchisee" required-select>
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                        <span class="text-danger" ng-if="franchiseeForm.fixedAmount.$error.min">
+                                            Positive value is required.
+                                        </span>
+                                    </div>
+                                    <div ng-if="vm.franchisee.feeProfile.salesBasedRoyalty == true">
+                                        <div class="form-inline">
+                                            <span class="margin-right-10">Sales Data Submission <span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> * </span> </span>
+                                            <div class="col-md-6" style="margin:0px;padding:0px;float:right">
+                                                <span class="padding-left-30 margin-right-10">Ad Fund Percentage </span>
+                                                <div class="form-group form-md-line-input margin-right-10" ng-class="{'has-error' : franchiseeForm.minadFundSales.$error.required}" style="width:20%">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control text-align-reverse" id="ad-fund-sales" placeholder="(%)" only-Digits
+                                                               ng-model="vm.franchisee.feeProfile.adFundPercentage" min="0" maxlength="4" name="minadFundSales" style="text-align: justify;" required />
+                                                        <span class="input-group-addon">%</span>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-md-line-input form-md-floating-label" ng-class="{'has-error' : franchiseeForm.service.$error.requiredSelect}">
+                                                <select class="form-control input-medium" name="service" id="service" ng-model="vm.franchisee.feeProfile.paymentFrequencyId"
+                                                        ng-options="type.value as type.display for type in vm.paymentFrequency" style="width: 129%;" required-select>
+                                                    <option value="">Select</option>
+                                                </select>
+                                                <div ng-show="franchiseeForm.service.$dirty && franchiseeForm.service.$invalid">
+                                                    <span class="text-danger" ng-if="franchiseeForm.service.$error.requiredSelect">
+                                                        Sales Data Submission  is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6" ng-if="vm.franchisee.feeProfile.salesBasedRoyalty == true">
+                        <fieldset class="the-fieldset">
+                            <legend class="the-legend" style="margin-bottom: 0px;">Min. Royalty Slab</legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="margin-right-10">CURRENT MIN ROYALTY PAYMENT </span>
+                                    <div class="form-group form-md-line-input" ng-class="{'has-error' : franchiseeForm.minroyaltysales.$error.required}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control input-medium" id="min-royalty-sales" placeholder="Amount ($)" only-Digits
+                                                   ng-model="vm.franchisee.feeProfile.minimumRoyaltyPerMonth" min="0" maxlength="5" name="minroyaltysales" disabled />
+                                            <div class="form-control-focus"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <strong>Note - </strong><br />
+                                    <i>
+                                        Min Royalty Payment defaults are pre-set.  If there is an OVER-RIDING MIN ROYALTY, set first band to 0, leave upper level blank, add the over-riding min royalty, and remove any additional bands.
+                                    </i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <min-Royalty-Slabs list="vm.franchisee.feeProfile.minRoyalitySlabs"></min-Royalty-Slabs>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6 col-lg-6" ng-if="vm.franchisee.feeProfile.salesBasedRoyalty == true">
+                        <royalty-slabs list="vm.franchisee.feeProfile.slabs" ng-if="vm.franchisee.feeProfile.salesBasedRoyalty == true"></royalty-slabs>
+                    </div>
+
+                    <div class="col-md-3 col-lg-3">
+                        <div class="clearfix">
+                            <h3 class="section-header">Geo Code</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="md-radio-inline margin-bottom-15">
+                                <div class="md-radio">
+                                    <input type="radio" id="geo_code" name="geoCode" class="md-radiobtn"
+                                           ng-model="vm.franchisee.setGeoCode" ng-value="true">
+                                    <label for="geo_code">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Required
+                                    </label>
+                                </div>
+                                <div class="md-radio">
+                                    <input type="radio" id="geo_code_set" name="geoCode" class="md-radiobtn"
+                                           ng-model="vm.franchisee.setGeoCode" ng-value="false">
+                                    <label for="geo_code_set">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        Not Required
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <h3 class="section-header">State Sales Tax</h3>
+                        <div class="row margin-top-10">
+                            <div class="col-md-7 pull-left">
+                                <div class="form-group form-md-line-input">
+                                    <input type="text" class="form-control" id="registrationNumber" name="registrationNumber" ng-model="vm.franchisee.registrationNumber" maxlength="30">
+                                    <label for="registrationNumber">STATE SALES TAX COLLECTION REGISTRATION NUMBER</label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 pull-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input oninput="javascript: if (this.value.length > 4) this.value = this.value.slice(0, 4);" type="number" class="form-control" id="taxrate" name="taxrate" ng-model="vm.franchisee.taxrate" maxlength="4">
+                                    <label for="taxrate">STATE SALES TAX RATE ( b/w 0-10%)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <h3 class="section-header">
+                            Franchisee Notes
+                            <i title="History For Franchisee Notes" class="fa fa-history pull-right" aria-hidden="true" style="font-size:20px !important;cursor:pointer" ng-click="vm.showNotes()" ng-show="vm.franchisee.hasNotes"></i>
+                        </h3>
+                        <div class="row margin-top-10">
+                            <div class="col-md-12 pull-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <textarea class="form-control" rows="3" id="notes" ng-model="vm.franchisee.text" maxlength="2056" placeholder="Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <h3 class="section-header">Less Deposit</h3>
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <div class="input-group" style="width:9% !important">
+                                <input type="text" class="form-control" id="lessDeposit" name="lessDeposit" ng-model="vm.franchisee.lessDeposit"
+                                       only-decimal dmin="0" dmax="100" maxlength="3">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h3 class="section-header">Review System Information</h3>
+                            </div>
+                            <!--<div class="col-md-3 form-group form-md-line-input form-md-floating-label">
+                                <select class="form-control" id="option" ng-model="vm.optionId"
+                                        ng-options="option.value as option.display for option in vm.optionChoose">
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label for="state">Choose Option <span class="required" aria-required="true" style="font-weight: bolder !important;color: black;"> <b>* </b></span></label>
+                            </div>-->
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="col-md-4 pull-left margin-top-15">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="checkbox" checked class="mbl-switch" id="isFeedbackRequestEnabled" ng-model="vm.franchisee.isReviewFeedbackEnabled">
+                                    <label for="isFeedbackRequestEnabled">&nbsp;</label>
+                                    <label class="margin-right-10">Send Review Feedback</label><br /><br />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-7 pull-right" ng-if="vm.optionId=='1' ">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="number" class="form-control" id="businessId" name="businessId" maxlength="128"
+                                           validate-businessid franchisee-id="vm.franchisee.id" feedback-enabled="vm.franchisee.isReviewFeedbackEnabled" ng-model="vm.franchisee.businessId" />
+                                    <label for="businessId">Business ID</label>
+                                </div>
+                                <div ng-show="franchiseeForm.businessId.$dirty && franchiseeForm.businessId.$invalid">
+                                    <span class="text-danger" ng-if="franchiseeForm.businessId.$error.alreadyExist">
+                                        Business Id already exist.
+                                    </span>
+                                </div><br />
+
+                            </div>
+                            <div class="col-md-7 pull-right" ng-if="vm.optionId=='2'">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <select class="form-control" id="rpIds" ng-model="vm.franchisee.reviewRpId"
+                                            ng-options="rpIds.value as rpIds.display for rpIds in vm.rpIds" ng-disabled="vm.isRpiPresent">
+                                        <option selected disabled hidden style='display: none' value=''></option>
+                                    </select>
+                                    <label for="businessId">RP-ID</label>
+                                </div>
+                                <div ng-show="franchiseeForm.franchisee.reviewRpId.$dirty && franchiseeForm.franchisee.reviewRpId.$invalid">
+                                    <span class="text-danger">
+                                        Rp Id is Required.
+                                    </span>
+                                </div><br />
+
+                            </div>-->
+                            <div class="col-md-8 pull-right">
+                                <div class="row">
+                                    <div class="col-md-5" style=" padding-right: 0px !important;">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input style="background-color: #e1e4e7" type="text" title="Review URL" class="form-control" id="reviewURL1" name="reviewURL1" ng-value="'https://www.customfeedback.com/link/'" maxlength="200" disabled>
+                                            <label for="reviewURL1">Review URL</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7" style=" padding-left: 0px !important;">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" title="Review URL" class="form-control" id="reviewURL2" name="reviewURL2" ng-model="vm.franchisee.reviewURL" maxlength="200">
+                                            <label for="reviewURL2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear-both">
+                                <strong>Note - </strong><br />
+                                <i>
+                                    When the <strong> SEND REVIEW FEEDBACK</strong> switch is ON, customers from your royalty report
+                                    will be sent a review request email. About 5% typically respond, helping you maintain a steady flow of reviews.
+                                </i><br />
+                                <strong>Tip:</strong><br />
+                                <i>
+                                    For the best results, offer a <strong>$20 bonus to your technician</strong> and a <strong>$10 bottle of cleaner to the customer</strong> as a thank-you for leaving a review. Reviews help improve SEO and build trust with new customers.
+                                    To connect the review system, make sure you have your <strong>Business ID</strong>. If you need it, contact <strong>Nicole or Bruce Jordan</strong>.
+                                </i><br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <h3 class="section-header">Added Information</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <span class="margin-right-10">Renewal Fee</span>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" class="form-control" id="renewalFee" name="renewalFee" ng-model="vm.franchisee.renewalFee"
+                                               only-decimal dmin="0" dmax="100000000">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 margin-top-20">
+                                <date-picker-ts control-id="renewal-date" label="Renewal Date" model="vm.franchisee.renewalDate" ng-keyup="vm.timeClicked(vm.franchisee.renewalDate)" />
+                                <span style="font-size: 12px;">
+                                    (Date should be in <b>MM/DD/YYYY</b> Format )
+                                </span>
+                            </div>
+                            <div class="col-md-4 margin-top-20">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="text" class="form-control" id="desc" name="desc" ng-model="vm.franchisee.description" maxlength="2084">
+                                    <label for="desc">Description</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4  margin-top-20">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" id="ein" name="ein" ng-model="vm.franchisee.ein" maxlength="45">
+                                <label for="ein">EIN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4  margin-top-20">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" id="legalEntity" name="legalEntity" ng-model="vm.franchisee.legalEntity" maxlength="45">
+                                <label for="legalEntity">Legal Entity</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 clear-both">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <span class="margin-right-10">Original Franchisee Fee</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" id="originalFee" name="originalFee" ng-model="vm.franchisee.originalFee"
+                                           only-decimal dmin="0" dmax="100000000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <span class="margin-right-10">Transfer Fee</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" id="transferFee" name="transferFee" ng-model="vm.franchisee.transferFee"
+                                           only-decimal dmin="0" dmax="100000000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <document-services services="vm.franchisee.documents" is-edit="vm.isEdit"></document-services>
+                    </div>
+
+                </div>
+                <div class="form-actions noborder text-right">
+                    <button type="button" class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.saveValue()" ng-disabled="franchiseeForm.royaltySlabForm.$invalid || franchiseeForm.minRoyaltySlabForm.$invalid ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

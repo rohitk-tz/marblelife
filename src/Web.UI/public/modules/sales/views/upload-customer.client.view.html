@@ -1,0 +1,40 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Customer File</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body overflow-y-visible">
+
+    <form name="customerUploadForm">
+        <div class="margin-bottom-40 margin-top-20">
+            <label>File Uploader</label>
+
+            <div ngf-drop="vm.uploadFile($file)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                 ngf-pattern="'.xlsx'">
+                Drop customer file to upload
+                <a href="javascript:void(0)" ngf-select="vm.uploadFile($file)" ngf-multiple="false" ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'">Select File</a>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="margin-top-20" ng-if="vm.customer.file != null">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{vm.customer.file.caption}}
+                    </td>
+                    <td>
+                        {{vm.customer.file.size}} Bytes
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue" ng-disabled="customerUploadForm.$invalid" ng-click="vm.save();">Submit</button>
+    <button type="button" class="btn default" ng-click="vm.close();">Cancel</button>
+</div>

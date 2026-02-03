@@ -1,0 +1,40 @@
+﻿namespace Core.Organizations.Enum
+{
+    public enum ServiceType
+    {
+        StoneLife = 1,
+        Enduracrete = 2,
+        Tilelok = 3,
+        Vinylguard = 4,
+        Counterlife = 5,
+        Monthly = 6,
+        BiMonthly = 7,
+        Quarterly = 8,
+        Other = 9,
+        ColorSeal = 10,
+        CleanShield = 11,
+        Wood = 12,
+        Cleanair = 13,
+        Fabricators = 14,
+        MetalLife = 15,
+        CarpetLife = 16,
+        TileInstall = 17,
+        Product = 18,
+        SalesTax = 19,
+        WebMld = 20,
+        WebFranchiseeSales = 21,
+        WebJet = 22,
+        WebWalmart = 23,
+        WebAmazon = 24,
+        WebAmazonPrime = 25,
+        WebAmazonCanada = 26,
+        Hardware = 27,
+        Retail = 28,
+        Testing = 29,
+        MldWarehouse = 30,
+        Government = 31,
+        Hotel = 32,
+        Admin = 36,
+        OTHER=37
+    }
+}

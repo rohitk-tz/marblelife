@@ -1,0 +1,35 @@
+﻿<div class="full-height">
+    <!-- BEGIN HEADER -->
+    <div ui-view="header" class="page-header">
+    </div>
+    <!-- END HEADER -->
+
+    <div class="clearfix">
+    </div>
+
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+
+        <!-- BEGIN PAGE HEAD -->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE TITLE -->
+            <h3 class="page-title">
+                <!--Page Title-->
+                {{vm.title}}
+            </h3>
+        </div>
+        <!-- END PAGE HEAD -->
+        <!-- BEGIN PAGE CONTENT -->
+        <div class="page-content margin-bottom-40 full-height">
+            <div class="container-fluid">
+                <!-- BEGIN ACTUAL CONTENT -->
+                <div ui-view="content" class="fade-in-up">
+                </div>
+                <!-- END ACTUAL CONTENT -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+
+    </div>
+    <!-- END CONTAINER -->
+</div>

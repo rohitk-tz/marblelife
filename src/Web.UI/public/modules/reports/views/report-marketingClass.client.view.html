@@ -1,0 +1,150 @@
+﻿<div class="row">
+    <div class="col-md-12">
+
+        <div class="clearfix page-controls">
+
+            <div class="pull-right search-btn-wrap">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input">
+                        <div ng-dropdown-multiselect="" options="vm.marketingClass" extra-settings="settings" translation-texts="translationTexts"
+                             selected-model="vm.query.idList" checkboxes="true" events="{ onSelectionChanged: vm.getClassReport }">
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-left search-single margin-left-15">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="franchisee" ng-model="vm.query.franchiseeId"
+                                ng-change="vm.getClassReport();"
+                                ng-options="franchisee.value as franchisee.display for franchisee in vm.franchiseeCollection">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="franchisee">Franchisee</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="month" ng-model="vm.query.month"
+                                ng-change="vm.getClassReport();"
+                                ng-options="month.value as month.display for month in vm.monthCollection">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="month">Month</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <select class="form-control input-small" id="year" ng-model="vm.query.year"
+                                ng-change="vm.getClassReport();"
+                                ng-options="year.value as year.display for year in vm.yearCollection">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="year">Year</label>
+                    </div>
+                </div>
+                <div class="pull-left search-single">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.resetSearch();">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+                <div class="pull-left search-single">
+                    <a class="btn btn-icon-only mbl" ng-click="vm.refresh();">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="report in vm.reportList" class="margin-top-20">
+            <div class="col-md-4 col-sm-12">
+                <div class="portlet blue-hoki box">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-list-ul"></i>{{report.type}}
+                        </div>
+                        <div class="actions">
+                            <span class="caption">
+                                {{vm.query.startDate}} - {{vm.query.endDate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body" style="min-height: 430px;">
+                        <table class="table table-condensed table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th> Rank </th>
+                                    <th> Franchisee </th>
+                                    <th> Revenue(%)  </th>
+                                    <th> Total Sales  </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-class="{'franchisee_record': vm.loggedInFranchiseeId == classInfo.franchiseeId}" ng-repeat="classInfo in report.collection">
+                                    <td> {{classInfo.rank}}</td>
+                                    <td> {{classInfo.franchisee}}</td>
+                                    <td> {{classInfo.percentage}}%</td>
+                                    <td ng-if="vm.isSuperAdmin">
+                                        <span ng-if="classInfo.totalSales != null" currency-Exchange conversion-Rate="classInfo.currencyRate"
+                                              input="classInfo.totalSales" from-Currency="classInfo.currencyCode">
+                                        </span>
+                                    </td>
+                                    <td ng-if="!vm.isSuperAdmin">
+                                        <span>${{classInfo.totalSales.toFixed(2) | number : 2}}</span>
+                                        <span ng-if="vm.defaultCurrency != vm.loggedInCurrency && vm.loggedInFranchiseeId == classInfo.franchiseeId">
+                                            (<span ng-if="vm.loggedInCurrency == 'CAD' && classInfo.totalSales != null">CAD - </span>
+                                            <span ng-if="classInfo.totalSales != null" currency-Exchange conversion-Rate="classInfo.currencyRate"
+                                                  input="classInfo.totalSales" from-Currency="classInfo.currencyCode">
+                                            </span>)
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="report.franchiseeInfo != null && !vm.isSuperAdmin" class="franchisee_record">
+                                    <td>{{report.franchiseeInfo.rank}} </td>
+                                    <td> {{report.franchiseeInfo.franchisee}} </td>
+                                    <td> {{report.franchiseeInfo.percentage}}% </td>
+                                    <td>
+                                        <span>${{report.franchiseeInfo.totalSales.toFixed(2) | number : 2}}</span>
+                                        <span ng-if="vm.defaultCurrency != vm.loggedInCurrency && vm.loggedInFranchiseeId == report.franchiseeInfo.franchiseeId">
+                                            (<span ng-if="vm.loggedInCurrency == 'CAD' && report.franchiseeInfo.totalSales != null">CAD -</span>
+                                            <span ng-if="report.franchiseeInfo.totalSales != null" currency-Exchange conversion-Rate="report.franchiseeInfo.currencyRate"
+                                                  input="report.franchiseeInfo.totalSales" from-Currency="report.franchiseeInfo.currencyCode"></span>)
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="report.totalTopSales !=null" class="total_record">
+                                    <td></td>
+                                    <td>Sales (top 10)</td>
+                                    <td></td>
+                                    <td>
+                                        <span>${{report.totalTopSales.totalSales.toFixed(2) | number : 2}}</span>
+                                        <span ng-if="vm.defaultCurrency != vm.loggedInCurrency && vm.loggedInFranchiseeId == report.totalTopSales.franchiseeId">
+                                            (<span ng-if="vm.loggedInCurrency == 'CAD' && report.totalTopSales.totalSales != null">CAD -</span>
+                                            <span ng-if="report.totalTopSales.totalSales != null" currency-Exchange conversion-Rate="report.totalTopSales.currencyRate"
+                                                  input="report.totalTopSales.totalSales" from-Currency="report.totalTopSales.currencyCode"></span>)
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="report.totalSales !=null" class="total_record">
+                                    <td></td>
+                                    <td>Sales (Total)</td>
+                                    <td></td>
+                                    <td>
+                                        <span>${{report.totalSales.totalSales.toFixed(2) | number : 2}}</span>
+                                        <span ng-if="vm.defaultCurrency != vm.loggedInCurrency && vm.loggedInFranchiseeId == report.totalSales.franchiseeId">
+                                            (<span ng-if="vm.loggedInCurrency == 'CAD' && report.totalSales.totalSales != null">CAD -</span>
+                                            <span ng-if="report.totalSales.totalSales != null" currency-Exchange conversion-Rate="report.totalSales.currencyRate"
+                                                  input="report.totalSales.totalSales" from-Currency="report.totalSales.currencyCode"></span>)
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="(report.collection == null || report.collection < 1) && report.franchiseeInfo == null">
+                                    <td colspan="4" class="text-center text-danger no-record"> NO RECORDS FOUND! </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

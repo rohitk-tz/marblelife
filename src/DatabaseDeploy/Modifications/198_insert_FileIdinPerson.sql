@@ -1,0 +1,9 @@
+ALTER TABLE `person` 
+ADD COLUMN `FileId` BIGINT(20) NULL DEFAULT NULL,
+ADD INDEX `fk_person_file_idx` (`FileId` ASC);
+ALTER TABLE `person` 
+ADD CONSTRAINT `fk_person_file`
+  FOREIGN KEY (`FileId`)
+  REFERENCES `file` (`Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

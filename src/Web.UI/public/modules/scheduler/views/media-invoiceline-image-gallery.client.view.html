@@ -1,0 +1,63 @@
+﻿<style>
+    .nodrop {
+        cursor: no-drop !important;
+    }
+
+    img.logo-image {
+        min-height: 100px;
+        max-width: 300px;
+        height: 300px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 25px;
+    }
+
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            height: 100%;
+            color: transparent;
+        }
+</style>
+
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Image Gallery<span> : {{vm.info.franchisee}}</span></h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div>
+        <b>Customer Name:</b> {{vm.estimateInfo.jobCustomer.customerName}}
+    </div>
+    <div style="margin-bottom:20px;">
+        <b>Material Type:</b> {{vm.materialType}} | <b>Service Type:</b> {{vm.serviceType}}
+    </div>
+
+    <div style="margin-left: 25px; margin-right: 25px;" ng-if="vm.uniqueImageList.length > 0">
+        <div class="upload-btn-wrapper" ng-repeat="file in vm.uniqueImageList track by $index">
+            <div class="upload-btn-wrapper">
+                <img ng-style="file.isAddedInLineItem && {'border':'5px solid #15d17a'}" id="logo-image" class="logo-image" ng-click="vm.addFile($index, file);" src="{{file.imgUrl}}" alt={{file.caption}} />
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.uniqueImageList.length <= 0">
+        <div class="upload-btn-wrapper" ng-repeat="file in vm.noImageAvailable | orderBy:'':true">
+            <div class="upload-btn-wrapper">
+                <img id="logo-image" class="logo-image" src="{{file.imgUrl}}" alt={{file.caption}} />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer clear-both">
+        <button type="submit" class="btn btn-primary" ng-click="vm.save();" ng-disabled="!vm.isAddedInLineItemForSave">Add To Line Item</button>
+        <button type="button" class="btn btn-primary default" ng-click="vm.close();">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+﻿<style type="text/css">
+    .modal-dialog.modal-lg {
+        height: 1200px;
+        width: 1200px;
+    }
+    .modal-body {
+        padding-top:0px !important;
+        padding-bottom:0px !important;
+    }
+    .email_signature {
+        border-collapse: separate !important;
+        z-index: 0 !important;
+    }
+    .email_signature td {
+        vertical-align: middle !important;
+        border-bottom-width: 0px !important;
+    }
+    .email_signature thead tr td {
+        font-weight: bold;
+        text-align: center;
+        font-size: 15px;
+        border-bottom: 1px solid #ddd !important;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+        border-top: 1px solid #ddd !important;
+    }
+    .email_signature tbody td {
+        border-bottom: 1px solid #ddd !important;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+    }
+    .delete-more {
+        right: 15% !important;
+        left: 73% !important;
+        margin-left: -29px !important
+    }
+    .action {
+        width: 100%;
+        position: relative;
+        top: 11px !important;
+    }
+    .defaultcheck {
+        width: 100%;
+        position: relative;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Configure Email Signatures</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <div style="width:100%">
+        <table class="table table-hover table-striped table-bordered email_signature">
+            <thead>
+                <tr>
+                    <td width="5%">Default</td>
+                    <td width="10%">Action</td>
+                    <td width="20%">Signature Name</td>
+                    <td width="65%">Signature</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.signatureList track by $index">
+                    <td>
+                        <div class="defaultcheck col-md-12">
+                            <div title="Mark As Default" class="md-checkbox">
+                                <input style="height: 15px; width: 15px;" title="Mark As Default" name="defaultCheckBox" type="radio"
+                                       id="confirmed_{{$index}}" class="md-check" 
+                                       ng-true-value ="{{item.isDefault}}" ng-checked="(item.isDefault == true)" ng-click="vm.checkDefault($index)">
+                                <label for="confirmed_{{$index}}">
+                                    <span></span>
+                                    <span class="radio"></span>
+                                    <span class=""></span>
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action col-md-12">
+                            <div class="multi-add">
+                                <a title="Add Signature" href="javascript:void(0);" class="add-more" ng-click="vm.addNewSignature()" ng-show="vm.signatureList.length<3" ng-if="$last">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <span ng-if="$index>0">
+                                    <a title="Remove Signature" href="javascript:void(0);" class="delete-more" ng-click="vm.removeSignature($index)" ng-if="!$first">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="signatureName_{{$index}}" name="signatureName" ng-model="item.signatureName">
+                    </td>
+                    <td>
+                        <wysiwyg textarea-id="signatureName_{{$index}}" textarea-class="form-control" textarea-height="80px" textarea-name="signatureName" textarea-required ng-model="item.signature" enable-bootstrap-title="true"></wysiwyg>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.saveSignatures();">Save</button>
+</div>

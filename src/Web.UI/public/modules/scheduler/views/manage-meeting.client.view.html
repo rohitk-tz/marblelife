@@ -1,0 +1,147 @@
+﻿<style>
+.list-stripted li {
+        border-bottom: 1px solid #f1f1f1;
+        padding: 7px 0px;
+    }
+
+        .list-stripted li:last-child {
+            border-bottom: 0px;
+        }
+
+        .list-stripted li .text-left, .bg-silver-stripted li .text-left {
+            font-weight: bold
+        }
+
+    .bg-silver-stripted {
+        background: #f3f4f7;
+    }
+
+        .bg-silver-stripted li {
+            border-bottom: 1px solid #ffffff;
+            padding: 7px 0px;
+        }
+</style>
+<div class="row margin-bottom-20" style="background-color: #fff;  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1); padding:10px 5px; margin:0; ">
+    <div class="col-md-12 text-right">
+        <span ng-if="!vm.isOpsMgr">
+            <button id="sample_editable_1_new" ng-click="vm.editVacation(vm.vacationInfo.id)" class="btn btn-primary m-t-5">
+                <i class="fa fa-edit"></i> Edit Meeting
+            </button>
+        </span>
+        <span ng-if="!vm.isOpsMgr">
+            <button id="sample_editable_1_new" ng-click="vm.addNote()" class="btn btn-primary m-t-5">
+                <i class="fa fa-sticky-note"></i>  Add Note
+            </button>
+        </span>
+        <span>
+            <button class="btn btn-primary m-t-5" ui-sref="core.layout.scheduler.manage({ franchiseeId: vm.meetingInfo.franchiseeId,previousView:vm.previousView,nativateDate: vm.meetingInfo.startDate })"><i class="fa fa-calendar"></i> Calendar View</button>
+        </span>
+    </div>
+</div>
+
+<!-- BEGIN SAMPLE FORM PORTLET-->
+<div class="row">
+    <div class="col-sm-6">
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-blue-steel bold uppercase">Meeting Time Info.</span>
+                </div>
+                <div class="pull-right m-t-5" ng-if="!vm.isOpsMgr">
+                    <button id="sample_editable_1_new" ng-click="vm.repeatVacation()" class="btn btn-default btn-sm">
+                        Repeat
+                    </button>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab">
+                        <ul class="list-unstyled list-stripted ">
+                            <li class="clearfix">
+                                <div class="col-sm-3 col-xs-11 text-left">Title</div>
+                                <div class="col-sm-1 col-xs-1"> <b>:</b> </div>
+                                <div class="col-sm-8">{{vm.meetingInfo.title}}</div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="col-sm-3 col-xs-11 text-left">Franchisee </div>
+                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                <div class="col-sm-8">{{vm.meetingInfo.franchisee}}</div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="col-sm-3 col-xs-11 text-left">Users </div>
+                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                <div class="col-sm-8">{{vm.meetingInfo.assignee}}</div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="col-sm-3 col-xs-11 text-left">Start Time</div>
+                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                <div class="col-sm-8">{{vm.meetingInfo.startDate}}</div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="col-sm-3 col-xs-11 text-left">End Time</div>
+                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                <div class="col-sm-8">{{vm.meetingInfo.endDate}}</div>
+                            </li>
+                            <li class="clearfix" ng-if="vm.meetingInfo.createdBy != null">
+                                <div class="col-sm-3 col-xs-11 text-left">Created By</div>
+                                <div class="col-sm-1 col-xs-1"><b>:</b></div>
+                                <div class="col-sm-8">{{vm.meetingInfo.createdBy}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="vm.meetingInfo.notes != null && vm.meetingInfo.notes.length > 0">
+            <div class="portlet light" style="height:300px;">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption">
+                        <span class="caption-subject font-blue-steel bold uppercase">Notes</span>
+                    </div>
+                </div>
+                <div class="portlet-body" slimscroll="{height: '220px'}">
+                    <div class="tab-content" ng-repeat="note in vm.meetingInfo.notes">
+                        <span class="bold">{{note.createdOn | dateTimeFilter : 'dt'}}</span><br />
+                        <span class="bold">Added By - </span>{{note.createdBy}}<br />
+                        <span ng-if="note.status != null"><span class="bold">Status - </span>{{note.status}}<br /></span>
+                        <span class="bold">Note - </span>{{note.note}}
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="portlet light" >
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <span class="caption-subject font-blue-steel bold uppercase">Media</span>
+                </div>
+                <button id="sample_editable_1_new" ng-click="vm.uploadMedia()" class="btn btn-default btn-sm pull-right" ng-if="!vm.isOpsMgr">
+                    Attach Media
+                </button>
+            </div>
+            <div class="portlet-body slider">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="portlet_tab" ng-if="slides.length > 0">
+                        <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                            <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
+                                <img ng-src="{{slide.url}}" style="margin:auto; height:400px; width:600px;">
+                                <div class="carousel-caption">
+                                    <p><h4>{{slide.name}}</h4></p>
+                                    <p>{{slide.createdBy}}</p>
+                                    <p>{{slide.createdOn | dateTimeFilter : 'dt'}}</p>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                    <div ng-if="slides.length <= 0"><h4 class="text-center">No media uploaded yet! </h4></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

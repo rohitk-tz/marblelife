@@ -1,0 +1,229 @@
+﻿@model Core.Billing.ViewModel.InvoiceDetailsForAttactmentViewModel
+<style>
+    .list-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+    .col-xs-6 {
+    width: 50%;
+}
+    .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+.col-xs-6 {
+    width: 50%;
+}
+
+    .modal .modal-header {
+    border-bottom: 1px solid #EFEFEF;
+}
+    .pull-right {
+    float: right !important;
+}
+    .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+    float: left;
+}
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+    }
+    .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+    .col-xs-12 {
+    width: 100%;
+}
+    .pull-right {
+    float: right !important;
+}
+    .col-xs-8 {
+    width: 66.66666667%;
+}
+    .col-xs-4 {
+    width: 40%;
+}
+</style>
+<html>
+<head>
+    <title>Before-After Images of Job/Estimate</title>
+</head>
+<body>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left search-single">Invoice Detail</h4>
+    </div>
+    <div class="modal-body" id="printSection">
+        <div class="invoice">
+            <div class="row invoice-logo">
+                <div class="col-xs-6 invoice-logo-space">
+                    <span>
+                        @Model.FranchiseeName
+                    </span>
+                    <br />
+                    <span>
+                        @Model.FranchiseeAddress
+                    </span>
+                    <br />
+                    <span>
+                        @Model.Email
+                    </span>
+                    <br />
+                    <span>
+                        @Model.PhoneNumber,
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right">
+                    Invoice# - @Model.InvoiceId
+                    <br />
+                    QuickBook# - @Model.QBInvoiceNumber
+                    <br />
+                    InvoiceDate - @Model.GeneratedOn
+                </p>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h4>Client:</h4>
+            <ul class="list-unstyled">
+                <li>
+                    @Model.Customer
+                </li>
+                <li>
+                    @Model.ContactPerson
+                </li>
+                <li>
+                    @Model.Address
+                </li>
+                <li>
+                    @Model.PhoneNumbers
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Class
+                        </th>
+                        <th class="hidden-480">
+                            Description
+                        </th>
+                        <th class="hidden-480" style="width: 80px;">
+                            Quantity
+                        </th>
+                        <th class="hidden-480" style="width: 100px;">
+                            Unit Cost
+                        </th>
+                        <th style="width: 100px;">
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+@foreach (var invoiceItem in Model.InvoiceItems)
+{
+                    <tr>
+                        <td>
+                            @invoiceItem.Id
+                        </td>
+                        <td>
+                            @invoiceItem.Item
+                        </td>
+                        <td class="hidden-480">
+                            @invoiceItem.Description
+                        </td>
+                        <td class="hidden-480">
+                            @invoiceItem.Quantity
+                        </td>
+                        <td>
+                            @invoiceItem.Rate
+                        </td>
+                        <td>
+                            @invoiceItem.Amount
+                        </td>
+                    </tr>
+}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h4>Customer Payments</h4>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Class
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+@foreach (var payment in Model.Payments)
+{
+                    <tr>
+                        <td>
+                            @payment.Id
+                        </td>
+                        <td>
+                               @payment.PaymentItems[0].Item
+                           
+                        </td>
+                        <td>
+                            @payment.DateString
+                        </td>
+                        <td>
+                            @payment.Amount
+                        </td>
+                    </tr>
+}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+        </div>
+        <div class="col-xs-8 invoice-block">
+            <ul class="list-unstyled amounts pull-right">
+                <li>
+                    <strong>Total amount:</strong>
+                   @Model.TotalAmount
+                </li>
+                <li>
+
+                    <strong>Payment:</strong>
+                    @Model.TotalPayment
+                </li>
+                <li>
+                    <strong>Grand Total:</strong>
+                    @Model.GrandTotal
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

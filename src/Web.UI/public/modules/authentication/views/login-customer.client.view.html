@@ -1,0 +1,15 @@
+﻿<div>
+    <form name="loginForm1" class="login-form">
+        <div class="form-group form-md-line-input form-md-floating-label">
+            <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" ng-keydown="$event.keyCode === 13 && vm.enterKey()"
+                   placeholder="Code" name="password" ng-model="vm.user.code" required />
+            <label>&nbsp;</label>
+            <label class="control-label visible-ie8 visible-ie9">4 Digit OPt</label>
+        </div>
+        <div class="form-actions">
+            <div class="clearfix">
+                <button type="submit" class="btn uppercase btn-block btn-login" ng-click="vm.login();" ng-disabled="loginForm.$invalid || vm.isProcessing == true">Verify</button>
+            </div>
+        </div>
+    </form>
+</div>

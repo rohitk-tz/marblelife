@@ -1,0 +1,96 @@
+﻿<div>
+    <hr>
+    <div>
+
+        <div class="form-group form-md-line-input form-md-floating-label"
+             ng-class="{'has-error' : (payment_form.name.$error.required && payment_form.name.$error.dirty)}">
+            <input type="text" class="form-control" id="name" name="name" ng-model="vm.model.name" required>
+            <label for="name">Name On Card<span class="required" aria-required="true"> * </span></label>
+        </div>
+        <div ng-show="payment_form.name.$dirty && payment_form.name.$invalid">
+            <span class="text-danger" ng-if="payment_form.name.$error.required">
+                Name is required.
+            </span>
+        </div><br />
+    </div>
+    <div>
+        <div class="form-group form-md-line-input form-md-floating-label"
+             ng-class="{'has-error' : (payment_form.cardNumber.$error.required && payment_form.cardNumber.$error.dirty)}">
+            <input type="text" class="form-control" id="cardNumber" name="cardNumber" ng-model="vm.model.number" maxlength="16" allow-Leading-Zero required>
+            <label for="cardNumber">Card Number<span class="required" aria-required="true"> * </span></label>
+        </div>
+        <div ng-show="payment_form.cardNumber.$dirty && payment_form.cardNumber.$invalid">
+            <span class="text-danger" ng-if="payment_form.cardNumber.$error.required">
+                Card Number is required.
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label"
+                 ng-class="{'has-error' : (payment_form.CVV.$error.required && payment_form.CVV.$error.dirty)}">
+                <input type="password" class="form-control" id="CVV" name="CVV" ng-model="vm.model.cvv" allow-Leading-Zero
+                       maxlength="4" ng-pattern="/^[0-9]{3,4}$/" required>
+                <label for="CVV">CVV<span class="required" aria-required="true"> * </span></label>
+            </div>
+            <div ng-show="payment_form.CVV.$dirty && payment_form.CVV.$invalid">
+                <span class="text-danger" ng-if="payment_form.CVV.$error.required">
+                    CVV is required.
+                </span>
+            </div>
+            <div class="text-danger" ng-show="payment_form.$error.pattern && payment_form.CVV.$dirty">
+                please enter valid CVV.
+            </div><br />
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label"
+                 ng-class="{'has-error' : (payment_form.type.$error.required && payment_form.type.$error.dirty)}">
+                <select class="form-control" id="type" ng-model="vm.model.typeId" name="type"
+                        ng-options="type.value as type.display for type in vm.cardType" required>
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="cardNumber">Card Type<span class="required" aria-required="true"> * </span></label>
+            </div>
+            <div ng-show="payment_form.type.$dirty && payment_form.type.$invalid">
+                <span class="text-danger" ng-if="payment_form.type.$error.required">
+                    Card Type is required.
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label"
+                 ng-class="{'has-error' : (payment_form.month.$error.required && payment_form.month.$error.dirty)}">
+                <select class="form-control" id="month" ng-model="vm.model.expireMonth" name="month" ng-change="vm.checkExpiry(vm.model.expireMonth,vm.model.expireYear)"
+                        ng-options="month.value as month.display for month in vm.months" required>
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="role">Expiry Month<span class="required" aria-required="true"> * </span></label>
+            </div>
+            <div ng-show="payment_form.month.$dirty && payment_form.month.$invalid">
+                <span class="text-danger" ng-if="payment_form.month.$error.required">
+                    Expiry Month is required.
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label"
+                 ng-class="{'has-error' : (payment_form.year.$error.required && payment_form.year.$error.dirty)}">
+                <select class="form-control" id="year" ng-model="vm.model.expireYear" name="year" ng-change="vm.checkExpiry(vm.model.expireMonth,vm.model.expireYear)"
+                        ng-options="year.value as year.display for year in vm.years" required>
+                    <option selected disabled hidden style='display: none' value=''></option>
+                </select>
+                <label for="role">Expiry Year<span class="required" aria-required="true"> * </span></label>
+            </div>
+            <div ng-show="payment_form.year.$dirty && payment_form.year.$invalid">
+                <span class="text-danger" ng-if="payment_form.year.$error.required">
+                    Expiry Year is required.
+                </span>
+            </div>
+            <span class="text-danger" ng-if="vm.inValidExpirydate != false">
+                Invalid Expiry Date.
+            </span>
+        </div>
+    </div>
+</div>

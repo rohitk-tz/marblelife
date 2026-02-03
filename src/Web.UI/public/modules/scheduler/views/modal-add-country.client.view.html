@@ -1,0 +1,55 @@
+﻿<style>
+    .floating-btn {
+        /*        background-color: #fff;*/
+        border-top: none;
+        outline: none;
+        /*        right: -60px;*/
+        top: 0px;
+        /*        box-shadow: 0 3px 6px #ccc;*/
+        z-index: 100;
+        padding: 2px;
+        display: flex;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    .btn-edit {
+        padding: 2px 3px;
+    }
+
+    .btn-remove {
+        padding: 2px 3px;
+    }
+</style>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Download Geo Code File for {{vm.countryName}}</h4>
+    <a href="javascript:void(0);" ng-click="vm.close()" class="pull-right"><i class="fa fa-remove"></i></a>
+</div>
+<div class="modal-body">
+    <form role="form" name="geoCodeForm">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div>
+                    <span style="font-size:17px !important">Select Country</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12">
+                <div class="pull-left search-single">
+                    <div class="form-group form-md-line-input">
+                        <select class="form-control input-small" id="search-option" ng-model="vm.query.countryId"
+                                ng-change="vm.resetSeachOption(vm.query)"
+                                ng-options="item.value as item.display for item in vm.countryList">
+                            <option selected disabled hidden style='display: none' value=''></option>
+                        </select>
+                        <label for="search-option">Search Options</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer clear-both">
+    <button type="button" class="btn default" ng-click="vm.close();">Close</button>
+    <button type="submit" class="btn default" ng-click="vm.downloadAllGeoCode();">Download</button>
+</div>
