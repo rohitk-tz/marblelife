@@ -192,6 +192,71 @@
         "MessageType"
       ],
       "total_enum_values": 38
+    },
+    "src/Core/Organizations/Domain": {
+      "last_commit": "6890d8748ae984a2ce18a43e7e51b30752daadc1",
+      "generated_at": "2024-02-04T06:30:00Z",
+      "description": "Multi-Tenant Franchisee Domain Model - Hierarchical Organizations, Progressive Royalty Fees, Service Configurations, Financial Instruments, and Comprehensive Audit History",
+      "file_count": 35,
+      "core_entities": [
+        "Organization",
+        "Franchisee",
+        "FeeProfile",
+        "RoyaltyFeeSlabs",
+        "MinRoyaltyFeeSlabs",
+        "LateFee",
+        "OrganizationRoleUser"
+      ],
+      "service_entities": [
+        "ServiceType",
+        "FranchiseeService",
+        "FranchiseeServiceFee",
+        "ServicesTag"
+      ],
+      "financial_entities": [
+        "FranchiseeSales",
+        "FranchiseeLoan",
+        "FranchiseeLoanSchedule",
+        "OneTimeProjectFee",
+        "FranchiseeAccountCredit"
+      ],
+      "pricing_entities": [
+        "PriceEstimateServices",
+        "MaintenanceCharges",
+        "ReplacementCharges",
+        "ShiftCharges",
+        "FloorGrindingAdjustment",
+        "TaxRates"
+      ],
+      "document_entities": [
+        "FranchiseDocument",
+        "FranchiseeDocumentType",
+        "DocumentType",
+        "FranchiseeNotes"
+      ],
+      "history_entities": [
+        "FranchiseeRegistrationHistry",
+        "FranchiseeDurationNotesHistry",
+        "Perpetuitydatehistry",
+        "LoanAdjustmentAudit",
+        "OnetimeprojectfeeAddFundRoyality",
+        "FloorGrindingAdjustmentNotes"
+      ],
+      "integration_entities": [
+        "ReviewPushAPILocation",
+        "ReviewPushCustomerFeedback",
+        "LeadPerformanceFranchiseeDetails",
+        "SalesDataMailReminder"
+      ],
+      "key_patterns": [
+        "Aggregate Root (Organization → Franchisee 1:1 shared PK)",
+        "Progressive Fee Slabs (tiered royalty calculation)",
+        "Multi-Tenancy (FranchiseeId scoped queries)",
+        "Pricing Override Hierarchy (HQ default → Franchisee override)",
+        "Cascade Entity Pattern ([CascadeEntity] attribute)",
+        "Audit Trail (DataRecorderMetaData on all mutations)",
+        "Soft Delete (IsActive flags, IsDeleted transient)"
+      ]
     }
   }
 }
