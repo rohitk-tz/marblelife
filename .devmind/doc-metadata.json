@@ -1,0 +1,140 @@
+{
+  "version": "1.1",
+  "modules": {
+    ".": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T01:00:00+05:30",
+      "description": "Root Context, Architecture, and Navigation"
+    },
+    "src/ORM": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "EF6 Data Access Layer"
+    },
+    "src/Infrastructure": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "Plumbing, UnitOfWork, Payment Gateway"
+    },
+    "src/DependencyInjection": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "IoC Container Configuration"
+    },
+    "src/Core": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "Business Logic and Domain Entities"
+    },
+    "src/API": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "ASP.NET WebAPI Interface"
+    },
+    "src/Jobs": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "Windows Service Background Scheduler"
+    },
+    "src/Web.UI": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T22:40:00+05:30",
+      "description": "AngularJS Frontend"
+    },
+    "src/DatabaseDeploy": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "SQL Migration Runner"
+    },
+    "src/FranchiseeMigration": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "Static Data Seeder"
+    },
+    "src/CustomerDataUpload": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "Excel Bulk Importer"
+    },
+    "src/UpdateInvoiceItemInfo": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "Bulk Data Correction Tool"
+    },
+    "src/CalendarImportService": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "iCalendar (.ics) Parser"
+    },
+    "src/ReviewSystemAPITest": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "API Integration Sandbox"
+    },
+    "src/ConsoleApplication1": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-03T23:35:00+05:30",
+      "description": "Legacy Currency Backfill"
+    },
+    "src/Core/Organizations": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Franchisee & Staff Management"
+    },
+    "src/Core/Users": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Identity & Authentication"
+    },
+    "src/Core/Sales": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Customer CRM & Data Import"
+    },
+    "src/Core/Billing": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Invoicing & Payments"
+    },
+    "src/Core/Scheduler": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Field Service & Calendar"
+    },
+    "src/Core/MarketingLead": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Lead Management"
+    },
+    "src/Core/Reports": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "BI & Analytics"
+    },
+    "src/Core/Notification": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Email Dispatcher"
+    },
+    "src/Core/Application": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Shared Kernel"
+    },
+    "src/Core/Geo": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Geographic Data"
+    },
+    "src/Core/Dashboard": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "UI Aggregation"
+    },
+    "src/Core/Review": {
+      "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
+      "generated_at": "2026-02-04T00:55:00+05:30",
+      "description": "Customer Feedback"
+    }
+  }
+}
