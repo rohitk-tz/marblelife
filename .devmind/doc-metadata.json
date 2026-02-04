@@ -317,6 +317,40 @@
         "Core.Application (IRepository, IUnitOfWork, IClock)",
         "FluentValidation"
       ]
+    },
+    "src/Core/Organizations/Enum": {
+      "last_commit": "031e3874a7879f58c3e6246dec6be36473b0e3e4",
+      "generated_at": "2026-02-04T06:50:00Z",
+      "description": "Lookup Table Enum Constants - Type-Safe DB Reference Values",
+      "file_count": 13,
+      "enums": [
+        "ServiceFeeType (11 values)",
+        "ServiceType (38 values)",
+        "ServiceTypeCategory (5 values)",
+        "DocumentType (13 values)",
+        "DocumentReportType (9 values)",
+        "DocumentCategory (2 values)",
+        "PaymentFrequency (5 values)",
+        "LoanType (4 values)",
+        "LanguageEnum (2 values)",
+        "LeadPerformanceEnum (2 values)",
+        "FranchiseeNotesEnum (3 values)",
+        "FranchiseeCallCategory (4 values)",
+        "OrganizationNames (4 values - LEGACY)"
+      ],
+      "total_enum_values": 102,
+      "enum_id_ranges": {
+        "1-99": "Core service/document types",
+        "101-199": "Category groupings & service fees",
+        "201-254": "Documents, notes, call routing",
+        "296-298": "Recent additions (SEO, payment frequencies)"
+      },
+      "key_pattern": "Enum values map to Lookup.Id primary keys (cast to long for queries)",
+      "special_behaviors": [
+        "ServiceFeeType.Bookkeeping auto-creates VarBookkeeping companion",
+        "DocumentType.LICENSE/RESALECERTIFICATE require perpetuity tracking",
+        "OrganizationNames hardcodes specific franchisee PKs (anti-pattern)"
+      ]
     }
   }
 }
