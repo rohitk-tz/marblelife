@@ -135,6 +135,20 @@
       "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
       "generated_at": "2026-02-04T00:55:00+05:30",
       "description": "Customer Feedback"
+    },
+    "src/Core/Application/Domain": {
+      "last_commit": "f145a16b867a9004888c3b91d5633737a64584f9",
+      "generated_at": "2026-02-04T06:10:15Z",
+      "description": "Audit Trail, File Management & Lookup Pattern",
+      "file_count": 6,
+      "entities": [
+        "DataRecorderMetaData",
+        "File",
+        "Folder",
+        "ContentType",
+        "Lookup",
+        "LookupType"
+      ]
     }
   }
 }
