@@ -135,6 +135,334 @@
       "last_commit": "5b2236257a67dc37cf781165e929f8bb14373046",
       "generated_at": "2026-02-04T00:55:00+05:30",
       "description": "Customer Feedback"
+    },
+    "src/Core/Application/Domain": {
+      "last_commit": "f145a16b867a9004888c3b91d5633737a64584f9",
+      "generated_at": "2026-02-04T06:10:15Z",
+      "description": "Audit Trail, File Management & Lookup Pattern",
+      "file_count": 6,
+      "entities": [
+        "DataRecorderMetaData",
+        "File",
+        "Folder",
+        "ContentType",
+        "Lookup",
+        "LookupType"
+      ]
+    },
+    "src/Core/Application/Impl": {
+      "last_commit": "ee0f7c852dcf4d5a6ef7369c99414ea8e48d8b9e",
+      "generated_at": "2026-02-04T06:12:51Z",
+      "description": "Cross-Cutting Infrastructure Implementations",
+      "file_count": 25,
+      "implementations": [
+        "Clock",
+        "CryptographyOneWayHashService",
+        "FileFactory",
+        "FileService",
+        "PdfFileService",
+        "SessionFactory",
+        "Settings",
+        "SortingHelper",
+        "ExcelFileCreator",
+        "ExcelFileFormaterCreator",
+        "ExcelTaxDocumentFileFormaterCreator",
+        "ExcelFranchiseeFileFormaterCreator",
+        "ExcelFileCreatorMarketingLead"
+      ],
+      "static_utilities": [
+        "ExcelFileParser",
+        "HomeAdvisorFileParser",
+        "CustomerExcelFileParser",
+        "PriceEstimateExcelFileParser",
+        "ZipExcelFileParser",
+        "UpdateInvoiceFileParser",
+        "DateRangeHelperService",
+        "MediaLocationHelper"
+      ]
+    },
+    "src/Core/Application/Enum": {
+      "last_commit": "0a67ee9afcea8c38fe993a5778468349af995029",
+      "generated_at": "2026-02-04T06:19:42Z",
+      "description": "Application-Wide Enumeration Types",
+      "file_count": 3,
+      "enums": [
+        "FileTypes",
+        "LookupTypes",
+        "MessageType"
+      ],
+      "total_enum_values": 38
+    },
+    "src/Core/Organizations/Domain": {
+      "last_commit": "6890d8748ae984a2ce18a43e7e51b30752daadc1",
+      "generated_at": "2024-02-04T06:30:00Z",
+      "description": "Multi-Tenant Franchisee Domain Model - Hierarchical Organizations, Progressive Royalty Fees, Service Configurations, Financial Instruments, and Comprehensive Audit History",
+      "file_count": 35,
+      "core_entities": [
+        "Organization",
+        "Franchisee",
+        "FeeProfile",
+        "RoyaltyFeeSlabs",
+        "MinRoyaltyFeeSlabs",
+        "LateFee",
+        "OrganizationRoleUser"
+      ],
+      "service_entities": [
+        "ServiceType",
+        "FranchiseeService",
+        "FranchiseeServiceFee",
+        "ServicesTag"
+      ],
+      "financial_entities": [
+        "FranchiseeSales",
+        "FranchiseeLoan",
+        "FranchiseeLoanSchedule",
+        "OneTimeProjectFee",
+        "FranchiseeAccountCredit"
+      ],
+      "pricing_entities": [
+        "PriceEstimateServices",
+        "MaintenanceCharges",
+        "ReplacementCharges",
+        "ShiftCharges",
+        "FloorGrindingAdjustment",
+        "TaxRates"
+      ],
+      "document_entities": [
+        "FranchiseDocument",
+        "FranchiseeDocumentType",
+        "DocumentType",
+        "FranchiseeNotes"
+      ],
+      "history_entities": [
+        "FranchiseeRegistrationHistry",
+        "FranchiseeDurationNotesHistry",
+        "Perpetuitydatehistry",
+        "LoanAdjustmentAudit",
+        "OnetimeprojectfeeAddFundRoyality",
+        "FloorGrindingAdjustmentNotes"
+      ],
+      "integration_entities": [
+        "ReviewPushAPILocation",
+        "ReviewPushCustomerFeedback",
+        "LeadPerformanceFranchiseeDetails",
+        "SalesDataMailReminder"
+      ],
+      "key_patterns": [
+        "Aggregate Root (Organization → Franchisee 1:1 shared PK)",
+        "Progressive Fee Slabs (tiered royalty calculation)",
+        "Multi-Tenancy (FranchiseeId scoped queries)",
+        "Pricing Override Hierarchy (HQ default → Franchisee override)",
+        "Cascade Entity Pattern ([CascadeEntity] attribute)",
+        "Audit Trail (DataRecorderMetaData on all mutations)",
+        "Soft Delete (IsActive flags, IsDeleted transient)"
+      ]
+    },
+    "src/Core/Organizations/Impl": {
+      "last_commit": "a0d980921a03670c322f97f209626ffcaf1e9e66",
+      "generated_at": "2026-02-04T06:40:00Z",
+      "description": "Franchisee Management Business Logic - Factory Pattern for Domain/ViewModel Transformation, Service Layer for CRUD Operations, Royalty Calculation Engine, Service Fee Management, Loan Amortization, and RBAC Enforcement",
+      "file_count": 24,
+      "total_loc": 6553,
+      "factories": [
+        "FranchiseeFactory (423 LOC)",
+        "OrganizationFactory (198 LOC)",
+        "FeeProfileFactory (74 LOC)",
+        "RoyaltyFeeSlabsFactory (100 LOC)",
+        "LateFeeFactory (39 LOC)",
+        "FranchiseeServiceFeeFactory (390 LOC)",
+        "FranchiseeServicesFactory (137 LOC)",
+        "FranchiseeDocumentFactory (207 LOC)",
+        "FranchiseeSalesFactory (219 LOC)",
+        "FranchiseeNotesFactory (47 LOC)",
+        "FranchiseeAccountCreditFactory (59 LOC)",
+        "FranchiseeLeadPerformanceFactory (74 LOC)",
+        "FranchiseeTechnicianMailFactory (24 LOC)"
+      ],
+      "services": [
+        "FranchiseeInfoService (1580 LOC - main CRUD orchestration)",
+        "FranchiseeServiceFeeService (1331 LOC - service fees & loan management)",
+        "FranchiseeSalesService (316 LOC - sales data tracking)",
+        "FranchiseeDocumentService (231 LOC - document management)",
+        "LeadPerformanceFranchiseeDetailsService (638 LOC - lead analytics)",
+        "FranchiseeTechnicianMailService (118 LOC - tech email config)"
+      ],
+      "validators": [
+        "FranchiseeEditModelValidator (17 LOC)",
+        "RoyaltyFeeSlabsEditModelValidator (20 LOC)",
+        "FeeProfileEditModelValidator (42 LOC)"
+      ],
+      "utilities": [
+        "FranchiseeMigrationService (84 LOC - bulk import utility)",
+        "ReviewPushGettingCustomerFeedback (185 LOC - review integration)"
+      ],
+      "key_responsibilities": [
+        "Franchisee Aggregate Construction (Factory Pattern)",
+        "Tiered Royalty Calculation (Progressive Slabs)",
+        "Multi-Franchisee User Access (RBAC via OrganizationRoleUser)",
+        "Service Fee Configuration (Bookkeeping auto-expansion)",
+        "Loan Amortization Schedule Generation",
+        "Late Fee Calculation (Flat + Interest)",
+        "Document Lifecycle Management (Upload, Expiry, Notifications)",
+        "Sales Data Aggregation for Royalty Basis",
+        "Currency Exchange Rate Tracking"
+      ],
+      "dependencies": [
+        "Core.Organizations.Domain",
+        "Core.Organizations.ViewModel",
+        "Core.Users (Person, OrganizationRoleUser)",
+        "Core.Geo (Address, Phone)",
+        "Core.Billing (Invoice, InvoiceItem)",
+        "Core.Sales (Customer, MarketingClass)",
+        "Core.Application (IRepository, IUnitOfWork, IClock)",
+        "FluentValidation"
+      ]
+    },
+    "src/Core/Organizations/Enum": {
+      "last_commit": "031e3874a7879f58c3e6246dec6be36473b0e3e4",
+      "generated_at": "2026-02-04T06:50:00Z",
+      "description": "Lookup Table Enum Constants - Type-Safe DB Reference Values",
+      "file_count": 13,
+      "enums": [
+        "ServiceFeeType (11 values)",
+        "ServiceType (38 values)",
+        "ServiceTypeCategory (5 values)",
+        "DocumentType (13 values)",
+        "DocumentReportType (9 values)",
+        "DocumentCategory (2 values)",
+        "PaymentFrequency (5 values)",
+        "LoanType (4 values)",
+        "LanguageEnum (2 values)",
+        "LeadPerformanceEnum (2 values)",
+        "FranchiseeNotesEnum (3 values)",
+        "FranchiseeCallCategory (4 values)",
+        "OrganizationNames (4 values - LEGACY)"
+      ],
+      "total_enum_values": 102,
+      "enum_id_ranges": {
+        "1-99": "Core service/document types",
+        "101-199": "Category groupings & service fees",
+        "201-254": "Documents, notes, call routing",
+        "296-298": "Recent additions (SEO, payment frequencies)"
+      },
+      "key_pattern": "Enum values map to Lookup.Id primary keys (cast to long for queries)",
+      "special_behaviors": [
+        "ServiceFeeType.Bookkeeping auto-creates VarBookkeeping companion",
+        "DocumentType.LICENSE/RESALECERTIFICATE require perpetuity tracking",
+        "OrganizationNames hardcodes specific franchisee PKs (anti-pattern)"
+      ]
+    },
+    "src/Core/Sales/Domain": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "CRM Domain Model - Customer Management, Sales Data Import, and Royalty Calculation Entities",
+      "file_count": 27,
+      "core_entities": [
+        "Customer",
+        "CustomerEmail",
+        "MarketingClass",
+        "MasterMarketingClass",
+        "SubClassMarketingClass"
+      ],
+      "import_entities": [
+        "SalesDataUpload",
+        "CustomerFileUpload",
+        "InvoiceFileUpload",
+        "AnnualSalesDataUpload",
+        "EstimateInvoice",
+        "EstimateInvoiceCustomer"
+      ],
+      "royalty_entities": [
+        "RoyaltyInvoiceItem",
+        "AdFundInvoiceItem",
+        "NationalInvoiceItem",
+        "FranchiseeFeeEmailInvoiceItem"
+      ],
+      "financial_entities": [
+        "AccountCredit",
+        "AccountCreditItem",
+        "AnnualRoyality"
+      ],
+      "audit_entities": [
+        "SystemAuditRecord",
+        "AnnualReportType"
+      ],
+      "key_patterns": [
+        "Aggregate Root (Customer → CustomerEmail 1:N)",
+        "Shared Primary Key (RoyaltyInvoiceItem.Id == InvoiceItem.Id)",
+        "Status Enum via Lookup (StatusId → SalesDataUploadStatus)",
+        "Cascade Entity Pattern ([CascadeEntity] attribute)",
+        "Multi-Tenancy (Franchisee scoping via EstimateInvoice)"
+      ]
+    },
+    "src/Core/Sales/Impl": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "CRM Business Logic - File Parsing, Customer CRUD, Royalty Calculation, Background Jobs",
+      "file_count": 30,
+      "total_loc": 12590,
+      "services": [
+        "CustomerService (CRUD + bulk operations)",
+        "SalesDataUploadService (upload lifecycle)",
+        "RoyaltyReportService (aggregation for HQ review)",
+        "SalesFunnelNationalService (invoice generation)",
+        "MarketingClassService (lookup utilities)",
+        "AccountCreditService (credit memos)",
+        "InvoiceItemUpdateInfoService (bulk corrections)"
+      ],
+      "polling_agents": [
+        "SalesDataParsePollingAgent (parse sales files)",
+        "AnnualSalesDataParsePollingAgent (parse tax filings)",
+        "CustomerFileUploadPollingAgent (parse customer CSV)",
+        "SalesDataUploadReminderPollingAgent (email reminders)"
+      ],
+      "parsers": [
+        "SalesDataFileParser (Excel → Invoice + Customer)",
+        "CustomerFileParser (CSV → Customer)",
+        "UpdateInvoiceFileParser (Excel → Invoice corrections)"
+      ],
+      "factories": [
+        "CustomerFactory",
+        "SalesDataUploadFactory",
+        "SalesInvoiceFactory",
+        "RoyaltyReportFactory",
+        "AccountCreditFactory",
+        "AccountCreditItemFactory",
+        "SalesFunnelFactory"
+      ],
+      "validators": [
+        "SalesDataUploadCreateModelValidator"
+      ],
+      "key_responsibilities": [
+        "Excel/CSV parsing with validation",
+        "Customer upsert (fuzzy matching by name + address)",
+        "Progressive royalty calculation (tiered slabs)",
+        "Annual tax filing reconciliation",
+        "Background polling agents (Quartz.NET integration)",
+        "Currency exchange rate management"
+      ]
+    },
+    "src/Core/Sales/Enum": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "Type-Safe Constants for Status Codes, Customer Segmentation, and Audit Classifications",
+      "file_count": 7,
+      "enums": [
+        "SalesDataUploadStatus (4 values: Uploaded, ParseInProgress, Parsed, Failed)",
+        "JobStatusEnum (6 values: Created, Assigned, InProgress, Completed, Canceled, Tentative)",
+        "MarketingClassType (18 values: Residential, Commercial, Hotel, etc.)",
+        "AuditReportType (38 values: Type1, Type6, Type1A-Type18E)",
+        "AuditActionType (3 values: Approved, Rejected, Pending)",
+        "AnnualGroupType (4 values: UnderReportomg, OverReporting, ReviewNoAction)",
+        "DocumentEnum (8 values: AnnualTaxFiling, COI, ResaleCertificate, etc.)"
+      ],
+      "total_enum_values": 81,
+      "key_pattern": "Enum values map to Lookup.Id primary keys (cast to long for queries)",
+      "special_notes": [
+        "Typos preserved: UnderReportomg, Goverment, AnnulaReceivable, Payble",
+        "Non-sequential IDs (71-74 for status, 151-153 for audit action)",
+        "AuditReportType values are intentionally generic (proprietary logic)"
+      ]
     }
   }
 }
