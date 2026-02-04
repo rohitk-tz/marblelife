@@ -180,6 +180,18 @@
         "DateRangeHelperService",
         "MediaLocationHelper"
       ]
+    },
+    "src/Core/Application/Enum": {
+      "last_commit": "0a67ee9afcea8c38fe993a5778468349af995029",
+      "generated_at": "2026-02-04T06:19:42Z",
+      "description": "Application-Wide Enumeration Types",
+      "file_count": 3,
+      "enums": [
+        "FileTypes",
+        "LookupTypes",
+        "MessageType"
+      ],
+      "total_enum_values": 38
     }
   }
 }
