@@ -149,6 +149,37 @@
         "Lookup",
         "LookupType"
       ]
+    },
+    "src/Core/Application/Impl": {
+      "last_commit": "ee0f7c852dcf4d5a6ef7369c99414ea8e48d8b9e",
+      "generated_at": "2026-02-04T06:12:51Z",
+      "description": "Cross-Cutting Infrastructure Implementations",
+      "file_count": 25,
+      "implementations": [
+        "Clock",
+        "CryptographyOneWayHashService",
+        "FileFactory",
+        "FileService",
+        "PdfFileService",
+        "SessionFactory",
+        "Settings",
+        "SortingHelper",
+        "ExcelFileCreator",
+        "ExcelFileFormaterCreator",
+        "ExcelTaxDocumentFileFormaterCreator",
+        "ExcelFranchiseeFileFormaterCreator",
+        "ExcelFileCreatorMarketingLead"
+      ],
+      "static_utilities": [
+        "ExcelFileParser",
+        "HomeAdvisorFileParser",
+        "CustomerExcelFileParser",
+        "PriceEstimateExcelFileParser",
+        "ZipExcelFileParser",
+        "UpdateInvoiceFileParser",
+        "DateRangeHelperService",
+        "MediaLocationHelper"
+      ]
     }
   }
 }
