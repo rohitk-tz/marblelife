@@ -351,6 +351,118 @@
         "DocumentType.LICENSE/RESALECERTIFICATE require perpetuity tracking",
         "OrganizationNames hardcodes specific franchisee PKs (anti-pattern)"
       ]
+    },
+    "src/Core/Sales/Domain": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "CRM Domain Model - Customer Management, Sales Data Import, and Royalty Calculation Entities",
+      "file_count": 27,
+      "core_entities": [
+        "Customer",
+        "CustomerEmail",
+        "MarketingClass",
+        "MasterMarketingClass",
+        "SubClassMarketingClass"
+      ],
+      "import_entities": [
+        "SalesDataUpload",
+        "CustomerFileUpload",
+        "InvoiceFileUpload",
+        "AnnualSalesDataUpload",
+        "EstimateInvoice",
+        "EstimateInvoiceCustomer"
+      ],
+      "royalty_entities": [
+        "RoyaltyInvoiceItem",
+        "AdFundInvoiceItem",
+        "NationalInvoiceItem",
+        "FranchiseeFeeEmailInvoiceItem"
+      ],
+      "financial_entities": [
+        "AccountCredit",
+        "AccountCreditItem",
+        "AnnualRoyality"
+      ],
+      "audit_entities": [
+        "SystemAuditRecord",
+        "AnnualReportType"
+      ],
+      "key_patterns": [
+        "Aggregate Root (Customer → CustomerEmail 1:N)",
+        "Shared Primary Key (RoyaltyInvoiceItem.Id == InvoiceItem.Id)",
+        "Status Enum via Lookup (StatusId → SalesDataUploadStatus)",
+        "Cascade Entity Pattern ([CascadeEntity] attribute)",
+        "Multi-Tenancy (Franchisee scoping via EstimateInvoice)"
+      ]
+    },
+    "src/Core/Sales/Impl": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "CRM Business Logic - File Parsing, Customer CRUD, Royalty Calculation, Background Jobs",
+      "file_count": 30,
+      "total_loc": 12590,
+      "services": [
+        "CustomerService (CRUD + bulk operations)",
+        "SalesDataUploadService (upload lifecycle)",
+        "RoyaltyReportService (aggregation for HQ review)",
+        "SalesFunnelNationalService (invoice generation)",
+        "MarketingClassService (lookup utilities)",
+        "AccountCreditService (credit memos)",
+        "InvoiceItemUpdateInfoService (bulk corrections)"
+      ],
+      "polling_agents": [
+        "SalesDataParsePollingAgent (parse sales files)",
+        "AnnualSalesDataParsePollingAgent (parse tax filings)",
+        "CustomerFileUploadPollingAgent (parse customer CSV)",
+        "SalesDataUploadReminderPollingAgent (email reminders)"
+      ],
+      "parsers": [
+        "SalesDataFileParser (Excel → Invoice + Customer)",
+        "CustomerFileParser (CSV → Customer)",
+        "UpdateInvoiceFileParser (Excel → Invoice corrections)"
+      ],
+      "factories": [
+        "CustomerFactory",
+        "SalesDataUploadFactory",
+        "SalesInvoiceFactory",
+        "RoyaltyReportFactory",
+        "AccountCreditFactory",
+        "AccountCreditItemFactory",
+        "SalesFunnelFactory"
+      ],
+      "validators": [
+        "SalesDataUploadCreateModelValidator"
+      ],
+      "key_responsibilities": [
+        "Excel/CSV parsing with validation",
+        "Customer upsert (fuzzy matching by name + address)",
+        "Progressive royalty calculation (tiered slabs)",
+        "Annual tax filing reconciliation",
+        "Background polling agents (Quartz.NET integration)",
+        "Currency exchange rate management"
+      ]
+    },
+    "src/Core/Sales/Enum": {
+      "last_commit": "3f7ca98653b76ee0fca84e0a126043097a12de5d",
+      "generated_at": "2026-02-04T06:51:55Z",
+      "description": "Type-Safe Constants for Status Codes, Customer Segmentation, and Audit Classifications",
+      "file_count": 7,
+      "enums": [
+        "SalesDataUploadStatus (4 values: Uploaded, ParseInProgress, Parsed, Failed)",
+        "JobStatusEnum (6 values: Created, Assigned, InProgress, Completed, Canceled, Tentative)",
+        "MarketingClassType (18 values: Residential, Commercial, Hotel, etc.)",
+        "AuditReportType (38 values: Type1, Type6, Type1A-Type18E)",
+        "AuditActionType (3 values: Approved, Rejected, Pending)",
+        "AnnualGroupType (4 values: UnderReportomg, OverReporting, ReviewNoAction)",
+        "DocumentEnum (8 values: AnnualTaxFiling, COI, ResaleCertificate, etc.)"
+      ],
+      "total_enum_values": 81,
+      "key_pattern": "Enum values map to Lookup.Id primary keys (cast to long for queries)",
+      "special_notes": [
+        "Typos preserved: UnderReportomg, Goverment, AnnulaReceivable, Payble",
+        "Non-sequential IDs (71-74 for status, 151-153 for audit action)",
+        "AuditReportType values are intentionally generic (proprietary logic)"
+      ]
     }
   }
 }
