@@ -257,6 +257,66 @@
         "Audit Trail (DataRecorderMetaData on all mutations)",
         "Soft Delete (IsActive flags, IsDeleted transient)"
       ]
+    },
+    "src/Core/Organizations/Impl": {
+      "last_commit": "a0d980921a03670c322f97f209626ffcaf1e9e66",
+      "generated_at": "2026-02-04T06:40:00Z",
+      "description": "Franchisee Management Business Logic - Factory Pattern for Domain/ViewModel Transformation, Service Layer for CRUD Operations, Royalty Calculation Engine, Service Fee Management, Loan Amortization, and RBAC Enforcement",
+      "file_count": 24,
+      "total_loc": 6553,
+      "factories": [
+        "FranchiseeFactory (423 LOC)",
+        "OrganizationFactory (198 LOC)",
+        "FeeProfileFactory (74 LOC)",
+        "RoyaltyFeeSlabsFactory (100 LOC)",
+        "LateFeeFactory (39 LOC)",
+        "FranchiseeServiceFeeFactory (390 LOC)",
+        "FranchiseeServicesFactory (137 LOC)",
+        "FranchiseeDocumentFactory (207 LOC)",
+        "FranchiseeSalesFactory (219 LOC)",
+        "FranchiseeNotesFactory (47 LOC)",
+        "FranchiseeAccountCreditFactory (59 LOC)",
+        "FranchiseeLeadPerformanceFactory (74 LOC)",
+        "FranchiseeTechnicianMailFactory (24 LOC)"
+      ],
+      "services": [
+        "FranchiseeInfoService (1580 LOC - main CRUD orchestration)",
+        "FranchiseeServiceFeeService (1331 LOC - service fees & loan management)",
+        "FranchiseeSalesService (316 LOC - sales data tracking)",
+        "FranchiseeDocumentService (231 LOC - document management)",
+        "LeadPerformanceFranchiseeDetailsService (638 LOC - lead analytics)",
+        "FranchiseeTechnicianMailService (118 LOC - tech email config)"
+      ],
+      "validators": [
+        "FranchiseeEditModelValidator (17 LOC)",
+        "RoyaltyFeeSlabsEditModelValidator (20 LOC)",
+        "FeeProfileEditModelValidator (42 LOC)"
+      ],
+      "utilities": [
+        "FranchiseeMigrationService (84 LOC - bulk import utility)",
+        "ReviewPushGettingCustomerFeedback (185 LOC - review integration)"
+      ],
+      "key_responsibilities": [
+        "Franchisee Aggregate Construction (Factory Pattern)",
+        "Tiered Royalty Calculation (Progressive Slabs)",
+        "Multi-Franchisee User Access (RBAC via OrganizationRoleUser)",
+        "Service Fee Configuration (Bookkeeping auto-expansion)",
+        "Loan Amortization Schedule Generation",
+        "Late Fee Calculation (Flat + Interest)",
+        "Document Lifecycle Management (Upload, Expiry, Notifications)",
+        "Sales Data Aggregation for Royalty Basis",
+        "Currency Exchange Rate Tracking"
+      ],
+      "dependencies": [
+        "Core.Organizations.Domain",
+        "Core.Organizations.ViewModel",
+        "Core.Users (Person, OrganizationRoleUser)",
+        "Core.Geo (Address, Phone)",
+        "Core.Billing (Invoice, InvoiceItem)",
+        "Core.Sales (Customer, MarketingClass)",
+        "Core.Application (IRepository, IUnitOfWork, IClock)",
+        "FluentValidation"
+      ]
     }
   }
 }
