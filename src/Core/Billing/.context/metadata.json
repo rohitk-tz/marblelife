@@ -1,0 +1,33 @@
+{
+  "version": "1.1",
+  "last_commit": "756207f800ce20f013d92c41cb12e0f8a8fbf48e",
+  "generated_at": "2025-01-10T00:00:00Z",
+  "file_count": 117,
+  "module_path": "src/Core/Billing",
+  "description": "Complete franchisee billing system with invoice generation, payment processing, late fees, and Authorize.Net integration",
+  "key_components": [
+    "Invoice Management",
+    "Payment Processing (Credit Card, eCheck, Check)",
+    "Authorize.Net Integration",
+    "Late Fee Automation",
+    "Royalty & Ad-Fund Calculation",
+    "Loan Schedule Management",
+    "Audit Trail System",
+    "QuickBooks Export"
+  ],
+  "file_breakdown": {
+    "root_interfaces": 25,
+    "constants": 2,
+    "domain_entities": 31,
+    "enums": 13,
+    "implementations": 21,
+    "viewmodels": 27
+  },
+  "critical_workflows": [
+    "Payment processing flow (new card, saved card, eCheck)",
+    "Late fee generation polling agent",
+    "Invoice generation from sales data",
+    "Account credit application",
+    "Loan overpayment detection"
+  ]
+}
