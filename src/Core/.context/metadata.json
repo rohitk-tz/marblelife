@@ -1,0 +1,27 @@
+{
+  "version": "1.1",
+  "last_commit": "99bbd3bab4dd292938bce4f7e595bb3c94bf8366",
+  "generated_at": "2026-02-10T10:57:49Z",
+  "file_count": 1146,
+  "changed_files": [
+    "DomainBase.cs"
+  ],
+  "submodules": [
+    "Application",
+    "Billing",
+    "Organizations",
+    "Geo",
+    "Sales",
+    "Users",
+    "Notification",
+    "Reports",
+    "Review",
+    "MarketingLead",
+    "Scheduler",
+    "ToDo",
+    "ReviewApi",
+    "Dashboard",
+    "AWS",
+    "Localization"
+  ]
+}
