@@ -1,0 +1,9 @@
+{
+  "version": "1.1",
+  "last_commit": "a07029e2c5e0a107bdc5d26050dd43aab2001d6b",
+  "generated_at": "2026-02-10T15:35:17Z",
+  "file_count": 15,
+  "changed_files": [],
+  "module_path": "src/Core/Users/ViewModels",
+  "description": "Data Transfer Objects (DTOs) - edit models (user/person forms), view models (display), filter models (search), authentication models (login), session models (auth context)"
+}
