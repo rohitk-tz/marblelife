@@ -1,0 +1,36 @@
+{
+  "version": "1.1",
+  "last_commit": "d49e7f258f9598da357b5d866d5502423c32f489",
+  "generated_at": "2025-01-10T00:00:00Z",
+  "module_path": "src/Core/Application",
+  "file_count": 74,
+  "root_files": 23,
+  "subfolders": {
+    "Attribute": 6,
+    "Domain": 7,
+    "Enum": 4,
+    "Exceptions": 7,
+    "Extensions": 3,
+    "Impl": 26,
+    "ValueType": 4,
+    "ViewModel": 13
+  },
+  "key_interfaces": [
+    "IRepository<T>",
+    "IUnitOfWork",
+    "IFileService",
+    "IExcelFileCreator",
+    "IPdfFileService",
+    "ISessionFactory",
+    "ISessionContext",
+    "ICryptographyOneWayHashService",
+    "IClock",
+    "ILogService",
+    "ISettings",
+    "IDependencyInjectionHelper",
+    "IFileFactory"
+  ],
+  "documentation_scope": "comprehensive",
+  "analysis_type": "deep_file_inventory",
+  "notes": "Complete per-file documentation of root-level files with detailed responsibility mapping. Subfolder analysis includes purpose and file counts. Architecture patterns and dependency analysis included."
+}
