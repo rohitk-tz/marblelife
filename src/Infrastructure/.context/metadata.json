@@ -1,0 +1,108 @@
+{
+  "module_name": "Infrastructure",
+  "module_type": "Implementation Layer",
+  "primary_language": "C#",
+  "framework": ".NET Framework 4.5.2",
+  "last_updated": "2024",
+  "commit_hash": "99bbd3bab4dd292938bce4f7e595bb3c94bf8366",
+  "context_version": "1.0",
+  "dependencies": {
+    "internal": [
+      "Core",
+      "ORM"
+    ],
+    "external": [
+      "Entity Framework 6",
+      "NLog",
+      "AuthorizeNet.Api.Contracts.V1",
+      "wkhtmltopdf"
+    ]
+  },
+  "key_components": [
+    {
+      "name": "Repository<T>",
+      "type": "Generic Data Access",
+      "file": "Application/Impl/Repository.cs",
+      "description": "Generic repository pattern implementation with CRUD operations, LINQ support, and change tracking"
+    },
+    {
+      "name": "UnitOfWork",
+      "type": "Transaction Coordinator",
+      "file": "Application/Impl/UnitOfWork.cs",
+      "description": "Manages database transactions across multiple repositories with commit and rollback support"
+    },
+    {
+      "name": "LogService",
+      "type": "Logging Service",
+      "file": "Application/Impl/LogService.cs",
+      "description": "NLog-based logging service with multiple log levels (Trace, Debug, Info, Error)"
+    },
+    {
+      "name": "PdfGenerator",
+      "type": "Document Generation",
+      "file": "Application/Impl/PdfGenerator.cs",
+      "description": "HTML to PDF conversion using wkhtmltopdf with file and stream input support"
+    },
+    {
+      "name": "AuthorizeNetCustomerProfileService",
+      "type": "Payment Gateway Integration",
+      "file": "Billing/Impl/AuthorizeNetCustomerProfileService.cs",
+      "description": "Direct Authorize.Net API integration for payment processing and profile management"
+    },
+    {
+      "name": "ChargeCardPaymentService",
+      "type": "Payment Workflow",
+      "file": "Billing/Impl/ChargeCardPaymentService.cs",
+      "description": "Credit card payment processing workflow with profile management and rollback support"
+    },
+    {
+      "name": "ECheckPaymentService",
+      "type": "Payment Workflow",
+      "file": "Billing/Impl/ECheckPaymentService.cs",
+      "description": "Electronic check payment processing with on-file and one-time payment support"
+    }
+  ],
+  "interfaces_implemented": [
+    "IRepository<T>",
+    "IUnitOfWork",
+    "ILogService",
+    "IPdfGenerator",
+    "IAuthorizeNetCustomerProfileService",
+    "IChargeCardPaymentService",
+    "IECheckPaymentService",
+    "ICurrencyRateService"
+  ],
+  "design_patterns": [
+    "Repository Pattern",
+    "Unit of Work Pattern",
+    "Service Layer Pattern",
+    "Dependency Injection",
+    "Factory Pattern"
+  ],
+  "related_modules": [
+    {
+      "name": "Core",
+      "relationship": "Implements interfaces defined in Core",
+      "path": "../Core"
+    },
+    {
+      "name": "ORM",
+      "relationship": "Uses MakaluDbContext for data access",
+      "path": "../ORM"
+    }
+  ],
+  "documentation": {
+    "context_md": ".context/CONTEXT.md",
+    "overview_md": ".context/OVERVIEW.md",
+    "metadata_json": ".context/metadata.json"
+  },
+  "test_mode_support": true,
+  "production_ready": true,
+  "notes": [
+    "Authorize.Net API credentials stored in database (AuthorizeNetApiMaster table)",
+    "wkhtmltopdf.exe must be installed and accessible via PATH or explicit path",
+    "NLog.config required for logging configuration",
+    "Entity Framework migrations handled by ORM module",
+    "Payment processing supports both sandbox and production modes"
+  ]
+}
