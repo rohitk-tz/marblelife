@@ -1,0 +1,38 @@
+{
+  "version": "1.1",
+  "last_commit": "99bbd3bab4dd292938bce4f7e595bb3c94bf8366",
+  "generated_at": "2026-02-10T11:16:26Z",
+  "file_count": 59,
+  "module_path": "src/Jobs",
+  "key_files": [
+    "Program.cs",
+    "Scheduler.cs",
+    "TaskScheduler.cs",
+    "ITaskScheduler.cs",
+    "AppContextStore.cs",
+    "Impl/BaseJob.cs",
+    "Impl/EmailNotification.cs",
+    "Impl/InvoiceLateFeeGenerator.cs",
+    "Impl/SalesDataUploadReminder.cs"
+  ],
+  "job_count": 52,
+  "primary_technologies": [
+    "Quartz.NET 2.4.1",
+    ".NET Framework 4.5.2",
+    "Windows Service",
+    "Dependency Injection"
+  ],
+  "scheduled_jobs_by_domain": {
+    "notification": 5,
+    "billing": 8,
+    "sales": 5,
+    "file_processing": 5,
+    "marketing": 4,
+    "review": 4,
+    "email_integration": 3,
+    "reporting": 3,
+    "image_media": 4,
+    "financial": 3,
+    "other": 8
+  }
+}
