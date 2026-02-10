@@ -1,0 +1,16 @@
+{
+  "version": "1.1",
+  "last_commit": "d49e7f258f9598da357b5d866d5502423c32f489",
+  "generated_at": "2026-02-10T12:21:23Z",
+  "file_count": 31,
+  "changed_files": [
+    "Invoice.cs", "InvoiceItem.cs", "Payment.cs", "PaymentItem.cs", "InvoicePayment.cs",
+    "ChargeCard.cs", "ChargeCardPayment.cs", "ECheck.cs", "ECheckPayment.cs", 
+    "Check.cs", "CheckPayment.cs", "FranchiseeInvoice.cs", "FranchiseePaymentProfile.cs",
+    "AuditInvoice.cs", "AuditInvoiceItem.cs", "AuditPayment.cs", "AuditInvoicePayment.cs",
+    "AuditCustomer.cs", "AuditAddress.cs", "AuditAddressDiscrepancy.cs", "AuditFranchiseeSales.cs",
+    "AuditPaymentItem.cs", "CurrencyExchangeRate.cs", "InvoiceAddress.cs", "PaymentMailReminder.cs",
+    "LateFeeInvoiceItem.cs", "InterestRateInvoiceItem.cs", "ServiceFeeInvoiceItem.cs",
+    "PaymentInstrument.cs", "AuthorizeNetApiMaster.cs", "AccountCreditPayment.cs"
+  ]
+}

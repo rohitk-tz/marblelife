@@ -1,0 +1,19 @@
+{
+  "version": "1.1",
+  "last_commit": "d49e7f258f9598da357b5d866d5502423c32f489",
+  "generated_at": "2026-02-10T12:21:23Z",
+  "file_count": 26,
+  "changed_files": [
+    "InvoiceEditModel.cs", "InvoiceItemEditModel.cs", "InvoiceDetailsViewModel.cs",
+    "InvoiceViewModel.cs", "InvoiceListModel.cs", "InvoiceListFilter.cs",
+    "ChargeCardPaymentEditModel.cs", "ChargeCardEditModel.cs", "ECheckEditModel.cs",
+    "CheckPaymentEditModel.cs", "EPaymentEditModel.cs", "PaymentEditModel.cs",
+    "PaymentModeDetailViewModel.cs", "PaymentItemEditModel.cs",
+    "FranchiseePaymentInstrumentViewModel.cs", "FranchiseeSalesPaymentEditModel.cs",
+    "InstrumentOnFileEditModel.cs", "AccountCreditPaymentEditModel.cs",
+    "ProcessorResponse.cs", "CurrencyExchangeRateViewModel.cs", "CurrencyRates.cs",
+    "DownloadInvoiceModel.cs", "DownloadPaymentModel.cs",
+    "InvoiceDetailsForAttactmentViewModel.cs", "PaymentInstrumentViewModel.cs",
+    "StartEndDateViewModel.cs"
+  ]
+}

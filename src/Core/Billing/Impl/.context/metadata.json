@@ -1,0 +1,15 @@
+{
+  "version": "1.1",
+  "last_commit": "d49e7f258f9598da357b5d866d5502423c32f489",
+  "generated_at": "2026-02-10T12:21:23Z",
+  "file_count": 21,
+  "changed_files": [
+    "InvoiceService.cs", "PaymentService.cs", "InvoicePaymentService.cs", "InvoiceItemService.cs",
+    "ChargeCardService.cs", "ECheckService.cs", "CheckService.cs",
+    "ChargeCardPaymentProfileFactory.cs", "EcheckProfileService.cs",
+    "InvoiceFactory.cs", "PaymentFactory.cs", "ChargeCardFactory.cs", "CheckFactory.cs", "ECheckFactory.cs",
+    "InvoiceItemFactory.cs", "PaymentItemFactory.cs", "FranchiseeInvoiceFactory.cs", "AuditFactory.cs",
+    "FranchiseeSalesPaymentService.cs", "CalculateLoanScheduleService.cs",
+    "InvoiceLateFeePollingAgent.cs", "FranchiseeInvoiceGenerationPollingAgent.cs"
+  ]
+}

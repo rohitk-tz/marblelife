@@ -1,0 +1,12 @@
+{
+  "version": "1.1",
+  "last_commit": "d49e7f258f9598da357b5d866d5502423c32f489",
+  "generated_at": "2026-02-10T12:21:23Z",
+  "file_count": 13,
+  "changed_files": [
+    "InvoiceStatus.cs", "PaymentStatus.cs", "InstrumentType.cs", "ChargeCardType.cs",
+    "AccountType.cs", "AuthorizeNetAccountType.cs", "InvoiceItemType.cs", "LateFeeType.cs",
+    "TransactionResponseType.cs", "CvvResponseCode.cs", "ProcessorResponseResult.cs",
+    "AccountCreditType.cs", "ServiceTypes.cs"
+  ]
+}
