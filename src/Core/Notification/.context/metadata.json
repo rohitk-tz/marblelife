@@ -1,0 +1,20 @@
+{
+  "version": "1.1",
+  "last_commit": "64667c5c8c4ab9b3d804e48deb14e9b70895fc42",
+  "generated_at": "2026-02-11T06:21:30Z",
+  "file_count": 12,
+  "changed_files": [
+    "IAnnualAuditNotificationService.cs",
+    "ICustomerFeedbackAPIRecordService.cs",
+    "IDocumentNotificationPollingAgent.cs",
+    "IEmailDispatcher.cs",
+    "IInvoiceNotificationService.cs",
+    "ILateFeeNotificationService.cs",
+    "INotificationModelFactory.cs",
+    "INotificationPollingAgent.cs",
+    "INotificationService.cs",
+    "IPaymentReminderPollingAgent.cs",
+    "IUserNotificationModelFactory.cs",
+    "IWeeklyNotificationPollingAgent.cs"
+  ]
+}
