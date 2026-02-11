@@ -1,0 +1,16 @@
+{
+  "version": "1.1",
+  "last_commit": "a07029e2c5e0a107bdc5d26050dd43aab2001d6b",
+  "generated_at": "2026-02-11T06:35:45Z",
+  "file_count": 55,
+  "module_path": "src/Core/Reports/ViewModel",
+  "model_categories": {
+    "report_view_models": ["ServiceReportViewModel", "GrowthReportViewModel", "LateFeeReportViewModel", "CustomerEmailReportViewModel", "ProductChannelReportViewModel", "PriceEstimateViewModel"],
+    "filter_models": ["ServiceReportListFilter", "GrowthReportFilter", "LateFeeReportFilter", "CustomerEmailReportFilter", "ArReportFilter", "PriceEstimateGetModel"],
+    "list_models": ["ServiceReportListModel", "GrowthReportListModel", "LateFeeReportListModel", "CustomerEmailReportListModel", "ARReportListModel"],
+    "save_models": ["PriceEstimateSaveModel", "PriceEstimateBulkUpdateModel", "PriceEstimateSaveCorporatePriceModel", "PriceEstimateExcelUploadModel"],
+    "chart_models": ["ChartViewModel", "EmailChartDataViewModel", "EmailChartDataListModel", "ReviewChartDataViewModel"],
+    "configuration_models": ["MLFSReportConfigurationViewModel", "FranchiseeGroupModel", "FranchiseeSalesInfoList"]
+  },
+  "changed_files": []
+}
