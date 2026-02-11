@@ -1,0 +1,12 @@
+{
+  "version": "1.1",
+  "last_commit": "64667c5c8c4ab9b3d804e48deb14e9b70895fc42",
+  "generated_at": "2026-02-11T06:21:30Z",
+  "file_count": 4,
+  "changed_files": [
+    "NotificationResourceType.cs",
+    "NotificationTypes.cs",
+    "RecipientType.cs",
+    "ServiceStatus.cs"
+  ]
+}

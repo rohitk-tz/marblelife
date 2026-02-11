@@ -1,0 +1,14 @@
+{
+  "version": "1.1",
+  "last_commit": "64667c5c8c4ab9b3d804e48deb14e9b70895fc42",
+  "generated_at": "2025-01-19T12:00:00Z",
+  "file_count": 6,
+  "changed_files": [
+    "CustomerFeedbackFactory.cs",
+    "CustomerFeedbackReportFactory.cs",
+    "CustomerFeedbackReportService.cs",
+    "CustomerFeedbackService.cs",
+    "GetCustomerFeedbackService.cs",
+    "SendFeedBackRequestPollingAgent.cs"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "module": {
+    "name": "DependencyInjection",
+    "path": "/home/runner/work/marblelife/marblelife/src/DependencyInjection",
+    "type": "Infrastructure",
+    "language": "C#",
+    "framework": ".NET Framework 4.5.2"
+  },
+  "documentation": {
+    "generated_at": "2025-01-10T00:00:00Z",
+    "commit_hash": "99bbd3bab4dd292938bce4f7e595bb3c94bf8366",
+    "version": "1.0.0"
+  },
+  "dependencies": {
+    "external": [
+      {
+        "name": "Microsoft.Practices.Unity",
+        "version": "4.0.1",
+        "purpose": "IoC Container"
+      },
+      {
+        "name": "Unity.AutoRegistration",
+        "version": "1.0.0.2",
+        "purpose": "Convention-based registration"
+      },
+      {
+        "name": "FluentValidation",
+        "version": "6.2.1.0",
+        "purpose": "Validator infrastructure"
+      },
+      {
+        "name": "System.Web",
+        "version": "Framework",
+        "purpose": "Web context access"
+      }
+    ],
+    "internal": [
+      "Core",
+      "Infrastructure"
+    ]
+  },
+  "public_api": {
+    "classes": [
+      "DependencyRegistrar",
+      "DependencyInjectionHelper",
+      "AppContextLifetimeManager",
+      "WinJobContextLifetimeManager",
+      "ValidatorFactory"
+    ],
+    "key_methods": [
+      "DependencyRegistrar.RegisterDependencies()",
+      "DependencyRegistrar.SetupCurrentContext(IAppContextStore)",
+      "DependencyRegistrar.SetupCurrentContextWinJob()",
+      "DependencyRegistrar.SetLocalizationBasedRegistration(string)",
+      "DependencyInjectionHelper.Resolve<T>()",
+      "DependencyInjectionHelper.Register<TAbstract, TConcrete>()"
+    ]
+  },
+  "design_patterns": [
+    "Service Locator",
+    "Factory Pattern",
+    "Dependency Injection",
+    "Convention-based Registration",
+    "Lifetime Management"
+  ],
+  "key_features": [
+    "Auto-registration via [DefaultImplementation] attribute",
+    "Multiple lifetime strategies (Transient, Per-Request, Per-Thread, Singleton)",
+    "Custom lifetime managers for web and Windows contexts",
+    "FluentValidation integration",
+    "Type safety with compile-time checks"
+  ],
+  "known_issues": [
+    {
+      "issue": "Random instance is not thread-safe",
+      "location": "DependencyRegistrar.RegisterDependencies()",
+      "severity": "medium",
+      "recommendation": "Use ThreadLocal<Random> or per-request instances"
+    },
+    {
+      "issue": "WinJobContextLifetimeManager.SetValue() not implemented",
+      "location": "AppContextLifeTimeManager.cs",
+      "severity": "low",
+      "impact": "Read-only lifetime manager"
+    }
+  ],
+  "testing": {
+    "test_project": "DependencyInjection.Tests",
+    "key_test_scenarios": [
+      "Service resolution",
+      "Lifetime scope validation",
+      "Auto-registration discovery",
+      "Circular dependency detection",
+      "Validator factory integration"
+    ]
+  },
+  "metrics": {
+    "files": 6,
+    "classes": 6,
+    "lines_of_code": "~400",
+    "complexity": "medium"
+  }
+}

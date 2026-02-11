@@ -1,0 +1,16 @@
+{
+  "version": "1.1",
+  "last_commit": "a07029e2c5e0a107bdc5d26050dd43aab2001d6b",
+  "generated_at": "2026-02-11T06:35:45Z",
+  "file_count": 112,
+  "module_path": "src/Core/Reports",
+  "subfolders": ["Domain", "Enum", "Impl", "ViewModel"],
+  "focus_areas": [
+    "Financial reports",
+    "Sales analytics",
+    "QuickBooks integration",
+    "Excel generation",
+    "Audit trails"
+  ],
+  "changed_files": []
+}

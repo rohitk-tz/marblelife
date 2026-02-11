@@ -1,0 +1,28 @@
+{
+  "version": "1.1",
+  "last_commit": "99bbd3bab4dd292938bce4f7e595bb3c94bf8366",
+  "generated_at": "2026-02-10T11:21:15+00:00",
+  "file_count": 532,
+  "module_type": "angularjs_spa",
+  "framework": "AngularJS 1.5.8",
+  "build_system": "Gulp 3.9.1",
+  "package_managers": ["npm", "bower"],
+  "key_dependencies": [
+    "angular@1.5.8",
+    "angular-ui-router@0.3.1",
+    "bootstrap@3.3.7",
+    "jquery@3.1.0",
+    "fullcalendar@3.6.2"
+  ],
+  "feature_modules": [
+    "authentication",
+    "core",
+    "scheduler",
+    "users",
+    "organizations",
+    "sales",
+    "reports"
+  ],
+  "service_count": 48,
+  "documentation_notes": "Comprehensive AI-agent context including AngularJS architecture patterns, Gulp build pipeline, Bower dependency management, HTTP interceptor patterns, token-based authentication flow, and module registration system. Includes detailed API integration patterns and troubleshooting guides."
+}

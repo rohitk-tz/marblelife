@@ -1,0 +1,14 @@
+{
+  "version": "1.1",
+  "last_commit": "8b6d86e55b597ea3e4d50ae8311308d72fcc87df",
+  "generated_at": "2025-02-10T12:00:00Z",
+  "file_count": 154,
+  "module_structure": {
+    "root": 24,
+    "Domain": 36,
+    "Enum": 13,
+    "Impl": 24,
+    "ViewModel": 58
+  },
+  "changed_files": []
+}

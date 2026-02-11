@@ -1,0 +1,9 @@
+{
+  "version": "1.1",
+  "last_commit": "a07029e2c5e0a107bdc5d26050dd43aab2001d6b",
+  "generated_at": "2026-02-10T15:35:17Z",
+  "file_count": 14,
+  "changed_files": [],
+  "module_path": "src/Core/Users/Impl",
+  "description": "Concrete implementations - services (authentication, password reset, user management), factories (object creation with password hashing), validators (FluentValidation rules)"
+}
